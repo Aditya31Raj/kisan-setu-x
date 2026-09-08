@@ -188,11 +188,32 @@
 
             const name = document.getElementById("fullName").value.trim();
             const email = document.getElementById("email").value.trim();
-            const phone = document.getElementById("phone").value.trim();
+            let phone = document.getElementById("phone").value.trim();
             const district = document.getElementById("district").value.trim();
             const address = document.getElementById("address").value.trim();
             const landSize = document.getElementById("landSize").value.trim();
             const cropType = document.getElementById("cropType").value.trim();
+
+            if (!name || name.length < 2) {
+                errBox.textContent = "Please enter your Full Name (at least 2 characters).";
+                errBox.style.display = "block";
+                return;
+            }
+
+            if (!email && !phone) {
+                errBox.textContent = "Please provide either an Email Address or Mobile Number.";
+                errBox.style.display = "block";
+                return;
+            }
+
+            if (phone) {
+                phone = phone.replace(/\D/g, '').replace(/^91(?=\d{10}$)/, '').replace(/^0(?=\d{10}$)/, '');
+                if (!/^[6-9]\d{9}$/.test(phone)) {
+                    errBox.textContent = "Please enter a valid 10-digit Indian mobile number (e.g. 9876543210).";
+                    errBox.style.display = "block";
+                    return;
+                }
+            }
 
             btn.disabled = true;
             btn.textContent = "Creating Account...";

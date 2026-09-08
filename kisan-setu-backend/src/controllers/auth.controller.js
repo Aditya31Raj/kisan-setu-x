@@ -22,10 +22,11 @@ function set(res, x) {
 }
 
 function clean(x) {
+  const token = x.accessToken;
   delete x.accessToken;
   delete x.refreshToken;
   delete x.refreshTokenId;
-  return x;
+  return { ...x, token, accessToken: token };
 }
 
 export async function register(req, res) {

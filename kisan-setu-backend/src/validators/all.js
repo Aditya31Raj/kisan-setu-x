@@ -1,5 +1,31 @@
 import {z} from 'zod';
-export const registerSchema=z.object({name:z.string().trim().min(2).max(100),email:z.string().email().optional(),phone:z.string().regex(/^[6-9]\d{9}$/).optional(),password:z.string().min(8).max(128),role:z.enum(['FARMER','BUYER']),identityReference:z.string().max(100).optional()}).refine(v=>v.email||v.phone,{message:'Email or phone is required'});
+export const registerSchema = z
+  .object({
+    name: z.string().trim().min(2, 'Name must be at least 2 characters').max(100),
+    email: z
+      .string()
+      .trim()
+      .email('Invalid email address')
+      .optional()
+      .or(z.literal(''))
+      .transform((v) => (v ? v.toLowerCase() : undefined)),
+    phone: z
+      .string()
+      .trim()
+      .transform((v) => v.replace(/\D/g, '').replace(/^91(?=\d{10}$)/, ''))
+      .refine((v) => !v || /^[6-9]\d{9}$/.test(v), {
+        message: 'Mobile number must be a valid 10-digit Indian number (e.g. 9876543210)'
+      })
+      .optional()
+      .or(z.literal(''))
+      .transform((v) => v || undefined),
+    password: z.string().min(8, 'Password must be at least 8 characters').max(128),
+    role: z.enum(['FARMER', 'BUYER']),
+    identityReference: z.string().max(100).optional()
+  })
+  .refine((v) => Boolean(v.email || v.phone), {
+    message: 'Either email or mobile number is required'
+  });
 export const loginSchema=z.object({identifier:z.string().min(3).max(150),password:z.string().min(8).max(128)});
 export const changePasswordSchema=z.object({currentPassword:z.string().min(8),newPassword:z.string().min(8).max(128)});
 export const forgotSchema=z.object({identifier:z.string().min(3).max(150)}); export const resetSchema=z.object({resetToken:z.string().min(20),newPassword:z.string().min(8).max(128)});

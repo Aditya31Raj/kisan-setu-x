@@ -22,10 +22,14 @@ export function issueCsrfToken(_req, res) {
 
 export function csrfProtection(req, _res, next) {
   if (!env.CSRF_ENABLED || safe.has(req.method)) return next();
-  const c = req.cookies?.[CSRF_COOKIE],
-    h = req.get(CSRF_HEADER);
-  if (!c || !h || c !== h) return next(errors.forbidden('CSRF validation failed'));
-  const [nonce, mac] = c.split('.');
+  const c = req.cookies?.[CSRF_COOKIE];
+  const h = req.get(CSRF_HEADER);
+  const token = h || c;
+
+  if (!token) return next(errors.forbidden('CSRF token missing'));
+  if (c && h && c !== h) return next(errors.forbidden('CSRF token mismatch'));
+
+  const [nonce, mac] = token.split('.');
   if (!nonce || !mac || mac !== sign(nonce)) return next(errors.forbidden('CSRF validation failed'));
   next();
 }
