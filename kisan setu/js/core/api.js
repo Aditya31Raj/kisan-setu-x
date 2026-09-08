@@ -1,6 +1,17 @@
 /* Shared client for the backend's cookie-based API. */
+const PROD_API_URL = "https://kisan-setu-x.onrender.com/api/v1";
+const LOCAL_API_URL = "http://localhost:5000/api/v1";
+
+const isLocalhost = Boolean(
+	typeof window !== "undefined" &&
+	(window.location.hostname === "localhost" ||
+	 window.location.hostname === "[::1]" ||
+	 window.location.hostname === "127.0.0.1")
+);
+
 const API_BASE_URL =
-    window.KISAN_SETU_API_BASE_URL || "http://localhost:5000/api/v1";
+	window.KISAN_SETU_API_BASE_URL ||
+	(isLocalhost ? LOCAL_API_URL : PROD_API_URL);
 let csrfToken = null;
 
 function friendlyErrorMessage(error, fallback = "Something went wrong. Please try again later.") {

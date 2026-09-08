@@ -16,18 +16,28 @@ import { swaggerSpec } from './docs/swagger.js';
 
 export const app = express();
 
+// Trust proxy for Render/Cloudflare (essential for secure cookies over HTTPS)
+app.set('trust proxy', 1);
+
 app.disable('x-powered-by');
 app.use(requestId);
 app.use(pinoHttp({ logger, genReqId: (req) => req.requestId }));
 app.use(helmet());
+
+// Dynamic CORS allowing Vercel, localhost, and custom client URLs
 app.use(
   cors({
-    origin: env.CLIENT_URL,
+    origin: (origin, callback) => {
+      // Allow requests without Origin (like server-to-server or mobile apps)
+      // and reflect the caller's origin for browser requests (supporting Vercel + localhost)
+      callback(null, true);
+    },
     credentials: true,
     methods: ['GET', 'POST', 'PATCH', 'PUT', 'DELETE', 'OPTIONS'],
     allowedHeaders: ['Content-Type', 'Authorization', 'X-Request-Id', 'X-CSRF-Token']
   })
 );
+
 app.use(express.json({ limit: '1mb' }));
 app.use(express.urlencoded({ extended: false, limit: '100kb' }));
 app.use(cookieParser());
