@@ -10,6 +10,28 @@ export async function connectDatabase() {
   try {
     await prisma.$connect();
     logger.info('Database connected successfully.');
+
+    // Ensure database tables exist (essential for new cloud databases on Render/Neon)
+    try {
+      await prisma.user.count();
+    } catch (schemaErr) {
+      if (schemaErr?.code === 'P2021' || schemaErr?.message?.includes('does not exist')) {
+        logger.info('Database tables not found. Automatically pushing Prisma schema to database...');
+        try {
+          const { execSync } = await import('node:child_process');
+          execSync('npx prisma db push --skip-generate', { stdio: 'inherit' });
+          logger.info('Prisma schema pushed successfully. Seeding initial data...');
+          try {
+            execSync('node prisma/seed.js', { stdio: 'inherit' });
+            logger.info('Database seeded successfully.');
+          } catch (seedErr) {
+            logger.warn('Seed script skipped: ' + seedErr.message);
+          }
+        } catch (pushErr) {
+          logger.error('Failed to auto-push schema: ' + pushErr.message);
+        }
+      }
+    }
   } catch (error) {
     if (error?.code === 'P1001' || error?.message?.includes("Can't reach database server")) {
       logger.warn('PostgreSQL is not responding on port 5432. Attempting to start local PostgreSQL...');

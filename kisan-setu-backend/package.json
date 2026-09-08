@@ -9,6 +9,7 @@
   "scripts": {
     "dev": "nodemon src/server.js",
     "start": "node src/server.js",
+    "build": "prisma generate && prisma db push",
     "db:start": "node scripts/db-control.js start",
     "db:stop": "node scripts/db-control.js stop",
     "db:status": "node scripts/db-control.js status",
