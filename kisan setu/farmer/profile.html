@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kisan Setu - Farmer Profile</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/farmer.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+</head>
+<body>
+    <div class="dashboard">
+        <aside class="sidebar">
+            <div class="brand">
+                <img src="../images/logoks.jpeg" alt="Kisan Setu Logo">
+                <div class="brand-text">
+                    <h2>Kisan Setu</h2>
+                    <span>FARMER PORTAL</span>
+                </div>
+            </div>
+
+            <div class="user-box">
+                <div class="user-info">
+                    <div class="user-icon"><i class="fa-solid fa-user"></i></div>
+                    <div>
+                        <strong>Ramesh Kumar</strong>
+                        <span>Farmer ID: KS-2048</span>
+                    </div>
+                </div>
+            </div>
+
+            <nav class="sidebar-nav">
+                <div class="nav-title">Overview</div>
+                <a href="../farmer_dashboard.html" class="nav-item"><i class="fa-solid fa-gauge"></i> Dashboard</a>
+                <a href="produce.html" class="nav-item"><i class="fa-solid fa-seedling"></i> Produce</a>
+                <a href="orders.html" class="nav-item"><i class="fa-solid fa-box"></i> Orders</a>
+                <a href="payments.html" class="nav-item"><i class="fa-solid fa-wallet"></i> Payments</a>
+                <a href="logistics.html" class="nav-item"><i class="fa-solid fa-truck"></i> Logistics</a>
+                <a href="history.html" class="nav-item"><i class="fa-solid fa-clock-rotate-left"></i> History</a>
+                <a href="disputes.html" class="nav-item"><i class="fa-solid fa-circle-exclamation"></i> Disputes</a>
+                <a href="notifications.html" class="nav-item"><i class="fa-solid fa-bell"></i> Notifications</a>
+                <a href="profile.html" class="nav-item active"><i class="fa-solid fa-user-gear"></i> Profile</a>
+            </nav>
+        </aside>
+
+        <div class="main">
+            <main class="buyer-container">
+        <section class="page-header">
+            <h1>My Profile</h1>
+            <p>View and update your farmer account information.</p>
+        </section>
+
+        <section class="profile-section">
+            <div id="profileMessage"></div>
+            <div class="profile-identity">
+                <img id="profilePicturePreview" class="profile-picture" src="../images/logoks.jpeg" alt="Farmer profile picture">
+                <div class="profile-identity-details">
+                    <h2 id="profileDisplayName">Farmer Profile</h2>
+                    <p id="profileDisplayRole">Farmer</p>
+                    <label for="profilePictureInput" class="profile-picture-button">
+                        <i class="fa-solid fa-camera"></i> Change Picture
+                    </label>
+                    <input type="file" id="profilePictureInput" accept="image/*" hidden>
+                </div>
+                <button type="button" id="editProfileBtn" class="profile-edit-btn">
+                    <i class="fa-solid fa-pen"></i> Edit Profile
+                </button>
+            </div>
+            <form id="profileForm">
+                <div class="form-group">
+                    <label for="name">Name</label>
+                    <input type="text" id="name" name="name" required>
+                </div>
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" name="email" readonly>
+                </div>
+                <div class="form-group">
+                    <label for="phone">Phone</label>
+                    <input type="tel" id="phone" name="phone" readonly>
+                </div>
+                <div class="form-group">
+                    <label for="farmName">Farm Name</label>
+                    <input type="text" id="farmName" name="farmName">
+                </div>
+                <div class="form-group">
+                    <label for="district">District</label>
+                    <input type="text" id="district" name="district">
+                </div>
+                <div class="form-group">
+                    <label for="state">State</label>
+                    <input type="text" id="state" name="state">
+                </div>
+                <button type="submit" id="saveProfileBtn">Save Changes</button>
+            </form>
+        </section>
+
+        <section class="address-section">
+            <div class="section-heading">
+                <h2>Farm Addresses</h2>
+                <button type="button" id="addAddressBtn">Add Address</button>
+            </div>
+            <div id="addressContainer">
+                <p>Address management will be available here.</p>
+            </div>
+        </section>
+            </main>
+        </div>
+    </div>
+
+    <script src="../js/core/api.js"></script>
+    <script src="../js/core/auth.js"></script>
+    <script src="../js/core/profile-storage.js"></script>
+    <script src="../js/farmer/farmer.js"></script>
+    <script src="../js/farmer/profile.js"></script>
+</body>
+</html>

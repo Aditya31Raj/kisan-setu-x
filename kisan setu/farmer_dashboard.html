@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kisan Setu | Farmer Dashboard</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/farmer.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+</head>
+<body>
+    <div class="dashboard">
+        <aside class="sidebar">
+            <div class="brand">
+                <img src="images/logoks.jpeg" alt="Kisan Setu Logo">
+                <div class="brand-text">
+                    <h2>Kisan Setu</h2>
+                    <span>FARMER PORTAL</span>
+                </div>
+            </div>
+
+            <div class="user-box">
+                <div class="user-info">
+                    <div class="user-icon"><i class="fa-solid fa-user"></i></div>
+                    <div>
+                        <strong id="farmerSidebarName">Loading profile...</strong>
+                        <span id="farmerSidebarId">Farmer ID: --</span>
+                    </div>
+                </div>
+            </div>
+
+            <nav class="sidebar-nav">
+                <div class="nav-title">Overview</div>
+                <a href="farmer_dashboard.html" class="nav-item active"><i class="fa-solid fa-gauge"></i> Dashboard</a>
+                <a href="farmer/produce.html" class="nav-item"><i class="fa-solid fa-seedling"></i> Produce</a>
+                <a href="farmer/orders.html" class="nav-item"><i class="fa-solid fa-box"></i> Orders</a>
+                <a href="farmer/payments.html" class="nav-item"><i class="fa-solid fa-wallet"></i> Payments</a>
+                <a href="farmer/logistics.html" class="nav-item"><i class="fa-solid fa-truck"></i> Logistics</a>
+                <a href="farmer/history.html" class="nav-item"><i class="fa-solid fa-clock-rotate-left"></i> History</a>
+                <a href="farmer/disputes.html" class="nav-item"><i class="fa-solid fa-circle-exclamation"></i> Disputes</a>
+                <a href="farmer/notifications.html" class="nav-item"><i class="fa-solid fa-bell"></i> Notifications</a>
+                <a href="farmer/profile.html" class="nav-item"><i class="fa-solid fa-user-gear"></i> Profile</a>
+            </nav>
+        </aside>
+
+        <main class="main">
+            <header class="topbar">
+                <div class="page-title">
+                    <h1>Farmer Dashboard</h1>
+                    <p>Manage your produce, orders, and earnings</p>
+                </div>
+                <div class="top-actions">
+                    <a href="farmer/notifications.html" class="notification" aria-label="Open notifications" title="Notifications">
+                        <i class="fa-solid fa-bell"></i>
+                    </a>
+                    <a href="farmer/profile.html" class="profile" aria-label="Open profile" title="Profile">
+                        <div class="profile-circle"><i class="fa-solid fa-user"></i></div>
+                        <span id="farmerTopbarName">Loading...</span>
+                    </a>
+                </div>
+            </header>
+
+            <div class="content">
+                <section class="welcome">
+                    <h2>Welcome back, <span id="farmerWelcomeName">there</span>!</h2>
+                    <p id="farmerWelcomeMessage">Loading your farm performance...</p>
+                </section>
+
+                <section class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-info">
+                            <span>Listed Produce</span>
+                            <strong id="farmerListedProduceValue">--</strong>
+                            <small id="farmerListedProduceNote">Loading...</small>
+                        </div>
+                        <div class="stat-icon"><i class="fa-solid fa-seedling"></i></div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-info">
+                            <span>Pending Orders</span>
+                            <strong id="farmerPendingOrdersValue">--</strong>
+                            <small id="farmerPendingOrdersNote">Loading...</small>
+                        </div>
+                        <div class="stat-icon"><i class="fa-solid fa-box"></i></div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-info">
+                            <span>Monthly Revenue</span>
+                            <strong id="farmerRevenueValue">--</strong>
+                            <small id="farmerRevenueNote">Loading...</small>
+                        </div>
+                        <div class="stat-icon"><i class="fa-solid fa-indian-rupee-sign"></i></div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-info">
+                            <span>Crop Health</span>
+                            <strong id="farmerCropHealthValue">--</strong>
+                            <small id="farmerCropHealthNote">Loading...</small>
+                        </div>
+                        <div class="stat-icon"><i class="fa-solid fa-heart-pulse"></i></div>
+                    </div>
+                </section>
+
+                <section class="dashboard-grid">
+                    <div class="card">
+                        <div class="card-header">
+                            <h3>Recent Orders</h3>
+                            <a href="farmer/orders.html" class="link-btn">View all</a>
+                        </div>
+                        <div id="farmerRecentOrders" class="table-list"><p class="empty-state">Loading orders...</p></div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-header">
+                            <h3>Buyer Requests</h3>
+                            <a href="farmer/produce.html" class="link-btn">Manage</a>
+                        </div>
+                        <div id="farmerBuyerRequests" class="list-stack"><p class="empty-state">Loading requests...</p></div>
+                    </div>
+                </section>
+
+                <section class="dashboard-grid">
+                    <div class="card">
+                        <div class="card-header">
+                            <h3>Payment Summary</h3>
+                            <a href="farmer/payments.html" class="link-btn">Details</a>
+                        </div>
+                        <div id="farmerPaymentSummary" class="list-stack"><p class="empty-state">Loading payments...</p></div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-header">
+                            <h3>Shipment Alerts</h3>
+                            <a href="farmer/logistics.html" class="link-btn">Track</a>
+                        </div>
+                        <div id="farmerShipmentAlerts" class="list-stack"><p class="empty-state">Loading shipments...</p></div>
+                    </div>
+                </section>
+            </div>
+        </main>
+    </div>
+
+    <script src="js/core/api.js"></script>
+    <script src="js/core/auth.js"></script>
+    <script src="js/core/profile-storage.js"></script>
+    <script src="js/farmer/farmer.js"></script>
+    <script src="js/farmer/dashboard.js"></script>
+</body>
+</html>

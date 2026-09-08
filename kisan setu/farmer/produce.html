@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kisan Setu - Farmer Produce</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/farmer.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+</head>
+<body>
+    <div class="dashboard">
+        <aside class="sidebar">
+            <div class="brand">
+                <img src="../images/logoks.jpeg" alt="Kisan Setu Logo">
+                <div class="brand-text">
+                    <h2>Kisan Setu</h2>
+                    <span>FARMER PORTAL</span>
+                </div>
+            </div>
+
+            <div class="user-box">
+                <div class="user-info">
+                    <div class="user-icon"><i class="fa-solid fa-user"></i></div>
+                    <div>
+                        <strong>Ramesh Kumar</strong>
+                        <span>Farmer ID: KS-2048</span>
+                    </div>
+                </div>
+            </div>
+
+            <nav class="sidebar-nav">
+                <div class="nav-title">Overview</div>
+                <a href="../farmer_dashboard.html" class="nav-item"><i class="fa-solid fa-gauge"></i> Dashboard</a>
+                <a href="produce.html" class="nav-item active"><i class="fa-solid fa-seedling"></i> Produce</a>
+                <a href="orders.html" class="nav-item"><i class="fa-solid fa-box"></i> Orders</a>
+                <a href="payments.html" class="nav-item"><i class="fa-solid fa-wallet"></i> Payments</a>
+                <a href="logistics.html" class="nav-item"><i class="fa-solid fa-truck"></i> Logistics</a>
+                <a href="history.html" class="nav-item"><i class="fa-solid fa-clock-rotate-left"></i> History</a>
+                <a href="disputes.html" class="nav-item"><i class="fa-solid fa-circle-exclamation"></i> Disputes</a>
+                <a href="notifications.html" class="nav-item"><i class="fa-solid fa-bell"></i> Notifications</a>
+                <a href="profile.html" class="nav-item"><i class="fa-solid fa-user-gear"></i> Profile</a>
+            </nav>
+        </aside>
+
+        <div class="main">
+            <main class="buyer-container">
+        <section class="page-header">
+            <h1>My Produce</h1>
+            <p>Manage your listed crops and incoming buyer interest.</p>
+        </section>
+
+        <section class="produce-section add-produce-section">
+            <div class="section-heading">
+                <div>
+                    <h2>Add Produce</h2>
+                    <p class="section-help">List a crop for buyers to discover.</p>
+                </div>
+                <button type="button" id="toggleAddProduceBtn" class="secondary-btn">
+                    <i class="fa-solid fa-plus"></i> Add Produce
+                </button>
+            </div>
+            <form id="addProduceForm" class="add-produce-form" hidden>
+                <div class="form-group">
+                    <label for="produceName">Produce Name</label>
+                    <input type="text" id="produceName" placeholder="e.g. Rice" required>
+                </div>
+                <div class="form-group">
+                    <label for="produceCategory">Category</label>
+                    <input type="text" id="produceCategory" placeholder="e.g. Grains">
+                </div>
+                <div class="form-group">
+                    <label for="produceQuantity">Available Quantity</label>
+                    <input type="number" id="produceQuantity" min="0" step="0.01" placeholder="Enter quantity" required>
+                </div>
+                <div class="form-group">
+                    <label for="produceUnit">Unit</label>
+                    <select id="produceUnit">
+                        <option value="kg">Kilogram</option>
+                        <option value="quintal">Quintal</option>
+                        <option value="tonne">Tonne</option>
+                        <option value="piece">Piece</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="producePrice">Price per Unit</label>
+                    <input type="number" id="producePrice" min="0" step="0.01" placeholder="Enter price" required>
+                </div>
+                <div class="form-group">
+                    <label for="produceLocation">Location</label>
+                    <input type="text" id="produceLocation" placeholder="District or village" required>
+                </div>
+                <div class="form-group full">
+                    <label for="produceDescription">Description</label>
+                    <textarea id="produceDescription" placeholder="Add quality or harvest details"></textarea>
+                </div>
+                <div class="form-actions">
+                    <button type="submit"><i class="fa-solid fa-check"></i> Save Produce</button>
+                    <button type="button" id="cancelAddProduceBtn" class="secondary-btn">Cancel</button>
+                </div>
+            </form>
+            <div id="addProduceMessage" class="form-message" role="status"></div>
+        </section>
+
+        <section class="produce-search">
+            <form id="produceSearchForm">
+                <div class="search-group">
+                    <label for="searchInput">Search Produce</label>
+                    <input type="text" id="searchInput" name="search" placeholder="Search by crop name">
+                </div>
+                <div class="search-group">
+                    <label for="locationInput">Location</label>
+                    <input type="text" id="locationInput" name="location" placeholder="Enter district or village">
+                </div>
+                <button type="submit">Search</button>
+                <button type="button" id="clearSearchBtn" class="secondary-btn">Clear</button>
+            </form>
+        </section>
+
+        <section class="produce-section">
+            <div class="section-heading">
+                <h2>Listed Produce</h2>
+                <span id="produceCount">Loading...</span>
+            </div>
+            <div id="produceContainer" class="produce-grid">
+                <p id="loadingMessage">Loading produce listings...</p>
+            </div>
+        </section>
+
+        <section class="pagination-section">
+            <button type="button" id="previousBtn" disabled>Previous</button>
+            <span id="pageNumber">Page 1</span>
+            <button type="button" id="nextBtn">Next</button>
+        </section>
+            </main>
+        </div>
+    </div>
+
+    <div id="produceModal" class="modal" style="display: none;">
+        <div class="modal-content">
+            <button type="button" id="closeModalBtn" class="close-btn">×</button>
+                <h2 id="modalTitle">Produce Details</h2>
+            <div id="produceDetails"></div>
+        </div>
+    </div>
+
+    <script src="../js/core/api.js"></script>
+    <script src="../js/core/auth.js"></script>
+    <script src="../js/farmer/farmer.js"></script>
+    <script src="../js/farmer/produce.js"></script>
+</body>
+</html>

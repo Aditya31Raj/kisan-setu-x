@@ -1,0 +1,1496 @@
+/* =========================================================
+   KISAN SETU - ADMIN PANEL
+   Common CSS for Dashboard + All Admin Pages
+   ========================================================= */
+
+
+/* =========================================================
+   RESET
+   ========================================================= */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    background: #f8faf9;
+    color: #202522;
+    line-height: 1.5;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+button {
+    font-family: inherit;
+    cursor: pointer;
+}
+
+
+/* =========================================================
+   ADMIN LAYOUT
+   Supports BOTH:
+   .sidebar / .menu / .main
+   AND
+   .admin-sidebar / .admin-menu / .admin-main
+   ========================================================= */
+
+.admin-layout {
+    min-height: 100vh;
+}
+
+
+/* =========================================================
+   SIDEBAR
+   ========================================================= */
+
+.sidebar,
+.admin-sidebar {
+    position: fixed;
+
+    left: 0;
+    top: 0;
+
+    width: 240px;
+    height: 100vh;
+
+    background: #ffffff;
+
+    border-right: 1px solid #dfe7e2;
+
+    padding: 20px 12px;
+
+    display: flex;
+    flex-direction: column;
+
+    z-index: 1000;
+}
+
+
+/* =========================================================
+   LOGO
+   ========================================================= */
+
+.logo,
+.admin-logo {
+    text-align: center;
+
+    color: #198754;
+
+    padding: 8px 5px 3px;
+}
+
+.logo {
+    font-size: 21px;
+    font-weight: 800;
+}
+
+.logo img,
+.admin-logo img {
+    width: 50px;
+    height: 50px;
+    object-fit: contain;
+    display: block;
+    margin: 0 auto 4px;
+}
+
+.admin-logo h2 {
+    font-size: 21px;
+    font-weight: 800;
+
+    color: #198754;
+}
+
+.admin-logo p {
+    text-align: center;
+
+    color: #6c757d;
+
+    font-size: 10px;
+    font-weight: 600;
+
+    letter-spacing: 0.5px;
+
+    margin-top: 2px;
+}
+
+
+/* Dashboard admin label */
+
+.admin-label {
+    text-align: center;
+
+    color: #6c757d;
+
+    font-size: 10px;
+    font-weight: 600;
+
+    letter-spacing: 0.5px;
+
+    padding-bottom: 20px;
+
+    border-bottom: 1px solid #edf0ee;
+}
+
+
+/* =========================================================
+   MENU
+   ========================================================= */
+
+.menu,
+.admin-menu {
+    list-style: none;
+
+    margin: 18px 0 0;
+
+    padding: 0;
+
+    flex: 1;
+
+    overflow-y: auto;
+}
+
+.menu li,
+.admin-menu li {
+    margin-bottom: 4px;
+}
+
+.menu a,
+.admin-menu a {
+    display: flex;
+
+    align-items: center;
+
+    padding: 11px 13px;
+
+    border-radius: 7px;
+
+    color: #4f5852;
+
+    font-size: 12px;
+    font-weight: 500;
+
+    transition: 0.2s;
+}
+
+.menu a:hover,
+.admin-menu a:hover {
+    background: #f0f8f1;
+
+    color: #198754;
+}
+
+.menu a.active,
+.admin-menu a.active {
+    background: #eaf6ec;
+
+    color: #176d35;
+
+    font-weight: 700;
+}
+
+
+/* =========================================================
+   LOGOUT
+   ========================================================= */
+
+.logout {
+    padding-top: 12px;
+
+    border-top: 1px solid #e8eee9;
+}
+
+.logout a {
+    display: flex;
+
+    align-items: center;
+
+    padding: 11px 13px;
+
+    border-radius: 7px;
+
+    color: #ba3d32;
+
+    font-size: 12px;
+    font-weight: 600;
+
+    transition: 0.2s;
+}
+
+.logout a:hover {
+    background: #fdeaea;
+}
+
+
+/* =========================================================
+   MAIN AREA
+   ========================================================= */
+
+.main,
+.admin-main {
+    margin-left: 240px;
+
+    width: calc(100% - 240px);
+
+    min-height: 100vh;
+
+    padding: 25px 30px;
+}
+
+
+/* =========================================================
+   TOPBAR
+   ========================================================= */
+
+.topbar,
+.admin-topbar {
+    display: flex;
+
+    justify-content: space-between;
+    align-items: center;
+
+    background: #ffffff;
+
+    padding: 17px 22px;
+
+    border: 1px solid #dfe7e2;
+
+    border-radius: 10px;
+
+    margin-bottom: 22px;
+}
+
+.topbar h1,
+.admin-topbar h1,
+.admin-topbar h2 {
+    font-size: 21px;
+
+    font-weight: 700;
+
+    color: #202522;
+}
+
+.topbar p,
+.admin-topbar p {
+    color: #6c757d;
+
+    font-size: 11px;
+
+    margin-top: 3px;
+}
+
+
+/* =========================================================
+   PROFILE
+   ========================================================= */
+
+.admin-profile {
+    display: flex;
+
+    align-items: center;
+
+    gap: 9px;
+}
+
+.profile-icon {
+    width: 38px;
+    height: 38px;
+
+    background: #eaf6ec;
+
+    color: #198754;
+
+    border-radius: 50%;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    font-size: 14px;
+    font-weight: 700;
+}
+
+.admin-profile strong {
+    font-size: 11px;
+
+    color: #202522;
+}
+
+.admin-profile p {
+    margin-top: 1px;
+
+    font-size: 9px;
+
+    color: #747d76;
+}
+
+
+/* =========================================================
+   STATISTICS
+   ========================================================= */
+
+.stats,
+.input-stats,
+.report-stats {
+    display: grid;
+
+    grid-template-columns: repeat(4, 1fr);
+
+    gap: 15px;
+
+    margin-bottom: 22px;
+}
+
+
+/* Dashboard cards */
+
+.card,
+.input-stat,
+.report-stat {
+    background: #ffffff;
+
+    border: 1px solid #e0e8e1;
+
+    border-radius: 11px;
+
+    padding: 18px;
+}
+
+.card-title,
+.input-stat span,
+.report-stat span {
+    display: block;
+
+    color: #747d76;
+
+    font-size: 10px;
+
+    margin-bottom: 7px;
+}
+
+.card-value,
+.input-stat strong,
+.report-stat strong {
+    display: block;
+
+    font-size: 22px;
+
+    font-weight: 700;
+
+    color: #198754;
+}
+
+.card-small,
+.report-stat small {
+    display: block;
+
+    font-size: 9px;
+
+    color: #7a827c;
+
+    margin-top: 5px;
+}
+
+
+/* =========================================================
+   CONTENT GRID
+   ========================================================= */
+
+.content-grid {
+    display: grid;
+
+    grid-template-columns: 2fr 1fr;
+
+    gap: 18px;
+
+    margin-bottom: 22px;
+}
+
+
+/* =========================================================
+   SECTIONS
+   ========================================================= */
+
+.section,
+.input-table-wrapper,
+.report-table-wrapper {
+    background: #ffffff;
+
+    border: 1px solid #e0e8e1;
+
+    border-radius: 11px;
+
+    padding: 19px;
+}
+
+.section {
+    margin-bottom: 22px;
+}
+
+.section-header {
+    display: flex;
+
+    justify-content: space-between;
+    align-items: center;
+
+    margin-bottom: 16px;
+}
+
+.section-header h2 {
+    font-size: 14px;
+
+    font-weight: 700;
+
+    color: #202522;
+}
+
+.view-all {
+    color: #198754;
+
+    font-size: 10px;
+
+    font-weight: 600;
+}
+
+.view-all:hover {
+    color: #146c43;
+}
+
+
+/* =========================================================
+   TABLE
+   ========================================================= */
+
+table {
+    width: 100%;
+
+    border-collapse: collapse;
+}
+
+th {
+    text-align: left;
+
+    background: #f7faf7;
+
+    padding: 10px;
+
+    font-size: 10px;
+
+    color: #69726c;
+
+    font-weight: 600;
+}
+
+td {
+    padding: 11px 10px;
+
+    border-bottom: 1px solid #edf1ee;
+
+    font-size: 10px;
+
+    color: #4f5852;
+}
+
+tbody tr:hover td {
+    background: #fbfdfb;
+}
+
+
+/* =========================================================
+   STATUS BADGES
+   ========================================================= */
+
+.status {
+    display: inline-block;
+
+    padding: 4px 8px;
+
+    border-radius: 20px;
+
+    font-size: 8px;
+
+    font-weight: 600;
+}
+
+.success,
+.status.success {
+    background: #e8f6eb;
+
+    color: #19713a;
+}
+
+.pending,
+.status.pending {
+    background: #fff6df;
+
+    color: #a06b00;
+}
+
+.danger,
+.status.danger,
+.status.rejected {
+    background: #fdeaea;
+
+    color: #dc3545;
+}
+
+.status.approved {
+    background: #e8f6eb;
+
+    color: #19713a;
+}
+
+.status.delivered {
+    background: #e8f1fb;
+
+    color: #376b9d;
+}
+
+
+/* =========================================================
+   ALERTS
+   ========================================================= */
+
+.alert {
+    border: 1px solid #e5e9e6;
+
+    border-radius: 8px;
+
+    padding: 11px;
+
+    margin-bottom: 9px;
+
+    background: #ffffff;
+
+    font-size: 10px;
+
+    color: #69726c;
+}
+
+.alert strong {
+    display: block;
+
+    margin-bottom: 4px;
+
+    color: #404844;
+
+    font-size: 10px;
+}
+
+.alert.danger {
+    border-left: 4px solid #dc3545;
+}
+
+.alert.pending {
+    border-left: 4px solid #ffc107;
+}
+
+.alert.success {
+    border-left: 4px solid #198754;
+}
+
+
+/* =========================================================
+   QUICK ACTIONS
+   ========================================================= */
+
+.quick-actions {
+    display: grid;
+
+    grid-template-columns: repeat(4, 1fr);
+
+    gap: 12px;
+}
+
+.action {
+    border: 1px solid #e1e9e2;
+
+    background: #ffffff;
+
+    padding: 15px;
+
+    border-radius: 8px;
+
+    text-align: center;
+
+    cursor: pointer;
+
+    transition: 0.2s;
+}
+
+.action:hover {
+    border-color: #c8dfcc;
+
+    background: #f3faf4;
+
+    transform: translateY(-1px);
+}
+
+.action-icon {
+    font-size: 21px;
+
+    margin-bottom: 7px;
+}
+
+.action p {
+    font-size: 10px;
+
+    font-weight: 600;
+
+    color: #404844;
+}
+
+
+/* =========================================================
+   FARMERS / COMMON FILTER FORM
+   ========================================================= */
+
+.admin-filter-form {
+    display: grid;
+
+    grid-template-columns: 1.5fr 1fr 1.2fr auto auto;
+
+    gap: 12px;
+
+    align-items: end;
+}
+
+.admin-filter-group {
+    display: flex;
+
+    flex-direction: column;
+}
+
+.admin-filter-group label {
+    font-size: 10px;
+
+    font-weight: 600;
+
+    color: #4f5852;
+
+    margin-bottom: 5px;
+}
+
+.admin-filter-group input,
+.admin-filter-group select {
+    width: 100%;
+
+    padding: 9px 10px;
+
+    border: 1px solid #d5ded8;
+
+    border-radius: 7px;
+
+    background: #ffffff;
+
+    color: #202522;
+
+    font-size: 11px;
+
+    outline: none;
+}
+
+.admin-filter-group input:focus,
+.admin-filter-group select:focus {
+    border-color: #198754;
+
+    box-shadow: 0 0 0 3px rgba(25, 135, 84, 0.08);
+}
+
+
+/* =========================================================
+   COMMON BUTTONS
+   ========================================================= */
+
+.admin-search-btn,
+.admin-view-btn,
+.admin-review-btn {
+    border: none;
+
+    border-radius: 7px;
+
+    padding: 9px 14px;
+
+    background: #198754;
+
+    color: white;
+
+    font-size: 10px;
+
+    font-weight: 600;
+
+    cursor: pointer;
+}
+
+.admin-search-btn:hover,
+.admin-view-btn:hover,
+.admin-review-btn:hover {
+    background: #146c43;
+}
+
+.admin-clear-btn {
+    border: none;
+
+    border-radius: 7px;
+
+    padding: 9px 14px;
+
+    background: #eef2ef;
+
+    color: #465149;
+
+    font-size: 10px;
+
+    font-weight: 600;
+
+    cursor: pointer;
+}
+
+.admin-clear-btn:hover {
+    background: #e1e8e3;
+}
+
+
+/* =========================================================
+   TABLE WRAPPER
+   ========================================================= */
+
+.admin-table-wrapper {
+    width: 100%;
+
+    overflow-x: auto;
+}
+
+.admin-table {
+    width: 100%;
+
+    border-collapse: collapse;
+}
+
+.admin-table th,
+.admin-table td {
+    white-space: nowrap;
+}
+
+.payments-page .payment-table {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(245px, 1fr));
+    gap: 16px;
+    border-collapse: separate;
+    border-spacing: 0;
+}
+
+.payments-page .payment-table thead {
+    display: none;
+}
+
+.payments-page .payment-table tbody {
+    display: contents;
+}
+
+.payments-page .payment-table tr {
+    display: grid;
+    gap: 8px;
+    padding: 18px;
+    background: rgba(255, 255, 255, 0.94);
+    border: 1px solid #d6ead9;
+    border-left: 4px solid #2f9e62;
+    border-radius: 12px;
+    box-shadow: 0 5px 16px rgba(47, 158, 98, 0.06);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.payments-page .payment-table tr:hover {
+    transform: translateY(-3px);
+    border-left-color: #f28c28;
+    box-shadow: 0 10px 24px rgba(47, 158, 98, 0.12);
+}
+
+.payments-page .payment-table td {
+    display: flex;
+    justify-content: space-between;
+    gap: 14px;
+    padding: 0;
+    border: 0;
+    color: #68726c;
+    font-size: 11px;
+    white-space: normal;
+    text-align: right;
+}
+
+.payments-page .payment-table td::before {
+    color: #35473b;
+    font-weight: 700;
+    text-align: left;
+}
+
+.payments-page .payment-table td:nth-child(1)::before { content: "Payment ID"; }
+.payments-page .payment-table td:nth-child(2)::before { content: "Farmer"; }
+.payments-page .payment-table td:nth-child(3)::before { content: "Buyer"; }
+.payments-page .payment-table td:nth-child(4)::before { content: "Produce"; }
+.payments-page .payment-table td:nth-child(5)::before { content: "Amount"; }
+.payments-page .payment-table td:nth-child(6)::before { content: "Date"; }
+.payments-page .payment-table td:nth-child(7)::before { content: "Status"; }
+
+.payments-page .payment-table td:first-child {
+    color: #176d35;
+    font-weight: 800;
+    font-size: 13px;
+}
+
+.payments-page .payment-table .status {
+    display: inline-flex;
+    padding: 4px 9px;
+    border-radius: 999px;
+    background: #e4f6e9;
+    color: #176d35;
+    font-size: 10px;
+    font-weight: 700;
+}
+
+@media (max-width: 600px) {
+    .payments-page .payment-table {
+        grid-template-columns: 1fr;
+    }
+}
+
+.admin-view-btn,
+.admin-review-btn {
+    padding: 6px 11px;
+}
+
+
+/* =========================================================
+   PAGINATION
+   ========================================================= */
+
+.admin-pagination {
+    display: flex;
+
+    justify-content: center;
+    align-items: center;
+
+    gap: 15px;
+
+    margin: 22px 0;
+}
+
+.admin-pagination span {
+    font-size: 10px;
+
+    font-weight: 600;
+
+    color: #59635d;
+}
+
+.admin-pagination button {
+    border: none;
+
+    border-radius: 7px;
+
+    padding: 8px 13px;
+
+    background: #198754;
+
+    color: white;
+
+    font-size: 10px;
+
+    font-weight: 600;
+
+    cursor: pointer;
+}
+
+.admin-pagination button:disabled {
+    opacity: 0.45;
+
+    cursor: not-allowed;
+}
+
+
+/* =========================================================
+   INPUT MANAGEMENT
+   ========================================================= */
+
+.input-filters,
+.report-filters {
+    background: #ffffff;
+
+    border: 1px solid #dfe7e2;
+
+    border-radius: 10px;
+
+    padding: 20px;
+
+    margin-bottom: 20px;
+
+    display: grid;
+
+    grid-template-columns: 1fr 1fr 1fr auto;
+
+    gap: 15px;
+
+    align-items: end;
+}
+
+.filter-group {
+    display: flex;
+
+    flex-direction: column;
+}
+
+.filter-group label {
+    font-size: 12px;
+
+    font-weight: 600;
+
+    margin-bottom: 6px;
+
+    color: #404844;
+}
+
+.filter-group input,
+.filter-group select {
+    padding: 10px 12px;
+
+    border: 1px solid #d5ded8;
+
+    border-radius: 7px;
+
+    font-size: 13px;
+
+    background: white;
+}
+
+.filter-btn,
+.generate-btn,
+.add-input-btn {
+    padding: 10px 18px;
+
+    border: none;
+
+    border-radius: 7px;
+
+    background: #198754;
+
+    color: white;
+
+    font-size: 12px;
+
+    font-weight: 600;
+
+    cursor: pointer;
+}
+
+.filter-btn:hover,
+.generate-btn:hover,
+.add-input-btn:hover {
+    background: #146c43;
+}
+
+
+/* =========================================================
+   INPUT / REPORT TABLE
+   ========================================================= */
+
+.input-table,
+.report-table {
+    width: 100%;
+
+    border-collapse: collapse;
+}
+
+.input-table th,
+.input-table td,
+.report-table th,
+.report-table td {
+    padding: 13px 12px;
+
+    border-bottom: 1px solid #edf0ee;
+
+    text-align: left;
+
+    font-size: 12px;
+}
+
+.input-table th,
+.report-table th {
+    background: #f8faf9;
+
+    color: #555;
+
+    font-weight: 600;
+}
+
+.input-table tr:hover td,
+.report-table tr:hover td {
+    background: #fbfdfb;
+}
+
+.request-id,
+.report-name {
+    color: #198754;
+
+    font-weight: 600;
+}
+
+.action-btn,
+.download-btn {
+    padding: 6px 11px;
+
+    border: 1px solid #198754;
+
+    border-radius: 6px;
+
+    background: white;
+
+    color: #198754;
+
+    font-size: 11px;
+
+    cursor: pointer;
+}
+
+.action-btn:hover,
+.download-btn:hover {
+    background: #eef8f2;
+}
+
+
+/* =========================================================
+   PAGE INFO / PAGINATION
+   ========================================================= */
+
+.page-info {
+    margin-top: 18px;
+
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: center;
+
+    font-size: 12px;
+
+    color: #6c757d;
+}
+
+.pagination {
+    display: flex;
+
+    gap: 8px;
+}
+
+.pagination button {
+    padding: 7px 12px;
+
+    border: 1px solid #dfe7e2;
+
+    border-radius: 6px;
+
+    background: white;
+
+    cursor: pointer;
+}
+
+.pagination button:hover {
+    background: #eef8f2;
+}
+
+
+/* =========================================================
+   REPORT CARDS
+   ========================================================= */
+
+.report-grid {
+    display: grid;
+
+    grid-template-columns: repeat(2, 1fr);
+
+    gap: 20px;
+
+    margin-bottom: 20px;
+}
+
+.report-card {
+    background: white;
+
+    border: 1px solid #dfe7e2;
+
+    border-radius: 10px;
+
+    padding: 20px;
+}
+
+.report-card-header {
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: center;
+
+    margin-bottom: 15px;
+}
+
+.report-card-header h3 {
+    margin: 0;
+
+    font-size: 16px;
+}
+
+.report-card-header span {
+    font-size: 11px;
+
+    color: #6c757d;
+}
+
+.report-value {
+    font-size: 28px;
+
+    font-weight: bold;
+
+    color: #198754;
+}
+
+.report-description {
+    color: #6c757d;
+
+    font-size: 11px;
+
+    margin-top: 5px;
+}
+
+.report-progress {
+    width: 100%;
+
+    height: 7px;
+
+    background: #edf1ee;
+
+    border-radius: 10px;
+
+    margin-top: 15px;
+
+    overflow: hidden;
+}
+
+.report-progress span {
+    display: block;
+
+    height: 100%;
+
+    background: #198754;
+
+    border-radius: 10px;
+}
+
+
+/* =========================================================
+   SCROLLBAR
+   ========================================================= */
+
+.menu::-webkit-scrollbar,
+.admin-menu::-webkit-scrollbar {
+    width: 4px;
+}
+
+.menu::-webkit-scrollbar-thumb,
+.admin-menu::-webkit-scrollbar-thumb {
+    background: #dfe7e2;
+
+    border-radius: 10px;
+}
+
+
+/* =========================================================
+   RESPONSIVE - 1100px
+   ========================================================= */
+
+@media (max-width: 1100px) {
+
+    .stats,
+    .input-stats,
+    .report-stats {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .content-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .quick-actions {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+}
+
+
+/* =========================================================
+   RESPONSIVE - 1000px
+   ========================================================= */
+
+@media (max-width: 1000px) {
+
+    .admin-filter-form {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .input-filters,
+    .report-filters {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .report-grid {
+        grid-template-columns: 1fr;
+    }
+
+}
+
+
+/* =========================================================
+   TABLET - 800px
+   ========================================================= */
+
+@media (max-width: 800px) {
+
+    .sidebar,
+    .admin-sidebar {
+        width: 70px;
+
+        padding: 15px 8px;
+    }
+
+    .logo {
+        font-size: 11px;
+
+        padding: 8px 0;
+    }
+
+    .admin-logo h2 {
+        font-size: 11px;
+    }
+
+    .admin-logo p,
+    .admin-label {
+        display: none;
+    }
+
+    .menu,
+    .admin-menu {
+        margin-top: 15px;
+    }
+
+    .menu a,
+    .admin-menu a {
+        justify-content: center;
+
+        padding: 12px 5px;
+
+        font-size: 0;
+    }
+
+    .menu a:first-letter,
+    .admin-menu a:first-letter {
+        font-size: 15px;
+    }
+
+    .logout a {
+        justify-content: center;
+
+        padding: 12px 5px;
+
+        font-size: 0;
+    }
+
+    .main,
+    .admin-main {
+        margin-left: 70px;
+
+        width: calc(100% - 70px);
+
+        padding: 18px;
+    }
+
+}
+
+
+/* =========================================================
+   MOBILE - 600px
+   ========================================================= */
+
+@media (max-width: 600px) {
+
+    .main,
+    .admin-main {
+        padding: 15px;
+    }
+
+    .topbar,
+    .admin-topbar {
+        padding: 14px 15px;
+    }
+
+    .topbar h1,
+    .admin-topbar h2 {
+        font-size: 17px;
+    }
+
+    .topbar p,
+    .admin-topbar p {
+        font-size: 9px;
+    }
+
+    .admin-profile > div:last-child {
+        display: none;
+    }
+
+    .stats,
+    .input-stats,
+    .report-stats {
+        grid-template-columns: 1fr;
+    }
+
+    .quick-actions {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .section,
+    .input-table-wrapper,
+    .report-table-wrapper {
+        padding: 15px;
+
+        overflow-x: auto;
+    }
+
+    table {
+        min-width: 600px;
+    }
+
+    .admin-filter-form {
+        grid-template-columns: 1fr;
+    }
+
+    .input-filters,
+    .report-filters {
+        grid-template-columns: 1fr;
+    }
+
+}
+
+
+/* =========================================================
+   VERY SMALL MOBILE - 400px
+   ========================================================= */
+
+@media (max-width: 400px) {
+
+    .sidebar,
+    .admin-sidebar {
+        width: 55px;
+    }
+
+    .main,
+    .admin-main {
+        margin-left: 55px;
+
+        width: calc(100% - 55px);
+
+        padding: 10px;
+    }
+
+    .quick-actions {
+        grid-template-columns: 1fr;
+    }
+
+}
+
+/* Admin theme: mint surfaces, fresh green navigation, orange emphasis. */
+body {
+    background: linear-gradient(135deg, #f4fcf5 0%, #edf9f0 58%, #fff7eb 100%) !important;
+}
+
+.sidebar,
+.admin-sidebar {
+    background: #f1fbf3 !important;
+    border-right-color: #cfe6d4 !important;
+}
+
+.logo,
+.admin-logo,
+.admin-logo h2 {
+    color: #176d35 !important;
+}
+
+.menu a:hover,
+.admin-menu a:hover {
+    background: #fff1df !important;
+    color: #c96b12 !important;
+}
+
+.menu a.active,
+.admin-menu a.active {
+    background: #e2f5e7 !important;
+    color: #176d35 !important;
+}
+
+.admin-search-btn,
+.admin-view-btn,
+.admin-review-btn,
+.admin-pagination button {
+    background: #2f9e62;
+}
+
+.admin-search-btn:hover,
+.admin-view-btn:hover,
+.admin-review-btn:hover,
+.admin-pagination button:hover {
+    background: #f28c28;
+}
+
+/* Final card layer for admin sections and data rows. */
+.admin-main > section,
+.admin-main > .section,
+.admin-main > .admin-section,
+.admin-main > .content-grid > section,
+.admin-main > .content-grid > .section,
+.admin-main > .input-table-wrapper,
+.admin-main > .report-table-wrapper,
+.admin-main > .grievance-table-wrapper,
+.admin-main > .request-section {
+    background: rgba(255, 255, 255, 0.92);
+    border: 1px solid #d6ead9;
+    border-radius: 14px;
+    box-shadow: 0 5px 16px rgba(47, 158, 98, 0.05);
+}
+
+.admin-main .admin-table,
+.admin-main .grievance-table,
+.admin-main .input-table,
+.admin-main .report-table,
+.admin-main .request-table {
+    border-collapse: separate;
+    border-spacing: 0 10px;
+}
+
+.admin-main .admin-table tbody tr,
+.admin-main .grievance-table tbody tr,
+.admin-main .input-table tbody tr,
+.admin-main .report-table tbody tr,
+.admin-main .request-table tbody tr {
+    background: #ffffff;
+    box-shadow: 0 4px 12px rgba(47, 158, 98, 0.05);
+}
+
+.admin-main .admin-table tbody tr:hover,
+.admin-main .grievance-table tbody tr:hover,
+.admin-main .input-table tbody tr:hover,
+.admin-main .report-table tbody tr:hover,
+.admin-main .request-table tbody tr:hover {
+    box-shadow: 0 8px 18px rgba(47, 158, 98, 0.11);
+}

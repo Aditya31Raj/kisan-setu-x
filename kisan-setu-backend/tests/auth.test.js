@@ -1,0 +1,1 @@
+import request from 'supertest'; import {app} from '../src/app.js'; describe('auth',()=>{test('health',async()=>{const r=await request(app).get('/health');expect(r.status).toBe(200);expect(r.body.success).toBe(true)});test('protected endpoint rejects anonymous',async()=>{const r=await request(app).get('/api/v1/auth/me');expect(r.status).toBe(401)})});

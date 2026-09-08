@@ -1,0 +1,1 @@
+import request from 'supertest'; import {app} from '../src/app.js'; test('admin API requires authentication',async()=>{const r=await request(app).get('/api/v1/admin/dashboard');expect(r.status).toBe(401)});

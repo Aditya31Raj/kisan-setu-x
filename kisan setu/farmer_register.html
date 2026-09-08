@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kisan Setu | Farmer Registration</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/auth.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: "Poppins", sans-serif;
+            background: #F0FDF4;
+            color: #202522;
+        }
+        .navbar {
+            height: 82px;
+            background: white;
+            border-bottom: 1px solid #e0e8e1;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 5%;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        .logo-area { display: flex; align-items: center; gap: 10px; text-decoration: none; }
+        .logo-area img { width: 62px; height: 62px; object-fit: contain; }
+        .logo-text h1 { color: #10B981; font-size: 22px; font-weight: 800; }
+        .logo-text p { color: #68726c; font-size: 9px; }
+        .back-home { text-decoration: none; color: #10B981; font-size: 13px; font-weight: 600; }
+        .back-home:hover { color: #065F46; }
+        .main-container {
+            min-height: calc(100vh - 82px);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 45px 20px;
+        }
+        .register-card {
+            width: 850px;
+            background: white;
+            border-radius: 18px;
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.08);
+            overflow: hidden;
+            border: 1px solid #e0e9e2;
+        }
+        .register-header {
+            background: linear-gradient(135deg, #10B981, #059669);
+            color: white;
+            text-align: center;
+            padding: 28px 20px;
+        }
+        .register-header .icon {
+            width: 65px; height: 65px; background: white; color: #10B981; border-radius: 50%;
+            display: flex; align-items: center; justify-content: center; margin: 0 auto 12px; font-size: 28px;
+        }
+        .register-header h2 { font-size: 24px; font-weight: 700; }
+        .register-header p { font-size: 12px; margin-top: 5px; opacity: 0.9; }
+        .form-container { padding: 32px 40px 38px; }
+        .section-title {
+            color: #10B981; font-size: 15px; font-weight: 700; margin-bottom: 18px; display: flex; align-items: center; gap: 8px;
+        }
+        .section-title i { font-size: 14px; }
+        .form-grid {
+            display: grid; grid-template-columns: 1fr 1fr; gap: 18px 25px; margin-bottom: 28px;
+        }
+        .form-group { display: flex; flex-direction: column; }
+        .form-group.full { grid-column: 1 / -1; }
+        label { font-size: 12px; font-weight: 600; color: #37413b; margin-bottom: 7px; }
+        label span { color: #e33434; }
+        input, select { width: 100%; height: 43px; border: 1px solid #d5dfd7; border-radius: 7px; padding: 0 12px; font-size: 13px; }
+        .submit-btn {
+            width: 100%; height: 46px; border: none; border-radius: 8px; background: #10B981; color: white; font-family: inherit;
+            font-size: 14px; font-weight: 700; cursor: pointer;
+        }
+        .submit-btn:hover { background: #059669; }
+        .login-link { text-align: center; margin-top: 18px; font-size: 12px; color: #68726c; }
+        .login-link a { color: #10B981; text-decoration: none; font-weight: 600; }
+        @media (max-width: 700px) {
+            .form-grid { grid-template-columns: 1fr; }
+            .form-container { padding: 28px 20px; }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <a href="index.html" class="logo-area">
+            <img src="images/logoks.jpeg" alt="Kisan Setu Logo">
+            <div class="logo-text">
+                <h1>Kisan Setu</h1>
+                <p>Farmer Registration</p>
+            </div>
+        </a>
+        <a href="index.html" class="back-home">Back to Home</a>
+    </nav>
+
+    <main class="main-container">
+        <div class="register-card">
+            <div class="register-header">
+                <div class="icon"><i class="fa-solid fa-tractor"></i></div>
+                <h2>Create Farmer Account</h2>
+                <p>Join Kisan Setu and start selling directly to buyers.</p>
+            </div>
+
+            <div class="form-container">
+                <div class="section-title"><i class="fa-solid fa-user"></i> Personal Details</div>
+                <form id="farmerRegistrationForm">
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label for="fullName">Full Name <span>*</span></label>
+                            <input type="text" id="fullName" placeholder="Enter full name">
+                        </div>
+                        <div class="form-group">
+                            <label for="phone">Mobile Number <span>*</span></label>
+                            <input type="tel" id="phone" placeholder="Enter mobile number">
+                        </div>
+                        <div class="form-group">
+                            <label for="email">Email Address <span>*</span></label>
+                            <input type="email" id="email" placeholder="you@example.com">
+                        </div>
+                        <div class="form-group">
+                            <label for="profilePicture">Profile Picture</label>
+                            <input type="file" id="profilePicture" accept="image/*">
+                        </div>
+                        <div class="form-group">
+                            <label for="district">District <span>*</span></label>
+                            <input type="text" id="district" placeholder="Your district">
+                        </div>
+                        <div class="form-group full">
+                            <label for="address">Farm Address <span>*</span></label>
+                            <input type="text" id="address" placeholder="Village / block / street address">
+                        </div>
+                        <div class="form-group">
+                            <label for="landSize">Farm Area (acres)</label>
+                            <input type="text" id="landSize" placeholder="e.g. 4.5">
+                        </div>
+                        <div class="form-group">
+                            <label for="cropType">Primary Crop Type</label>
+                            <input type="text" id="cropType" placeholder="Rice, Wheat, Cotton...">
+                        </div>
+                        <div class="form-group">
+                            <label for="password">Password <span>*</span></label>
+                            <input type="password" id="password" placeholder="Create a password">
+                        </div>
+                        <div class="form-group">
+                            <label for="confirmPassword">Confirm Password <span>*</span></label>
+                            <input type="password" id="confirmPassword" placeholder="Re-enter password">
+                        </div>
+                    </div>
+
+                    <div id="registerError" style="display:none; background:#fee2e2; border:1px solid #f87171; color:#991b1b; padding:10px 14px; border-radius:8px; font-size:13px; margin:14px 0;"></div>
+
+                    <button type="submit" class="submit-btn">Register as Farmer</button>
+                    <div class="login-link">Already have an account? <a href="farmer_login.html">Login here</a></div>
+                </form>
+            </div>
+        </div>
+    </main>
+    <script src="js/core/api.js"></script>
+    <script src="js/core/auth.js"></script>
+    <script src="js/farmer/farmer.js"></script>
+    <script src="js/core/profile-storage.js"></script>
+    <script>
+        document.getElementById("farmerRegistrationForm").addEventListener("submit", async function (event) {
+            event.preventDefault();
+            const password = document.getElementById("password").value;
+            const confirmPassword = document.getElementById("confirmPassword").value;
+            const errBox = document.getElementById("registerError");
+            const btn = this.querySelector("button[type='submit']");
+            errBox.style.display = "none";
+
+            if (password !== confirmPassword) {
+                errBox.textContent = "Passwords do not match.";
+                errBox.style.display = "block";
+                return;
+            }
+            if (password.length < 8) {
+                errBox.textContent = "Password must be at least 8 characters long.";
+                errBox.style.display = "block";
+                return;
+            }
+
+            const name = document.getElementById("fullName").value.trim();
+            const email = document.getElementById("email").value.trim();
+            const phone = document.getElementById("phone").value.trim();
+            const district = document.getElementById("district").value.trim();
+            const address = document.getElementById("address").value.trim();
+            const landSize = document.getElementById("landSize").value.trim();
+            const cropType = document.getElementById("cropType").value.trim();
+
+            btn.disabled = true;
+            btn.textContent = "Creating Account...";
+
+            try {
+                let profilePicture = "";
+                try {
+                    profilePicture = await readProfilePicture(document.getElementById("profilePicture").files[0]);
+                } catch {
+                    // Profile picture optional
+                }
+
+                saveRegistrationProfile("farmer", {
+                    name, email, phone, district, address, landSize, cropType, profilePicture
+                });
+
+                const payload = {
+                    name,
+                    role: "FARMER",
+                    password
+                };
+                if (email) payload.email = email;
+                if (phone) payload.phone = phone;
+
+                await registerUser(payload);
+
+                try {
+                    await updateFarmerProfile({
+                        village: address || undefined,
+                        district: district || undefined,
+                        landAreaAcres: Number(landSize) || undefined
+                    });
+                } catch (profileErr) {
+                    console.warn("Farmer profile details could not be updated immediately:", profileErr);
+                }
+
+                window.location.href = "farmer_dashboard.html";
+            } catch (error) {
+                errBox.textContent = friendlyErrorMessage(error, "Registration failed. Please try again.");
+                errBox.style.display = "block";
+                btn.disabled = false;
+                btn.textContent = "Register as Farmer";
+            }
+        });
+    </script>
+</body>
+</html>

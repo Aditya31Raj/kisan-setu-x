@@ -1,0 +1,1 @@
+import{Router}from'express';import * as c from'../controllers/report.controller.js';import{authenticate}from'../middleware/authenticate.js';import{authorize}from'../middleware/authorize.js';const r=Router();r.use(authenticate,authorize('PRAKHAND_ADMIN','SUPER_ADMIN'));r.get('/monthly',c.monthly);r.get('/forecast/demand',c.forecast);export default r;

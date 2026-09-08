@@ -1,0 +1,1 @@
+import crypto from 'node:crypto'; import {IdentityProvider} from './identityProvider.interface.js'; export class MockIdentityProvider extends IdentityProvider{async verify({reference}){const last=String(reference||'').slice(-4);return{status:'VERIFIED',maskedIdentifier:last?`XXXX-XXXX-${last}`:null,providerReference:`MOCK-${crypto.randomUUID()}`}}}

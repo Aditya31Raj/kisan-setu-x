@@ -1,0 +1,1 @@
+import {MockPaymentProvider} from '../src/providers/payment/mockPaymentProvider.js'; test('mock provider creates payment id',async()=>{const p=new MockPaymentProvider();const r=await p.createPayment({amount:100,currency:'INR'});expect(r.providerPaymentId).toMatch(/^MOCK-/);});

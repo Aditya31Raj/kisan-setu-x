@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Kisan Setu - Disputes</title>
+
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/buyer.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+</head>
+
+<body>
+
+    <div class="dashboard">
+        <aside class="sidebar">
+            <div class="brand"><img src="../images/logoks.jpeg" alt="Kisan Setu Logo"><div class="brand-text"><h2>KISAN SETU</h2><span>BUYER / VENDOR PORTAL</span></div></div>
+            <div class="user-box"><div class="user-info"><div class="user-icon"><i class="fa-solid fa-store"></i></div><div><strong>ABC Traders</strong><span>Buyer / Vendor</span></div></div></div>
+            <nav class="sidebar-nav">
+                <div class="nav-title">Main Menu</div>
+                <a href="../buyer_dashboard.html" class="nav-item"><i class="fa-solid fa-house"></i><span>Dashboard</span></a>
+                <a href="produce.html" class="nav-item"><i class="fa-solid fa-wheat-awn"></i><span>Find Produce</span></a>
+                <a href="orders.html" class="nav-item"><i class="fa-solid fa-box"></i><span>My Orders</span></a>
+                <a href="payments.html" class="nav-item"><i class="fa-solid fa-credit-card"></i><span>Payments</span></a>
+                <a href="logistics.html" class="nav-item"><i class="fa-solid fa-truck"></i><span>Logistics</span></a>
+                <a href="history.html" class="nav-item"><i class="fa-solid fa-clock-rotate-left"></i><span>Payment History</span></a>
+                <a href="disputes.html" class="nav-item active"><i class="fa-solid fa-triangle-exclamation"></i><span>Disputes</span></a>
+                <a href="notifications.html" class="nav-item"><i class="fa-solid fa-bell"></i><span>Notifications</span></a>
+                <a href="profile.html" class="nav-item"><i class="fa-solid fa-user"></i><span>Profile</span></a>
+            </nav>
+            <div class="logout"><a href="../buyer_login.html" class="nav-item"><i class="fa-solid fa-right-from-bracket"></i><span>Logout</span></a></div>
+        </aside>
+        <main class="main">
+
+
+    <!-- MAIN -->
+    <main class="buyer-container">
+
+        <section class="page-header">
+
+            <h1>Disputes</h1>
+
+            <p>
+                Raise and track disputes related to your orders.
+            </p>
+
+        </section>
+
+
+        <!-- CREATE DISPUTE -->
+
+        <section class="form-section">
+
+            <h2>Raise a Dispute</h2>
+
+            <form id="disputeForm">
+
+                <div class="form-group">
+
+                    <label for="orderId">
+                        Order ID
+                    </label>
+
+                    <input
+                        type="text"
+                        id="orderId"
+                        name="orderId"
+                        placeholder="Enter order ID"
+                        required
+                    >
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="reason">
+                        Reason
+                    </label>
+
+                    <textarea
+                        id="reason"
+                        name="reason"
+                        rows="5"
+                        placeholder="Describe the reason for the dispute"
+                        required
+                    ></textarea>
+
+                </div>
+
+
+                <button
+                    type="submit"
+                    id="submitDisputeBtn">
+
+                    Submit Dispute
+
+                </button>
+
+            </form>
+
+        </section>
+
+
+        <!-- MESSAGE -->
+
+        <div id="disputeMessage"></div>
+
+
+        <!-- DISPUTES LIST -->
+
+        <section class="disputes-section">
+
+            <div class="section-heading">
+
+                <h2>My Disputes</h2>
+
+                <button
+                    type="button"
+                    id="refreshDisputesBtn">
+
+                    Refresh
+
+                </button>
+
+            </div>
+
+
+            <div id="disputesContainer">
+
+                <p>
+                    Loading disputes...
+                </p>
+
+            </div>
+
+        </section>
+
+
+        <!-- PAGINATION -->
+
+        <section class="pagination-section">
+
+            <button
+                type="button"
+                id="previousBtn"
+                disabled>
+
+                Previous
+
+            </button>
+
+            <span id="pageNumber">
+                Page 1
+            </span>
+
+            <button
+                type="button"
+                id="nextBtn">
+
+                Next
+
+            </button>
+
+        </section>
+
+        </main>
+    </div>
+
+
+    <!-- DISPUTE DETAILS MODAL -->
+
+    <div
+        id="disputeModal"
+        class="modal"
+        style="display: none;">
+
+        <div class="modal-content">
+
+            <button
+                type="button"
+                id="closeModalBtn"
+                class="close-btn">
+
+                ×
+
+            </button>
+
+            <h2>
+                Dispute Details
+            </h2>
+
+            <div id="disputeDetails">
+
+                <!-- Loaded by disputes.js -->
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- JAVASCRIPT -->
+
+    <script src="../js/core/api.js"></script>
+    <script src="../js/core/auth.js"></script>
+    <script src="../js/buyer/disputes.js"></script>
+
+</body>
+</html>

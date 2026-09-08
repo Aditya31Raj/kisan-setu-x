@@ -1,0 +1,637 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Kisan Setu - Farmers</title>
+
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/admin.css">
+</head>
+
+<body>
+
+    <!-- ================= SIDEBAR ================= -->
+
+    <aside class="sidebar">
+
+        <div class="logo">
+            <img src="../images/logoks.jpeg" alt="Kisan Setu Logo">
+            KISAN SETU
+        </div>
+
+        <div class="admin-label">
+            ADMIN PORTAL
+        </div>
+
+        <ul class="menu">
+
+            <li>
+                <a href="../admin_dashboard.html">
+                    🏠 &nbsp; Dashboard
+                </a>
+            </li>
+
+            <li>
+                <a href="farmers.html" class="active">
+                    👨‍🌾 &nbsp; Farmers
+                </a>
+            </li>
+
+            <li>
+                <a href="buyers.html">
+                    🛒 &nbsp; Buyers
+                </a>
+            </li>
+
+            <li>
+                <a href="requests.html">
+                    📋 &nbsp; Requests
+                </a>
+            </li>
+
+            <li>
+                <a href="inputs.html">
+                    🌱 &nbsp; Input Management
+                </a>
+            </li>
+
+            <li>
+                <a href="payments.html">
+                    💳 &nbsp; Payments
+                </a>
+            </li>
+
+            <li>
+                <a href="reports.html">
+                    📊 &nbsp; Reports
+                </a>
+            </li>
+
+            <li>
+                <a href="alerts.html">
+                    🔔 &nbsp; Alerts
+                </a>
+            </li>
+
+            <li>
+                <a href="grievances.html">
+                    ⚠️ &nbsp; Grievances
+                </a>
+            </li>
+
+        </ul>
+
+        <div class="logout">
+            <a href="../index.html">
+                🚪 &nbsp; Logout
+            </a>
+        </div>
+
+    </aside>
+
+
+    <!-- ================= MAIN ================= -->
+
+    <main class="main">
+
+
+        <!-- ================= TOPBAR ================= -->
+
+        <div class="topbar">
+
+            <div>
+                <h1>Farmers</h1>
+
+                <p>
+                    Manage and monitor registered farmers
+                </p>
+            </div>
+
+
+            <div class="admin-profile">
+
+                <div class="profile-icon">
+                    A
+                </div>
+
+                <div>
+                    <strong>Admin</strong>
+
+                    <p>
+                        Prakhand Admin
+                    </p>
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- ================= STATISTICS ================= -->
+
+        <div class="stats">
+
+            <div class="card">
+
+                <div class="card-title">
+                    Total Farmers
+                </div>
+
+                <div class="card-value">
+                    4,820
+                </div>
+
+                <div class="card-small">
+                    Registered farmers
+                </div>
+
+            </div>
+
+
+            <div class="card">
+
+                <div class="card-title">
+                    Active Farmers
+                </div>
+
+                <div class="card-value">
+                    4,512
+                </div>
+
+                <div class="card-small">
+                    Currently active
+                </div>
+
+            </div>
+
+
+            <div class="card">
+
+                <div class="card-title">
+                    Pending Verification
+                </div>
+
+                <div class="card-value">
+                    185
+                </div>
+
+                <div class="card-small">
+                    Awaiting approval
+                </div>
+
+            </div>
+
+
+            <div class="card">
+
+                <div class="card-title">
+                    Suspended
+                </div>
+
+                <div class="card-value">
+                    123
+                </div>
+
+                <div class="card-small">
+                    Requires attention
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- ================= SEARCH / FILTER ================= -->
+
+        <section class="section">
+
+            <div class="section-header">
+
+                <h2>Farmer Directory</h2>
+
+                <span class="view-all">
+                    4,820 Farmers
+                </span>
+
+            </div>
+
+
+            <form class="admin-filter-form">
+
+                <div class="admin-filter-group">
+
+                    <label for="farmerSearch">
+                        Search Farmer
+                    </label>
+
+                    <input
+                        type="text"
+                        id="farmerSearch"
+                        placeholder="Name, farmer ID or phone"
+                    >
+
+                </div>
+
+
+                <div class="admin-filter-group">
+
+                    <label for="farmerStatus">
+                        Status
+                    </label>
+
+                    <select id="farmerStatus">
+
+                        <option value="">
+                            All Status
+                        </option>
+
+                        <option value="active">
+                            Active
+                        </option>
+
+                        <option value="pending">
+                            Pending
+                        </option>
+
+                        <option value="suspended">
+                            Suspended
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <div class="admin-filter-group">
+
+                    <label for="farmerLocation">
+                        Location
+                    </label>
+
+                    <input
+                        type="text"
+                        id="farmerLocation"
+                        placeholder="District / Village"
+                    >
+
+                </div>
+
+
+                <button
+                    type="button"
+                    class="admin-search-btn">
+
+                    Search
+
+                </button>
+
+
+                <button
+                    type="button"
+                    class="admin-clear-btn">
+
+                    Clear
+
+                </button>
+
+            </form>
+
+        </section>
+
+
+        <!-- ================= FARMER TABLE ================= -->
+
+        <section class="section">
+
+            <div class="section-header">
+
+                <h2>Registered Farmers</h2>
+
+                <span class="view-all">
+                    Latest registrations
+                </span>
+
+            </div>
+
+
+            <div class="admin-table-wrapper">
+
+                <table class="admin-table">
+
+                    <thead>
+
+                        <tr>
+
+                            <th>
+                                Farmer ID
+                            </th>
+
+                            <th>
+                                Farmer Name
+                            </th>
+
+                            <th>
+                                Location
+                            </th>
+
+                            <th>
+                                Contact
+                            </th>
+
+                            <th>
+                                Registration
+                            </th>
+
+                            <th>
+                                Status
+                            </th>
+
+                            <th>
+                                Action
+                            </th>
+
+                        </tr>
+
+                    </thead>
+
+
+                    <tbody>
+
+                        <tr>
+
+                            <td>
+                                FR-00145
+                            </td>
+
+                            <td>
+                                Ramesh Kumar
+                            </td>
+
+                            <td>
+                                Asansol
+                            </td>
+
+                            <td>
+                                98XXXXXX21
+                            </td>
+
+                            <td>
+                                28 Aug 2026
+                            </td>
+
+                            <td>
+
+                                <span class="status success">
+                                    Active
+                                </span>
+
+                            </td>
+
+                            <td>
+
+                                <button
+                                    type="button"
+                                    class="admin-view-btn">
+
+                                    View
+
+                                </button>
+
+                            </td>
+
+                        </tr>
+
+
+                        <tr>
+
+                            <td>
+                                FR-00146
+                            </td>
+
+                            <td>
+                                Sita Devi
+                            </td>
+
+                            <td>
+                                Durgapur
+                            </td>
+
+                            <td>
+                                97XXXXXX45
+                            </td>
+
+                            <td>
+                                29 Aug 2026
+                            </td>
+
+                            <td>
+
+                                <span class="status pending">
+                                    Pending
+                                </span>
+
+                            </td>
+
+                            <td>
+
+                                <button
+                                    type="button"
+                                    class="admin-review-btn">
+
+                                    Review
+
+                                </button>
+
+                            </td>
+
+                        </tr>
+
+
+                        <tr>
+
+                            <td>
+                                FR-00147
+                            </td>
+
+                            <td>
+                                Mohan Das
+                            </td>
+
+                            <td>
+                                Raniganj
+                            </td>
+
+                            <td>
+                                96XXXXXX78
+                            </td>
+
+                            <td>
+                                30 Aug 2026
+                            </td>
+
+                            <td>
+
+                                <span class="status success">
+                                    Active
+                                </span>
+
+                            </td>
+
+                            <td>
+
+                                <button
+                                    type="button"
+                                    class="admin-view-btn">
+
+                                    View
+
+                                </button>
+
+                            </td>
+
+                        </tr>
+
+
+                        <tr>
+
+                            <td>
+                                FR-00148
+                            </td>
+
+                            <td>
+                                Anita Devi
+                            </td>
+
+                            <td>
+                                Bankura
+                            </td>
+
+                            <td>
+                                95XXXXXX63
+                            </td>
+
+                            <td>
+                                30 Aug 2026
+                            </td>
+
+                            <td>
+
+                                <span class="status danger">
+                                    Suspended
+                                </span>
+
+                            </td>
+
+                            <td>
+
+                                <button
+                                    type="button"
+                                    class="admin-review-btn">
+
+                                    Review
+
+                                </button>
+
+                            </td>
+
+                        </tr>
+
+
+                        <tr>
+
+                            <td>
+                                FR-00149
+                            </td>
+
+                            <td>
+                                Sunil Mahto
+                            </td>
+
+                            <td>
+                                Purulia
+                            </td>
+
+                            <td>
+                                94XXXXXX12
+                            </td>
+
+                            <td>
+                                31 Aug 2026
+                            </td>
+
+                            <td>
+
+                                <span class="status success">
+                                    Active
+                                </span>
+
+                            </td>
+
+                            <td>
+
+                                <button
+                                    type="button"
+                                    class="admin-view-btn">
+
+                                    View
+
+                                </button>
+
+                            </td>
+
+                        </tr>
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </section>
+
+
+        <!-- ================= PAGINATION ================= -->
+
+        <div class="admin-pagination">
+
+            <button
+                type="button"
+                disabled>
+
+                Previous
+
+            </button>
+
+            <span>
+                Page 1 of 97
+            </span>
+
+            <button
+                type="button">
+
+                Next
+
+            </button>
+
+        </div>
+
+
+    </main>
+
+
+    <!-- ================= JAVASCRIPT ================= -->
+
+    <script src="../js/core/api.js"></script>
+    <script src="../js/core/auth.js"></script>
+    <script src="../js/admin/admin-users.js"></script>
+    <script>
+        console.log("Kisan Setu Farmers Page Loaded");
+    </script>
+
+</body>
+
+</html>
+

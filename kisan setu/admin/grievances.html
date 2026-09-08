@@ -1,0 +1,848 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Kisan Setu - Grievances</title>
+
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/admin.css">
+
+    <style>
+
+        /* =========================
+           GRIEVANCES PAGE
+           ========================= */
+
+        .grievance-filters {
+            background: white;
+            border: 1px solid #dfe7e2;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr auto;
+            gap: 15px;
+            align-items: end;
+        }
+
+        .filter-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .filter-group label {
+            font-size: 12px;
+            font-weight: 600;
+            margin-bottom: 6px;
+            color: #404844;
+        }
+
+        .filter-group input,
+        .filter-group select {
+            padding: 10px 12px;
+            border: 1px solid #d5ded8;
+            border-radius: 7px;
+            font-size: 13px;
+            background: white;
+        }
+
+        .filter-btn {
+            padding: 10px 18px;
+            border: none;
+            border-radius: 7px;
+            background: #198754;
+            color: white;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .filter-btn:hover {
+            background: #146c43;
+        }
+
+        .grievance-table-wrapper {
+            background: white;
+            border: 1px solid #dfe7e2;
+            border-radius: 10px;
+            padding: 20px;
+            overflow-x: auto;
+        }
+
+        .grievance-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .grievance-table th,
+        .grievance-table td {
+            padding: 13px 12px;
+            border-bottom: 1px solid #edf0ee;
+            text-align: left;
+            font-size: 12px;
+        }
+
+        .grievance-table th {
+            background: #f8faf9;
+            color: #555;
+            font-weight: 600;
+        }
+
+        .grievance-table tr:hover td {
+            background: #fbfdfb;
+        }
+
+        .grievance-id {
+            color: #198754;
+            font-weight: 600;
+        }
+
+        .status {
+            display: inline-block;
+            padding: 5px 9px;
+            border-radius: 12px;
+            font-size: 10px;
+            font-weight: 600;
+        }
+
+        .status.pending {
+            background: #fff5dc;
+            color: #8a6500;
+        }
+
+        .status.progress {
+            background: #e8f1fb;
+            color: #376b9d;
+        }
+
+        .status.resolved {
+            background: #e9f6ec;
+            color: #176b38;
+        }
+
+        .status.rejected {
+            background: #fdeaea;
+            color: #b3261e;
+        }
+
+        .priority {
+            font-weight: 600;
+        }
+
+        .priority.high {
+            color: #dc3545;
+        }
+
+        .priority.medium {
+            color: #b07a00;
+        }
+
+        .priority.low {
+            color: #198754;
+        }
+
+        .view-btn {
+            padding: 6px 11px;
+            border: 1px solid #198754;
+            border-radius: 6px;
+            background: white;
+            color: #198754;
+            font-size: 11px;
+            cursor: pointer;
+        }
+
+        .view-btn:hover {
+            background: #eef8f2;
+        }
+
+        .page-info {
+            margin-top: 18px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 12px;
+            color: #6c757d;
+        }
+
+        .pagination {
+            display: flex;
+            gap: 8px;
+        }
+
+        .pagination button {
+            padding: 7px 12px;
+            border: 1px solid #dfe7e2;
+            border-radius: 6px;
+            background: white;
+            cursor: pointer;
+        }
+
+        .pagination button:hover {
+            background: #eef8f2;
+        }
+
+        /* =========================
+           RESPONSIVE
+           ========================= */
+
+        @media (max-width: 900px) {
+
+            .grievance-filters {
+                grid-template-columns: 1fr 1fr;
+            }
+
+        }
+
+        @media (max-width: 600px) {
+
+            .grievance-filters {
+                grid-template-columns: 1fr;
+            }
+
+            .admin-main {
+                padding: 15px;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+    <!-- =========================
+         ADMIN LAYOUT
+         ========================= -->
+
+    <div class="admin-layout">
+
+
+        <!-- =========================
+             SIDEBAR
+             ========================= -->
+
+        <aside class="admin-sidebar">
+
+            <div class="admin-logo">
+                <img src="../images/logoks.jpeg" alt="Kisan Setu Logo">
+
+                <h2>Kisan Setu</h2>
+
+                <p>ADMIN PORTAL</p>
+
+            </div>
+
+
+            <ul class="admin-menu">
+
+                <li>
+                    <a href="../admin_dashboard.html">
+                        🏠 Dashboard
+                    </a>
+                </li>
+
+                <li>
+                    <a href="farmers.html">
+                        👨‍🌾 Farmers
+                    </a>
+                </li>
+
+                <li>
+                    <a href="buyers.html">
+                        🛒 Buyers
+                    </a>
+                </li>
+
+                <li>
+                    <a href="requests.html">
+                        📋 Requests
+                    </a>
+                </li>
+
+                <li>
+                    <a href="inputs.html">
+                        🌱 Input Management
+                    </a>
+                </li>
+
+                <li>
+                    <a href="payments.html">
+                        💳 Payments
+                    </a>
+                </li>
+
+                <li>
+                    <a href="reports.html">
+                        📊 Reports
+                    </a>
+                </li>
+
+                <li>
+                    <a href="alerts.html">
+                        🔔 Alerts
+                    </a>
+                </li>
+
+                <li>
+                    <a href="grievances.html" class="active">
+                        ⚠️ Grievances
+                    </a>
+                </li>
+
+            </ul>
+
+
+            <div class="logout">
+
+                <a href="../index.html">
+                    🚪 Logout
+                </a>
+
+            </div>
+
+        </aside>
+
+
+
+        <!-- =========================
+             MAIN CONTENT
+             ========================= -->
+
+        <main class="admin-main">
+
+
+            <!-- =========================
+                 TOPBAR
+                 ========================= -->
+
+            <div class="admin-topbar">
+
+                <div>
+
+                    <h2>Grievances</h2>
+
+                    <p>
+                        Review and manage complaints submitted by farmers and buyers.
+                    </p>
+
+                </div>
+
+
+                <div class="admin-profile">
+
+                    <div class="profile-icon">
+                        A
+                    </div>
+
+                    <div>
+
+                        <strong>Admin</strong>
+
+                        <p>
+                            Prakhand Admin
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- =========================
+                 FILTERS
+                 ========================= -->
+
+            <div class="grievance-filters">
+
+
+                <div class="filter-group">
+
+                    <label for="searchGrievance">
+                        Search
+                    </label>
+
+                    <input
+                        type="text"
+                        id="searchGrievance"
+                        placeholder="Search grievance ID..."
+                    >
+
+                </div>
+
+
+                <div class="filter-group">
+
+                    <label for="statusFilter">
+                        Status
+                    </label>
+
+                    <select id="statusFilter">
+
+                        <option value="all">
+                            All Status
+                        </option>
+
+                        <option value="pending">
+                            Pending
+                        </option>
+
+                        <option value="progress">
+                            In Progress
+                        </option>
+
+                        <option value="resolved">
+                            Resolved
+                        </option>
+
+                        <option value="rejected">
+                            Rejected
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <div class="filter-group">
+
+                    <label for="typeFilter">
+                        Type
+                    </label>
+
+                    <select id="typeFilter">
+
+                        <option value="all">
+                            All Types
+                        </option>
+
+                        <option value="payment">
+                            Payment
+                        </option>
+
+                        <option value="quality">
+                            Produce Quality
+                        </option>
+
+                        <option value="delivery">
+                            Delivery
+                        </option>
+
+                        <option value="pricing">
+                            Pricing
+                        </option>
+
+                        <option value="other">
+                            Other
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <button
+                    class="filter-btn"
+                    type="button">
+
+                    Apply Filter
+
+                </button>
+
+            </div>
+
+
+
+            <!-- =========================
+                 GRIEVANCE TABLE
+                 ========================= -->
+
+            <section class="grievance-table-wrapper">
+
+
+                <div class="section-header">
+
+                    <h2>
+                        Submitted Grievances
+                    </h2>
+
+                    <span>
+                        6 grievances
+                    </span>
+
+                </div>
+
+
+                <table class="grievance-table">
+
+
+                    <thead>
+
+                        <tr>
+
+                            <th>
+                                Grievance ID
+                            </th>
+
+                            <th>
+                                Submitted By
+                            </th>
+
+                            <th>
+                                Type
+                            </th>
+
+                            <th>
+                                Subject
+                            </th>
+
+                            <th>
+                                Priority
+                            </th>
+
+                            <th>
+                                Status
+                            </th>
+
+                            <th>
+                                Date
+                            </th>
+
+                            <th>
+                                Action
+                            </th>
+
+                        </tr>
+
+                    </thead>
+
+
+                    <tbody>
+
+
+                        <tr>
+
+                            <td class="grievance-id">
+                                GRV-00124
+                            </td>
+
+                            <td>
+                                Ramesh Kumar
+                            </td>
+
+                            <td>
+                                Payment
+                            </td>
+
+                            <td>
+                                Payment not received
+                            </td>
+
+                            <td class="priority high">
+                                High
+                            </td>
+
+                            <td>
+                                <span class="status pending">
+                                    Pending
+                                </span>
+                            </td>
+
+                            <td>
+                                02 Sep 2026
+                            </td>
+
+                            <td>
+                                <button class="view-btn">
+                                    View
+                                </button>
+                            </td>
+
+                        </tr>
+
+
+                        <tr>
+
+                            <td class="grievance-id">
+                                GRV-00123
+                            </td>
+
+                            <td>
+                                Sita Devi
+                            </td>
+
+                            <td>
+                                Produce Quality
+                            </td>
+
+                            <td>
+                                Quality issue with wheat
+                            </td>
+
+                            <td class="priority medium">
+                                Medium
+                            </td>
+
+                            <td>
+                                <span class="status progress">
+                                    In Progress
+                                </span>
+                            </td>
+
+                            <td>
+                                01 Sep 2026
+                            </td>
+
+                            <td>
+                                <button class="view-btn">
+                                    View
+                                </button>
+                            </td>
+
+                        </tr>
+
+
+                        <tr>
+
+                            <td class="grievance-id">
+                                GRV-00122
+                            </td>
+
+                            <td>
+                                Mohan Das
+                            </td>
+
+                            <td>
+                                Delivery
+                            </td>
+
+                            <td>
+                                Delivery delayed
+                            </td>
+
+                            <td class="priority high">
+                                High
+                            </td>
+
+                            <td>
+                                <span class="status progress">
+                                    In Progress
+                                </span>
+                            </td>
+
+                            <td>
+                                31 Aug 2026
+                            </td>
+
+                            <td>
+                                <button class="view-btn">
+                                    View
+                                </button>
+                            </td>
+
+                        </tr>
+
+
+                        <tr>
+
+                            <td class="grievance-id">
+                                GRV-00121
+                            </td>
+
+                            <td>
+                                Anita Devi
+                            </td>
+
+                            <td>
+                                Pricing
+                            </td>
+
+                            <td>
+                                Price below MSP
+                            </td>
+
+                            <td class="priority high">
+                                High
+                            </td>
+
+                            <td>
+                                <span class="status resolved">
+                                    Resolved
+                                </span>
+                            </td>
+
+                            <td>
+                                30 Aug 2026
+                            </td>
+
+                            <td>
+                                <button class="view-btn">
+                                    View
+                                </button>
+                            </td>
+
+                        </tr>
+
+
+                        <tr>
+
+                            <td class="grievance-id">
+                                GRV-00120
+                            </td>
+
+                            <td>
+                                ABC Traders
+                            </td>
+
+                            <td>
+                                Payment
+                            </td>
+
+                            <td>
+                                Refund request
+                            </td>
+
+                            <td class="priority low">
+                                Low
+                            </td>
+
+                            <td>
+                                <span class="status resolved">
+                                    Resolved
+                                </span>
+                            </td>
+
+                            <td>
+                                29 Aug 2026
+                            </td>
+
+                            <td>
+                                <button class="view-btn">
+                                    View
+                                </button>
+                            </td>
+
+                        </tr>
+
+
+                        <tr>
+
+                            <td class="grievance-id">
+                                GRV-00119
+                            </td>
+
+                            <td>
+                                XYZ Foods
+                            </td>
+
+                            <td>
+                                Other
+                            </td>
+
+                            <td>
+                                Account related issue
+                            </td>
+
+                            <td class="priority low">
+                                Low
+                            </td>
+
+                            <td>
+                                <span class="status rejected">
+                                    Rejected
+                                </span>
+                            </td>
+
+                            <td>
+                                28 Aug 2026
+                            </td>
+
+                            <td>
+                                <button class="view-btn">
+                                    View
+                                </button>
+                            </td>
+
+                        </tr>
+
+
+                    </tbody>
+
+                </table>
+
+
+
+                <!-- =========================
+                     PAGINATION
+                     ========================= -->
+
+                <div class="page-info">
+
+                    <span>
+                        Showing 1–6 of 6 grievances
+                    </span>
+
+
+                    <div class="pagination">
+
+                        <button type="button">
+                            Previous
+                        </button>
+
+                        <button type="button">
+                            1
+                        </button>
+
+                        <button type="button">
+                            Next
+                        </button>
+
+                    </div>
+
+                </div>
+
+
+            </section>
+
+
+        </main>
+
+    </div>
+
+
+
+    <script>
+
+        /*
+         * Backend integration will be added later.
+         *
+         * Grievances will eventually come from:
+         *
+         * GET /api/v1/admin/grievances
+         *
+         * Admin will be able to:
+         *
+         * - View grievance
+         * - Change status
+         * - Assign grievance
+         * - Resolve grievance
+         * - Reject grievance
+         */
+
+        console.log("Kisan Setu Grievances Page Loaded");
+
+    </script>
+
+
+</body>
+
+</html>
+

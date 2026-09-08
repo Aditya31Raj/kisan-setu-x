@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kisan Setu - Farmer Disputes</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/farmer.css">
+</head>
+<body>
+    <div class="dashboard">
+        <aside class="sidebar">
+            <div class="brand">
+                <img src="../images/logoks.jpeg" alt="Kisan Setu Logo">
+                <div class="brand-text">
+                    <h2>Kisan Setu</h2>
+                    <span>FARMER PORTAL</span>
+                </div>
+            </div>
+
+            <div class="user-box">
+                <div class="user-info">
+                    <div class="user-icon"><i class="fa-solid fa-user"></i></div>
+                    <div>
+                        <strong>Ramesh Kumar</strong>
+                        <span>Farmer ID: KS-2048</span>
+                    </div>
+                </div>
+            </div>
+
+            <nav class="sidebar-nav">
+                <div class="nav-title">Overview</div>
+                <a href="../farmer_dashboard.html" class="nav-item"><i class="fa-solid fa-gauge"></i> Dashboard</a>
+                <a href="produce.html" class="nav-item"><i class="fa-solid fa-seedling"></i> Produce</a>
+                <a href="orders.html" class="nav-item"><i class="fa-solid fa-box"></i> Orders</a>
+                <a href="payments.html" class="nav-item"><i class="fa-solid fa-wallet"></i> Payments</a>
+                <a href="logistics.html" class="nav-item"><i class="fa-solid fa-truck"></i> Logistics</a>
+                <a href="history.html" class="nav-item"><i class="fa-solid fa-clock-rotate-left"></i> History</a>
+                <a href="disputes.html" class="nav-item active"><i class="fa-solid fa-circle-exclamation"></i> Disputes</a>
+                <a href="notifications.html" class="nav-item"><i class="fa-solid fa-bell"></i> Notifications</a>
+                <a href="profile.html" class="nav-item"><i class="fa-solid fa-user-gear"></i> Profile</a>
+            </nav>
+        </aside>
+
+        <div class="main">
+            <main class="buyer-container">
+        <section class="page-header">
+            <h1>Disputes</h1>
+            <p>Raise and track disputes related to sales and logistics.</p>
+        </section>
+
+        <section class="form-section">
+            <h2>Raise a Dispute</h2>
+            <form id="disputeForm">
+                <div class="form-group">
+                    <label for="orderId">Order ID</label>
+                    <input type="text" id="orderId" name="orderId" placeholder="Enter order ID" required>
+                </div>
+                <div class="form-group">
+                    <label for="reason">Reason</label>
+                    <textarea id="reason" name="reason" rows="5" placeholder="Describe the reason for the dispute" required></textarea>
+                </div>
+                <button type="submit" id="submitDisputeBtn">Submit Dispute</button>
+            </form>
+        </section>
+
+        <div id="disputeMessage"></div>
+
+        <section class="disputes-section">
+            <div class="section-heading">
+                <h2>My Disputes</h2>
+                <button type="button" id="refreshDisputesBtn">Refresh</button>
+            </div>
+            <div id="disputesContainer">
+                <p>Loading disputes...</p>
+            </div>
+        </section>
+
+        <section class="pagination-section">
+            <button type="button" id="previousBtn" disabled>Previous</button>
+            <span id="pageNumber">Page 1</span>
+            <button type="button" id="nextBtn">Next</button>
+        </section>
+            </main>
+        </div>
+    </div>
+
+    <div id="disputeModal" class="modal" style="display: none;">
+        <div class="modal-content">
+            <button type="button" id="closeModalBtn" class="close-btn">×</button>
+            <h2>Dispute Details</h2>
+            <div id="disputeDetails"></div>
+        </div>
+    </div>
+
+    <script src="../js/core/api.js"></script>
+    <script src="../js/core/auth.js"></script>
+    <script src="../js/farmer/farmer.js"></script>
+    <script src="../js/farmer/disputes.js"></script>
+</body>
+</html>

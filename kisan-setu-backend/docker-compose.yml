@@ -1,0 +1,54 @@
+services:
+  postgres:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_DB: kisan_setu
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports: ["5432:5432"]
+    volumes: [postgres_data:/var/lib/postgresql/data]
+    healthcheck:
+      test: ["CMD-SHELL","pg_isready -U postgres -d kisan_setu"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+  redis:
+    image: redis:7-alpine
+    ports: ["6379:6379"]
+    healthcheck:
+      test: ["CMD","redis-cli","ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+  backend:
+    build: .
+    ports: ["5000:5000"]
+    environment:
+      NODE_ENV: development
+      PORT: 5000
+      DATABASE_URL: postgresql://postgres:postgres@postgres:5432/kisan_setu?schema=public
+      REDIS_URL: redis://redis:6379
+      JWT_ACCESS_SECRET: development-access-secret-change-me-123456789
+      JWT_REFRESH_SECRET: development-refresh-secret-change-me-987654321
+      JWT_ACCESS_EXPIRES_IN: 15m
+      JWT_REFRESH_EXPIRES_IN: 30d
+      COOKIE_SECURE: "false"
+      COOKIE_SAME_SITE: lax
+      CLIENT_URL: http://localhost:5173
+      BCRYPT_ROUNDS: 12
+      LOG_LEVEL: info
+      PAYMENT_PROVIDER: mock
+      IDENTITY_PROVIDER: mock
+      NOTIFICATION_PROVIDER: mock
+      CSRF_ENABLED: "true"
+      CSRF_SECRET: development-csrf-secret-change-me
+      SEED_FARMER_PASSWORD: ChangeMeFarmer123!
+      SEED_BUYER_PASSWORD: ChangeMeBuyer123!
+      SEED_ADMIN_PASSWORD: ChangeMeAdmin123!
+      SEED_SUPER_ADMIN_PASSWORD: ChangeMeSuper123!
+    depends_on:
+      postgres: {condition: service_healthy}
+      redis: {condition: service_healthy}
+    command: sh -c "npx prisma db push --skip-generate && npx prisma db seed && node src/server.js"
+volumes:
+  postgres_data:

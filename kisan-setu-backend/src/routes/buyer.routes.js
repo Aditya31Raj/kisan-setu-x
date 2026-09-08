@@ -1,0 +1,1 @@
+import{Router}from'express';import * as c from'../controllers/buyer.controller.js';import{authenticate}from'../middleware/authenticate.js';import{authorize}from'../middleware/authorize.js';const r=Router();r.use(authenticate,authorize('BUYER'));r.get('/me',c.getMe);r.patch('/me',c.updateMe);r.get('/me/dashboard',c.dashboard);export default r;

@@ -1,0 +1,175 @@
+/* ==============================
+   AUTHENTICATION PAGES
+   ============================== */
+
+.auth-page {
+    min-height: calc(100vh - 70px);
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    padding: 35px 20px;
+    background: #f8faf9;
+}
+
+.auth-card {
+    width: 100%;
+    max-width: 470px;
+
+    background: white;
+    border: 1px solid #dfe7e2;
+    border-radius: 14px;
+
+    padding: 32px;
+
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
+}
+
+.auth-card h1 {
+    text-align: center;
+    color: #198754;
+    margin-bottom: 5px;
+    font-size: 27px;
+}
+
+.auth-card .subtitle {
+    text-align: center;
+    color: #6c757d;
+    font-size: 14px;
+    margin-bottom: 25px;
+}
+
+/* Form */
+
+.form-group {
+    margin-bottom: 17px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 6px;
+
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+    width: 100%;
+
+    padding: 11px 12px;
+
+    border: 1px solid #d5ded8;
+    border-radius: 7px;
+
+    background: white;
+    font-size: 14px;
+}
+
+/* Two fields in one row */
+
+.form-row {
+    display: flex;
+    gap: 15px;
+}
+
+.form-row .form-group {
+    flex: 1;
+}
+
+/* Auth button */
+
+.auth-btn {
+    width: 100%;
+
+    padding: 12px;
+
+    border: none;
+    border-radius: 7px;
+
+    background: #198754;
+    color: white;
+
+    font-size: 15px;
+    font-weight: 600;
+
+    cursor: pointer;
+}
+
+.auth-btn:hover {
+    background: #146c43;
+}
+
+/* Bottom text */
+
+.auth-footer {
+    text-align: center;
+    margin-top: 20px;
+
+    color: #6c757d;
+    font-size: 13px;
+}
+
+.auth-footer a {
+    color: #198754;
+    font-weight: 600;
+}
+
+/* Error message */
+
+.error-message {
+    color: #dc3545;
+    font-size: 12px;
+    margin-top: 4px;
+}
+
+/* Success message */
+
+.success-message {
+    color: #198754;
+    font-size: 13px;
+    margin-bottom: 15px;
+}
+
+/* Mobile */
+
+@media (max-width: 600px) {
+
+    .auth-card {
+        padding: 25px 20px;
+    }
+
+    .form-row {
+        flex-direction: column;
+        gap: 0;
+    }
+}
+
+/* Light green registration surfaces with warm orange actions. */
+body {
+    background: linear-gradient(135deg, #eefbf1 0%, #fff5e6 100%) !important;
+}
+
+.auth-card,
+.register-card {
+    border-color: #d3ead7 !important;
+    box-shadow: 0 14px 36px rgba(47, 158, 98, 0.1) !important;
+}
+
+.auth-btn,
+.register-button,
+.submit-btn {
+    background: #2f9e62 !important;
+}
+
+.auth-btn:hover,
+.register-button:hover,
+.submit-btn:hover {
+    background: #f28c28 !important;
+}
+
+.register-header {
+    background: linear-gradient(135deg, #2f9e62, #176d35) !important;
+}

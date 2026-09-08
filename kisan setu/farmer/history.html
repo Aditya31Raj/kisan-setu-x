@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kisan Setu - Farmer History</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/farmer.css">
+</head>
+<body>
+    <div class="dashboard">
+        <aside class="sidebar">
+            <div class="brand">
+                <img src="../images/logoks.jpeg" alt="Kisan Setu Logo">
+                <div class="brand-text">
+                    <h2>Kisan Setu</h2>
+                    <span>FARMER PORTAL</span>
+                </div>
+            </div>
+
+            <div class="user-box">
+                <div class="user-info">
+                    <div class="user-icon"><i class="fa-solid fa-user"></i></div>
+                    <div>
+                        <strong>Ramesh Kumar</strong>
+                        <span>Farmer ID: KS-2048</span>
+                    </div>
+                </div>
+            </div>
+
+            <nav class="sidebar-nav">
+                <div class="nav-title">Overview</div>
+                <a href="../farmer_dashboard.html" class="nav-item"><i class="fa-solid fa-gauge"></i> Dashboard</a>
+                <a href="produce.html" class="nav-item"><i class="fa-solid fa-seedling"></i> Produce</a>
+                <a href="orders.html" class="nav-item"><i class="fa-solid fa-box"></i> Orders</a>
+                <a href="payments.html" class="nav-item"><i class="fa-solid fa-wallet"></i> Payments</a>
+                <a href="logistics.html" class="nav-item"><i class="fa-solid fa-truck"></i> Logistics</a>
+                <a href="history.html" class="nav-item active"><i class="fa-solid fa-clock-rotate-left"></i> History</a>
+                <a href="disputes.html" class="nav-item"><i class="fa-solid fa-circle-exclamation"></i> Disputes</a>
+                <a href="notifications.html" class="nav-item"><i class="fa-solid fa-bell"></i> Notifications</a>
+                <a href="profile.html" class="nav-item"><i class="fa-solid fa-user-gear"></i> Profile</a>
+            </nav>
+        </aside>
+
+        <div class="main">
+            <main class="buyer-container">
+        <section class="page-header">
+            <h1>Order History</h1>
+            <p>Review completed and past sales transactions.</p>
+        </section>
+
+        <section class="history-filter">
+            <label for="statusFilter">Filter by status:</label>
+            <select id="statusFilter">
+                <option value="ALL">All</option>
+                <option value="COMPLETED">Completed</option>
+                <option value="DELIVERED">Delivered</option>
+                <option value="CANCELLED">Cancelled</option>
+                <option value="REJECTED">Rejected</option>
+                <option value="DISPUTED">Disputed</option>
+            </select>
+            <button id="refreshHistoryBtn" type="button">Refresh</button>
+        </section>
+
+        <div id="historyMessage"></div>
+
+        <section class="history-section">
+            <div id="historyContainer">
+                <p>Loading order history...</p>
+            </div>
+        </section>
+
+        <section class="pagination-section">
+            <button id="previousBtn" type="button" disabled>Previous</button>
+            <span id="pageNumber">Page 1</span>
+            <button id="nextBtn" type="button">Next</button>
+        </section>
+            </main>
+        </div>
+    </div>
+
+    <div id="historyModal" class="modal" style="display:none;">
+        <div class="modal-content">
+            <button id="closeModalBtn" class="close-btn">×</button>
+            <h2>Order Details</h2>
+            <div id="historyDetails"></div>
+        </div>
+    </div>
+
+    <script src="../js/core/api.js"></script>
+    <script src="../js/core/auth.js"></script>
+    <script src="../js/farmer/farmer.js"></script>
+    <script src="../js/farmer/history.js"></script>
+</body>
+</html>

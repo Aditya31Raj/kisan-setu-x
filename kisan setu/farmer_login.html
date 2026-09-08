@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kisan Setu | Farmer Login</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/auth.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: "Poppins", sans-serif;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #EFF6FF, #ffffff);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #202522;
+        }
+        .login-container {
+            width: 950px;
+            min-height: 560px;
+            background: white;
+            border-radius: 22px;
+            overflow: hidden;
+            display: grid;
+            grid-template-columns: 45% 55%;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.12);
+        }
+        .login-left {
+            background: linear-gradient(145deg, #049913, #3ae140);
+            color: white;
+            padding: 55px 45px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        .logo { font-size: 28px; font-weight: 800; margin-bottom: 35px; }
+        .logo i { margin-right: 8px; }
+        .login-left h1 { font-size: 34px; line-height: 1.2; margin-bottom: 18px; }
+        .login-left p { font-size: 14px; line-height: 1.8; opacity: 0.9; }
+        .features { margin-top: 35px; }
+        .feature { display: flex; align-items: center; gap: 13px; margin-bottom: 18px; font-size: 13px; }
+        .feature i {
+            width: 35px; height: 35px; border-radius: 50%; background: rgba(255,255,255,0.15);
+            display: flex; align-items: center; justify-content: center;
+        }
+        .login-right { padding: 55px 60px; display: flex; flex-direction: column; justify-content: center; }
+        .login-right h2 { font-size: 28px; color: #202522; margin-bottom: 7px; }
+        .subtitle { font-size: 13px; color: #707872; margin-bottom: 30px; }
+        .input-group { margin-bottom: 18px; }
+        .input-group label { display: block; font-size: 13px; font-weight: 600; margin-bottom: 7px; }
+        .input-box { position: relative; }
+        .input-box i { position: absolute; left: 14px; top: 50%; transform: translateY(-50%); color: #68726c; }
+        .input-box input {
+            width: 100%; height: 46px; padding: 0 15px 0 42px; border: 1px solid #d7dfda; border-radius: 8px;
+            font-family: inherit; font-size: 13px; outline: none;
+        }
+        .input-box input:focus { border-color: #17f0a0; box-shadow: 0 0 0 3px rgba(0,102,204,0.08); }
+        .options { display: flex; justify-content: space-between; align-items: center; margin: 5px 0 25px; font-size: 12px; }
+        .remember { display: flex; align-items: center; gap: 7px; }
+        .forgot { color: #07e216; text-decoration: none; }
+        .login-button {
+            width: 100%; height: 47px; border: none; border-radius: 8px; background: #2fdf35; color: white;
+            font-family: inherit; font-size: 14px; font-weight: 600; cursor: pointer; transition: 0.3s;
+        }
+        .login-button:hover { background: #1fcf35; }
+        .register { text-align: center; margin-top: 20px; font-size: 12px; color: #68726c; }
+        .register a { color: #3cc52a; font-weight: 600; text-decoration: none; }
+        .back { text-align: center; margin-top: 15px; }
+        .back a { color: #68726c; font-size: 12px; text-decoration: none; }
+        .back a:hover { color: #00cc4e; }
+        @media(max-width:800px) {
+            .login-container { width: 92%; grid-template-columns: 1fr; }
+            .login-left { display: none; }
+            .login-right { padding: 45px 30px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <div class="login-left">
+            <div class="logo"><i class="fa-solid fa-tractor"></i>Kisan Setu</div>
+            <h1>Grow smarter. Sell directly. Earn more.</h1>
+            <p>Connect with buyers, manage harvest orders, track payments, and keep your farm business moving with transparent digital tools.</p>
+            <div class="features">
+                <div class="feature"><i class="fa-solid fa-check"></i>List produce and receive buyer demand</div>
+                <div class="feature"><i class="fa-solid fa-check"></i>Track order status and dispatch updates</div>
+                <div class="feature"><i class="fa-solid fa-check"></i>Secure payment visibility and farmer support</div>
+            </div>
+        </div>
+
+        <div class="login-right">
+            <h2>Farmer Login</h2>
+            <p class="subtitle">Welcome back! Sign in to your farmer dashboard.</p>
+
+            <div id="loginError" style="display:none; background:#fee2e2; border:1px solid #f87171; color:#991b1b; padding:10px 14px; border-radius:8px; font-size:13px; margin-bottom:16px;"></div>
+
+            <form id="farmerLoginForm">
+                <div class="input-group">
+                    <label for="email">Email Address or Phone</label>
+                    <div class="input-box">
+                        <i class="fa-solid fa-envelope"></i>
+                        <input type="text" id="email" placeholder="farmer@example.com or phone" required>
+                    </div>
+                </div>
+
+                <div class="input-group">
+                    <label for="password">Password</label>
+                    <div class="input-box">
+                        <i class="fa-solid fa-lock"></i>
+                        <input type="password" id="password" placeholder="Enter your password" required>
+                    </div>
+                </div>
+
+                <div class="options">
+                    <label class="remember"><input type="checkbox"> Remember me</label>
+                    <a href="#" class="forgot">Forgot password?</a>
+                </div>
+
+                <button type="submit" class="login-button">Login to Dashboard</button>
+            </form>
+
+            <div class="register">New to Kisan Setu? <a href="farmer_register.html">Register as Farmer</a></div>
+            <div class="back"><a href="index.html"><i class="fa-solid fa-arrow-left"></i> Back to home</a></div>
+        </div>
+    </div>
+
+    <script src="js/core/api.js"></script>
+    <script src="js/core/auth.js"></script>
+    <script>
+        document.getElementById("farmerLoginForm").addEventListener("submit", async (e) => {
+            e.preventDefault();
+            const email = document.getElementById("email").value.trim();
+            const password = document.getElementById("password").value;
+            const btn = e.target.querySelector("button[type='submit']");
+            const errBox = document.getElementById("loginError");
+            errBox.style.display = "none";
+            btn.disabled = true;
+            btn.textContent = "Logging in...";
+
+            try {
+                await loginUser({ identifier: email, password });
+                window.location.href = "farmer_dashboard.html";
+            } catch (err) {
+                errBox.textContent = friendlyErrorMessage(err, "Login failed. Please check your credentials.");
+                errBox.style.display = "block";
+                btn.disabled = false;
+                btn.textContent = "Login to Dashboard";
+            }
+        });
+    </script>
+</body>
+</html>

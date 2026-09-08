@@ -1,0 +1,1 @@
+import {createClient} from 'redis'; import {env} from './env.js'; import {logger} from './logger.js'; export let redis=null; export async function connectRedis(){if(!env.REDIS_URL)return; redis=createClient({url:env.REDIS_URL}); redis.on('error',e=>logger.error({err:e},'Redis error')); await redis.connect();}

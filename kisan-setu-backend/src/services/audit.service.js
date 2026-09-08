@@ -1,0 +1,1 @@
+import {prisma} from '../config/database.js'; export const recordAudit=async({userId,role,action,entity,entityId,requestId,ipAddress,metadata})=>prisma.auditLog.create({data:{userId,role,action,entity,entityId,requestId,ipAddress,metadata}});

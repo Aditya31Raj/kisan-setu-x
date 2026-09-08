@@ -1,0 +1,913 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Kisan Setu - Input Management</title>
+
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/admin.css">
+
+    <style>
+
+        /* =========================
+           INPUT MANAGEMENT
+           ========================= */
+
+        .input-stats {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .input-stat {
+            background: white;
+            border: 1px solid #dfe7e2;
+            border-radius: 10px;
+            padding: 18px;
+        }
+
+        .input-stat span {
+            display: block;
+            color: #6c757d;
+            font-size: 12px;
+            margin-bottom: 7px;
+        }
+
+        .input-stat strong {
+            font-size: 23px;
+            color: #198754;
+        }
+
+        .input-filters {
+            background: white;
+            border: 1px solid #dfe7e2;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr auto;
+            gap: 15px;
+            align-items: end;
+        }
+
+        .filter-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .filter-group label {
+            font-size: 12px;
+            font-weight: 600;
+            margin-bottom: 6px;
+            color: #404844;
+        }
+
+        .filter-group input,
+        .filter-group select {
+            padding: 10px 12px;
+            border: 1px solid #d5ded8;
+            border-radius: 7px;
+            font-size: 13px;
+            background: white;
+        }
+
+        .filter-btn {
+            padding: 10px 18px;
+            border: none;
+            border-radius: 7px;
+            background: #198754;
+            color: white;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .filter-btn:hover {
+            background: #146c43;
+        }
+
+        .input-table-wrapper {
+            background: white;
+            border: 1px solid #dfe7e2;
+            border-radius: 10px;
+            padding: 20px;
+            overflow-x: auto;
+        }
+
+        .input-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .input-table th,
+        .input-table td {
+            padding: 13px 12px;
+            border-bottom: 1px solid #edf0ee;
+            text-align: left;
+            font-size: 12px;
+        }
+
+        .input-table th {
+            background: #f8faf9;
+            color: #555;
+            font-weight: 600;
+        }
+
+        .input-table tr:hover td {
+            background: #fbfdfb;
+        }
+
+        .request-id {
+            color: #198754;
+            font-weight: 600;
+        }
+
+        .status {
+            display: inline-block;
+            padding: 5px 9px;
+            border-radius: 12px;
+            font-size: 10px;
+            font-weight: 600;
+        }
+
+        .status.pending {
+            background: #fff5dc;
+            color: #8a6500;
+        }
+
+        .status.approved {
+            background: #e9f6ec;
+            color: #176b38;
+        }
+
+        .status.rejected {
+            background: #fdeaea;
+            color: #b3261e;
+        }
+
+        .status.delivered {
+            background: #e8f1fb;
+            color: #376b9d;
+        }
+
+        .action-btn {
+            padding: 6px 11px;
+            border: 1px solid #198754;
+            border-radius: 6px;
+            background: white;
+            color: #198754;
+            font-size: 11px;
+            cursor: pointer;
+        }
+
+        .action-btn:hover {
+            background: #eef8f2;
+        }
+
+        .add-input-btn {
+            padding: 9px 15px;
+            border: none;
+            border-radius: 7px;
+            background: #198754;
+            color: white;
+            font-size: 11px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .add-input-btn:hover {
+            background: #146c43;
+        }
+
+        .page-info {
+            margin-top: 18px;
+
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+
+            font-size: 12px;
+            color: #6c757d;
+        }
+
+        .pagination {
+            display: flex;
+            gap: 8px;
+        }
+
+        .pagination button {
+            padding: 7px 12px;
+            border: 1px solid #dfe7e2;
+            border-radius: 6px;
+            background: white;
+            cursor: pointer;
+        }
+
+        .pagination button:hover {
+            background: #eef8f2;
+        }
+
+        /* =========================
+           RESPONSIVE
+           ========================= */
+
+        @media (max-width: 1000px) {
+
+            .input-stats {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .input-filters {
+                grid-template-columns: 1fr 1fr;
+            }
+
+        }
+
+        @media (max-width: 600px) {
+
+            .input-stats {
+                grid-template-columns: 1fr;
+            }
+
+            .input-filters {
+                grid-template-columns: 1fr;
+            }
+
+            .admin-main {
+                padding: 15px;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+    <!-- =========================
+         ADMIN LAYOUT
+         ========================= -->
+
+    <div class="admin-layout">
+
+
+        <!-- =========================
+             SIDEBAR
+             ========================= -->
+
+        <aside class="admin-sidebar">
+
+            <div class="admin-logo">
+                <img src="../images/logoks.jpeg" alt="Kisan Setu Logo">
+
+                <h2>Kisan Setu</h2>
+
+                <p>ADMIN PORTAL</p>
+
+            </div>
+
+
+            <ul class="admin-menu">
+
+                <li>
+                    <a href="../admin_dashboard.html">
+                        🏠 Dashboard
+                    </a>
+                </li>
+
+                <li>
+                    <a href="farmers.html">
+                        👨‍🌾 Farmers
+                    </a>
+                </li>
+
+                <li>
+                    <a href="buyers.html">
+                        🛒 Buyers
+                    </a>
+                </li>
+
+                <li>
+                    <a href="requests.html">
+                        📋 Requests
+                    </a>
+                </li>
+
+                <li>
+                    <a href="inputs.html" class="active">
+                        🌱 Input Management
+                    </a>
+                </li>
+
+                <li>
+                    <a href="payments.html">
+                        💳 Payments
+                    </a>
+                </li>
+
+                <li>
+                    <a href="reports.html">
+                        📊 Reports
+                    </a>
+                </li>
+
+                <li>
+                    <a href="alerts.html">
+                        🔔 Alerts
+                    </a>
+                </li>
+
+                <li>
+                    <a href="grievances.html">
+                        ⚠️ Grievances
+                    </a>
+                </li>
+
+            </ul>
+
+
+            <div class="logout">
+
+                <a href="../index.html">
+                    🚪 Logout
+                </a>
+
+            </div>
+
+        </aside>
+
+
+
+        <!-- =========================
+             MAIN
+             ========================= -->
+
+        <main class="admin-main">
+
+
+            <!-- =========================
+                 TOPBAR
+                 ========================= -->
+
+            <div class="admin-topbar">
+
+                <div>
+
+                    <h2>Input Management</h2>
+
+                    <p>
+                        Manage agricultural input requests and distribution.
+                    </p>
+
+                </div>
+
+
+                <div class="admin-profile">
+
+                    <div class="profile-icon">
+                        A
+                    </div>
+
+                    <div>
+
+                        <strong>Admin</strong>
+
+                        <p>
+                            Prakhand Admin
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- =========================
+                 STATISTICS
+                 ========================= -->
+
+            <div class="input-stats">
+
+
+                <div class="input-stat">
+
+                    <span>
+                        Total Requests
+                    </span>
+
+                    <strong>
+                        248
+                    </strong>
+
+                </div>
+
+
+                <div class="input-stat">
+
+                    <span>
+                        Pending Requests
+                    </span>
+
+                    <strong>
+                        32
+                    </strong>
+
+                </div>
+
+
+                <div class="input-stat">
+
+                    <span>
+                        Approved
+                    </span>
+
+                    <strong>
+                        184
+                    </strong>
+
+                </div>
+
+
+                <div class="input-stat">
+
+                    <span>
+                        Delivered
+                    </span>
+
+                    <strong>
+                        156
+                    </strong>
+
+                </div>
+
+
+            </div>
+
+
+
+            <!-- =========================
+                 FILTERS
+                 ========================= -->
+
+            <div class="input-filters">
+
+
+                <div class="filter-group">
+
+                    <label for="searchInput">
+                        Search
+                    </label>
+
+                    <input
+                        type="text"
+                        id="searchInput"
+                        placeholder="Search request ID or farmer..."
+                    >
+
+                </div>
+
+
+                <div class="filter-group">
+
+                    <label for="inputType">
+                        Input Type
+                    </label>
+
+                    <select id="inputType">
+
+                        <option value="all">
+                            All Inputs
+                        </option>
+
+                        <option value="fertilizer">
+                            Fertilizer
+                        </option>
+
+                        <option value="seed">
+                            Seeds
+                        </option>
+
+                        <option value="pesticide">
+                            Pesticide
+                        </option>
+
+                        <option value="equipment">
+                            Equipment
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <div class="filter-group">
+
+                    <label for="statusFilter">
+                        Status
+                    </label>
+
+                    <select id="statusFilter">
+
+                        <option value="all">
+                            All Status
+                        </option>
+
+                        <option value="pending">
+                            Pending
+                        </option>
+
+                        <option value="approved">
+                            Approved
+                        </option>
+
+                        <option value="delivered">
+                            Delivered
+                        </option>
+
+                        <option value="rejected">
+                            Rejected
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <button
+                    type="button"
+                    class="filter-btn">
+
+                    Apply Filter
+
+                </button>
+
+
+            </div>
+
+
+
+            <!-- =========================
+                 INPUT REQUESTS
+                 ========================= -->
+
+            <section class="input-table-wrapper">
+
+
+                <div class="section-header">
+
+                    <h2>
+                        Input Requests
+                    </h2>
+
+                    <button
+                        type="button"
+                        class="add-input-btn">
+
+                        + Add Input
+
+                    </button>
+
+                </div>
+
+
+
+                <table class="input-table">
+
+
+                    <thead>
+
+                        <tr>
+
+                            <th>
+                                Request ID
+                            </th>
+
+                            <th>
+                                Farmer
+                            </th>
+
+                            <th>
+                                Input
+                            </th>
+
+                            <th>
+                                Quantity
+                            </th>
+
+                            <th>
+                                Request Date
+                            </th>
+
+                            <th>
+                                Status
+                            </th>
+
+                            <th>
+                                Action
+                            </th>
+
+                        </tr>
+
+                    </thead>
+
+
+                    <tbody>
+
+
+                        <tr>
+
+                            <td class="request-id">
+                                INP-00125
+                            </td>
+
+                            <td>
+                                Ramesh Kumar
+                            </td>
+
+                            <td>
+                                Fertilizer
+                            </td>
+
+                            <td>
+                                50 Kg
+                            </td>
+
+                            <td>
+                                02 Sep 2026
+                            </td>
+
+                            <td>
+
+                                <span class="status pending">
+                                    Pending
+                                </span>
+
+                            </td>
+
+                            <td>
+
+                                <button class="action-btn">
+                                    Review
+                                </button>
+
+                            </td>
+
+                        </tr>
+
+
+                        <tr>
+
+                            <td class="request-id">
+                                INP-00124
+                            </td>
+
+                            <td>
+                                Sita Devi
+                            </td>
+
+                            <td>
+                                Wheat Seeds
+                            </td>
+
+                            <td>
+                                25 Kg
+                            </td>
+
+                            <td>
+                                01 Sep 2026
+                            </td>
+
+                            <td>
+
+                                <span class="status approved">
+                                    Approved
+                                </span>
+
+                            </td>
+
+                            <td>
+
+                                <button class="action-btn">
+                                    View
+                                </button>
+
+                            </td>
+
+                        </tr>
+
+
+                        <tr>
+
+                            <td class="request-id">
+                                INP-00123
+                            </td>
+
+                            <td>
+                                Mohan Das
+                            </td>
+
+                            <td>
+                                Pesticide
+                            </td>
+
+                            <td>
+                                10 L
+                            </td>
+
+                            <td>
+                                31 Aug 2026
+                            </td>
+
+                            <td>
+
+                                <span class="status delivered">
+                                    Delivered
+                                </span>
+
+                            </td>
+
+                            <td>
+
+                                <button class="action-btn">
+                                    View
+                                </button>
+
+                            </td>
+
+                        </tr>
+
+
+                        <tr>
+
+                            <td class="request-id">
+                                INP-00122
+                            </td>
+
+                            <td>
+                                Anita Devi
+                            </td>
+
+                            <td>
+                                Fertilizer
+                            </td>
+
+                            <td>
+                                40 Kg
+                            </td>
+
+                            <td>
+                                30 Aug 2026
+                            </td>
+
+                            <td>
+
+                                <span class="status rejected">
+                                    Rejected
+                                </span>
+
+                            </td>
+
+                            <td>
+
+                                <button class="action-btn">
+                                    View
+                                </button>
+
+                            </td>
+
+                        </tr>
+
+
+                        <tr>
+
+                            <td class="request-id">
+                                INP-00121
+                            </td>
+
+                            <td>
+                                Suresh Yadav
+                            </td>
+
+                            <td>
+                                Rice Seeds
+                            </td>
+
+                            <td>
+                                30 Kg
+                            </td>
+
+                            <td>
+                                29 Aug 2026
+                            </td>
+
+                            <td>
+
+                                <span class="status approved">
+                                    Approved
+                                </span>
+
+                            </td>
+
+                            <td>
+
+                                <button class="action-btn">
+                                    View
+                                </button>
+
+                            </td>
+
+                        </tr>
+
+
+                    </tbody>
+
+
+                </table>
+
+
+
+                <!-- =========================
+                     PAGINATION
+                     ========================= -->
+
+                <div class="page-info">
+
+                    <span>
+                        Showing 1–5 of 248 requests
+                    </span>
+
+
+                    <div class="pagination">
+
+                        <button type="button">
+                            Previous
+                        </button>
+
+                        <button type="button">
+                            1
+                        </button>
+
+                        <button type="button">
+                            2
+                        </button>
+
+                        <button type="button">
+                            3
+                        </button>
+
+                        <button type="button">
+                            Next
+                        </button>
+
+                    </div>
+
+                </div>
+
+
+            </section>
+
+
+        </main>
+
+    </div>
+
+
+
+    <script>
+
+        /*
+         * Backend integration will be added later.
+         *
+         * Possible API:
+         *
+         * GET  /api/v1/admin/input-requests
+         * POST /api/v1/admin/inputs
+         *
+         * Admin will eventually be able to:
+         *
+         * - View input requests
+         * - Approve requests
+         * - Reject requests
+         * - Track delivery
+         * - Add/manage agricultural inputs
+         */
+
+        console.log("Kisan Setu Input Management Loaded");
+
+    </script>
+
+
+</body>
+
+</html>
+

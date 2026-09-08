@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Kisan Setu - Payments</title>
+
+<link rel="stylesheet" href="../css/style.css">
+<link rel="stylesheet" href="../css/admin.css">
+
+</head>
+
+<body class="payments-page">
+
+<div class="admin-layout">
+
+    <!-- ================= SIDEBAR ================= -->
+
+    <aside class="admin-sidebar">
+
+        <div class="admin-logo">
+            <img src="../images/logoks.jpeg" alt="Kisan Setu Logo">
+            <h2>KISAN SETU</h2>
+            <p>ADMIN PORTAL</p>
+        </div>
+
+        <ul class="admin-menu">
+
+            <li>
+                <a href="../admin_dashboard.html">
+                    🏠 &nbsp; Dashboard
+                </a>
+            </li>
+
+            <li>
+                <a href="farmers.html">
+                    👨‍🌾 &nbsp; Farmers
+                </a>
+            </li>
+
+            <li>
+                <a href="buyers.html">
+                    🛒 &nbsp; Buyers
+                </a>
+            </li>
+
+            <li>
+                <a href="requests.html">
+                    📋 &nbsp; Requests
+                </a>
+            </li>
+
+            <li>
+                <a href="inputs.html">
+                    🌱 &nbsp; Input Management
+                </a>
+            </li>
+
+            <li>
+                <a href="payments.html">
+                    💳 &nbsp; Payments
+                </a>
+            </li>
+
+            <li>
+                <a href="reports.html">
+                    📊 &nbsp; Reports
+                </a>
+            </li>
+
+            <li>
+                <a href="alerts.html">
+                    🔔 &nbsp; Alerts
+                </a>
+            </li>
+
+            <li>
+                <a href="grievances.html">
+                    ⚠️ &nbsp; Grievances
+                </a>
+            </li>
+
+        </ul>
+
+        <div class="logout">
+            <a href="../index.html">
+                🚪 &nbsp; Logout
+            </a>
+        </div>
+
+    </aside>
+
+
+    <!-- ================= MAIN ================= -->
+
+    <main class="admin-main">
+
+        <!-- ================= TOPBAR ================= -->
+
+        <div class="admin-topbar">
+
+            <div>
+                <h2>Payments</h2>
+
+                <p>
+                    Monitor and manage marketplace payments
+                </p>
+            </div>
+
+            <div class="admin-profile">
+
+                <div class="profile-icon">
+                    A
+                </div>
+
+                <div>
+                    <strong>Admin</strong>
+
+                    <p>
+                        Prakhand Admin
+                    </p>
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- ================= PAYMENT SUMMARY ================= -->
+
+        <section class="admin-section">
+
+            <div class="section-header">
+
+                <h3>Payment Overview</h3>
+
+            </div>
+
+            <div class="admin-stats">
+
+                <div class="admin-stat">
+
+                    <h4>Total Payments</h4>
+
+                    <strong>8,421</strong>
+
+                </div>
+
+                <div class="admin-stat">
+
+                    <h4>Completed</h4>
+
+                    <strong>7,856</strong>
+
+                </div>
+
+                <div class="admin-stat">
+
+                    <h4>Pending</h4>
+
+                    <strong>421</strong>
+
+                </div>
+
+                <div class="admin-stat">
+
+                    <h4>Failed</h4>
+
+                    <strong>144</strong>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- ================= PAYMENT TABLE ================= -->
+
+        <section class="admin-section">
+
+            <div class="section-header">
+
+                <h3>Recent Payments</h3>
+
+            </div>
+
+            <table class="admin-table payment-table">
+
+                <thead>
+
+                    <tr>
+
+                        <th>Payment ID</th>
+
+                        <th>Farmer</th>
+
+                        <th>Buyer</th>
+
+                        <th>Produce</th>
+
+                        <th>Amount</th>
+
+                        <th>Date</th>
+
+                        <th>Status</th>
+
+                    </tr>
+
+                </thead>
+
+                <tbody>
+
+                    <tr>
+
+                        <td>TX-000145</td>
+
+                        <td>Ramesh Kumar</td>
+
+                        <td>ABC Traders</td>
+
+                        <td>Wheat</td>
+
+                        <td>₹12,000</td>
+
+                        <td>02 Sep 2026</td>
+
+                        <td>
+                            <span class="status success">
+                                Completed
+                            </span>
+                        </td>
+
+                    </tr>
+
+
+                    <tr>
+
+                        <td>TX-000146</td>
+
+                        <td>Sita Devi</td>
+
+                        <td>XYZ Foods</td>
+
+                        <td>Rice</td>
+
+                        <td>₹8,400</td>
+
+                        <td>01 Sep 2026</td>
+
+                        <td>
+                            <span class="status pending">
+                                Pending
+                            </span>
+                        </td>
+
+                    </tr>
+
+
+                    <tr>
+
+                        <td>TX-000147</td>
+
+                        <td>Mohan Das</td>
+
+                        <td>Local Mart</td>
+
+                        <td>Maize</td>
+
+                        <td>₹15,200</td>
+
+                        <td>31 Aug 2026</td>
+
+                        <td>
+                            <span class="status success">
+                                Completed
+                            </span>
+                        </td>
+
+                    </tr>
+
+
+                    <tr>
+
+                        <td>TX-000148</td>
+
+                        <td>Anita Devi</td>
+
+                        <td>Fresh Market</td>
+
+                        <td>Potato</td>
+
+                        <td>₹6,800</td>
+
+                        <td>30 Aug 2026</td>
+
+                        <td>
+                            <span class="status danger">
+                                Below MSP
+                            </span>
+                        </td>
+
+                    </tr>
+
+
+                    <tr>
+
+                        <td>TX-000149</td>
+
+                        <td>Raj Kumar</td>
+
+                        <td>Green Foods</td>
+
+                        <td>Onion</td>
+
+                        <td>₹9,500</td>
+
+                        <td>29 Aug 2026</td>
+
+                        <td>
+                            <span class="status success">
+                                Completed
+                            </span>
+                        </td>
+
+                    </tr>
+
+                </tbody>
+
+            </table>
+
+        </section>
+
+
+        <!-- ================= MSP MONITORING ================= -->
+
+        <section class="admin-section">
+
+            <div class="section-header">
+
+                <h3>MSP Compliance</h3>
+
+            </div>
+
+            <div class="alert success">
+
+                <strong>
+                    ✓ MSP Compliance: 96.8%
+                </strong>
+
+                Majority of marketplace payments are being
+                completed at or above the Minimum Support Price.
+
+            </div>
+
+            <div class="alert danger">
+
+                <strong>
+                    ⚠ Payments Below MSP
+                </strong>
+
+                Some payments require administrative review
+                because the selling price is below the applicable MSP.
+
+            </div>
+
+        </section>
+
+
+        <!-- ================= FOOTER ================= -->
+
+        <footer>
+            Kisan Setu Admin Portal
+        </footer>
+
+    </main>
+
+</div>
+
+
+<script>
+
+    console.log("Kisan Setu Payments Page Loaded");
+
+</script>
+
+
+</body>
+
+</html>

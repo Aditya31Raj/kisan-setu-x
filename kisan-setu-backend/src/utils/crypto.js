@@ -1,0 +1,1 @@
+import crypto from 'node:crypto'; export const randomToken=(n=48)=>crypto.randomBytes(n).toString('base64url'); export const hashToken=t=>crypto.createHash('sha256').update(t).digest('hex'); export const randomIdempotencyKey=()=>crypto.randomUUID();

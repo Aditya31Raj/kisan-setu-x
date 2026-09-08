@@ -1,0 +1,699 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Kisan Setu - Buyers</title>
+
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/admin.css">
+
+</head>
+
+
+<body>
+
+
+    <!-- ================= SIDEBAR ================= -->
+
+    <aside class="sidebar">
+
+        <div class="logo">
+            <img src="../images/logoks.jpeg" alt="Kisan Setu Logo">
+            KISAN SETU
+        </div>
+
+        <div class="admin-label">
+            ADMIN PORTAL
+        </div>
+
+
+        <ul class="menu">
+
+            <li>
+                <a href="../admin_dashboard.html">
+                    🏠 &nbsp; Dashboard
+                </a>
+            </li>
+
+            <li>
+                <a href="farmers.html">
+                    👨‍🌾 &nbsp; Farmers
+                </a>
+            </li>
+
+            <li>
+                <a href="buyers.html" class="active">
+                    🛒 &nbsp; Buyers
+                </a>
+            </li>
+
+            <li>
+                <a href="requests.html">
+                    📋 &nbsp; Requests
+                </a>
+            </li>
+
+            <li>
+                <a href="inputs.html">
+                    🌱 &nbsp; Input Management
+                </a>
+            </li>
+
+            <li>
+                <a href="payments.html">
+                    💳 &nbsp; Payments
+                </a>
+            </li>
+
+            <li>
+                <a href="reports.html">
+                    📊 &nbsp; Reports
+                </a>
+            </li>
+
+            <li>
+                <a href="alerts.html">
+                    🔔 &nbsp; Alerts
+                </a>
+            </li>
+
+            <li>
+                <a href="grievances.html">
+                    ⚠️ &nbsp; Grievances
+                </a>
+            </li>
+
+        </ul>
+
+
+        <div class="logout">
+
+            <a href="../index.html">
+                🚪 &nbsp; Logout
+            </a>
+
+        </div>
+
+    </aside>
+
+
+
+    <!-- ================= MAIN ================= -->
+
+    <main class="main">
+
+
+        <!-- ================= TOPBAR ================= -->
+
+        <div class="topbar">
+
+            <div>
+
+                <h1>Buyers</h1>
+
+                <p>
+                    Manage and monitor registered buyers
+                </p>
+
+            </div>
+
+
+            <div class="admin-profile">
+
+                <div class="profile-icon">
+                    A
+                </div>
+
+                <div>
+
+                    <strong>Admin</strong>
+
+                    <p>
+                        Prakhand Admin
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- ================= STATISTICS ================= -->
+
+        <div class="stats">
+
+
+            <div class="card">
+
+                <div class="card-title">
+                    Total Buyers
+                </div>
+
+                <div class="card-value">
+                    1,245
+                </div>
+
+                <div class="card-small">
+                    Registered buyers
+                </div>
+
+            </div>
+
+
+
+            <div class="card">
+
+                <div class="card-title">
+                    Active Buyers
+                </div>
+
+                <div class="card-value">
+                    1,108
+                </div>
+
+                <div class="card-small">
+                    Currently active
+                </div>
+
+            </div>
+
+
+
+            <div class="card">
+
+                <div class="card-title">
+                    Pending Verification
+                </div>
+
+                <div class="card-value">
+                    92
+                </div>
+
+                <div class="card-small">
+                    Awaiting approval
+                </div>
+
+            </div>
+
+
+
+            <div class="card">
+
+                <div class="card-title">
+                    Suspended
+                </div>
+
+                <div class="card-value">
+                    45
+                </div>
+
+                <div class="card-small">
+                    Requires attention
+                </div>
+
+            </div>
+
+
+        </div>
+
+
+
+        <!-- ================= SEARCH / FILTER ================= -->
+
+        <section class="section">
+
+
+            <div class="section-header">
+
+                <h2>
+                    Buyer Directory
+                </h2>
+
+                <span class="view-all">
+                    1,245 Buyers
+                </span>
+
+            </div>
+
+
+
+            <form class="admin-filter-form">
+
+
+                <div class="admin-filter-group">
+
+                    <label for="buyerSearch">
+                        Search Buyer
+                    </label>
+
+                    <input
+                        type="text"
+                        id="buyerSearch"
+                        placeholder="Name, buyer ID or phone"
+                    >
+
+                </div>
+
+
+
+                <div class="admin-filter-group">
+
+                    <label for="buyerStatus">
+                        Status
+                    </label>
+
+                    <select id="buyerStatus">
+
+                        <option value="">
+                            All Status
+                        </option>
+
+                        <option value="active">
+                            Active
+                        </option>
+
+                        <option value="pending">
+                            Pending
+                        </option>
+
+                        <option value="suspended">
+                            Suspended
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+
+                <div class="admin-filter-group">
+
+                    <label for="buyerLocation">
+                        Location
+                    </label>
+
+                    <input
+                        type="text"
+                        id="buyerLocation"
+                        placeholder="District / City"
+                    >
+
+                </div>
+
+
+
+                <button
+                    type="button"
+                    class="admin-search-btn">
+
+                    Search
+
+                </button>
+
+
+
+                <button
+                    type="button"
+                    class="admin-clear-btn">
+
+                    Clear
+
+                </button>
+
+
+            </form>
+
+        </section>
+
+
+
+        <!-- ================= BUYER TABLE ================= -->
+
+        <section class="section">
+
+
+            <div class="section-header">
+
+                <h2>
+                    Registered Buyers
+                </h2>
+
+                <span class="view-all">
+                    Latest registrations
+                </span>
+
+            </div>
+
+
+
+            <div class="admin-table-wrapper">
+
+
+                <table class="admin-table">
+
+
+                    <thead>
+
+                        <tr>
+
+                            <th>
+                                Buyer ID
+                            </th>
+
+                            <th>
+                                Buyer / Business
+                            </th>
+
+                            <th>
+                                Location
+                            </th>
+
+                            <th>
+                                Contact
+                            </th>
+
+                            <th>
+                                Registration
+                            </th>
+
+                            <th>
+                                Status
+                            </th>
+
+                            <th>
+                                Action
+                            </th>
+
+                        </tr>
+
+                    </thead>
+
+
+
+                    <tbody>
+
+
+                        <!-- BUYER 1 -->
+
+                        <tr>
+
+                            <td>
+                                BY-00121
+                            </td>
+
+                            <td>
+                                ABC Traders
+                            </td>
+
+                            <td>
+                                Asansol
+                            </td>
+
+                            <td>
+                                98XXXXXX32
+                            </td>
+
+                            <td>
+                                25 Aug 2026
+                            </td>
+
+                            <td>
+
+                                <span class="status success">
+                                    Active
+                                </span>
+
+                            </td>
+
+                            <td>
+
+                                <button
+                                    type="button"
+                                    class="admin-view-btn">
+
+                                    View
+
+                                </button>
+
+                            </td>
+
+                        </tr>
+
+
+
+                        <!-- BUYER 2 -->
+
+                        <tr>
+
+                            <td>
+                                BY-00122
+                            </td>
+
+                            <td>
+                                XYZ Foods
+                            </td>
+
+                            <td>
+                                Durgapur
+                            </td>
+
+                            <td>
+                                97XXXXXX54
+                            </td>
+
+                            <td>
+                                26 Aug 2026
+                            </td>
+
+                            <td>
+
+                                <span class="status pending">
+                                    Pending
+                                </span>
+
+                            </td>
+
+                            <td>
+
+                                <button
+                                    type="button"
+                                    class="admin-review-btn">
+
+                                    Review
+
+                                </button>
+
+                            </td>
+
+                        </tr>
+
+
+
+                        <!-- BUYER 3 -->
+
+                        <tr>
+
+                            <td>
+                                BY-00123
+                            </td>
+
+                            <td>
+                                Local Mart
+                            </td>
+
+                            <td>
+                                Raniganj
+                            </td>
+
+                            <td>
+                                96XXXXXX76
+                            </td>
+
+                            <td>
+                                27 Aug 2026
+                            </td>
+
+                            <td>
+
+                                <span class="status success">
+                                    Active
+                                </span>
+
+                            </td>
+
+                            <td>
+
+                                <button
+                                    type="button"
+                                    class="admin-view-btn">
+
+                                    View
+
+                                </button>
+
+                            </td>
+
+                        </tr>
+
+
+
+                        <!-- BUYER 4 -->
+
+                        <tr>
+
+                            <td>
+                                BY-00124
+                            </td>
+
+                            <td>
+                                Fresh Market
+                            </td>
+
+                            <td>
+                                Bankura
+                            </td>
+
+                            <td>
+                                95XXXXXX61
+                            </td>
+
+                            <td>
+                                28 Aug 2026
+                            </td>
+
+                            <td>
+
+                                <span class="status danger">
+                                    Suspended
+                                </span>
+
+                            </td>
+
+                            <td>
+
+                                <button
+                                    type="button"
+                                    class="admin-review-btn">
+
+                                    Review
+
+                                </button>
+
+                            </td>
+
+                        </tr>
+
+
+
+                        <!-- BUYER 5 -->
+
+                        <tr>
+
+                            <td>
+                                BY-00125
+                            </td>
+
+                            <td>
+                                Green Agro Pvt. Ltd.
+                            </td>
+
+                            <td>
+                                Purulia
+                            </td>
+
+                            <td>
+                                94XXXXXX18
+                            </td>
+
+                            <td>
+                                29 Aug 2026
+                            </td>
+
+                            <td>
+
+                                <span class="status success">
+                                    Active
+                                </span>
+
+                            </td>
+
+                            <td>
+
+                                <button
+                                    type="button"
+                                    class="admin-view-btn">
+
+                                    View
+
+                                </button>
+
+                            </td>
+
+                        </tr>
+
+
+                    </tbody>
+
+
+                </table>
+
+
+            </div>
+
+
+        </section>
+
+
+
+        <!-- ================= PAGINATION ================= -->
+
+        <div class="admin-pagination">
+
+
+            <button
+                type="button"
+                disabled>
+
+                Previous
+
+            </button>
+
+
+            <span>
+                Page 1 of 25
+            </span>
+
+
+            <button
+                type="button">
+
+                Next
+
+            </button>
+
+
+        </div>
+
+
+    </main>
+
+
+
+    <!-- ================= JAVASCRIPT ================= -->
+
+    <script src="../js/core/api.js"></script>
+    <script src="../js/core/auth.js"></script>
+    <script src="../js/admin/admin-users.js"></script>
+    <script>
+        console.log("Kisan Setu Buyers Page Loaded");
+    </script>
+
+</body>
+
+</html>

@@ -1,0 +1,1 @@
+import {errors} from '../utils/errors.js'; export const authorize=(...roles)=>(req,_res,next)=>{if(!req.user)return next(errors.unauthorized());if(!roles.includes(req.user.role))return next(errors.forbidden());next()};

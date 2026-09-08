@@ -1,0 +1,1 @@
+import request from 'supertest'; import {app} from '../src/app.js'; describe('security',()=>{test('helmet header',async()=>{const r=await request(app).get('/health');expect(r.headers['x-content-type-options']).toBe('nosniff')});test('unknown route 404',async()=>{const r=await request(app).get('/api/v1/nope');expect(r.status).toBe(404);expect(r.body.success).toBe(false)})});

@@ -1,0 +1,1 @@
+export const success=(res,data,message='Success',statusCode=200)=>res.status(statusCode).json({success:true,data,message}); export const failure=(res,code,message,requestId,statusCode=400,details)=>res.status(statusCode).json({success:false,error:{code,message,...details?{details}:{}},requestId});

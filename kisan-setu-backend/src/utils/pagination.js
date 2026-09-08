@@ -1,0 +1,1 @@
+export function parsePagination(q={}){const page=Math.max(parseInt(q.page||1,10)||1,1);const limit=Math.min(Math.max(parseInt(q.limit||20,10)||20,1),100);return{page,limit,skip:(page-1)*limit}} export const paginationMeta=(page,limit,total)=>({page,limit,total,totalPages:Math.ceil(total/limit)});

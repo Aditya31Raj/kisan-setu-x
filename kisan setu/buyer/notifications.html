@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Kisan Setu - Notifications</title>
+
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/buyer.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+</head>
+
+<body>
+
+    <div class="dashboard">
+        <aside class="sidebar">
+            <div class="brand"><img src="../images/logoks.jpeg" alt="Kisan Setu Logo"><div class="brand-text"><h2>KISAN SETU</h2><span>BUYER / VENDOR PORTAL</span></div></div>
+            <div class="user-box"><div class="user-info"><div class="user-icon"><i class="fa-solid fa-store"></i></div><div><strong>ABC Traders</strong><span>Buyer / Vendor</span></div></div></div>
+            <nav class="sidebar-nav">
+                <div class="nav-title">Main Menu</div>
+                <a href="../buyer_dashboard.html" class="nav-item"><i class="fa-solid fa-house"></i><span>Dashboard</span></a>
+                <a href="produce.html" class="nav-item"><i class="fa-solid fa-wheat-awn"></i><span>Find Produce</span></a>
+                <a href="orders.html" class="nav-item"><i class="fa-solid fa-box"></i><span>My Orders</span></a>
+                <a href="payments.html" class="nav-item"><i class="fa-solid fa-credit-card"></i><span>Payments</span></a>
+                <a href="logistics.html" class="nav-item"><i class="fa-solid fa-truck"></i><span>Logistics</span></a>
+                <a href="history.html" class="nav-item"><i class="fa-solid fa-clock-rotate-left"></i><span>Payment History</span></a>
+                <a href="disputes.html" class="nav-item"><i class="fa-solid fa-triangle-exclamation"></i><span>Disputes</span></a>
+                <a href="notifications.html" class="nav-item active"><i class="fa-solid fa-bell"></i><span>Notifications</span></a>
+                <a href="profile.html" class="nav-item"><i class="fa-solid fa-user"></i><span>Profile</span></a>
+            </nav>
+            <div class="logout"><a href="../buyer_login.html" class="nav-item"><i class="fa-solid fa-right-from-bracket"></i><span>Logout</span></a></div>
+        </aside>
+        <main class="main">
+
+
+    <!-- MAIN -->
+    <main class="buyer-container">
+
+        <section class="page-header">
+
+            <h1>Notifications</h1>
+
+            <p>
+                Stay updated about your orders, payments and account.
+            </p>
+
+        </section>
+
+
+        <!-- CONTROLS -->
+        <section class="notification-controls">
+
+            <button
+                type="button"
+                id="refreshNotificationsBtn">
+
+                Refresh
+
+            </button>
+
+        </section>
+
+
+        <!-- MESSAGE -->
+        <div id="notificationMessage"></div>
+
+
+        <!-- NOTIFICATIONS -->
+        <section class="notifications-section">
+
+            <div id="notificationsContainer">
+
+                <p>
+                    Loading notifications...
+                </p>
+
+            </div>
+
+        </section>
+
+
+        <!-- PAGINATION -->
+        <section class="pagination-section">
+
+            <button
+                type="button"
+                id="previousBtn"
+                disabled>
+
+                Previous
+
+            </button>
+
+            <span id="pageNumber">
+                Page 1
+            </span>
+
+            <button
+                type="button"
+                id="nextBtn">
+
+                Next
+
+            </button>
+
+        </section>
+
+        </main>
+    </div>
+
+
+    <!-- JAVASCRIPT -->
+    <script src="../js/core/api.js"></script>
+    <script src="../js/core/auth.js"></script>
+    <script src="../js/buyer/notifications.js"></script>
+
+</body>
+</html>

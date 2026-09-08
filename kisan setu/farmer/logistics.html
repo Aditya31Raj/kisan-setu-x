@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kisan Setu - Farmer Logistics</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/farmer.css">
+</head>
+<body>
+    <div class="dashboard">
+        <aside class="sidebar">
+            <div class="brand">
+                <img src="../images/logoks.jpeg" alt="Kisan Setu Logo">
+                <div class="brand-text">
+                    <h2>Kisan Setu</h2>
+                    <span>FARMER PORTAL</span>
+                </div>
+            </div>
+
+            <div class="user-box">
+                <div class="user-info">
+                    <div class="user-icon"><i class="fa-solid fa-user"></i></div>
+                    <div>
+                        <strong>Ramesh Kumar</strong>
+                        <span>Farmer ID: KS-2048</span>
+                    </div>
+                </div>
+            </div>
+
+            <nav class="sidebar-nav">
+                <div class="nav-title">Overview</div>
+                <a href="../farmer_dashboard.html" class="nav-item"><i class="fa-solid fa-gauge"></i> Dashboard</a>
+                <a href="produce.html" class="nav-item"><i class="fa-solid fa-seedling"></i> Produce</a>
+                <a href="orders.html" class="nav-item"><i class="fa-solid fa-box"></i> Orders</a>
+                <a href="payments.html" class="nav-item"><i class="fa-solid fa-wallet"></i> Payments</a>
+                <a href="logistics.html" class="nav-item active"><i class="fa-solid fa-truck"></i> Logistics</a>
+                <a href="history.html" class="nav-item"><i class="fa-solid fa-clock-rotate-left"></i> History</a>
+                <a href="disputes.html" class="nav-item"><i class="fa-solid fa-circle-exclamation"></i> Disputes</a>
+                <a href="notifications.html" class="nav-item"><i class="fa-solid fa-bell"></i> Notifications</a>
+                <a href="profile.html" class="nav-item"><i class="fa-solid fa-user-gear"></i> Profile</a>
+            </nav>
+        </aside>
+
+        <div class="main">
+            <main class="buyer-container">
+        <section class="page-header">
+            <h1>Logistics & Delivery</h1>
+            <p>Track shipment status and coordinate dispatch updates.</p>
+        </section>
+
+        <section class="logistics-search">
+            <label for="logisticsId">Logistics ID</label>
+            <input type="text" id="logisticsId" placeholder="Enter logistics ID">
+            <button type="button" id="trackBtn">Track Delivery</button>
+        </section>
+
+        <div id="logisticsMessage"></div>
+
+        <section id="logisticsDetails" class="logistics-details" style="display: none;">
+            <h2>Delivery Details</h2>
+            <div class="logistics-info">
+                <p><strong>Logistics ID:</strong> <span id="displayLogisticsId">-</span></p>
+                <p><strong>Order ID:</strong> <span id="orderId">-</span></p>
+                <p><strong>Status:</strong> <span id="logisticsStatus">-</span></p>
+                <p><strong>Vehicle:</strong> <span id="vehicleReference">-</span></p>
+                <p><strong>Driver:</strong> <span id="driverReference">-</span></p>
+                <p><strong>Estimated Delivery:</strong> <span id="estimatedDelivery">-</span></p>
+                <p><strong>Actual Delivery:</strong> <span id="actualDelivery">-</span></p>
+            </div>
+
+            <div class="status-update">
+                <h3>Update Delivery Status</h3>
+                <select id="newStatus">
+                    <option value="">Select Status</option>
+                    <option value="ASSIGNED">Assigned</option>
+                    <option value="PICKED_UP">Picked Up</option>
+                    <option value="IN_TRANSIT">In Transit</option>
+                    <option value="OUT_FOR_DELIVERY">Out For Delivery</option>
+                    <option value="DELIVERED">Delivered</option>
+                    <option value="FAILED">Failed</option>
+                    <option value="CANCELLED">Cancelled</option>
+                </select>
+                <button type="button" id="updateStatusBtn">Update Status</button>
+            </div>
+        </section>
+            </main>
+        </div>
+    </div>
+
+    <script src="../js/core/api.js"></script>
+    <script src="../js/core/auth.js"></script>
+    <script src="../js/farmer/farmer.js"></script>
+    <script src="../js/farmer/logistics.js"></script>
+</body>
+</html>

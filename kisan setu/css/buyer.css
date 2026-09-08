@@ -1,0 +1,1870 @@
+/* =========================================================
+   KISAN SETU - BUYER / VENDOR COMMON DESIGN SYSTEM
+   ========================================================= */
+
+
+/* =========================================================
+   RESET
+   ========================================================= */
+
+* {
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+
+    font-family: "Poppins", sans-serif;
+
+    background: #f7faf7;
+    color: #202522;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+button,
+input,
+select,
+textarea {
+    font-family: inherit;
+}
+
+
+/* =========================================================
+   MAIN DASHBOARD LAYOUT
+   ========================================================= */
+
+.dashboard {
+    display: flex;
+    min-height: 100vh;
+}
+
+
+/* =========================================================
+   SIDEBAR
+   ========================================================= */
+
+.sidebar {
+    width: 245px;
+    height: 100vh;
+
+    position: fixed;
+    left: 0;
+    top: 0;
+    bottom: 0;
+
+    background: #ffffff;
+
+    border-right: 1px solid #e1e9e2;
+
+    display: flex;
+    flex-direction: column;
+
+    z-index: 1000;
+}
+
+
+/* =========================================================
+   KISAN SETU BRAND
+   ========================================================= */
+
+.brand {
+    height: 92px;
+
+    display: flex;
+    align-items: center;
+
+    padding: 10px 18px;
+
+    background: #ffffff;
+
+    border-bottom: 1px solid #e6ece7;
+
+    flex-shrink: 0;
+}
+
+.brand img {
+    width: 58px;
+    height: 58px;
+
+    object-fit: contain;
+
+    margin-right: 11px;
+}
+
+.brand-text {
+    min-width: 0;
+}
+
+.brand-text h2 {
+    margin: 0;
+
+    font-size: 19px;
+
+    color: #176d35;
+
+    font-weight: 800;
+
+    line-height: 1;
+
+    letter-spacing: 0.3px;
+}
+
+.brand-text span {
+    display: block;
+
+    margin-top: 5px;
+
+    font-size: 8px;
+
+    color: #737b75;
+
+    font-weight: 600;
+
+    letter-spacing: 0.5px;
+}
+
+
+/* =========================================================
+   USER BOX
+   ========================================================= */
+
+.user-box {
+    padding: 18px 20px;
+
+    border-bottom: 1px solid #e8eee9;
+
+    flex-shrink: 0;
+}
+
+.user-info {
+    display: flex;
+
+    align-items: center;
+
+    gap: 11px;
+}
+
+.user-icon {
+    width: 40px;
+    height: 40px;
+
+    border-radius: 50%;
+
+    background: #edf7ef;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    color: #16863b;
+
+    flex-shrink: 0;
+}
+
+.user-info strong {
+    display: block;
+
+    font-size: 12px;
+
+    font-weight: 700;
+}
+
+.user-info span {
+    display: block;
+
+    font-size: 9px;
+
+    color: #747c76;
+
+    margin-top: 2px;
+}
+
+
+/* =========================================================
+   SIDEBAR NAVIGATION
+   ========================================================= */
+
+.sidebar-nav {
+    padding: 18px 12px;
+
+    flex: 1;
+
+    overflow-y: auto;
+}
+
+.nav-title {
+    font-size: 9px;
+
+    color: #929a94;
+
+    font-weight: 700;
+
+    padding: 0 12px 9px;
+
+    text-transform: uppercase;
+
+    letter-spacing: 0.5px;
+}
+
+.nav-item {
+    display: flex;
+
+    align-items: center;
+
+    gap: 12px;
+
+    padding: 11px 13px;
+
+    margin-bottom: 4px;
+
+    border-radius: 7px;
+
+    font-size: 12px;
+
+    font-weight: 500;
+
+    color: #4f5852;
+
+    transition:
+        background 0.2s ease,
+        color 0.2s ease,
+        transform 0.2s ease;
+}
+
+.nav-item i {
+    width: 18px;
+
+    text-align: center;
+
+    font-size: 13px;
+
+    color: #69746d;
+
+    flex-shrink: 0;
+}
+
+.nav-item:hover {
+    background: #f0f8f1;
+
+    color: #16863b;
+
+    transform: translateX(2px);
+}
+
+.nav-item:hover i {
+    color: #16863b;
+}
+
+.nav-item.active {
+    background: #eaf6ec;
+
+    color: #176d35;
+
+    font-weight: 700;
+}
+
+.nav-item.active i {
+    color: #16863b;
+}
+
+
+/* =========================================================
+   LOGOUT
+   ========================================================= */
+
+.logout {
+    padding: 14px 12px;
+
+    border-top: 1px solid #e8eee9;
+
+    flex-shrink: 0;
+}
+
+.logout .nav-item {
+    color: #ba3d32;
+
+    font-weight: 600;
+}
+
+.logout .nav-item i {
+    color: #ba3d32;
+}
+
+.logout .nav-item:hover {
+    background: #fff1f0;
+
+    color: #a82e25;
+}
+
+
+/* =========================================================
+   MAIN AREA
+   ========================================================= */
+
+.main {
+    margin-left: 245px;
+
+    width: calc(100% - 245px);
+
+    min-height: 100vh;
+
+    background: #f7faf7;
+}
+
+
+/* =========================================================
+   TOPBAR
+   ========================================================= */
+
+.topbar {
+    min-height: 82px;
+
+    background: #ffffff;
+
+    border-bottom: 1px solid #e2e9e3;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    padding: 0 32px;
+
+    position: sticky;
+
+    top: 0;
+
+    z-index: 100;
+
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
+}
+
+
+/* =========================================================
+   TOPBAR PAGE TITLE
+   ========================================================= */
+
+.page-title h1 {
+    margin: 0;
+
+    font-size: 22px;
+
+    font-weight: 700;
+
+    color: #176d35;
+
+    letter-spacing: -0.2px;
+}
+
+.page-title p {
+    margin: 4px 0 0;
+
+    font-size: 11px;
+
+    font-weight: 500;
+
+    color: #737b75;
+}
+
+
+/* =========================================================
+   TOPBAR ACTIONS
+   ========================================================= */
+
+.top-actions {
+    display: flex;
+
+    align-items: center;
+
+    gap: 18px;
+}
+
+
+/* =========================================================
+   NOTIFICATION
+   ========================================================= */
+
+.notification {
+    width: 38px;
+    height: 38px;
+
+    border: 1px solid #dfe8e1;
+
+    border-radius: 50%;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    color: #56615a;
+
+    background: #ffffff;
+
+    position: relative;
+
+    cursor: pointer;
+
+    transition: 0.2s;
+}
+
+.notification:hover {
+    background: #f0f8f1;
+
+    border-color: #c8dfcc;
+
+    color: #16863b;
+}
+
+.notification::after {
+    content: "";
+
+    position: absolute;
+
+    width: 7px;
+    height: 7px;
+
+    background: #16863b;
+
+    border-radius: 50%;
+
+    top: 5px;
+    right: 5px;
+}
+
+
+/* =========================================================
+   PROFILE
+   ========================================================= */
+
+.profile {
+    display: flex;
+
+    align-items: center;
+
+    gap: 9px;
+}
+
+.profile-circle {
+    width: 38px;
+    height: 38px;
+
+    background: #eaf6ec;
+
+    color: #16863b;
+
+    border-radius: 50%;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    font-size: 14px;
+}
+
+.profile span {
+    font-size: 12px;
+
+    font-weight: 700;
+
+    color: #303832;
+}
+
+
+/* =========================================================
+   PAGE CONTENT
+   ========================================================= */
+
+.content,
+.buyer-container {
+    width: 100%;
+
+    max-width: 1500px;
+
+    margin: 0 auto;
+
+    padding: 28px 32px 45px;
+}
+
+
+/* =========================================================
+   PAGE HEADER
+   ========================================================= */
+
+.page-header {
+    margin-bottom: 25px;
+}
+
+.page-header h1 {
+    margin: 0;
+
+    font-size: 22px;
+
+    color: #176d35;
+
+    font-weight: 700;
+}
+
+.page-header p {
+    margin: 5px 0 0;
+
+    font-size: 11px;
+
+    color: #707971;
+}
+
+
+/* =========================================================
+   WELCOME
+   ========================================================= */
+
+.welcome {
+    margin-bottom: 25px;
+}
+
+.welcome h2 {
+    margin: 0;
+
+    font-size: 20px;
+
+    color: #176d35;
+
+    font-weight: 700;
+}
+
+.welcome p {
+    margin: 4px 0 0;
+
+    font-size: 11px;
+
+    color: #707971;
+}
+
+
+/* =========================================================
+   COMMON CARDS / SECTIONS
+   ========================================================= */
+
+.card,
+.buyer-section,
+.produce-section,
+.produce-search,
+.form-card,
+.history-card,
+.payment-card,
+.order-card,
+.logistics-box,
+.notification-card,
+.profile-card,
+.dispute-card {
+    background: #ffffff;
+
+    border: 1px solid #e0e8e1;
+
+    border-radius: 12px;
+
+    padding: 20px;
+
+    margin-bottom: 20px;
+
+    box-shadow: 0 2px 7px rgba(0, 0, 0, 0.02);
+}
+
+
+/* =========================================================
+   CARD HEADER
+   ========================================================= */
+
+.card-header,
+.section-heading {
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    gap: 15px;
+
+    margin-bottom: 18px;
+}
+
+.card-header h3,
+.section-heading h2 {
+    margin: 0;
+
+    font-size: 14px;
+
+    color: #202522;
+
+    font-weight: 700;
+}
+
+.view-all {
+    font-size: 10px;
+
+    color: #16863b;
+
+    font-weight: 700;
+
+    white-space: nowrap;
+}
+
+.view-all:hover {
+    color: #0e682d;
+}
+
+
+/* =========================================================
+   STATISTICS
+   ========================================================= */
+
+.stats-grid,
+.dashboard-cards {
+    display: grid;
+
+    grid-template-columns: repeat(4, 1fr);
+
+    gap: 16px;
+
+    margin-bottom: 25px;
+}
+
+.stat-card,
+.dashboard-card {
+    background: #ffffff;
+
+    border: 1px solid #e0e8e1;
+
+    border-radius: 11px;
+
+    padding: 19px;
+
+    transition: 0.2s;
+}
+
+.stat-card {
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+}
+
+.stat-card:hover,
+.dashboard-card:hover {
+    box-shadow: 0 8px 22px rgba(0, 0, 0, 0.05);
+
+    transform: translateY(-1px);
+}
+
+.stat-info span,
+.dashboard-card h4 {
+    display: block;
+
+    font-size: 10px;
+
+    color: #747d76;
+
+    margin-bottom: 5px;
+
+    font-weight: 500;
+}
+
+.stat-info strong,
+.dashboard-card .value {
+    display: block;
+
+    font-size: 20px;
+
+    color: #202522;
+
+    font-weight: 700;
+}
+
+.stat-info small {
+    font-size: 9px;
+
+    color: #16863b;
+
+    font-weight: 500;
+}
+
+.stat-icon {
+    width: 43px;
+    height: 43px;
+
+    border-radius: 10px;
+
+    background: #edf8ef;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    color: #16863b;
+
+    font-size: 18px;
+}
+
+
+/* =========================================================
+   FORMS
+   ========================================================= */
+
+form {
+    width: 100%;
+}
+
+.search-group,
+.form-group {
+    display: flex;
+
+    flex-direction: column;
+
+    margin-bottom: 15px;
+}
+
+.search-group label,
+.form-group label {
+    font-size: 11px;
+
+    font-weight: 600;
+
+    color: #4f5852;
+
+    margin-bottom: 6px;
+}
+
+input,
+select,
+textarea {
+    width: 100%;
+
+    padding: 10px 12px;
+
+    border: 1px solid #d5ded8;
+
+    border-radius: 7px;
+
+    background: #ffffff;
+
+    color: #202522;
+
+    font-size: 12px;
+
+    outline: none;
+
+    transition: 0.2s;
+}
+
+input::placeholder,
+textarea::placeholder {
+    color: #9aa29d;
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+    border-color: #198754;
+
+    box-shadow: 0 0 0 3px rgba(25, 135, 84, 0.08);
+}
+
+.profile-identity {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding-bottom: 20px;
+    margin-bottom: 20px;
+    border-bottom: 1px solid #e8eee9;
+}
+
+.profile-picture {
+    width: 86px;
+    height: 86px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 3px solid #dff1e4;
+    background: #f0f8f1;
+}
+
+.profile-identity-details {
+    flex: 1;
+}
+
+.profile-identity-details h2 {
+    margin: 0;
+    font-size: 18px;
+    color: #176d35;
+}
+
+.profile-identity-details p {
+    margin: 3px 0 9px;
+    color: #737b75;
+    font-size: 11px;
+}
+
+.profile-picture-button,
+.profile-edit-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    width: fit-content;
+    padding: 9px 12px;
+    border-radius: 7px;
+    background: #eef8f2;
+    color: #176d35;
+    font-size: 11px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.profile-edit-btn {
+    background: #198754;
+    color: white;
+}
+
+.profile-section input:disabled {
+    background: #f7faf7;
+    color: #56615a;
+    cursor: not-allowed;
+}
+
+textarea {
+    min-height: 100px;
+
+    resize: vertical;
+}
+
+
+/* =========================================================
+   BUTTONS
+   ========================================================= */
+
+button,
+.buy-btn,
+.view-produce-btn {
+    border: none;
+
+    border-radius: 7px;
+
+    padding: 9px 15px;
+
+    background: #198754;
+
+    color: #ffffff;
+
+    font-size: 11px;
+
+    font-weight: 600;
+
+    cursor: pointer;
+
+    transition:
+        background 0.2s ease,
+        transform 0.2s ease;
+}
+
+button:hover,
+.buy-btn:hover,
+.view-produce-btn:hover {
+    background: #146c43;
+
+    transform: translateY(-1px);
+}
+
+button:disabled {
+    opacity: 0.5;
+
+    cursor: not-allowed;
+
+    transform: none;
+}
+
+
+/* =========================================================
+   SECONDARY BUTTON
+   ========================================================= */
+
+.btn-secondary,
+#clearSearchBtn {
+    background: #eef2ef;
+
+    color: #465149;
+}
+
+.btn-secondary:hover,
+#clearSearchBtn:hover {
+    background: #e1e8e3;
+
+    color: #303832;
+}
+
+
+/* =========================================================
+   DANGER BUTTON
+   ========================================================= */
+
+.btn-danger {
+    background: #dc3545;
+}
+
+.btn-danger:hover {
+    background: #bb2d3b;
+}
+
+
+/* =========================================================
+   SEARCH AREA
+   ========================================================= */
+
+.produce-search form {
+    display: grid;
+
+    grid-template-columns: 1fr 1fr auto auto;
+
+    gap: 12px;
+
+    align-items: end;
+}
+
+.produce-search .search-group {
+    margin-bottom: 0;
+}
+
+
+/* =========================================================
+   PRODUCE GRID
+   ========================================================= */
+
+.produce-grid,
+.produce-list {
+    display: grid;
+
+    grid-template-columns: repeat(3, 1fr);
+
+    gap: 15px;
+}
+
+.produce-card {
+    background: #ffffff;
+
+    border: 1px solid #e0e8e1;
+
+    border-radius: 10px;
+
+    overflow: hidden;
+
+    transition: 0.2s;
+}
+
+.produce-card:hover {
+    transform: translateY(-2px);
+
+    box-shadow: 0 8px 22px rgba(0, 0, 0, 0.06);
+}
+
+.produce-card-content {
+    padding: 16px;
+}
+
+.produce-card h3,
+.produce-card h4 {
+    margin: 0 0 7px;
+
+    color: #176d35;
+
+    font-size: 14px;
+
+    font-weight: 700;
+}
+
+.produce-card p {
+    font-size: 11px;
+
+    color: #69726c;
+
+    line-height: 1.6;
+
+    margin: 5px 0;
+}
+
+.produce-description {
+    margin-bottom: 10px;
+}
+
+.view-produce-btn {
+    margin-top: 10px;
+}
+
+
+/* =========================================================
+   ORDERS / DATA TABLES
+   ========================================================= */
+
+.data-table,
+.orders-table {
+    width: 100%;
+
+    border-collapse: collapse;
+}
+
+.data-table th,
+.data-table td,
+.orders-table th,
+.orders-table td {
+    padding: 11px 10px;
+
+    text-align: left;
+
+    border-bottom: 1px solid #edf1ee;
+
+    font-size: 11px;
+}
+
+.data-table th,
+.orders-table th {
+    background: #f7faf7;
+
+    color: #69726c;
+
+    font-weight: 600;
+}
+
+.data-table td,
+.orders-table td {
+    color: #39423c;
+}
+
+.data-table tr:hover td,
+.orders-table tr:hover td {
+    background: #fbfdfb;
+}
+
+
+/* =========================================================
+   STATUS BADGES
+   ========================================================= */
+
+.status {
+    display: inline-block;
+
+    padding: 4px 9px;
+
+    border-radius: 20px;
+
+    font-size: 9px;
+
+    font-weight: 600;
+}
+
+.status-success,
+.status-paid {
+    background: #e8f6eb;
+
+    color: #19713a;
+}
+
+.status-pending {
+    background: #fff6df;
+
+    color: #a06b00;
+}
+
+.status-delivered {
+    background: #e8f1fb;
+
+    color: #376b9d;
+}
+
+.status-cancelled {
+    background: #fdeaea;
+
+    color: #dc3545;
+}
+
+
+/* =========================================================
+   PAGINATION
+   ========================================================= */
+
+.pagination-section {
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    gap: 15px;
+
+    margin: 25px 0;
+}
+
+#pageNumber {
+    font-size: 11px;
+
+    color: #59635d;
+
+    font-weight: 600;
+}
+
+
+/* =========================================================
+   MODAL
+   ========================================================= */
+
+.modal {
+    position: fixed;
+
+    inset: 0;
+
+    background: rgba(0, 0, 0, 0.45);
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    z-index: 2000;
+}
+
+.modal-content {
+    width: min(600px, 90%);
+
+    max-height: 85vh;
+
+    overflow-y: auto;
+
+    background: #ffffff;
+
+    border-radius: 12px;
+
+    padding: 25px;
+
+    position: relative;
+
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.15);
+}
+
+.close-btn {
+    position: absolute;
+
+    top: 12px;
+
+    right: 15px;
+
+    width: 32px;
+
+    height: 32px;
+
+    padding: 0;
+
+    border-radius: 50%;
+
+    background: #f1f4f1;
+
+    color: #555;
+
+    font-size: 20px;
+}
+
+.close-btn:hover {
+    background: #e5eae6;
+
+    color: #333;
+}
+
+
+/* =========================================================
+   QUICK ACTIONS
+   ========================================================= */
+
+.quick-actions {
+    display: grid;
+
+    grid-template-columns: 1fr 1fr;
+
+    gap: 10px;
+}
+
+.quick-action {
+    border: 1px solid #e1e9e2;
+
+    border-radius: 8px;
+
+    padding: 15px 10px;
+
+    text-align: center;
+
+    transition: 0.2s;
+}
+
+.quick-action:hover {
+    background: #f3faf4;
+
+    border-color: #c8dfcc;
+
+    transform: translateY(-1px);
+}
+
+.quick-action i {
+    color: #16863b;
+
+    font-size: 19px;
+
+    margin-bottom: 8px;
+}
+
+.quick-action strong {
+    display: block;
+
+    font-size: 10px;
+
+    font-weight: 700;
+}
+
+.quick-action span {
+    display: block;
+
+    font-size: 8px;
+
+    color: #777f79;
+
+    margin-top: 3px;
+}
+
+
+/* =========================================================
+   LOGISTICS / TRACKING
+   ========================================================= */
+
+.tracking {
+    display: flex;
+
+    justify-content: space-between;
+
+    position: relative;
+}
+
+.tracking::before {
+    content: "";
+
+    position: absolute;
+
+    top: 10px;
+
+    left: 8%;
+
+    right: 8%;
+
+    height: 2px;
+
+    background: #dce8df;
+}
+
+.track-step {
+    position: relative;
+
+    text-align: center;
+
+    z-index: 2;
+
+    width: 25%;
+}
+
+.track-icon {
+    width: 21px;
+
+    height: 21px;
+
+    margin: auto;
+
+    border-radius: 50%;
+
+    background: #16863b;
+
+    color: white;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    font-size: 8px;
+}
+
+.track-step.pending .track-icon {
+    background: #dfe8e1;
+
+    color: #7c857e;
+}
+
+.track-step span {
+    display: block;
+
+    font-size: 8px;
+
+    color: #69726c;
+
+    margin-top: 7px;
+}
+
+
+/* =========================================================
+   FOOTER
+   ========================================================= */
+
+.footer-note {
+    text-align: center;
+
+    margin-top: 30px;
+
+    color: #89918b;
+
+    font-size: 9px;
+}
+
+
+/* =========================================================
+   IMPORTANT:
+   HIDE OLD TOP NAVIGATION IF IT EXISTS
+   ========================================================= */
+
+/*
+   Agar kisi purane page mein ye structure abhi bhi hai:
+
+   <header class="navbar">
+       ...
+       <nav>...</nav>
+   </header>
+
+   toh buyer pages par old top navigation hide ho jayega.
+
+   Sidebar navigation hi main navigation rahega.
+*/
+
+
+
+/* =========================================================
+   RESPONSIVE - TABLET
+   ========================================================= */
+
+@media (max-width: 1100px) {
+
+    .stats-grid,
+    .dashboard-cards {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .produce-grid,
+    .produce-list {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+}
+
+
+/* =========================================================
+   RESPONSIVE - SMALL TABLET
+   ========================================================= */
+
+@media (max-width: 800px) {
+
+    .sidebar {
+        width: 70px;
+    }
+
+    .brand {
+        justify-content: center;
+
+        padding: 10px;
+    }
+
+    .brand img {
+        width: 42px;
+        height: 42px;
+
+        margin: 0;
+    }
+
+    .brand-text,
+    .user-info > div:last-child,
+    .nav-item span,
+    /* =========================================================
+   OLD TOP NAVIGATION
+   Hide only horizontal navigation links
+   Keep header / branding visible
+   ========================================================= */
+
+.navbar nav {
+    display: none !important;
+}
+
+.navbar {
+    display: flex;
+    align-items: center;
+}
+
+    .user-box {
+        padding: 15px;
+    }
+
+    .user-info {
+        justify-content: center;
+    }
+
+    .nav-item {
+        justify-content: center;
+
+        padding: 13px;
+    }
+
+    .main {
+        margin-left: 70px;
+
+        width: calc(100% - 70px);
+    }
+
+    .produce-grid,
+    .produce-list {
+        grid-template-columns: 1fr;
+    }
+
+    .produce-search form {
+        grid-template-columns: 1fr;
+    }
+
+    .produce-search button {
+        width: 100%;
+    }
+
+}
+
+
+/* =========================================================
+   RESPONSIVE - MOBILE
+   ========================================================= */
+
+@media (max-width: 550px) {
+
+    .topbar {
+        padding: 0 15px;
+
+        min-height: 70px;
+    }
+
+    .page-title h1 {
+        font-size: 17px;
+    }
+
+    .page-title p {
+        font-size: 9px;
+    }
+
+    .content,
+    .buyer-container {
+        padding: 20px 15px;
+    }
+
+    .stats-grid,
+    .dashboard-cards {
+        grid-template-columns: 1fr;
+    }
+
+    .profile span {
+        display: none;
+    }
+
+    .top-actions {
+        gap: 10px;
+    }
+
+    .notification {
+        width: 34px;
+        height: 34px;
+    }
+
+    .profile-circle {
+        width: 34px;
+        height: 34px;
+    }
+
+    .orders-table,
+    .data-table {
+        min-width: 600px;
+    }
+
+    .card {
+        overflow-x: auto;
+    }
+
+    .card-header {
+        gap: 8px;
+    }
+
+    .quick-actions {
+        grid-template-columns: 1fr;
+    }
+
+    .tracking {
+        min-width: 450px;
+    }
+
+}
+/* =========================================================
+   TOPBAR / NAVBAR - FINAL
+   ========================================================= */
+
+.navbar {
+    width: 100%;
+    min-height: 70px;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    padding: 0 28px;
+
+    background: #ffffff;
+    border-bottom: 1px solid #e0e8e1;
+
+    position: sticky;
+    top: 0;
+
+    z-index: 1000;
+}
+
+
+/* KISAN SETU BRANDING */
+
+.navbar .logo {
+    flex-shrink: 0;
+}
+
+.navbar .logo a {
+    font-size: 21px;
+    font-weight: 800;
+
+    color: #176d35;
+
+    letter-spacing: 0.3px;
+}
+
+
+/* NAVIGATION LINKS */
+
+.navbar nav {
+    display: flex;
+    align-items: center;
+    gap: 22px;
+}
+
+.navbar nav a {
+    font-size: 12px;
+    font-weight: 600;
+
+    color: #4f5852;
+
+    padding: 8px 2px;
+
+    transition: 0.2s;
+}
+
+.navbar nav a:hover {
+    color: #16863b;
+}
+
+
+/* ACTIVE LINK */
+
+.navbar nav a.active {
+    color: #176d35;
+    font-weight: 700;
+}
+
+
+/* LOGOUT */
+
+.navbar #logoutBtn {
+    padding: 9px 16px;
+
+    border-radius: 7px;
+
+    background: #198754;
+    color: #ffffff;
+
+    font-size: 11px;
+    font-weight: 700;
+
+    border: none;
+}
+
+.navbar #logoutBtn:hover {
+    background: #146c43;
+}
+
+/* Fresh green base with orange action accents. */
+body {
+    background: linear-gradient(135deg, #f4fcf5 0%, #edf9f0 58%, #fff7eb 100%);
+}
+
+.sidebar {
+    background: #f1fbf3;
+    border-right-color: #cfe6d4;
+}
+
+.brand {
+    background: linear-gradient(180deg, #ffffff 0%, #f1fbf3 100%);
+}
+
+.brand-text h2,
+.page-header h1,
+.welcome h2 {
+    color: #176d35;
+}
+
+.user-icon {
+    background: #fff1df;
+    color: #f28c28;
+}
+
+.nav-item:hover {
+    background: #fff1df;
+    color: #c96b12;
+}
+
+.nav-item.active {
+    background: #e2f5e7;
+    color: #176d35;
+}
+
+.main {
+    background: transparent;
+}
+
+.card,
+.buyer-section,
+.produce-section,
+.produce-search,
+.form-card,
+.history-card,
+.payment-card,
+.order-card,
+.logistics-box,
+.notification-card,
+.profile-card,
+.dispute-card {
+    background: rgba(255, 255, 255, 0.92);
+    border-color: #d6ead9;
+}
+
+.green-btn,
+.produce-search button,
+.order-controls button,
+.filters-section button,
+.profile-section button,
+.address-section button {
+    background: #2f9e62;
+}
+
+.green-btn:hover,
+.produce-search button:hover,
+.order-controls button:hover,
+.filters-section button:hover,
+.profile-section button:hover,
+.address-section button:hover {
+    background: #f28c28;
+}
+
+.secondary-btn,
+.profile-picture-button {
+    background: #fff1df;
+    color: #bd6511;
+}
+
+.produce-icon,
+.produce-image {
+    width: 38px;
+    height: 38px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 9px;
+    border-radius: 10px;
+    background: #fff1df;
+    color: #f28c28;
+    font-size: 17px;
+}
+
+.payment-summary,
+.status-summary {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 14px;
+    margin-bottom: 22px;
+}
+
+.summary-card,
+.status-card {
+    display: flex;
+    align-items: center;
+    gap: 13px;
+    min-height: 76px;
+    padding: 16px;
+    background: rgba(255, 255, 255, 0.94);
+    border: 1px solid #d6ead9;
+    border-radius: 12px;
+    box-shadow: 0 5px 16px rgba(47, 158, 98, 0.06);
+}
+
+.summary-card h3 {
+    color: #66736b;
+    font-size: 11px;
+    font-weight: 600;
+}
+
+.summary-card p {
+    margin-top: 4px;
+    color: #176d35;
+    font-size: 21px;
+    font-weight: 800;
+}
+
+.status-card > i {
+    color: #f28c28;
+    font-size: 20px;
+}
+
+.status-card strong {
+    color: #176d35;
+    font-size: 13px;
+}
+
+.status-card p {
+    margin-top: 3px;
+    color: #68726c;
+    font-size: 11px;
+}
+
+.status-card-error {
+    border-color: #f3d2aa;
+    background: #fffaf3;
+}
+
+.status-card-error > i {
+    color: #d97716;
+}
+
+@media (max-width: 800px) {
+    .payment-summary,
+    .status-summary {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 500px) {
+    .payment-summary,
+    .status-summary {
+        grid-template-columns: 1fr;
+    }
+}
+
+.payment-card {
+    position: relative;
+    overflow: hidden;
+    border-left: 4px solid #2f9e62 !important;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.payments-section #paymentsContainer {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(245px, 1fr));
+    gap: 16px;
+}
+
+.payment-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 24px rgba(47, 158, 98, 0.12);
+}
+
+.payment-card-content h3 {
+    color: #176d35;
+    font-size: 16px;
+    margin-bottom: 12px;
+}
+
+.payment-card-content p {
+    color: #68726c;
+    font-size: 11px;
+    margin: 7px 0;
+}
+
+.payment-card-content p strong {
+    color: #35473b;
+}
+
+.payment-status,
+.status {
+    display: inline-flex;
+    align-items: center;
+    padding: 5px 9px;
+    border-radius: 999px;
+    background: #e4f6e9;
+    color: #176d35;
+    font-size: 10px;
+    font-weight: 700;
+}
+
+/* Final card layer for every buyer operational section. */
+.buyer-container > section:not(.page-header) {
+    background: rgba(255, 255, 255, 0.92);
+    border: 1px solid #d6ead9;
+    border-radius: 14px;
+    padding: 20px;
+    margin-bottom: 20px;
+    box-shadow: 0 5px 16px rgba(47, 158, 98, 0.05);
+}
+
+.buyer-container .list-item,
+.buyer-container .produce-card,
+.buyer-container .order-card,
+.buyer-container .payment-card,
+.buyer-container .history-card,
+.buyer-container .notification-card,
+.buyer-container .dispute-card {
+    background: #ffffff;
+    border: 1px solid #dcecdf;
+    border-radius: 11px;
+    box-shadow: 0 4px 12px rgba(47, 158, 98, 0.05);
+}
+
+.buyer-container .orders-table,
+.buyer-container .data-table {
+    border-collapse: separate;
+    border-spacing: 0 10px;
+}
+
+.buyer-container .orders-table tbody tr,
+.buyer-container .data-table tbody tr {
+    background: #ffffff;
+    box-shadow: 0 4px 12px rgba(47, 158, 98, 0.05);
+}

@@ -1,0 +1,16 @@
+{
+  "name": "kisan-setu",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Kisan Setu - Unified Platform",
+  "scripts": {
+    "dev": "node start-dev.js",
+    "start": "node start-dev.js",
+    "dev:backend": "npm --prefix kisan-setu-backend run dev",
+    "dev:frontend": "npm --prefix \"kisan setu\" start",
+    "db:start": "npm --prefix kisan-setu-backend run db:start",
+    "db:stop": "npm --prefix kisan-setu-backend run db:stop",
+    "db:status": "npm --prefix kisan-setu-backend run db:status"
+  }
+}

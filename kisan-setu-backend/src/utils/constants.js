@@ -1,0 +1,1 @@
+export const ACCESS_COOKIE='ks_access'; export const REFRESH_COOKIE='ks_refresh'; export const CSRF_COOKIE='ks_csrf'; export const CSRF_HEADER='x-csrf-token'; export const ADMIN_ROLES=['PRAKHAND_ADMIN','SUPER_ADMIN'];

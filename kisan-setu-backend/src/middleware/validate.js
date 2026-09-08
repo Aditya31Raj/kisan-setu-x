@@ -1,0 +1,1 @@
+import {errors} from '../utils/errors.js'; export const validate=(schema,source='body')=>(req,_res,next)=>{const r=schema.safeParse(req[source]);if(!r.success)return next(errors.unprocessable('Invalid request data',r.error.flatten()));Object.defineProperty(req,source,{value:r.data,writable:true,configurable:true,enumerable:true});next()};

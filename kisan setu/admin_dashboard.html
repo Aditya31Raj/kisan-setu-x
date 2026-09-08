@@ -1,0 +1,703 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Kisan Setu - Admin Dashboard</title>
+
+    <!-- Root folder se CSS -->
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/admin.css">
+
+</head>
+
+
+<body>
+
+
+    <!-- ==================================================
+         SIDEBAR
+         ================================================== -->
+
+    <aside class="sidebar">
+
+        <!-- BRAND -->
+
+        <div class="logo">
+            <img src="images/logoks.jpeg" alt="Kisan Setu Logo">
+            KISAN SETU
+        </div>
+
+        <div class="admin-label">
+            ADMIN PORTAL
+        </div>
+
+
+        <!-- NAVIGATION -->
+
+        <ul class="menu">
+
+
+            <!-- DASHBOARD -->
+
+            <li>
+                <a href="admin_dashboard.html" class="active">
+                    🏠 &nbsp; Dashboard
+                </a>
+            </li>
+
+
+            <!-- FARMERS -->
+
+            <li>
+                <a href="admin/farmers.html">
+                    👨‍🌾 &nbsp; Farmers
+                </a>
+            </li>
+
+
+            <!-- BUYERS -->
+
+            <li>
+                <a href="admin/buyers.html">
+                    🛒 &nbsp; Buyers
+                </a>
+            </li>
+
+
+            <!-- REQUESTS -->
+
+            <li>
+                <a href="admin/requests.html">
+                    📋 &nbsp; Requests
+                </a>
+            </li>
+
+
+            <!-- INPUT MANAGEMENT -->
+
+            <li>
+                <a href="admin/inputs.html">
+                    🌱 &nbsp; Input Management
+                </a>
+            </li>
+
+
+            <!-- PAYMENTS -->
+
+            <li>
+                <a href="admin/payments.html">
+                    💳 &nbsp; Payments
+                </a>
+            </li>
+
+
+            <!-- REPORTS -->
+
+            <li>
+                <a href="admin/reports.html">
+                    📊 &nbsp; Reports
+                </a>
+            </li>
+
+
+            <!-- ALERTS -->
+
+            <li>
+                <a href="admin/alerts.html">
+                    🔔 &nbsp; Alerts
+                </a>
+            </li>
+
+
+            <!-- GRIEVANCES -->
+
+            <li>
+                <a href="admin/grievances.html">
+                    ⚠️ &nbsp; Grievances
+                </a>
+            </li>
+
+
+        </ul>
+
+
+        <!-- LOGOUT -->
+
+        <div class="logout">
+
+            <a href="index.html">
+                🚪 &nbsp; Logout
+            </a>
+
+        </div>
+
+
+    </aside>
+
+
+
+    <!-- ==================================================
+         MAIN CONTENT
+         ================================================== -->
+
+    <main class="main">
+
+
+        <!-- ==================================================
+             TOP BAR
+             ================================================== -->
+
+        <div class="topbar">
+
+
+            <div>
+
+                <h1>
+                    Admin Dashboard
+                </h1>
+
+                <p>
+                    Monitor and manage the Kisan Setu marketplace
+                </p>
+
+            </div>
+
+
+            <!-- ADMIN PROFILE -->
+
+            <div class="admin-profile">
+
+                <div class="profile-icon">
+                    A
+                </div>
+
+                <div>
+
+                    <strong>
+                        Admin
+                    </strong>
+
+                    <p>
+                        Prakhand Admin
+                    </p>
+
+                </div>
+
+            </div>
+
+
+        </div>
+
+
+
+        <!-- ==================================================
+             STATISTICS
+             ================================================== -->
+
+        <div class="stats">
+
+
+            <!-- TOTAL FARMERS -->
+
+            <div class="card">
+
+                <div class="card-title">
+                    Total Farmers
+                </div>
+
+                <div class="card-value" id="adminTotalFarmers">
+                    --
+                </div>
+
+                <div class="card-small">
+                    Registered farmers
+                </div>
+
+            </div>
+
+
+            <!-- TOTAL BUYERS -->
+
+            <div class="card">
+
+                <div class="card-title">
+                    Total Buyers
+                </div>
+
+                <div class="card-value" id="adminTotalBuyers">
+                    --
+                </div>
+
+                <div class="card-small">
+                    Registered buyers
+                </div>
+
+            </div>
+
+
+            <!-- PAYMENTS -->
+
+            <div class="card">
+
+                <div class="card-title">
+                    Payments
+                </div>
+
+                <div class="card-value" id="adminTotalPayments">
+                    --
+                </div>
+
+                <div class="card-small">
+                    Total payments
+                </div>
+
+            </div>
+
+
+            <!-- MSP COMPLIANCE -->
+
+            <div class="card">
+
+                <div class="card-title">
+                    MSP Compliance
+                </div>
+
+                <div class="card-value" id="adminMspCompliance">
+                    --
+                </div>
+
+                <div class="card-small">
+                    Payments at/above MSP
+                </div>
+
+            </div>
+
+
+        </div>
+
+
+
+        <!-- ==================================================
+             PAYMENTS + ALERTS
+             ================================================== -->
+
+        <div class="content-grid">
+
+
+            <!-- ================= RECENT PAYMENTS ================= -->
+
+            <section class="section">
+
+
+                <div class="section-header">
+
+                    <h2>
+                        Recent Payments
+                    </h2>
+
+                    <a
+                        href="admin/payments.html"
+                        class="view-all">
+
+                        View All
+
+                    </a>
+
+                </div>
+
+
+
+                <!-- TABLE -->
+
+                <div class="admin-table-wrapper">
+
+                    <table class="admin-table">
+
+                        <thead>
+
+                            <tr>
+
+                                <th>
+                                    Payment ID
+                                </th>
+
+                                <th>
+                                    Farmer
+                                </th>
+
+                                <th>
+                                    Buyer
+                                </th>
+
+                                <th>
+                                    Amount
+                                </th>
+
+                                <th>
+                                    Status
+                                </th>
+
+                            </tr>
+
+                        </thead>
+
+
+                        <tbody>
+
+
+                            <!-- PAYMENT 1 -->
+
+                            <tr>
+
+                                <td>
+                                    PY-000145
+                                </td>
+
+                                <td>
+                                    Ramesh Kumar
+                                </td>
+
+                                <td>
+                                    ABC Traders
+                                </td>
+
+                                <td>
+                                    ₹12,000
+                                </td>
+
+                                <td>
+
+                                    <span class="status success">
+                                        Completed
+                                    </span>
+
+                                </td>
+
+                            </tr>
+
+
+                            <!-- PAYMENT 2 -->
+
+                            <tr>
+
+                                <td>
+                                    PY-000146
+                                </td>
+
+                                <td>
+                                    Sita Devi
+                                </td>
+
+                                <td>
+                                    XYZ Foods
+                                </td>
+
+                                <td>
+                                    ₹8,400
+                                </td>
+
+                                <td>
+
+                                    <span class="status pending">
+                                        Pending
+                                    </span>
+
+                                </td>
+
+                            </tr>
+
+
+                            <!-- PAYMENT 3 -->
+
+                            <tr>
+
+                                <td>
+                                    PY-000147
+                                </td>
+
+                                <td>
+                                    Mohan Das
+                                </td>
+
+                                <td>
+                                    Local Mart
+                                </td>
+
+                                <td>
+                                    ₹15,200
+                                </td>
+
+                                <td>
+
+                                    <span class="status success">
+                                        Completed
+                                    </span>
+
+                                </td>
+
+                            </tr>
+
+
+                            <!-- PAYMENT 4 -->
+
+                            <tr>
+
+                                <td>
+                                    PY-000148
+                                </td>
+
+                                <td>
+                                    Anita Devi
+                                </td>
+
+                                <td>
+                                    Fresh Market
+                                </td>
+
+                                <td>
+                                    ₹6,800
+                                </td>
+
+                                <td>
+
+                                    <span class="status danger">
+                                        Below MSP
+                                    </span>
+
+                                </td>
+
+                            </tr>
+
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+
+            </section>
+
+
+
+            <!-- ================= RECENT ALERTS ================= -->
+
+            <section class="section">
+
+
+                <div class="section-header">
+
+                    <h2>
+                        Recent Alerts
+                    </h2>
+
+                    <a
+                        href="admin/alerts.html"
+                        class="view-all">
+
+                        View All
+
+                    </a>
+
+                </div>
+
+
+
+                <!-- ALERT 1 -->
+
+                <div class="alert danger">
+
+                    <strong>
+                        ⚠ Below MSP Detected
+                    </strong>
+
+                    Payment PM-000148 is below MSP.
+
+                </div>
+
+
+
+                <!-- ALERT 2 -->
+
+                <div class="alert pending">
+
+                    <strong>
+                        ⏳ Payment Pending
+                    </strong>
+
+                    Payment PY-000182 requires attention.
+
+                </div>
+
+
+
+                <!-- ALERT 3 -->
+
+                <div class="alert pending">
+
+                    <strong>
+                        📋 Input Request
+                    </strong>
+
+                    Fertilizer request awaiting approval.
+
+                </div>
+
+
+
+                <!-- ALERT 4 -->
+
+                <div class="alert">
+
+                    <strong>
+                        🚚 Logistics Update
+                    </strong>
+
+                    Delivery verification required.
+
+                </div>
+
+
+            </section>
+
+
+        </div>
+
+
+
+        <!-- ==================================================
+             QUICK ACTIONS
+             ================================================== -->
+
+        <section class="section">
+
+
+            <div class="section-header">
+
+                <h2>
+                    Quick Actions
+                </h2>
+
+            </div>
+
+
+
+            <div class="quick-actions">
+
+
+                <!-- MANAGE FARMERS -->
+
+                <a
+                    href="admin/farmers.html"
+                    class="action">
+
+                    <div class="action-icon">
+                        👨‍🌾
+                    </div>
+
+                    <p>
+                        Manage Farmers
+                    </p>
+
+                </a>
+
+
+
+                <!-- MANAGE BUYERS -->
+
+                <a
+                    href="admin/buyers.html"
+                    class="action">
+
+                    <div class="action-icon">
+                        🛒
+                    </div>
+
+                    <p>
+                        Manage Buyers
+                    </p>
+
+                </a>
+
+
+
+                <!-- REVIEW REQUESTS -->
+
+                <a
+                    href="admin/requests.html"
+                    class="action">
+
+                    <div class="action-icon">
+                        📋
+                    </div>
+
+                    <p>
+                        Review Requests
+                    </p>
+
+                </a>
+
+
+
+                <!-- GENERATE REPORT -->
+
+                <a
+                    href="admin/reports.html"
+                    class="action">
+
+                    <div class="action-icon">
+                        📊
+                    </div>
+
+                    <p>
+                        Generate Report
+                    </p>
+
+                </a>
+
+
+            </div>
+
+
+        </section>
+
+
+    </main>
+
+
+
+    <!-- ==================================================
+         JAVASCRIPT
+         ================================================== -->
+
+    <script src="js/core/api.js"></script>
+    <script src="js/core/auth.js"></script>
+    <script src="js/admin/admin.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", async () => {
+            try {
+                const user = await getCurrentUser();
+                if (user && user.name) {
+                    const profileStrong = document.querySelector(".admin-profile strong");
+                    if (profileStrong) profileStrong.textContent = user.name;
+                }
+                const data = await getAdminDashboard();
+                if (data) {
+                    if (data.totalFarmers !== undefined) document.getElementById("adminTotalFarmers").textContent = Number(data.totalFarmers).toLocaleString();
+                    if (data.totalBuyers !== undefined) document.getElementById("adminTotalBuyers").textContent = Number(data.totalBuyers).toLocaleString();
+                    if (data.tradeValue !== undefined) document.getElementById("adminTotalPayments").textContent = "₹" + Number(data.tradeValue).toLocaleString();
+                    if (data.mspCompliancePercentage !== undefined) document.getElementById("adminMspCompliance").textContent = data.mspCompliancePercentage + "%";
+                }
+            } catch (err) {
+                console.warn("Could not load admin dashboard live data:", err);
+            }
+        });
+    </script>
+
+</body>
+
+</html>
