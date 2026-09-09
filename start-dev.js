@@ -41,6 +41,8 @@ async function main() {
     await startDatabase();
   }
 
+  const children = [];
+
   // 2. Backend
   const backendRunning = await isPortInUse(5000);
   if (backendRunning) {
@@ -53,6 +55,7 @@ async function main() {
       shell: true
     });
     backend.on('error', (err) => console.error('Backend error:', err));
+    children.push(backend);
   }
 
   // 3. Frontend
@@ -67,6 +70,7 @@ async function main() {
       shell: true
     });
     frontend.on('error', (err) => console.error('Frontend error:', err));
+    children.push(frontend);
   }
 
   console.log('\n===================================================');
@@ -79,6 +83,21 @@ async function main() {
   console.log('   - Buyer:  demo.buyer@kisansetu.local   / ChangeMeBuyer123!');
   console.log('   - Admin:  demo.admin@kisansetu.local   / ChangeMeAdmin123!');
   console.log('===================================================\n');
+
+  if (children.length > 0) {
+    console.log('Press Ctrl+C to stop all servers.\n');
+    const cleanup = () => {
+      console.log('\nStopping Kisan Setu dev processes...');
+      for (const child of children) {
+        try { child.kill('SIGINT'); } catch {}
+      }
+      process.exit(0);
+    };
+    process.on('SIGINT', cleanup);
+    process.on('SIGTERM', cleanup);
+    await new Promise(() => {});
+  }
 }
 
 main().catch(console.error);
+

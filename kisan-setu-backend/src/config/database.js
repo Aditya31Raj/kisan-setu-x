@@ -14,13 +14,15 @@ export async function connectDatabase() {
     // Ensure database tables exist (essential for new cloud databases on Render/Neon)
     try {
       await prisma.user.count();
+      await prisma.auditLog.count();
+      await prisma.refreshToken.count();
     } catch (schemaErr) {
       if (schemaErr?.code === 'P2021' || schemaErr?.message?.includes('does not exist')) {
-        logger.info('Database tables not found. Automatically pushing Prisma schema to database...');
+        logger.info('Database tables or columns missing. Automatically pushing Prisma schema to database...');
         try {
           const { execSync } = await import('node:child_process');
           execSync('npx prisma db push --skip-generate', { stdio: 'inherit' });
-          logger.info('Prisma schema pushed successfully. Seeding initial data...');
+          logger.info('Prisma schema pushed successfully. Seeding initial data if needed...');
           try {
             execSync('node prisma/seed.js', { stdio: 'inherit' });
             logger.info('Database seeded successfully.');
