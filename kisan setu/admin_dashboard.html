@@ -685,12 +685,15 @@
     <script src="js/admin/admin.js"></script>
     <script>
         document.addEventListener("DOMContentLoaded", async () => {
+            const user = await ensureAdminAuth();
+            if (!user) return;
+
+            if (user.name) {
+                const profileStrong = document.querySelector(".admin-profile strong");
+                if (profileStrong) profileStrong.textContent = user.name;
+            }
+
             try {
-                const user = await getCurrentUser();
-                if (user && user.name) {
-                    const profileStrong = document.querySelector(".admin-profile strong");
-                    if (profileStrong) profileStrong.textContent = user.name;
-                }
                 const data = await getAdminDashboard();
                 if (data) {
                     if (data.totalFarmers !== undefined) document.getElementById("adminTotalFarmers").textContent = Number(data.totalFarmers).toLocaleString();

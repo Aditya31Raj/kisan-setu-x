@@ -16,6 +16,28 @@ export async function connectDatabase() {
       await prisma.user.count();
       await prisma.auditLog.count();
       await prisma.refreshToken.count();
+
+      // Ensure super admin account exists
+      const adminEmail = process.env.ADMIN_EMAIL || 'meiconic.here31@gmail.com';
+      const existingAdmin = await prisma.user.findUnique({ where: { email: adminEmail } });
+      if (!existingAdmin) {
+        const bcrypt = (await import('bcrypt')).default;
+        const hash = await bcrypt.hash(process.env.SEED_SUPER_ADMIN_PASSWORD || 'iconic31', 12);
+        await prisma.user.create({
+          data: {
+            email: adminEmail,
+            name: 'Aditya Raj',
+            passwordHash: hash,
+            role: 'SUPER_ADMIN',
+            isActive: true,
+            isVerified: true,
+            adminProfile: {
+              create: { prakhand: 'Headquarters', district: 'Patna' }
+            }
+          }
+        });
+        logger.info(`Super Admin initialized for ${adminEmail}`);
+      }
     } catch (schemaErr) {
       if (schemaErr?.code === 'P2021' || schemaErr?.message?.includes('does not exist')) {
         logger.info('Database tables or columns missing. Automatically pushing Prisma schema to database...');

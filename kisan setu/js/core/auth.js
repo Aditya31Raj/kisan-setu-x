@@ -77,10 +77,29 @@ function bindLogoutButtons() {
 	});
 }
 
+async function checkAdminRouteGuard() {
+	const path = (window.location.pathname || "").toLowerCase();
+	const isAdminSection = (path.includes("/admin/") || path.endsWith("admin_dashboard.html")) && !path.endsWith("admin_login.html");
+	if (isAdminSection) {
+		try {
+			const user = await getCurrentUser();
+			if (!user || !["PRAKHAND_ADMIN", "SUPER_ADMIN"].includes(user.role)) {
+				throw new Error("Unauthorized");
+			}
+		} catch {
+			window.location.href = path.includes("/admin/") ? "../admin_login.html" : "admin_login.html";
+		}
+	}
+}
+
 if (document.readyState === "loading") {
-	document.addEventListener("DOMContentLoaded", bindLogoutButtons);
+	document.addEventListener("DOMContentLoaded", () => {
+		bindLogoutButtons();
+		checkAdminRouteGuard();
+	});
 } else {
 	bindLogoutButtons();
+	checkAdminRouteGuard();
 }
 
 window.loginUser = loginUser;
@@ -91,4 +110,15 @@ window.logoutUser = logoutUser;
 window.performLogout = performLogout;
 window.bindLogoutButtons = bindLogoutButtons;
 window.changePassword = changePassword;
+
+// Global Secret Admin Shortcut: Ctrl + Shift + A
+window.addEventListener("keydown", function(e) {
+	if (e.ctrlKey && e.shiftKey && (e.key === "A" || e.key === "a")) {
+		e.preventDefault();
+		const path = (window.location.pathname || "").toLowerCase();
+		if (path.includes("/admin/") || path.endsWith("admin_login.html")) return;
+		window.location.href = path.includes("/farmer/") || path.includes("/buyer/") ? "../admin_login.html" : "admin_login.html";
+	}
+});
+
 
