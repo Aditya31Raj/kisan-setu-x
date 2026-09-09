@@ -6,7 +6,8 @@ const isLocalhost = Boolean(
 	typeof window !== "undefined" &&
 	(window.location.hostname === "localhost" ||
 	 window.location.hostname === "[::1]" ||
-	 window.location.hostname === "127.0.0.1")
+	 window.location.hostname === "127.0.0.1" ||
+	 window.location.protocol === "file:")
 );
 
 const API_BASE_URL =
@@ -86,7 +87,7 @@ async function readApiResponse(response) {
 	}
 
 	const data = body.data ?? body;
-	if (data && typeof data === "object") {
+	if (data && typeof data === "object" && !response.url?.includes("/auth/csrf")) {
 		const token = data.token || data.accessToken;
 		if (token && typeof token === "string") {
 			setAuthToken(token);
@@ -104,10 +105,10 @@ async function getCsrfToken() {
 			headers: { Accept: "application/json" }
 		});
 		const body = await readApiResponse(response);
-		csrfToken = body.token || body.csrfToken || response.headers.get("x-csrf-token") || csrfToken;
+		csrfToken = body?.token || body?.csrfToken || response.headers.get("x-csrf-token") || csrfToken;
 		return csrfToken;
 	} catch (err) {
-		console.warn("Could not obtain CSRF token from server:", err.message);
+		console.warn("Could not obtain CSRF token from server:", err?.message || err);
 		return csrfToken;
 	}
 }
