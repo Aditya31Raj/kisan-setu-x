@@ -145,7 +145,7 @@
 
                     <h4>Total Payments</h4>
 
-                    <strong>8,421</strong>
+                    <strong id="adminPaymentsTotal">--</strong>
 
                 </div>
 
@@ -153,7 +153,7 @@
 
                     <h4>Completed</h4>
 
-                    <strong>7,856</strong>
+                    <strong id="adminPaymentsCompleted">--</strong>
 
                 </div>
 
@@ -161,7 +161,7 @@
 
                     <h4>Pending</h4>
 
-                    <strong>421</strong>
+                    <strong id="adminPaymentsPending">--</strong>
 
                 </div>
 
@@ -169,7 +169,7 @@
 
                     <h4>Failed</h4>
 
-                    <strong>144</strong>
+                    <strong id="adminPaymentsFailed">--</strong>
 
                 </div>
 
@@ -200,8 +200,6 @@
 
                         <th>Buyer</th>
 
-                        <th>Produce</th>
-
                         <th>Amount</th>
 
                         <th>Date</th>
@@ -212,122 +210,12 @@
 
                 </thead>
 
-                <tbody>
-
+                <tbody id="adminPaymentsTableBody">
                     <tr>
-
-                        <td>TX-000145</td>
-
-                        <td>Ramesh Kumar</td>
-
-                        <td>ABC Traders</td>
-
-                        <td>Wheat</td>
-
-                        <td>₹12,000</td>
-
-                        <td>02 Sep 2026</td>
-
-                        <td>
-                            <span class="status success">
-                                Completed
-                            </span>
+                        <td colspan="6" style="text-align:center; padding:32px; color:#666;">
+                            Loading live payment records...
                         </td>
-
                     </tr>
-
-
-                    <tr>
-
-                        <td>TX-000146</td>
-
-                        <td>Sita Devi</td>
-
-                        <td>XYZ Foods</td>
-
-                        <td>Rice</td>
-
-                        <td>₹8,400</td>
-
-                        <td>01 Sep 2026</td>
-
-                        <td>
-                            <span class="status pending">
-                                Pending
-                            </span>
-                        </td>
-
-                    </tr>
-
-
-                    <tr>
-
-                        <td>TX-000147</td>
-
-                        <td>Mohan Das</td>
-
-                        <td>Local Mart</td>
-
-                        <td>Maize</td>
-
-                        <td>₹15,200</td>
-
-                        <td>31 Aug 2026</td>
-
-                        <td>
-                            <span class="status success">
-                                Completed
-                            </span>
-                        </td>
-
-                    </tr>
-
-
-                    <tr>
-
-                        <td>TX-000148</td>
-
-                        <td>Anita Devi</td>
-
-                        <td>Fresh Market</td>
-
-                        <td>Potato</td>
-
-                        <td>₹6,800</td>
-
-                        <td>30 Aug 2026</td>
-
-                        <td>
-                            <span class="status danger">
-                                Below MSP
-                            </span>
-                        </td>
-
-                    </tr>
-
-
-                    <tr>
-
-                        <td>TX-000149</td>
-
-                        <td>Raj Kumar</td>
-
-                        <td>Green Foods</td>
-
-                        <td>Onion</td>
-
-                        <td>₹9,500</td>
-
-                        <td>29 Aug 2026</td>
-
-                        <td>
-                            <span class="status success">
-                                Completed
-                            </span>
-                        </td>
-
-                    </tr>
-
                 </tbody>
 
             </table>
@@ -381,14 +269,84 @@
 </div>
 
 
-<script>
-
-    console.log("Kisan Setu Payments Page Loaded");
-
-</script>
-
 <script src="../js/core/api.js"></script>
 <script src="../js/core/auth.js"></script>
+<script src="../js/admin/admin.js"></script>
+<script>
+    function escapeHTML(str) {
+        return String(str ?? "").replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#039;" }[c]));
+    }
+    function formatDate(d) {
+        if (!d) return "--";
+        const dt = new Date(d);
+        return isNaN(dt.getTime()) ? String(d) : dt.toLocaleDateString("en-IN", { day: "2-digit", month: "short", year: "numeric" });
+    }
+
+    document.addEventListener("DOMContentLoaded", async () => {
+        const user = await ensureAdminAuth();
+        if (!user) return;
+
+        // 1. Stats from dashboard
+        try {
+            const dash = await getAdminDashboard();
+            if (dash) {
+                document.getElementById("adminPaymentsTotal").textContent = Number(dash.totalTransactions || 0).toLocaleString();
+                document.getElementById("adminPaymentsPending").textContent = Number(dash.pendingPayments || 0).toLocaleString();
+            }
+        } catch (e) {
+            console.warn("Could not load payment stats:", e);
+        }
+
+        // 2. Payments list
+        try {
+            const res = await apiRequest("/admin/payments");
+            const payments = Array.isArray(res) ? res : (res?.data || []);
+            const tbody = document.getElementById("adminPaymentsTableBody");
+            
+            let completed = 0;
+            let pending = 0;
+            let failed = 0;
+
+            payments.forEach(p => {
+                if (p.status === "SUCCESS" || p.status === "COMPLETED") completed++;
+                else if (p.status === "PENDING") pending++;
+                else if (p.status === "FAILED") failed++;
+            });
+
+            document.getElementById("adminPaymentsCompleted").textContent = completed.toLocaleString();
+            document.getElementById("adminPaymentsFailed").textContent = failed.toLocaleString();
+            if (pending > 0) document.getElementById("adminPaymentsPending").textContent = pending.toLocaleString();
+
+            if (!payments || payments.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="6" style="text-align:center; padding:36px; color:#777;">No marketplace payment records found in database.</td></tr>`;
+            } else {
+                tbody.innerHTML = payments.map(p => {
+                    const id = p.id ? `TX-${p.id.slice(0, 6).toUpperCase()}` : "--";
+                    const farmerName = p.order?.farmer?.name || "Farmer";
+                    const buyerName = p.order?.buyer?.name || "Buyer";
+                    const amt = p.amount ? `₹${Number(p.amount).toLocaleString()}` : "₹0";
+                    const date = formatDate(p.createdAt);
+                    const status = p.status || "COMPLETED";
+                    const statusClass = status === "SUCCESS" || status === "COMPLETED" ? "status success" : status === "PENDING" ? "status pending" : "status danger";
+                    return `
+                        <tr>
+                            <td><strong>${escapeHTML(id)}</strong></td>
+                            <td>${escapeHTML(farmerName)}</td>
+                            <td>${escapeHTML(buyerName)}</td>
+                            <td><strong>${escapeHTML(amt)}</strong></td>
+                            <td>${escapeHTML(date)}</td>
+                            <td><span class="${statusClass}">${escapeHTML(status)}</span></td>
+                        </tr>
+                    `;
+                }).join("");
+            }
+        } catch (err) {
+            console.error("Failed to load payments:", err);
+            const tbody = document.getElementById("adminPaymentsTableBody");
+            if (tbody) tbody.innerHTML = `<tr><td colspan="6" style="text-align:center; padding:28px; color:#ba3d32;">Failed to load payments: ${escapeHTML(err.message)}</td></tr>`;
+        }
+    });
+</script>
 
 </body>
 

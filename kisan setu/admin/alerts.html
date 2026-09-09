@@ -370,234 +370,9 @@
                 <h2>
                     Recent Alerts
                 </h2>
-
-            </div>
-
-
-
-            <!-- ALERT 1 -->
-
-            <div class="alert-card">
-
-                <div class="alert-left">
-
-                    <div class="alert-icon danger">
-                        ⚠️
-                    </div>
-
-                    <div class="alert-info">
-
-                        <h3>
-                            Payment Below MSP Detected
-                        </h3>
-
-                        <p>
-                            Payment PM-000148 has been
-                            detected below the applicable MSP.
-                        </p>
-
-                        <span class="alert-time">
-                            10 minutes ago
-                        </span>
-
-                    </div>
-
+                <div id="adminAlertsContainer" style="display:flex; flex-direction:column; gap:16px;">
+                    <p style="text-align:center; padding:32px; color:#666;">Loading live alerts...</p>
                 </div>
-
-
-                <span class="alert-status unread">
-                    Unread
-                </span>
-
-            </div>
-
-
-
-            <!-- ALERT 2 -->
-
-            <div class="alert-card">
-
-                <div class="alert-left">
-
-                    <div class="alert-icon warning">
-                        ⏳
-                    </div>
-
-                    <div class="alert-info">
-
-                        <h3>
-                            Payment Pending
-                        </h3>
-
-                        <p>
-                            Payment TX-000182 is still pending
-                            and requires attention.
-                        </p>
-
-                        <span class="alert-time">
-                            35 minutes ago
-                        </span>
-
-                    </div>
-
-                </div>
-
-
-                <span class="alert-status unread">
-                    Unread
-                </span>
-
-            </div>
-
-
-
-            <!-- ALERT 3 -->
-
-            <div class="alert-card">
-
-                <div class="alert-left">
-
-                    <div class="alert-icon warning">
-                        📋
-                    </div>
-
-                    <div class="alert-info">
-
-                        <h3>
-                            Input Request Awaiting Approval
-                        </h3>
-
-                        <p>
-                            A fertilizer request has been
-                            submitted and is awaiting approval.
-                        </p>
-
-                        <span class="alert-time">
-                            1 hour ago
-                        </span>
-
-                    </div>
-
-                </div>
-
-
-                <span class="alert-status unread">
-                    Unread
-                </span>
-
-            </div>
-
-
-
-            <!-- ALERT 4 -->
-
-            <div class="alert-card">
-
-                <div class="alert-left">
-
-                    <div class="alert-icon info">
-                        🚚
-                    </div>
-
-                    <div class="alert-info">
-
-                        <h3>
-                            Logistics Verification Required
-                        </h3>
-
-                        <p>
-                            Delivery verification is required
-                            for a recent order.
-                        </p>
-
-                        <span class="alert-time">
-                            2 hours ago
-                        </span>
-
-                    </div>
-
-                </div>
-
-
-                <span class="alert-status read">
-                    Read
-                </span>
-
-            </div>
-
-
-
-            <!-- ALERT 5 -->
-
-            <div class="alert-card">
-
-                <div class="alert-left">
-
-                    <div class="alert-icon success">
-                        ✅
-                    </div>
-
-                    <div class="alert-info">
-
-                        <h3>
-                            New Farmer Registration
-                        </h3>
-
-                        <p>
-                            A new farmer has successfully
-                            completed registration.
-                        </p>
-
-                        <span class="alert-time">
-                            3 hours ago
-                        </span>
-
-                    </div>
-
-                </div>
-
-
-                <span class="alert-status read">
-                    Read
-                </span>
-
-            </div>
-
-
-
-            <!-- ALERT 6 -->
-
-            <div class="alert-card">
-
-                <div class="alert-left">
-
-                    <div class="alert-icon info">
-                        👨‍🌾
-                    </div>
-
-                    <div class="alert-info">
-
-                        <h3>
-                            Farmer Verification Completed
-                        </h3>
-
-                        <p>
-                            Farmer verification has been
-                            successfully completed.
-                        </p>
-
-                        <span class="alert-time">
-                            5 hours ago
-                        </span>
-
-                    </div>
-
-                </div>
-
-
-                <span class="alert-status read">
-                    Read
-                </span>
 
             </div>
 
@@ -610,64 +385,90 @@
 
 
     <!-- ================= JAVASCRIPT ================= -->
-
-    <script>
-
-        const alertType =
-            document.getElementById("alertType");
-
-        const alerts =
-            document.querySelectorAll(".alert-card");
-
-
-        alertType.addEventListener("change", function () {
-
-            const selected =
-                this.value;
-
-
-            alerts.forEach(function (alert) {
-
-                const icon =
-                    alert.querySelector(".alert-icon");
-
-
-                if (selected === "all") {
-
-                    alert.style.display = "flex";
-
-                    return;
-
-                }
-
-
-                if (
-                    icon &&
-                    icon.classList.contains(selected)
-                ) {
-
-                    alert.style.display = "flex";
-
-                } else {
-
-                    alert.style.display = "none";
-
-                }
-
-            });
-
-        });
-
-
-        console.log(
-            "Kisan Setu Admin Alerts Loaded"
-        );
-
-    </script>
-
     <script src="../js/core/api.js"></script>
     <script src="../js/core/auth.js"></script>
+    <script src="../js/admin/admin.js"></script>
+    <script>
+        function escapeHTML(str) {
+            return String(str ?? "").replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#039;" }[c]));
+        }
 
+        let currentAlerts = [];
+
+        function renderAlertCards(list) {
+            const container = document.getElementById("adminAlertsContainer");
+            if (!container) return;
+
+            if (!list || list.length === 0) {
+                container.innerHTML = `
+                    <div style="text-align:center; padding:50px 20px; background:#f9fcf9; border:1px solid #dbeade; border-radius:12px; color:#16863b;">
+                        <div style="font-size:36px; margin-bottom:12px;">✓</div>
+                        <h3 style="margin-bottom:6px; font-size:18px;">All Systems Clear</h3>
+                        <p style="color:#666; font-size:13px; max-width:400px; margin:0 auto;">No pending system warnings, MSP violations, or compliance alerts found in the database.</p>
+                    </div>
+                `;
+                return;
+            }
+
+            container.innerHTML = list.map(a => {
+                const sev = (a.severity || "medium").toLowerCase();
+                const isDanger = sev === "high" || sev === "critical" || a.type === "MSP_VIOLATION";
+                const icon = isDanger ? "⚠️" : (a.type?.includes("PAYMENT") ? "⏳" : "📋");
+                const iconClass = isDanger ? "danger" : "warning";
+                const isRead = Boolean(a.resolvedAt);
+
+                return `
+                    <div class="alert-card">
+                        <div class="alert-left">
+                            <div class="alert-icon ${iconClass}">
+                                ${icon}
+                            </div>
+                            <div class="alert-info">
+                                <h3>${escapeHTML(a.title || a.type?.replace(/_/g, ' ') || "System Alert")}</h3>
+                                <p>${escapeHTML(a.message || a.description || "Details recorded.")}</p>
+                                <span class="alert-time">${new Date(a.createdAt).toLocaleString()}</span>
+                            </div>
+                        </div>
+                        <span class="alert-status ${isRead ? "read" : "unread"}">
+                            ${isRead ? "Resolved" : "Active"}
+                        </span>
+                    </div>
+                `;
+            }).join("");
+        }
+
+        document.addEventListener("DOMContentLoaded", async () => {
+            const user = await ensureAdminAuth();
+            if (!user) return;
+
+            try {
+                const res = await apiRequest("/admin/alerts");
+                currentAlerts = Array.isArray(res) ? res : (res?.data || []);
+                renderAlertCards(currentAlerts);
+            } catch (err) {
+                console.error("Failed to load alerts:", err);
+                const container = document.getElementById("adminAlertsContainer");
+                if (container) {
+                    container.innerHTML = `<div style="text-align:center; padding:30px; color:#ba3d32;">Failed to load alerts: ${escapeHTML(err.message)}</div>`;
+                }
+            }
+
+            const alertFilter = document.getElementById("alertType");
+            if (alertFilter) {
+                alertFilter.addEventListener("change", function() {
+                    const val = this.value;
+                    if (val === "all") {
+                        renderAlertCards(currentAlerts);
+                    } else if (val === "danger") {
+                        renderAlertCards(currentAlerts.filter(a => a.severity === "HIGH" || a.severity === "CRITICAL" || a.type === "MSP_VIOLATION"));
+                    } else if (val === "warning") {
+                        renderAlertCards(currentAlerts.filter(a => a.severity === "MEDIUM" || a.type?.includes("PAYMENT")));
+                    } else {
+                        renderAlertCards(currentAlerts);
+                    }
+                });
+            }
+        });
+    </script>
 </body>
-
 </html>

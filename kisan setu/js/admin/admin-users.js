@@ -245,9 +245,13 @@ function showBuyerDetails(id) {
 }
 
 // Global initialization
+// Global initialization
 document.addEventListener("DOMContentLoaded", () => {
 	const path = (window.location.pathname || "").toLowerCase();
-	if (path.includes("farmers.html")) {
+	const hasFarmerTable = Boolean(document.getElementById("farmerTableBody") || document.getElementById("farmerSearch"));
+	const hasBuyerTable = Boolean(document.getElementById("buyerTableBody") || document.getElementById("buyerSearch"));
+
+	if (hasFarmerTable || path.includes("farmer")) {
 		loadAdminFarmers();
 
 		document.querySelector(".admin-search-btn")?.addEventListener("click", filterFarmers);
@@ -261,7 +265,9 @@ document.addEventListener("DOMContentLoaded", () => {
 			if (document.getElementById("farmerLocation")) document.getElementById("farmerLocation").value = "";
 			renderFarmerRows(allFarmers);
 		});
-	} else if (path.includes("buyers.html")) {
+	}
+	
+	if (hasBuyerTable || path.includes("buyer")) {
 		loadAdminBuyers();
 
 		document.querySelector(".admin-search-btn")?.addEventListener("click", filterBuyers);

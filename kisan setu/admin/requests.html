@@ -887,15 +887,11 @@
             <div class="request-stat">
 
                 <span>
-
                     Total Requests
-
                 </span>
 
-                <strong>
-
-                    128
-
+                <strong id="adminRequestsTotal">
+                    0
                 </strong>
 
             </div>
@@ -904,15 +900,11 @@
             <div class="request-stat">
 
                 <span>
-
                     Pending
-
                 </span>
 
-                <strong>
-
-                    24
-
+                <strong id="adminRequestsPending">
+                    0
                 </strong>
 
             </div>
@@ -921,15 +913,11 @@
             <div class="request-stat">
 
                 <span>
-
                     Approved
-
                 </span>
 
-                <strong>
-
-                    91
-
+                <strong id="adminRequestsApproved">
+                    0
                 </strong>
 
             </div>
@@ -938,15 +926,11 @@
             <div class="request-stat">
 
                 <span>
-
                     Rejected
-
                 </span>
 
-                <strong>
-
-                    13
-
+                <strong id="adminRequestsRejected">
+                    0
                 </strong>
 
             </div>
@@ -1128,241 +1112,19 @@
 
                     </thead>
 
-
                     <tbody id="requestTableBody">
-
-
-                        <!-- REQUEST 1 -->
-
                         <tr>
-
-                            <td>
-                                REQ-00125
+                            <td colspan="6" style="text-align:center; padding:36px; color:#777;">
+                                No pending requests found in the system.
                             </td>
-
-                            <td>
-                                Ramesh Kumar
-                            </td>
-
-                            <td>
-                                Farmer Request
-                            </td>
-
-                            <td>
-                                02 Sep 2026
-                            </td>
-
-                            <td>
-
-                                <span class="status pending">
-
-                                    Pending
-
-                                </span>
-
-                            </td>
-
-                            <td>
-
-                                <button
-                                    class="action-btn view-btn"
-                                    onclick="viewRequest('REQ-00125')">
-
-                                    View
-
-                                </button>
-
-                                <button
-                                    class="action-btn approve-btn"
-                                    onclick="approveRequest('REQ-00125')">
-
-                                    Approve
-
-                                </button>
-
-                                <button
-                                    class="action-btn reject-btn"
-                                    onclick="rejectRequest('REQ-00125')">
-
-                                    Reject
-
-                                </button>
-
-                            </td>
-
                         </tr>
-
-
-
-                        <!-- REQUEST 2 -->
-
-                        <tr>
-
-                            <td>
-                                REQ-00126
-                            </td>
-
-                            <td>
-                                Sita Devi
-                            </td>
-
-                            <td>
-                                Input Request
-                            </td>
-
-                            <td>
-                                02 Sep 2026
-                            </td>
-
-                            <td>
-
-                                <span class="status pending">
-
-                                    Pending
-
-                                </span>
-
-                            </td>
-
-                            <td>
-
-                                <button
-                                    class="action-btn view-btn"
-                                    onclick="viewRequest('REQ-00126')">
-
-                                    View
-
-                                </button>
-
-                                <button
-                                    class="action-btn approve-btn"
-                                    onclick="approveRequest('REQ-00126')">
-
-                                    Approve
-
-                                </button>
-
-                                <button
-                                    class="action-btn reject-btn"
-                                    onclick="rejectRequest('REQ-00126')">
-
-                                    Reject
-
-                                </button>
-
-                            </td>
-
-                        </tr>
-
-
-
-                        <!-- REQUEST 3 -->
-
-                        <tr>
-
-                            <td>
-                                REQ-00127
-                            </td>
-
-                            <td>
-                                Mohan Das
-                            </td>
-
-                            <td>
-                                Buyer Request
-                            </td>
-
-                            <td>
-                                01 Sep 2026
-                            </td>
-
-                            <td>
-
-                                <span class="status approved">
-
-                                    Approved
-
-                                </span>
-
-                            </td>
-
-                            <td>
-
-                                <button
-                                    class="action-btn view-btn"
-                                    onclick="viewRequest('REQ-00127')">
-
-                                    View
-
-                                </button>
-
-                            </td>
-
-                        </tr>
-
-
-
-                        <!-- REQUEST 4 -->
-
-                        <tr>
-
-                            <td>
-                                REQ-00128
-                            </td>
-
-                            <td>
-                                Anita Devi
-                            </td>
-
-                            <td>
-                                Farmer Request
-                            </td>
-
-                            <td>
-                                31 Aug 2026
-                            </td>
-
-                            <td>
-
-                                <span class="status rejected">
-
-                                    Rejected
-
-                                </span>
-
-                            </td>
-
-                            <td>
-
-                                <button
-                                    class="action-btn view-btn"
-                                    onclick="viewRequest('REQ-00128')">
-
-                                    View
-
-                                </button>
-
-                            </td>
-
-                        </tr>
-
-
                     </tbody>
-
 
                 </table>
 
 
             </div>
 
-
-
-            <div class="info-box">
-
-                Request data is currently static.
-                Backend integration will be added later.
-
-            </div>
 
 
         </section>
@@ -1515,14 +1277,26 @@
         }
 
 
-        console.log(
-            "Kisan Setu Requests Page Loaded"
-        );
-    </script>
-
     <script src="../js/core/api.js"></script>
     <script src="../js/core/auth.js"></script>
-</body>
+    <script src="../js/admin/admin.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", async () => {
+            const user = await ensureAdminAuth();
+            if (!user) return;
 
+            try {
+                const dash = await getAdminDashboard();
+                if (dash) {
+                    const pending = Number(dash.pendingInputRequests || 0) + Number(dash.openGrievances || 0);
+                    document.getElementById("adminRequestsPending").textContent = pending;
+                    document.getElementById("adminRequestsTotal").textContent = pending;
+                }
+            } catch (e) {
+                console.warn("Could not load request stats:", e);
+            }
+        });
+    </script>
+</body>
 </html>
 

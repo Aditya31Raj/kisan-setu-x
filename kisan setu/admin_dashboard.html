@@ -352,133 +352,12 @@
                         </thead>
 
 
-                        <tbody>
-
-
-                            <!-- PAYMENT 1 -->
-
+                        <tbody id="adminRecentPaymentsBody">
                             <tr>
-
-                                <td>
-                                    PY-000145
+                                <td colspan="5" style="text-align:center; padding:32px; color:#666;">
+                                    Loading recent payments...
                                 </td>
-
-                                <td>
-                                    Ramesh Kumar
-                                </td>
-
-                                <td>
-                                    ABC Traders
-                                </td>
-
-                                <td>
-                                    ₹12,000
-                                </td>
-
-                                <td>
-
-                                    <span class="status success">
-                                        Completed
-                                    </span>
-
-                                </td>
-
                             </tr>
-
-
-                            <!-- PAYMENT 2 -->
-
-                            <tr>
-
-                                <td>
-                                    PY-000146
-                                </td>
-
-                                <td>
-                                    Sita Devi
-                                </td>
-
-                                <td>
-                                    XYZ Foods
-                                </td>
-
-                                <td>
-                                    ₹8,400
-                                </td>
-
-                                <td>
-
-                                    <span class="status pending">
-                                        Pending
-                                    </span>
-
-                                </td>
-
-                            </tr>
-
-
-                            <!-- PAYMENT 3 -->
-
-                            <tr>
-
-                                <td>
-                                    PY-000147
-                                </td>
-
-                                <td>
-                                    Mohan Das
-                                </td>
-
-                                <td>
-                                    Local Mart
-                                </td>
-
-                                <td>
-                                    ₹15,200
-                                </td>
-
-                                <td>
-
-                                    <span class="status success">
-                                        Completed
-                                    </span>
-
-                                </td>
-
-                            </tr>
-
-
-                            <!-- PAYMENT 4 -->
-
-                            <tr>
-
-                                <td>
-                                    PY-000148
-                                </td>
-
-                                <td>
-                                    Anita Devi
-                                </td>
-
-                                <td>
-                                    Fresh Market
-                                </td>
-
-                                <td>
-                                    ₹6,800
-                                </td>
-
-                                <td>
-
-                                    <span class="status danger">
-                                        Below MSP
-                                    </span>
-
-                                </td>
-
-                            </tr>
-
-
                         </tbody>
 
                     </table>
@@ -512,59 +391,10 @@
                 </div>
 
 
-
-                <!-- ALERT 1 -->
-
-                <div class="alert danger">
-
-                    <strong>
-                        ⚠ Below MSP Detected
-                    </strong>
-
-                    Payment PM-000148 is below MSP.
-
-                </div>
-
-
-
-                <!-- ALERT 2 -->
-
-                <div class="alert pending">
-
-                    <strong>
-                        ⏳ Payment Pending
-                    </strong>
-
-                    Payment PY-000182 requires attention.
-
-                </div>
-
-
-
-                <!-- ALERT 3 -->
-
-                <div class="alert pending">
-
-                    <strong>
-                        📋 Input Request
-                    </strong>
-
-                    Fertilizer request awaiting approval.
-
-                </div>
-
-
-
-                <!-- ALERT 4 -->
-
-                <div class="alert">
-
-                    <strong>
-                        🚚 Logistics Update
-                    </strong>
-
-                    Delivery verification required.
-
+                <div id="adminRecentAlertsList" style="display:flex; flex-direction:column; gap:12px;">
+                    <p style="color:#777; font-size:13px; text-align:center; padding:20px;">
+                        Loading recent alerts...
+                    </p>
                 </div>
 
 
@@ -684,6 +514,10 @@
     <script src="js/core/auth.js"></script>
     <script src="js/admin/admin.js"></script>
     <script>
+        function escapeHTML(str) {
+            return String(str ?? "").replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#039;" }[c]));
+        }
+
         document.addEventListener("DOMContentLoaded", async () => {
             const user = await ensureAdminAuth();
             if (!user) return;
@@ -693,6 +527,7 @@
                 if (profileStrong) profileStrong.textContent = user.name;
             }
 
+            // 1. Load Stats
             try {
                 const data = await getAdminDashboard();
                 if (data) {
@@ -703,6 +538,78 @@
                 }
             } catch (err) {
                 console.warn("Could not load admin dashboard live data:", err);
+            }
+
+            // 2. Load Recent Payments
+            try {
+                const payRes = await apiRequest("/admin/payments");
+                const payments = Array.isArray(payRes) ? payRes : (payRes?.data || []);
+                const tbody = document.getElementById("adminRecentPaymentsBody");
+                if (tbody) {
+                    if (!payments || payments.length === 0) {
+                        tbody.innerHTML = `<tr><td colspan="5" style="text-align:center; padding:32px; color:#777;"><i class="fa-solid fa-receipt" style="margin-right:6px;"></i> No recent payments recorded.</td></tr>`;
+                    } else {
+                        tbody.innerHTML = payments.slice(0, 5).map(p => {
+                            const pId = p.id ? `PY-${p.id.slice(0, 6).toUpperCase()}` : "--";
+                            const farmerName = p.order?.farmer?.name || "Farmer";
+                            const buyerName = p.order?.buyer?.name || "Buyer";
+                            const amt = p.amount ? `₹${Number(p.amount).toLocaleString()}` : "₹0";
+                            const status = p.status || "COMPLETED";
+                            const statusClass = status === "SUCCESS" || status === "COMPLETED" ? "status success" : status === "PENDING" ? "status pending" : "status danger";
+                            return `
+                                <tr>
+                                    <td><strong>${escapeHTML(pId)}</strong></td>
+                                    <td>${escapeHTML(farmerName)}</td>
+                                    <td>${escapeHTML(buyerName)}</td>
+                                    <td><strong>${escapeHTML(amt)}</strong></td>
+                                    <td><span class="${statusClass}">${escapeHTML(status)}</span></td>
+                                </tr>
+                            `;
+                        }).join("");
+                    }
+                }
+            } catch (pErr) {
+                console.warn("Could not load recent payments:", pErr);
+                const tbody = document.getElementById("adminRecentPaymentsBody");
+                if (tbody) tbody.innerHTML = `<tr><td colspan="5" style="text-align:center; padding:24px; color:#777;">No recent payments recorded.</td></tr>`;
+            }
+
+            // 3. Load Recent Alerts
+            try {
+                const alertsRes = await apiRequest("/admin/alerts");
+                const alerts = Array.isArray(alertsRes) ? alertsRes : (alertsRes?.data || []);
+                const alertsContainer = document.getElementById("adminRecentAlertsList");
+                if (alertsContainer) {
+                    if (!alerts || alerts.length === 0) {
+                        alertsContainer.innerHTML = `
+                            <div style="text-align:center; padding:24px 16px; background:#f9fcf9; border:1px solid #e1ebe2; border-radius:8px; color:#16863b;">
+                                <strong style="display:block; font-size:14px; margin-bottom:4px;">✓ All Systems Operational</strong>
+                                <span style="font-size:12px; color:#666;">No active system or compliance alerts right now.</span>
+                            </div>
+                        `;
+                    } else {
+                        alertsContainer.innerHTML = alerts.slice(0, 4).map(a => {
+                            const sev = (a.severity || "medium").toLowerCase();
+                            const alertClass = sev === "high" || sev === "critical" ? "alert danger" : sev === "low" ? "alert" : "alert pending";
+                            return `
+                                <div class="${alertClass}">
+                                    <strong>${escapeHTML(a.title || "Alert")}</strong>
+                                    ${escapeHTML(a.message || a.description || "")}
+                                </div>
+                            `;
+                        }).join("");
+                    }
+                }
+            } catch (aErr) {
+                console.warn("Could not load recent alerts:", aErr);
+                const alertsContainer = document.getElementById("adminRecentAlertsList");
+                if (alertsContainer) {
+                    alertsContainer.innerHTML = `
+                        <div style="text-align:center; padding:20px; color:#16863b;">
+                            <strong style="display:block; font-size:13px;">✓ No Active Alerts</strong>
+                        </div>
+                    `;
+                }
             }
         });
     </script>
