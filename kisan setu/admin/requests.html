@@ -1275,7 +1275,7 @@
             });
 
         }
-
+    </script>
 
     <script src="../js/core/api.js"></script>
     <script src="../js/core/auth.js"></script>
@@ -1285,12 +1285,75 @@
             const user = await ensureAdminAuth();
             if (!user) return;
 
+            const tbody = document.getElementById("requestTableBody");
+
             try {
-                const dash = await getAdminDashboard();
-                if (dash) {
-                    const pending = Number(dash.pendingInputRequests || 0) + Number(dash.openGrievances || 0);
-                    document.getElementById("adminRequestsPending").textContent = pending;
-                    document.getElementById("adminRequestsTotal").textContent = pending;
+                const [dash, inputsRes, grievancesRes] = await Promise.allSettled([
+                    getAdminDashboard(),
+                    apiRequest("/inputs"),
+                    apiRequest("/grievances")
+                ]);
+
+                if (dash.status === "fulfilled" && dash.value) {
+                    const d = dash.value;
+                    const pending = Number(d.pendingInputRequests || 0) + Number(d.openGrievances || 0);
+                    const totalEl = document.getElementById("adminRequestsTotal");
+                    const pendingEl = document.getElementById("adminRequestsPending");
+                    if (totalEl) totalEl.textContent = pending;
+                    if (pendingEl) pendingEl.textContent = pending;
+                }
+
+                let allRequests = [];
+                if (inputsRes.status === "fulfilled" && inputsRes.value) {
+                    const inpItems = Array.isArray(inputsRes.value) ? inputsRes.value : (inputsRes.value.items || []);
+                    inpItems.forEach(i => allRequests.push({
+                        id: `INP-${(i.id || '').slice(0, 5).toUpperCase()}`,
+                        applicant: i.farmer?.name || i.farmerName || "Farmer",
+                        type: "Input Request",
+                        date: i.createdAt ? new Date(i.createdAt).toLocaleDateString("en-IN", { day: '2-digit', month: 'short', year: 'numeric' }) : "N/A",
+                        status: (i.status || "PENDING").toUpperCase(),
+                        rawId: i.id
+                    }));
+                }
+
+                if (grievancesRes.status === "fulfilled" && grievancesRes.value) {
+                    const grvItems = Array.isArray(grievancesRes.value) ? grievancesRes.value : (grievancesRes.value.items || []);
+                    grvItems.forEach(g => allRequests.push({
+                        id: `GRV-${(g.id || '').slice(0, 5).toUpperCase()}`,
+                        applicant: g.user?.name || g.farmerName || "Citizen / Farmer",
+                        type: "Grievance",
+                        date: g.createdAt ? new Date(g.createdAt).toLocaleDateString("en-IN", { day: '2-digit', month: 'short', year: 'numeric' }) : "N/A",
+                        status: (g.status || "PENDING").toUpperCase(),
+                        rawId: g.id
+                    }));
+                }
+
+                if (!allRequests.length) {
+                    if (tbody) tbody.innerHTML = `
+                        <tr>
+                            <td colspan="6" style="text-align:center; padding:36px; color:#777;">
+                                <i class="fa-solid fa-clipboard-check" style="font-size:28px; margin-bottom:8px; display:block; color:#9cb1a0;"></i>
+                                No pending requests found in the system.
+                            </td>
+                        </tr>
+                    `;
+                    return;
+                }
+
+                if (tbody) {
+                    tbody.innerHTML = allRequests.map(r => {
+                        const sClass = r.status === "APPROVED" || r.status === "RESOLVED" ? "status approved" : (r.status === "REJECTED" ? "status rejected" : "status pending");
+                        return `
+                            <tr>
+                                <td><strong>#${r.id}</strong></td>
+                                <td>${r.applicant}</td>
+                                <td><span style="background:#f0fdf4; color:#166534; padding:3px 8px; border-radius:10px; font-size:11px; font-weight:600;">${r.type}</span></td>
+                                <td>${r.date}</td>
+                                <td><span class="${sClass}">${r.status}</span></td>
+                                <td><button type="button" class="action-btn" onclick="alert('Viewing request: ' + '${r.id}')" style="background:#176b38; color:#fff; border:none; padding:5px 12px; border-radius:4px; font-size:11px; cursor:pointer;">Review</button></td>
+                            </tr>
+                        `;
+                    }).join("");
                 }
             } catch (e) {
                 console.warn("Could not load request stats:", e);

@@ -57,6 +57,16 @@ async function loadAdminFarmers() {
 
 		renderFarmerRows(allFarmers);
 
+		// Update dynamic farmer stats
+		const totalEl = document.getElementById("adminStatTotalFarmers");
+		const activeEl = document.getElementById("adminStatActiveFarmers");
+		const pendingEl = document.getElementById("adminStatPendingFarmers");
+		const suspendedEl = document.getElementById("adminStatSuspendedFarmers");
+		if (totalEl) totalEl.textContent = allFarmers.length;
+		if (activeEl) activeEl.textContent = allFarmers.filter(f => f.isActive).length;
+		if (pendingEl) pendingEl.textContent = allFarmers.filter(f => !f.isVerified).length;
+		if (suspendedEl) suspendedEl.textContent = allFarmers.filter(f => !f.isActive).length;
+
 		if (countBadge) {
 			countBadge.textContent = `${allFarmers.length} Farmer${allFarmers.length === 1 ? "" : "s"}`;
 		}
@@ -157,6 +167,18 @@ async function loadAdminBuyers() {
 		allBuyers = res?.items || (Array.isArray(res) ? res : (res?.data?.items || []));
 
 		renderBuyerRows(allBuyers);
+
+		// Update dynamic buyer stats
+		const totalEl = document.getElementById("adminStatTotalBuyers");
+		const activeEl = document.getElementById("adminStatActiveBuyers");
+		const pendingEl = document.getElementById("adminStatPendingBuyers");
+		const suspendedEl = document.getElementById("adminStatSuspendedBuyers");
+		const buyersBadge = document.getElementById("adminBuyersCountBadge");
+		if (totalEl) totalEl.textContent = allBuyers.length;
+		if (activeEl) activeEl.textContent = allBuyers.filter(b => b.isActive).length;
+		if (pendingEl) pendingEl.textContent = allBuyers.filter(b => !b.isVerified).length;
+		if (suspendedEl) suspendedEl.textContent = allBuyers.filter(b => !b.isActive).length;
+		if (buyersBadge) buyersBadge.textContent = `${allBuyers.length} Buyer${allBuyers.length === 1 ? "" : "s"}`;
 
 		if (countBadge) {
 			countBadge.textContent = `${allBuyers.length} Buyer${allBuyers.length === 1 ? "" : "s"}`;

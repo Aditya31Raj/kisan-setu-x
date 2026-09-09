@@ -86,6 +86,41 @@ async function getFarmerNotifications(params = {}) {
 	return apiRequest(`/notifications${queryString(params)}`);
 }
 
+async function syncFarmerSidebarProfile() {
+	try {
+		const sName = document.getElementById("farmerSidebarName");
+		const sId = document.getElementById("farmerSidebarId");
+		if (!sName && !sId) return;
+
+		// Try quick sync from localStorage
+		const rawUser = localStorage.getItem("kisan_setu_user");
+		if (rawUser) {
+			try {
+				const u = JSON.parse(rawUser);
+				if (sName && u.name) sName.textContent = u.name;
+				if (sId && u.id) sId.textContent = `Farmer ID: KS-${String(u.id).substring(0, 6).toUpperCase()}`;
+			} catch {}
+		}
+
+		// Background fetch real profile if available
+		const user = await getCurrentUser();
+		if (user) {
+			if (sName && user.name) sName.textContent = user.name;
+			if (sId && user.id) sId.textContent = `Farmer ID: KS-${String(user.id).substring(0, 6).toUpperCase()}`;
+		}
+	} catch (e) {
+		console.debug("Sidebar farmer sync note:", e);
+	}
+}
+
+if (typeof document !== "undefined") {
+	if (document.readyState === "loading") {
+		document.addEventListener("DOMContentLoaded", syncFarmerSidebarProfile);
+	} else {
+		syncFarmerSidebarProfile();
+	}
+}
+
 window.getFarmerProfile = getFarmerProfile;
 window.updateFarmerProfile = updateFarmerProfile;
 window.getFarmerDashboard = getFarmerDashboard;
@@ -100,4 +135,5 @@ window.getFarmerLogistics = getFarmerLogistics;
 window.getFarmerHistory = getFarmerHistory;
 window.getFarmerDisputes = getFarmerDisputes;
 window.getFarmerNotifications = getFarmerNotifications;
+window.syncFarmerSidebarProfile = syncFarmerSidebarProfile;
 
