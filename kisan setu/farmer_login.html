@@ -145,7 +145,7 @@
 
             try {
                 await loginUser({ identifier: email, password });
-                window.location.href = "farmer_dashboard.html";
+                window.location.replace("farmer_dashboard.html");
             } catch (err) {
                 errBox.textContent = friendlyErrorMessage(err, "Login failed. Please check your credentials.");
                 errBox.style.display = "block";

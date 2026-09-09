@@ -434,7 +434,7 @@
 
             try {
                 await loginUser({ identifier, password });
-                window.location.href = "buyer_dashboard.html";
+                window.location.replace("buyer_dashboard.html");
             } catch (err) {
                 errBox.textContent = friendlyErrorMessage(err, "Login failed. Please check your credentials.");
                 errBox.style.display = "block";

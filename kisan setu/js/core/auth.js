@@ -48,15 +48,19 @@ async function performLogout(e) {
 		} catch {}
 
 		const path = (window.location.pathname || "").toLowerCase();
+		const isInSubdir = path.includes("/farmer/") || path.includes("/buyer/") || path.includes("/admin/");
+		let targetUrl = "index.html";
+
 		if (path.includes("farmer")) {
-			window.location.href = path.includes("/farmer/") ? "../farmer_login.html" : "farmer_login.html";
+			targetUrl = isInSubdir ? "../farmer_login.html" : "farmer_login.html";
 		} else if (path.includes("buyer")) {
-			window.location.href = path.includes("/buyer/") ? "../buyer_login.html" : "buyer_login.html";
+			targetUrl = isInSubdir ? "../buyer_login.html" : "buyer_login.html";
 		} else if (path.includes("admin")) {
-			window.location.href = path.includes("/admin/") ? "../admin_login.html" : "admin_login.html";
-		} else {
-			window.location.href = "index.html";
+			targetUrl = isInSubdir ? "../admin_login.html" : "admin_login.html";
 		}
+
+		// Use location.replace so the last portal page is replaced in history
+		window.location.replace(targetUrl);
 	}
 }
 
@@ -77,30 +81,87 @@ function bindLogoutButtons() {
 	});
 }
 
-async function checkAdminRouteGuard() {
+function setupLoginHistoryGuard() {
 	const path = (window.location.pathname || "").toLowerCase();
-	const isAdminSection = (path.includes("/admin/") || path.endsWith("admin_dashboard.html")) && !path.endsWith("admin_login.html");
-	if (isAdminSection) {
+	const isLoginPage = path.includes("login.html") || path.endsWith("login");
+	if (!isLoginPage) return;
+
+	const isInSubdir = path.includes("/farmer/") || path.includes("/buyer/") || path.includes("/admin/");
+	const indexPath = isInSubdir ? "../index.html" : "index.html";
+
+	try {
+		// Push state so clicking Browser Back triggers popstate
+		window.history.pushState({ isLoginGuard: true }, "", window.location.href);
+
+		window.addEventListener("popstate", function () {
+			// When user hits Back from the login page, take them straight to index.html
+			window.location.replace(indexPath);
+		});
+	} catch (err) {
+		console.warn("History guard setup failed:", err);
+	}
+}
+
+async function checkAllRouteGuards() {
+	const path = (window.location.pathname || "").toLowerCase();
+	const isLoginPage = path.includes("login.html") || path.includes("register.html");
+	const isIndexPage = path === "/" || path.endsWith("/index.html") || path.endsWith("index.html") || path.endsWith("/kisan%20setu/") || path.endsWith("/kisan setu/");
+
+	if (isLoginPage || isIndexPage) {
+		return;
+	}
+
+	const isFarmerPortal = (path.includes("/farmer/") || path.includes("farmer_dashboard")) && !path.includes("login") && !path.includes("register");
+	const isBuyerPortal = (path.includes("/buyer/") || path.includes("buyer_dashboard")) && !path.includes("login") && !path.includes("register");
+	const isAdminPortal = (path.includes("/admin/") || path.includes("admin_dashboard")) && !path.includes("login");
+
+	if (!isFarmerPortal && !isBuyerPortal && !isAdminPortal) {
+		return;
+	}
+
+	// 1. Check local session token
+	const token = localStorage.getItem("kisan_setu_token");
+	if (!token) {
+		const isInSubdir = path.includes("/farmer/") || path.includes("/buyer/") || path.includes("/admin/");
+		let target = "index.html";
+		if (isFarmerPortal) target = isInSubdir ? "../farmer_login.html" : "farmer_login.html";
+		else if (isBuyerPortal) target = isInSubdir ? "../buyer_login.html" : "buyer_login.html";
+		else if (isAdminPortal) target = isInSubdir ? "../admin_login.html" : "admin_login.html";
+
+		window.location.replace(target);
+		return;
+	}
+
+	// 2. Extra verification for Admin pages
+	if (isAdminPortal) {
 		try {
 			const user = await getCurrentUser();
 			if (!user || !["PRAKHAND_ADMIN", "SUPER_ADMIN"].includes(user.role)) {
 				throw new Error("Unauthorized");
 			}
 		} catch {
-			window.location.href = path.includes("/admin/") ? "../admin_login.html" : "admin_login.html";
+			const isInSubdir = path.includes("/admin/");
+			window.location.replace(isInSubdir ? "../admin_login.html" : "admin_login.html");
 		}
 	}
 }
 
-if (document.readyState === "loading") {
-	document.addEventListener("DOMContentLoaded", () => {
-		bindLogoutButtons();
-		checkAdminRouteGuard();
-	});
-} else {
+function initAuth() {
 	bindLogoutButtons();
-	checkAdminRouteGuard();
+	setupLoginHistoryGuard();
+	checkAllRouteGuards();
 }
+
+if (document.readyState === "loading") {
+	document.addEventListener("DOMContentLoaded", initAuth);
+} else {
+	initAuth();
+}
+
+// Ensure Back/Forward cache (bfcache) triggers route validation
+window.addEventListener("pageshow", function (event) {
+	checkAllRouteGuards();
+});
 
 window.loginUser = loginUser;
 window.registerUser = registerUser;

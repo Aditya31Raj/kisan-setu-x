@@ -335,7 +335,7 @@
 
                 try {
                     await loginUser({ identifier: email, password });
-                    window.location.href = "admin_dashboard.html";
+                    window.location.replace("admin_dashboard.html");
                 } catch (err) {
                     errBox.textContent = friendlyErrorMessage(err, "Login failed. Please verify admin credentials.");
                     errBox.style.display = "block";
