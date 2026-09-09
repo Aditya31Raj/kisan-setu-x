@@ -21,6 +21,8 @@ document.addEventListener("DOMContentLoaded", function () {
 
     setupOrderModal();
 
+    setupBuyerLogisticsModal();
+
     setupLogout();
 
 });
@@ -251,6 +253,19 @@ function createOrderCard(order) {
                 <strong>Date:</strong>
                 ${formatDate(createdAt)}
             </p>
+
+            ${order.logistics ? `
+                <div style="margin:10px 0; padding:8px 12px; border-radius:6px; font-size:12px; ${order.logistics.status === 'PENDING' ? 'background:#fffbeb; border:1px solid #fef3c7; color:#92400e;' : 'background:#f0fdf4; border:1px solid #bbf7d0; color:#166534;'}">
+                    ${order.logistics.status === 'PENDING' ? '<span><i class="fa-solid fa-clock"></i> <strong>Logistics Requested:</strong> Awaiting Block Admin transport assignment.</span>' : `<div><i class="fa-solid fa-truck"></i> <strong>Transport:</strong> ${escapeHTML(order.logistics.vehicleReference || 'Assigned')} | Driver: ${escapeHTML(order.logistics.driverReference || 'Assigned')} (${escapeHTML(order.logistics.status)})</div>`}
+                    <div style="margin-top:4px;"><a href="logistics.html?id=${encodeURIComponent(order.logistics.id)}" style="font-weight:600; text-decoration:underline;">Live Tracking &rarr;</a></div>
+                </div>
+            ` : (['ACCEPTED', 'PAID', 'LOGISTICS_PENDING'].includes(status) ? `
+                <div style="margin:10px 0;">
+                    <button type="button" class="request-logistics-btn" style="background:#16863b; color:white; border:none; padding:8px 14px; border-radius:6px; font-weight:600; font-size:12px; cursor:pointer;" onclick="openBuyerLogisticsModal('${id}', '${escapeHTML(String(orderNumber))}', '${escapeHTML(farmerName)}')">
+                        <i class="fa-solid fa-truck-fast"></i> Request Block Logistics
+                    </button>
+                </div>
+            ` : '')}
 
             <button
                 type="button"
@@ -893,3 +908,95 @@ function escapeHTML(value) {
         .replace(/'/g, "&#039;");
 
 }
+
+function openBuyerLogisticsModal(orderId, orderNumber, farmerName) {
+    const modal = document.getElementById("buyerLogisticsModal");
+    if (!modal) return;
+
+    document.getElementById("buyerLogisticsOrderId").value = orderId;
+    document.getElementById("buyerLogisticsOrderNumber").value = orderNumber || `KS-${orderId.substring(0, 8)}`;
+    const pickupInput = document.getElementById("buyerLogisticsPickup");
+    if (pickupInput && farmerName) {
+        pickupInput.value = `Farm / Village of ${farmerName}`;
+    }
+
+    const dateInput = document.getElementById("buyerLogisticsDate");
+    if (dateInput) {
+        const tomorrow = new Date();
+        tomorrow.setDate(tomorrow.getDate() + 1);
+        dateInput.value = tomorrow.toISOString().split("T")[0];
+    }
+
+    const errBox = document.getElementById("buyerLogisticsFormError");
+    if (errBox) errBox.style.display = "none";
+
+    modal.style.display = "flex";
+}
+
+function closeBuyerLogisticsModal() {
+    const modal = document.getElementById("buyerLogisticsModal");
+    if (modal) modal.style.display = "none";
+}
+
+function setupBuyerLogisticsModal() {
+    const closeBtn = document.getElementById("closeBuyerLogisticsModalBtn");
+    const cancelBtn = document.getElementById("cancelBuyerLogisticsBtn");
+    if (closeBtn) closeBtn.addEventListener("click", closeBuyerLogisticsModal);
+    if (cancelBtn) cancelBtn.addEventListener("click", closeBuyerLogisticsModal);
+
+    const form = document.getElementById("buyerLogisticsRequestForm");
+    if (form) {
+        form.addEventListener("submit", async function (e) {
+            e.preventDefault();
+            const orderId = document.getElementById("buyerLogisticsOrderId").value;
+            const pickup = document.getElementById("buyerLogisticsPickup").value.trim();
+            const dest = document.getElementById("buyerLogisticsDestination").value.trim();
+            const date = document.getElementById("buyerLogisticsDate").value;
+            const submitBtn = document.getElementById("submitBuyerLogisticsBtn");
+            const errBox = document.getElementById("buyerLogisticsFormError");
+
+            if (!pickup || !dest) {
+                if (errBox) {
+                    errBox.textContent = "Please provide both pickup and destination locations.";
+                    errBox.style.display = "block";
+                }
+                return;
+            }
+
+            if (submitBtn) {
+                submitBtn.disabled = true;
+                submitBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Submitting...';
+            }
+            if (errBox) errBox.style.display = "none";
+
+            try {
+                await apiRequest("/logistics", {
+					method: "POST",
+					body: {
+						orderId,
+						pickupAddress: { line1: pickup },
+						destinationAddress: { line1: dest },
+						estimatedDelivery: date ? new Date(date).toISOString() : undefined
+					}
+				});
+
+                closeBuyerLogisticsModal();
+                alert("Logistics request submitted to Block Admin successfully!");
+                loadOrders(currentOrderPage);
+            } catch (err) {
+                if (errBox) {
+                    errBox.textContent = friendlyErrorMessage(err, "Failed to submit logistics request. Please try again.");
+                    errBox.style.display = "block";
+                }
+            } finally {
+                if (submitBtn) {
+                    submitBtn.disabled = false;
+                    submitBtn.textContent = "Submit Request to Admin";
+                }
+            }
+        });
+    }
+}
+
+window.openBuyerLogisticsModal = openBuyerLogisticsModal;
+window.closeBuyerLogisticsModal = closeBuyerLogisticsModal;

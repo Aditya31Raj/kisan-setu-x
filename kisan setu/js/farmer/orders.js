@@ -121,6 +121,31 @@ async function loadFarmerOrders(page = 1) {
 						</button>
 					</div>
 				`;
+			} else if (order.logistics) {
+				const log = order.logistics;
+				if (log.status === "PENDING") {
+					actionButtons = `
+						<div style="margin-top:14px; padding:10px 14px; background:#fffbeb; border:1px solid #fef3c7; border-radius:6px; font-size:12px; color:#92400e; display:flex; justify-content:space-between; align-items:center;">
+							<span><i class="fa-solid fa-clock-rotate-left"></i> <strong>Logistics Requested:</strong> Awaiting Block Admin transport assignment.</span>
+							<a href="logistics.html?id=${encodeURIComponent(log.id)}" style="color:#b45309; font-weight:600; text-decoration:underline;">Track &rarr;</a>
+						</div>
+					`;
+				} else {
+					actionButtons = `
+						<div style="margin-top:14px; padding:10px 14px; background:#f0fdf4; border:1px solid #bbf7d0; border-radius:6px; font-size:12px; color:#166534; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px;">
+							<div><i class="fa-solid fa-truck"></i> <strong>Transport:</strong> ${escapeHTML(log.vehicleReference || 'Vehicle Assigned')} | <strong>Driver:</strong> ${escapeHTML(log.driverReference || 'Assigned')} (${escapeHTML(log.status)})</div>
+							<a href="logistics.html?id=${encodeURIComponent(log.id)}" style="color:#15803d; font-weight:600; text-decoration:underline;">Live Tracking &rarr;</a>
+						</div>
+					`;
+				}
+			} else if (["ACCEPTED", "PAID", "LOGISTICS_PENDING"].includes(status)) {
+				actionButtons = `
+					<div style="margin-top:16px; padding-top:14px; border-top:1px solid #f0f4f1; display:flex; gap:12px; align-items:center;">
+						<button type="button" class="request-logistics-btn" style="background:#15803d; color:white; border:none; padding:9px 18px; border-radius:6px; font-weight:600; font-size:13px; cursor:pointer;" onclick="openFarmerLogisticsModal('${order.id}', '${escapeHTML(orderNum)}', '${escapeHTML(buyerName)}')">
+							<i class="fa-solid fa-truck-fast"></i> Request Block Logistics
+						</button>
+					</div>
+				`;
 			}
 
 			card.innerHTML = `
@@ -184,6 +209,36 @@ async function handleFarmerOrderAction(orderId, nextStatus, btnElement) {
 	}
 }
 
+function openFarmerLogisticsModal(orderId, orderNumber, buyerName) {
+	const modal = document.getElementById("logisticsModal");
+	if (!modal) return;
+
+	document.getElementById("logisticsOrderId").value = orderId;
+	document.getElementById("logisticsOrderNumber").value = orderNumber || `KS-${orderId.substring(0, 8)}`;
+	const destInput = document.getElementById("logisticsDestination");
+	if (destInput && buyerName) {
+		destInput.value = `Mandi / Warehouse for ${buyerName}`;
+	}
+
+	// Pre-fill tomorrow's date
+	const dateInput = document.getElementById("logisticsDate");
+	if (dateInput) {
+		const tomorrow = new Date();
+		tomorrow.setDate(tomorrow.getDate() + 1);
+		dateInput.value = tomorrow.toISOString().split("T")[0];
+	}
+
+	const errBox = document.getElementById("logisticsFormError");
+	if (errBox) errBox.style.display = "none";
+
+	modal.style.display = "flex";
+}
+
+function closeFarmerLogisticsModal() {
+	const modal = document.getElementById("logisticsModal");
+	if (modal) modal.style.display = "none";
+}
+
 function setupFarmerOrderControls() {
 	const statusFilter = document.getElementById("statusFilter");
 	if (statusFilter) {
@@ -212,8 +267,69 @@ function setupFarmerOrderControls() {
 			loadFarmerOrders(currentFarmerOrderPage + 1);
 		});
 	}
+
+	// Logistics Modal Controls
+	const closeBtn = document.getElementById("closeLogisticsModalBtn");
+	const cancelBtn = document.getElementById("cancelLogisticsBtn");
+	if (closeBtn) closeBtn.addEventListener("click", closeFarmerLogisticsModal);
+	if (cancelBtn) cancelBtn.addEventListener("click", closeFarmerLogisticsModal);
+
+	const form = document.getElementById("logisticsRequestForm");
+	if (form) {
+		form.addEventListener("submit", async function (e) {
+			e.preventDefault();
+			const orderId = document.getElementById("logisticsOrderId").value;
+			const pickup = document.getElementById("logisticsPickup").value.trim();
+			const dest = document.getElementById("logisticsDestination").value.trim();
+			const date = document.getElementById("logisticsDate").value;
+			const submitBtn = document.getElementById("submitLogisticsBtn");
+			const errBox = document.getElementById("logisticsFormError");
+
+			if (!pickup || !dest) {
+				if (errBox) {
+					errBox.textContent = "Please provide both pickup and destination locations.";
+					errBox.style.display = "block";
+				}
+				return;
+			}
+
+			if (submitBtn) {
+				submitBtn.disabled = true;
+				submitBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Submitting...';
+			}
+			if (errBox) errBox.style.display = "none";
+
+			try {
+				await apiRequest("/logistics", {
+					method: "POST",
+					body: {
+						orderId,
+						pickupAddress: { line1: pickup },
+						destinationAddress: { line1: dest },
+						estimatedDelivery: date ? new Date(date).toISOString() : undefined
+					}
+				});
+
+				closeFarmerLogisticsModal();
+				alert("Logistics request submitted to Block Admin successfully!");
+				loadFarmerOrders(currentFarmerOrderPage);
+			} catch (err) {
+				if (errBox) {
+					errBox.textContent = friendlyErrorMessage(err, "Failed to submit logistics request. Please try again.");
+					errBox.style.display = "block";
+				}
+			} finally {
+				if (submitBtn) {
+					submitBtn.disabled = false;
+					submitBtn.textContent = "Submit Request to Admin";
+				}
+			}
+		});
+	}
 }
 
 window.loadFarmerOrders = loadFarmerOrders;
 window.handleFarmerOrderAction = handleFarmerOrderAction;
+window.openFarmerLogisticsModal = openFarmerLogisticsModal;
+window.closeFarmerLogisticsModal = closeFarmerLogisticsModal;
 

@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kisan Setu - Admin Logistics</title>
+
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/admin.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+    <style>
+        * { box-sizing: border-box; }
+        body { margin: 0; font-family: Arial, Helvetica, sans-serif; background: #f6f8f6; color: #222; }
+
+        .sidebar { position: fixed; left: 0; top: 0; width: 230px; height: 100vh; background: white; border-right: 1px solid #ddd; padding: 25px 15px; z-index: 1000; }
+        .logo { text-align: center; color: #176b38; font-size: 22px; font-weight: bold; margin-bottom: 5px; display: flex; align-items: center; justify-content: center; gap: 8px; }
+        .logo img { width: 32px; height: 32px; border-radius: 6px; }
+        .admin-label { text-align: center; color: #777; font-size: 11px; margin-bottom: 25px; letter-spacing: 1px; }
+        .menu { list-style: none; margin: 0; padding: 0; }
+        .menu li { margin-bottom: 6px; }
+        .menu a { display: flex; align-items: center; gap: 10px; padding: 11px 14px; border-radius: 7px; text-decoration: none; color: #444; font-size: 13px; font-weight: 500; transition: 0.2s; }
+        .menu a:hover, .menu a.active { background: #edf7ef; color: #176b38; font-weight: 600; }
+        .logout { position: absolute; bottom: 20px; left: 15px; right: 15px; }
+        .logout a { display: block; padding: 11px 14px; border-radius: 7px; text-decoration: none; color: #b3261e; font-size: 13px; }
+        .logout a:hover { background: #fdeaea; }
+
+        .main { margin-left: 230px; padding: 25px 30px; min-height: 100vh; }
+        .topbar { display: flex; justify-content: space-between; align-items: center; background: white; padding: 18px 22px; border-radius: 10px; border: 1px solid #e1e1e1; margin-bottom: 25px; }
+        .topbar h1 { margin: 0; font-size: 22px; color: #1f2937; }
+        .topbar p { margin: 4px 0 0; color: #6b7280; font-size: 13px; }
+        .admin-profile { display: flex; align-items: center; gap: 12px; }
+        .profile-icon { width: 38px; height: 38px; background: #edf7ef; color: #176b38; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; }
+
+        .stats-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 24px; }
+        .stat-card { background: white; border: 1px solid #e2ece3; border-radius: 10px; padding: 18px; box-shadow: 0 2px 6px rgba(0,0,0,0.02); }
+        .stat-card span { display: block; font-size: 12px; color: #6b7280; margin-bottom: 6px; font-weight: 600; }
+        .stat-card strong { font-size: 24px; color: #111827; }
+
+        .filter-tabs { display: flex; gap: 8px; margin-bottom: 18px; border-bottom: 1px solid #e5e7eb; padding-bottom: 10px; flex-wrap: wrap; }
+        .tab-btn { background: white; border: 1px solid #d1d5db; padding: 8px 16px; border-radius: 20px; font-size: 12px; font-weight: 600; color: #4b5563; cursor: pointer; transition: 0.2s; }
+        .tab-btn.active { background: #16863b; color: white; border-color: #16863b; }
+
+        .table-container { background: white; border-radius: 10px; border: 1px solid #e2ece3; overflow-x: auto; box-shadow: 0 2px 8px rgba(0,0,0,0.02); }
+        table { width: 100%; border-collapse: collapse; text-align: left; }
+        th { background: #f9fafb; padding: 12px 14px; font-size: 11px; font-weight: 700; color: #4b5563; border-bottom: 1px solid #e5e7eb; text-transform: uppercase; letter-spacing: 0.5px; }
+        td { padding: 14px; font-size: 12px; border-bottom: 1px solid #f3f4f6; color: #1f2937; vertical-align: middle; }
+        tr:hover td { background: #fafdfa; }
+
+        .badge { display: inline-block; padding: 4px 10px; border-radius: 12px; font-size: 11px; font-weight: 600; text-transform: uppercase; }
+        .badge-pending { background: #fef3c7; color: #92400e; }
+        .badge-assigned { background: #eff6ff; color: #1e40af; }
+        .badge-intransit { background: #f3e8ff; color: #6b21a8; }
+        .badge-delivered { background: #dcfce7; color: #166534; }
+
+        .btn-assign { background: #16863b; color: white; border: none; padding: 7px 14px; border-radius: 6px; font-size: 11px; font-weight: 600; cursor: pointer; display: inline-flex; align-items: center; gap: 5px; }
+        .btn-assign:hover { background: #15803d; }
+        .btn-update { background: #f3f4f6; color: #374151; border: 1px solid #d1d5db; padding: 6px 12px; border-radius: 6px; font-size: 11px; font-weight: 600; cursor: pointer; }
+        .btn-update:hover { background: #e5e7eb; }
+
+        /* Modal */
+        .modal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 1100; align-items: center; justify-content: center; }
+        .modal-content { background: white; border-radius: 12px; width: 520px; max-width: 95%; padding: 24px; box-shadow: 0 10px 30px rgba(0,0,0,0.2); }
+
+        @media (max-width: 900px) {
+            .sidebar { display: none; }
+            .main { margin-left: 0; padding: 15px; }
+            .stats-grid { grid-template-columns: repeat(2, 1fr); }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+        <div class="logo">
+            <img src="../images/logoks.jpeg" alt="Logo">
+            KISAN SETU
+        </div>
+        <div class="admin-label">BLOCK ADMIN PORTAL</div>
+
+        <ul class="menu">
+            <li><a href="../admin_dashboard.html"><i class="fa-solid fa-house"></i> Dashboard</a></li>
+            <li><a href="farmers.html"><i class="fa-solid fa-user-group"></i> Farmers</a></li>
+            <li><a href="buyers.html"><i class="fa-solid fa-store"></i> Buyers</a></li>
+            <li><a href="requests.html"><i class="fa-solid fa-clipboard-list"></i> Requests</a></li>
+            <li><a href="logistics.html" class="active"><i class="fa-solid fa-truck-fast"></i> Logistics</a></li>
+            <li><a href="inputs.html"><i class="fa-solid fa-seedling"></i> Input Management</a></li>
+            <li><a href="payments.html"><i class="fa-solid fa-credit-card"></i> Payments</a></li>
+            <li><a href="reports.html"><i class="fa-solid fa-chart-pie"></i> Reports</a></li>
+            <li><a href="alerts.html"><i class="fa-solid fa-bell"></i> Alerts</a></li>
+        </ul>
+
+        <div class="logout">
+            <a href="javascript:void(0)" id="logoutBtn"><i class="fa-solid fa-right-from-bracket"></i> Logout</a>
+        </div>
+    </aside>
+
+    <!-- MAIN -->
+    <main class="main">
+        <div class="topbar">
+            <div>
+                <h1>Logistics & Fleet Management</h1>
+                <p>Assign transport fleet, dispatch agricultural shipments, and track deliveries.</p>
+            </div>
+            <div class="admin-profile">
+                <div class="profile-icon">A</div>
+                <div>
+                    <strong id="adminName">Block Admin</strong>
+                    <div style="font-size: 11px; color: #6b7280;" id="adminPrakhand">Prakhand Administration</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- STATS -->
+        <div class="stats-grid">
+            <div class="stat-card">
+                <span>TOTAL SHIPMENTS</span>
+                <strong id="statTotal">0</strong>
+            </div>
+            <div class="stat-card" style="border-left: 4px solid #f59e0b;">
+                <span>PENDING ASSIGNMENT</span>
+                <strong id="statPending" style="color: #d97706;">0</strong>
+            </div>
+            <div class="stat-card" style="border-left: 4px solid #2563eb;">
+                <span>IN TRANSIT / ACTIVE</span>
+                <strong id="statInTransit" style="color: #2563eb;">0</strong>
+            </div>
+            <div class="stat-card" style="border-left: 4px solid #16a34a;">
+                <span>DELIVERED</span>
+                <strong id="statDelivered" style="color: #16a34a;">0</strong>
+            </div>
+        </div>
+
+        <!-- FILTER TABS -->
+        <div class="filter-tabs">
+            <button type="button" class="tab-btn active" data-filter="ALL">All Shipments</button>
+            <button type="button" class="tab-btn" data-filter="PENDING">Pending Assignment (<span id="countPendingTab">0</span>)</button>
+            <button type="button" class="tab-btn" data-filter="ASSIGNED">Assigned</button>
+            <button type="button" class="tab-btn" data-filter="IN_TRANSIT">In Transit</button>
+            <button type="button" class="tab-btn" data-filter="DELIVERED">Delivered</button>
+        </div>
+
+        <!-- TABLE -->
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Shipment ID</th>
+                        <th>Order #</th>
+                        <th>Farmer & Pickup</th>
+                        <th>Buyer & Destination</th>
+                        <th>Produce & Qty</th>
+                        <th>Assigned Vehicle / Driver</th>
+                        <th>Status</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody id="logisticsTableBody">
+                    <tr>
+                        <td colspan="8" style="text-align: center; padding: 36px; color: #6b7280;">
+                            <i class="fa-solid fa-spinner fa-spin" style="margin-right: 8px;"></i> Loading logistics shipments...
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </main>
+
+    <!-- ASSIGN TRANSPORT MODAL -->
+    <div id="assignModal" class="modal">
+        <div class="modal-content">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; border-bottom: 1px solid #eee; padding-bottom: 10px;">
+                <h3 style="margin: 0; font-size: 18px; color: #166534;"><i class="fa-solid fa-truck"></i> Assign Fleet & Approve</h3>
+                <button type="button" id="closeAssignModalBtn" style="border: none; background: none; font-size: 22px; cursor: pointer; color: #888;">&times;</button>
+            </div>
+            <form id="assignTransportForm">
+                <input type="hidden" id="assignLogisticsId">
+                <div style="background: #f9fbf9; border-radius: 8px; padding: 12px; margin-bottom: 14px; font-size: 12px;">
+                    <div><strong>Order:</strong> <span id="assignModalOrderNum">-</span></div>
+                    <div><strong>Farmer:</strong> <span id="assignModalFarmer">-</span></div>
+                    <div><strong>Buyer:</strong> <span id="assignModalBuyer">-</span></div>
+                    <div><strong>Produce:</strong> <span id="assignModalProduce">-</span></div>
+                </div>
+
+                <div style="margin-bottom: 12px;">
+                    <label style="display: block; font-size: 12px; font-weight: 600; margin-bottom: 4px; color: #333;">Vehicle Reference (Truck / Tractor No.)</label>
+                    <input type="text" id="vehicleReferenceInput" required placeholder="e.g. Tractor Trolley BR-01-T-4521 / Bolero BR-02-G-1100" style="width: 100%; padding: 8px 10px; border: 1px solid #cbd5e1; border-radius: 6px; font-size: 13px;">
+                </div>
+
+                <div style="margin-bottom: 12px;">
+                    <label style="display: block; font-size: 12px; font-weight: 600; margin-bottom: 4px; color: #333;">Driver Name & Mobile</label>
+                    <input type="text" id="driverReferenceInput" required placeholder="e.g. Ramesh Kumar (9876543210)" style="width: 100%; padding: 8px 10px; border: 1px solid #cbd5e1; border-radius: 6px; font-size: 13px;">
+                </div>
+
+                <div style="margin-bottom: 16px;">
+                    <label style="display: block; font-size: 12px; font-weight: 600; margin-bottom: 4px; color: #333;">Scheduled Delivery Date</label>
+                    <input type="date" id="estimatedDeliveryInput" style="width: 100%; padding: 8px 10px; border: 1px solid #cbd5e1; border-radius: 6px; font-size: 13px;">
+                </div>
+
+                <div id="assignFormError" style="display: none; color: #b91c1c; font-size: 12px; margin-bottom: 12px; background: #fef2f2; padding: 8px; border-radius: 6px;"></div>
+
+                <div style="display: flex; justify-content: flex-end; gap: 10px;">
+                    <button type="button" id="cancelAssignBtn" style="padding: 8px 16px; border: 1px solid #ccc; background: white; border-radius: 6px; cursor: pointer;">Cancel</button>
+                    <button type="submit" id="submitAssignBtn" style="padding: 8px 18px; background: #16863b; color: white; border: none; border-radius: 6px; font-weight: 600; cursor: pointer;">Confirm & Dispatch</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- UPDATE STATUS MODAL -->
+    <div id="statusModal" class="modal">
+        <div class="modal-content" style="max-width: 420px;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; border-bottom: 1px solid #eee; padding-bottom: 10px;">
+                <h3 style="margin: 0; font-size: 16px; color: #1f2937;">Update Shipment Status</h3>
+                <button type="button" id="closeStatusModalBtn" style="border: none; background: none; font-size: 22px; cursor: pointer; color: #888;">&times;</button>
+            </div>
+            <form id="updateStatusForm">
+                <input type="hidden" id="statusLogisticsId">
+                <div style="margin-bottom: 16px;">
+                    <label style="display: block; font-size: 12px; font-weight: 600; margin-bottom: 6px; color: #333;">Select New Status</label>
+                    <select id="statusSelect" required style="width: 100%; padding: 9px 12px; border: 1px solid #cbd5e1; border-radius: 6px; font-size: 13px;">
+                        <option value="PICKED_UP">Picked Up (Goods loaded from farm)</option>
+                        <option value="IN_TRANSIT">In Transit (On the way to Mandi)</option>
+                        <option value="OUT_FOR_DELIVERY">Out For Delivery</option>
+                        <option value="DELIVERED">Delivered (Completed)</option>
+                        <option value="CANCELLED">Cancelled</option>
+                    </select>
+                </div>
+                <div style="display: flex; justify-content: flex-end; gap: 10px;">
+                    <button type="button" id="cancelStatusBtn" style="padding: 8px 16px; border: 1px solid #ccc; background: white; border-radius: 6px; cursor: pointer;">Cancel</button>
+                    <button type="submit" id="submitStatusBtn" style="padding: 8px 18px; background: #16863b; color: white; border: none; border-radius: 6px; font-weight: 600; cursor: pointer;">Update Status</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="../js/core/api.js"></script>
+    <script src="../js/core/auth.js"></script>
+    <script src="../js/admin/admin.js"></script>
+    <script src="../js/admin/admin-logistics.js"></script>
+</body>
+</html>

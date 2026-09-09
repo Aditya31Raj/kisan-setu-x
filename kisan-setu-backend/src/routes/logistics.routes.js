@@ -1,1 +1,33 @@
-import{Router}from'express';import * as c from'../controllers/logistics.controller.js';import{authenticate}from'../middleware/authenticate.js';import{authorize}from'../middleware/authorize.js';import{csrfProtection}from'../middleware/csrf.js';import{z}from'zod';import{validate}from'../middleware/validate.js';const create=z.object({orderId:z.string().uuid(),vehicleReference:z.string().max(100).optional(),driverReference:z.string().max(100).optional(),pickupAddress:z.record(z.string(),z.any()),destinationAddress:z.record(z.string(),z.any()),estimatedDelivery:z.coerce.date().optional()});const status=z.object({status:z.enum(['ASSIGNED','PICKED_UP','IN_TRANSIT','OUT_FOR_DELIVERY','DELIVERED','FAILED','CANCELLED'])});const r=Router();r.use(authenticate,authorize('BUYER','FARMER','PRAKHAND_ADMIN','SUPER_ADMIN'));r.post('/',csrfProtection,validate(create),c.create);r.get('/:id',c.getOne);r.patch('/:id/status',csrfProtection,validate(status),c.updateStatus);export default r;
+import {Router} from 'express';
+import * as c from '../controllers/logistics.controller.js';
+import {authenticate} from '../middleware/authenticate.js';
+import {authorize} from '../middleware/authorize.js';
+import {csrfProtection} from '../middleware/csrf.js';
+import {z} from 'zod';
+import {validate} from '../middleware/validate.js';
+
+const create = z.object({
+  orderId: z.string().uuid(),
+  vehicleReference: z.string().max(100).optional(),
+  driverReference: z.string().max(100).optional(),
+  pickupAddress: z.record(z.string(), z.any()),
+  destinationAddress: z.record(z.string(), z.any()),
+  estimatedDelivery: z.coerce.date().optional()
+});
+
+const status = z.object({
+  status: z.enum(['ASSIGNED','PICKED_UP','IN_TRANSIT','OUT_FOR_DELIVERY','DELIVERED','FAILED','CANCELLED']),
+  vehicleReference: z.string().max(100).optional(),
+  driverReference: z.string().max(100).optional(),
+  estimatedDelivery: z.coerce.date().optional()
+});
+
+const r = Router();
+r.use(authenticate, authorize('BUYER','FARMER','PRAKHAND_ADMIN','SUPER_ADMIN'));
+r.get('/', c.list);
+r.post('/', csrfProtection, validate(create), c.create);
+r.get('/:id', c.getOne);
+r.patch('/:id/status', csrfProtection, validate(status), c.updateStatus);
+
+export default r;
+

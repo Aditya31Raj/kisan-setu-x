@@ -1,11 +1,29 @@
 async function loginUser(credentials) {
 	await getCsrfToken();
-	return apiRequest("/auth/login", { method: "POST", body: credentials });
+	const res = await apiRequest("/auth/login", { method: "POST", body: credentials });
+	if (res && res.user) {
+		try {
+			localStorage.setItem("kisan_setu_user", JSON.stringify(res.user));
+			if (res.user.role) {
+				localStorage.setItem("kisan_setu_role", res.user.role);
+			}
+		} catch {}
+	}
+	return res;
 }
 
 async function registerUser(userData) {
 	await getCsrfToken();
-	return apiRequest("/auth/register", { method: "POST", body: userData });
+	const res = await apiRequest("/auth/register", { method: "POST", body: userData });
+	if (res && res.user) {
+		try {
+			localStorage.setItem("kisan_setu_user", JSON.stringify(res.user));
+			if (res.user.role) {
+				localStorage.setItem("kisan_setu_role", res.user.role);
+			}
+		} catch {}
+	}
+	return res;
 }
 
 async function getCurrentUser() {
@@ -102,10 +120,63 @@ function setupLoginHistoryGuard() {
 	}
 }
 
+async function checkLoggedInRedirect() {
+	const path = (window.location.pathname || "").toLowerCase();
+	const isLoginPage = path.includes("login.html");
+	const isIndexPage = path === "/" || path === "" || path.endsWith("/index.html") || path.endsWith("index.html") || path.endsWith("/kisan%20setu/") || path.endsWith("/kisan setu/");
+
+	// Only trigger auto-redirect when visiting the landing page or login pages
+	if (!isLoginPage && !isIndexPage) {
+		return;
+	}
+
+	const token = localStorage.getItem("kisan_setu_token");
+	if (!token) return;
+
+	let role = localStorage.getItem("kisan_setu_role");
+	if (!role) {
+		try {
+			const me = await getCurrentUser();
+			if (me && me.role) {
+				role = me.role;
+				localStorage.setItem("kisan_setu_role", role);
+				localStorage.setItem("kisan_setu_user", JSON.stringify(me));
+			}
+		} catch (err) {
+			// Token is invalid/expired, quietly clear session
+			if (typeof clearAuthToken === "function") clearAuthToken();
+			localStorage.removeItem("kisan_setu_token");
+			localStorage.removeItem("kisan_setu_user");
+			localStorage.removeItem("kisan_setu_role");
+			return;
+		}
+	}
+
+	if (!role) return;
+
+	const isInSubdir = path.includes("/farmer/") || path.includes("/buyer/") || path.includes("/admin/");
+	let targetUrl = null;
+
+	if (role === "FARMER") {
+		targetUrl = isInSubdir ? "../farmer_dashboard.html" : "farmer_dashboard.html";
+	} else if (role === "BUYER") {
+		targetUrl = isInSubdir ? "../buyer_dashboard.html" : "buyer_dashboard.html";
+	} else if (role === "PRAKHAND_ADMIN" || role === "SUPER_ADMIN") {
+		targetUrl = isInSubdir ? "../admin_dashboard.html" : "admin_dashboard.html";
+	}
+
+	if (targetUrl) {
+		// Replace history so Back button doesn't trap the user
+		window.location.replace(targetUrl);
+	}
+}
+
 async function checkAllRouteGuards() {
+	await checkLoggedInRedirect();
+
 	const path = (window.location.pathname || "").toLowerCase();
 	const isLoginPage = path.includes("login.html") || path.includes("register.html");
-	const isIndexPage = path === "/" || path.endsWith("/index.html") || path.endsWith("index.html") || path.endsWith("/kisan%20setu/") || path.endsWith("/kisan setu/");
+	const isIndexPage = path === "/" || path === "" || path.endsWith("/index.html") || path.endsWith("index.html") || path.endsWith("/kisan%20setu/") || path.endsWith("/kisan setu/");
 
 	if (isLoginPage || isIndexPage) {
 		return;

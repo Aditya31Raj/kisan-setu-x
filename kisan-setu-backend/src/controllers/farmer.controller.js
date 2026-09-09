@@ -51,6 +51,14 @@ export const logistics = async (req, res) =>
     res,
     await prisma.logistics.findMany({
       where: { order: { farmerId: req.user.id } },
+      include: {
+        order: {
+          include: {
+            items: { include: { produce: { include: { crop: true } } } },
+            buyer: { select: { id: true, name: true, phone: true, email: true, buyerProfile: true } }
+          }
+        }
+      },
       orderBy: { createdAt: 'desc' },
       take: 100
     })

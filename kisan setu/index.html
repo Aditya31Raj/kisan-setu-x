@@ -9,6 +9,20 @@
 
     <title>Kisan Setu | Direct Market. Fair Price. Stronger Farmers.</title>
 
+    <script>
+        (function() {
+            try {
+                var token = localStorage.getItem("kisan_setu_token");
+                var role = localStorage.getItem("kisan_setu_role");
+                if (token && role) {
+                    if (role === "FARMER") { window.location.replace("farmer_dashboard.html"); }
+                    else if (role === "BUYER") { window.location.replace("buyer_dashboard.html"); }
+                    else if (role === "PRAKHAND_ADMIN" || role === "SUPER_ADMIN") { window.location.replace("admin_dashboard.html"); }
+                }
+            } catch (e) {}
+        })();
+    </script>
+
 
     <!-- Google Font -->
 
@@ -2432,6 +2446,8 @@
 
 </script>
 
+<script src="js/core/api.js"></script>
+<script src="js/core/auth.js"></script>
 
 </body>
 

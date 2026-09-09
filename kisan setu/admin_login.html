@@ -6,6 +6,17 @@
 
 
     <title>Kisan Setu - Admin Login</title>
+    <script>
+        (function() {
+            try {
+                var token = localStorage.getItem("kisan_setu_token");
+                var role = localStorage.getItem("kisan_setu_role");
+                if (token && (role === "PRAKHAND_ADMIN" || role === "SUPER_ADMIN")) {
+                    window.location.replace("admin_dashboard.html");
+                }
+            } catch (e) {}
+        })();
+    </script>
 <link rel="stylesheet" href="css/style.css">
 <link rel="stylesheet" href="css/auth.css">
     <style>

@@ -4,6 +4,17 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Kisan Setu | Farmer Login</title>
+    <script>
+        (function() {
+            try {
+                var token = localStorage.getItem("kisan_setu_token");
+                var role = localStorage.getItem("kisan_setu_role");
+                if (token && role === "FARMER") {
+                    window.location.replace("farmer_dashboard.html");
+                }
+            } catch (e) {}
+        })();
+    </script>
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/auth.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
