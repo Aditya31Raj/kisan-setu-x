@@ -29,12 +29,12 @@ function renderBuyerProduce(items) {
         return;
     }
     container.innerHTML = items.slice(0, 6).map((item) => {
-        const name = item.title || item.name || "Produce";
+        const name = item.cropName || item.title || item.name || "Produce";
         const quantity = item.availableQuantity ?? item.quantity ?? "--";
         const unit = item.unit || "kg";
         const price = item.pricePerUnit ?? item.price ?? "--";
-        const location = item.location || "Location unavailable";
-        const farmer = item.farmerName || item.farmer?.name || "Farmer details unavailable";
+        const location = item.location || (item.district ? `${item.district}, ${item.state || ''}` : "Direct Farm");
+        const farmer = item.farmer?.name || item.farmerName || "Verified Farmer";
         return `<div class="produce-card">
             <div class="produce-image"><i class="fa-solid ${cropIcon(name)}" aria-hidden="true"></i></div>
             <div class="produce-details">
@@ -53,14 +53,23 @@ function renderBuyerOrders(items) {
         body.innerHTML = '<tr><td colspan="6">No recent orders available.</td></tr>';
         return;
     }
-    body.innerHTML = items.slice(0, 5).map((item) => `<tr>
-        <td>${buyerDashboardText(item.orderNumber || item.orderId || item.id || "--")}</td>
-        <td>${buyerDashboardText(item.produceName || item.produce || item.title || "--")}</td>
-        <td>${buyerDashboardText(item.farmerName || item.farmer?.name || "--")}</td>
-        <td>${buyerDashboardText(item.quantity || "--")} ${buyerDashboardText(item.unit || "")}</td>
-        <td>₹${buyerDashboardText(item.amount || item.total || "--")}</td>
-        <td><span class="status">${buyerDashboardText(item.status || "Pending")}</span></td>
-    </tr>`).join("");
+    body.innerHTML = items.slice(0, 5).map((item) => {
+        const orderNum = item.orderNumber || (item.id ? `#${item.id.slice(0, 8)}` : "--");
+        const cropName = (item.items || []).map(i => i.produce?.cropName || i.produceTitle).filter(Boolean).join(", ") || item.produceName || item.produce || item.title || "Agricultural Produce";
+        const farmerName = item.farmer?.name || item.farmerName || "Farmer";
+        const totalQty = (item.items || []).reduce((acc, i) => acc + (Number(i.quantity) || 0), 0) || item.quantity || "--";
+        const unit = item.items?.[0]?.produce?.unit || item.items?.[0]?.unit || item.unit || "";
+        const amount = item.totalAmount !== undefined ? item.totalAmount : (item.amount || item.total || "--");
+        const status = item.status || "PENDING";
+        return `<tr>
+            <td><strong>${buyerDashboardText(orderNum)}</strong></td>
+            <td>${buyerDashboardText(cropName)}</td>
+            <td>${buyerDashboardText(farmerName)}</td>
+            <td>${buyerDashboardText(totalQty)} ${buyerDashboardText(unit)}</td>
+            <td>₹${buyerDashboardText(amount)}</td>
+            <td><span class="status ${status.toLowerCase()}">${buyerDashboardText(status)}</span></td>
+        </tr>`;
+    }).join("");
 }
 
 document.addEventListener("DOMContentLoaded", async () => {

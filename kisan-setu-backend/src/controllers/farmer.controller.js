@@ -1,1 +1,58 @@
-import * as s from '../services/farmer.service.js'; import {prisma} from '../config/database.js'; import {success} from '../utils/response.js'; export const getMe=async(req,res)=>success(res,await s.profile(req.user.id)); export const updateMe=async(req,res)=>success(res,await s.update(req.user.id,Object.fromEntries(Object.entries(req.body).filter(([k])=>['farmName','village','district','state','landAreaAcres','bankAccountLast4'].includes(k))),'Profile updated')); export const dashboard=async(req,res)=>success(res,await s.dashboard(req.user.id)); export const orders=async(req,res)=>success(res,await prisma.order.findMany({where:{farmerId:req.user.id},orderBy:{createdAt:'desc'},take:100})); export const payments=async(req,res)=>success(res,await prisma.payment.findMany({where:{order:{farmerId:req.user.id}},orderBy:{createdAt:'desc'},take:100})); export const logistics=async(req,res)=>success(res,await prisma.logistics.findMany({where:{order:{farmerId:req.user.id}},orderBy:{createdAt:'desc'},take:100}));
+import * as s from '../services/farmer.service.js';
+import {prisma} from '../config/database.js';
+import {success} from '../utils/response.js';
+
+export const getMe = async (req, res) => success(res, await s.profile(req.user.id));
+
+export const updateMe = async (req, res) =>
+  success(
+    res,
+    await s.update(
+      req.user.id,
+      Object.fromEntries(
+        Object.entries(req.body).filter(([k]) =>
+          ['farmName', 'village', 'district', 'state', 'landAreaAcres', 'bankAccountLast4'].includes(k)
+        )
+      ),
+      'Profile updated'
+    )
+  );
+
+export const dashboard = async (req, res) => success(res, await s.dashboard(req.user.id));
+
+export const orders = async (req, res) =>
+  success(
+    res,
+    await prisma.order.findMany({
+      where: { farmerId: req.user.id },
+      include: {
+        items: { include: { produce: { include: { crop: true } } } },
+        buyer: { select: { id: true, name: true, phone: true, email: true, buyerProfile: true } },
+        payments: true,
+        logistics: true
+      },
+      orderBy: { createdAt: 'desc' },
+      take: 100
+    })
+  );
+
+export const payments = async (req, res) =>
+  success(
+    res,
+    await prisma.payment.findMany({
+      where: { order: { farmerId: req.user.id } },
+      orderBy: { createdAt: 'desc' },
+      take: 100
+    })
+  );
+
+export const logistics = async (req, res) =>
+  success(
+    res,
+    await prisma.logistics.findMany({
+      where: { order: { farmerId: req.user.id } },
+      orderBy: { createdAt: 'desc' },
+      take: 100
+    })
+  );
+

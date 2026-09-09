@@ -215,6 +215,9 @@ function createOrderCard(order) {
         order.createdAt || "";
 
 
+    const farmerName = order.farmer?.name || "";
+    const itemsSummary = (order.items || []).map(i => `${i.produce?.cropName || i.produceTitle || "Produce"} (${i.quantity} ${i.produce?.unit || "kg"})`).join(", ");
+
     card.innerHTML = `
 
         <div class="order-card-content">
@@ -224,6 +227,9 @@ function createOrderCard(order) {
                     String(orderNumber)
                 )}
             </h3>
+
+            ${itemsSummary ? `<p><strong>Items:</strong> ${escapeHTML(itemsSummary)}</p>` : ""}
+            ${farmerName ? `<p><strong>Farmer:</strong> ${escapeHTML(farmerName)}</p>` : ""}
 
             <p>
                 <strong>Status:</strong>
@@ -236,10 +242,7 @@ function createOrderCard(order) {
 
             <p>
                 <strong>Total:</strong>
-                ${escapeHTML(
-                    String(currency)
-                )}
-                ${escapeHTML(
+                ₹${escapeHTML(
                     String(total)
                 )}
             </p>
@@ -434,8 +437,11 @@ function displayOrderDetails(order) {
 
                         ${escapeHTML(
                             String(
+                                item.produce?.cropName ||
+                                item.produce?.title ||
+                                item.produceTitle ||
                                 item.produceId ||
-                                "N/A"
+                                "Agricultural Produce"
                             )
                         )}
                     </p>

@@ -65,13 +65,14 @@ async function loadFarmerProduce(page = 1) {
 		list.forEach((produce) => {
 			const item = document.createElement("div");
 			item.className = "produce-card";
+			const displayName = produce.cropName || produce.title || produce.name || "Unnamed Produce";
 			item.innerHTML = `
-				<div class="produce-icon"><i class="fa-solid ${cropIconClass(produce.title || produce.name)}" aria-hidden="true"></i></div>
-				<h3>${escapeHTML(produce.title || produce.name || "Unnamed Produce")}</h3>
-				<p><strong>Category:</strong> ${escapeHTML(produce.category || "General")}</p>
-				<p><strong>Quantity:</strong> ${escapeHTML(String(produce.quantity ?? produce.availableQuantity ?? 0))} ${escapeHTML(produce.unit || "kg")}</p>
-				<p><strong>Price:</strong> ₹${escapeHTML(String(produce.price ?? produce.pricePerUnit ?? 0))}</p>
-				<p><strong>Location:</strong> ${escapeHTML(produce.location || "Not specified")}</p>
+				<div class="produce-icon"><i class="fa-solid ${cropIconClass(displayName)}" aria-hidden="true"></i></div>
+				<h3>${escapeHTML(displayName)}</h3>
+				<p><strong>Category:</strong> ${escapeHTML(produce.category || produce.variety || "General")}</p>
+				<p><strong>Quantity:</strong> ${escapeHTML(String(produce.availableQuantity ?? produce.quantity ?? 0))} ${escapeHTML(produce.unit || "kg")}</p>
+				<p><strong>Price:</strong> ₹${escapeHTML(String(produce.pricePerUnit ?? produce.price ?? 0))}/${escapeHTML(produce.unit || "kg")}</p>
+				<p><strong>Location:</strong> ${escapeHTML(produce.location || (produce.district ? `${produce.district}, ${produce.state}` : "Direct Farm"))}</p>
 				<p><strong>Status:</strong> ${escapeHTML(produce.status || "LISTED")}</p>
 				<button type="button" class="remove-produce-btn" data-id="${escapeHTML(String(produce.id || produce._id || ""))}"><i class="fa-solid fa-trash"></i> Remove</button>
 			`;

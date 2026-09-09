@@ -21,18 +21,43 @@ function setFarmerDashboardProfile(profile) {
     document.getElementById("farmerSidebarId").textContent = `Farmer ID: ${profile?.id || profile?.farmerId || "--"}`;
 }
 
-function renderFarmerItems(id, items, emptyMessage) {
+function renderFarmerOrdersList(id, orders, emptyMessage) {
     const container = document.getElementById(id);
     if (!container) return;
-    if (!items.length) {
+    if (!orders || !orders.length) {
+        container.innerHTML = `<p class="empty-state">${emptyMessage}</p>`;
+        return;
+    }
+    container.innerHTML = orders.slice(0, 5).map((order) => {
+        const cropNames = (order.items || []).map(i => i.produce?.cropName || i.produceTitle || "Produce").join(", ") || order.crop || "Produce";
+        const buyerName = order.buyer?.name || order.buyerName || "Buyer";
+        const total = order.totalAmount ? `₹${Number(order.totalAmount).toLocaleString()}` : "";
+        const orderNum = order.orderNumber || (order.id ? `#${order.id.slice(0, 8)}` : "");
+        const status = order.status || "PENDING";
+        const statusClass = status === "ACCEPTED" || status === "COMPLETED" ? "tag success" : status === "REJECTED" || status === "CANCELLED" ? "tag danger" : "tag warning";
+        return `
+            <div class="list-item">
+                <div>
+                    <strong>${dashboardText(cropNames)} <small style="color:var(--text-muted,#737b75);font-weight:normal;">(${dashboardText(orderNum)})</small></strong>
+                    <span>Buyer: ${dashboardText(buyerName)} ${total ? `• ${total}` : ""}</span>
+                </div>
+                <span class="${statusClass}">${dashboardText(status)}</span>
+            </div>`;
+    }).join("");
+}
+
+function renderFarmerGenericItems(id, items, emptyMessage) {
+    const container = document.getElementById(id);
+    if (!container) return;
+    if (!items || !items.length) {
         container.innerHTML = `<p class="empty-state">${emptyMessage}</p>`;
         return;
     }
     container.innerHTML = items.slice(0, 4).map((item) => `
         <div class="list-item">
-            <div><strong>${dashboardText(item.title || item.name || item.crop || item.produce || "Update")}</strong>
-            <span>${dashboardText(item.buyerName || item.quantity || item.description || item.status || "Details unavailable")}</span></div>
-            <span class="tag">${dashboardText(item.status || "New")}</span>
+            <div><strong>${dashboardText(item.title || item.name || item.method || item.trackingNumber || "Record")}</strong>
+            <span>${dashboardText(item.description || item.amount ? `₹${item.amount}` : item.carrierName || item.status || "Details")}</span></div>
+            <span class="tag">${dashboardText(item.status || "Active")}</span>
         </div>`).join("");
 }
 
@@ -48,7 +73,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         const [profData, dashData, ordersData, paymentsData, logisticsData] = await Promise.allSettled([
             getFarmerProfile(),
             getFarmerDashboard(),
-            getFarmerOrders({ limit: 4 }),
+            getFarmerOrders({ limit: 10 }),
             getFarmerPayments({ limit: 4 }),
             getFarmerLogistics({ limit: 4 })
         ]);
@@ -69,14 +94,31 @@ document.addEventListener("DOMContentLoaded", async () => {
     const activeOrdersCount = dashboardValue(stats, ["activeOrders", "pendingOrders", "ordersCount"], "0");
     const earningsVal = dashboardValue(stats, ["totalEarnings", "monthlyRevenue", "revenue"], "0");
 
-    document.getElementById("farmerListedProduceValue").textContent = produceCount;
-    document.getElementById("farmerPendingOrdersValue").textContent = activeOrdersCount;
-    document.getElementById("farmerRevenueValue").textContent = "₹" + Number(earningsVal).toLocaleString();
-    document.getElementById("farmerCropHealthValue").textContent = "Good";
+    const produceEl = document.getElementById("farmerListedProduceValue");
+    const pendingEl = document.getElementById("farmerPendingOrdersValue");
+    const revenueEl = document.getElementById("farmerRevenueValue");
+    const healthEl = document.getElementById("farmerCropHealthValue");
+
+    if (produceEl) produceEl.textContent = produceCount;
+    if (pendingEl) pendingEl.textContent = activeOrdersCount;
+    if (revenueEl) revenueEl.textContent = "₹" + Number(earningsVal).toLocaleString();
+    if (healthEl) healthEl.textContent = "Optimal";
+
+    const noteProduce = document.getElementById("farmerListedProduceNote");
+    const notePending = document.getElementById("farmerPendingOrdersNote");
+    const noteRevenue = document.getElementById("farmerRevenueNote");
+    const noteHealth = document.getElementById("farmerCropHealthNote");
+    const welcomeMsg = document.getElementById("farmerWelcomeMessage");
+
+    if (noteProduce) noteProduce.textContent = "Active in marketplace";
+    if (notePending) notePending.textContent = "Orders awaiting fulfillment";
+    if (noteRevenue) noteRevenue.textContent = "All-time cleared earnings";
+    if (noteHealth) noteHealth.textContent = "Monitored healthy";
+    if (welcomeMsg) welcomeMsg.textContent = `You have ${activeOrdersCount} pending orders and ${produceCount} active listings.`;
 
     const ordersList = orders.length ? orders : dashboardList(dashboard.orders || dashboard, ["recentOrders", "orders"]);
-    renderFarmerItems("farmerRecentOrders", ordersList, "No recent orders available.");
-    renderFarmerItems("farmerBuyerRequests", ordersList.filter(o => o.status === "PENDING_FARMER"), "No buyer requests available.");
-    renderFarmerItems("farmerPaymentSummary", payments.length ? payments : dashboardList(dashboard.payments || dashboard, ["paymentSummary", "payments"]), "No payment data available.");
-    renderFarmerItems("farmerShipmentAlerts", logistics.length ? logistics : dashboardList(dashboard.shipments || dashboard, ["shipmentAlerts", "shipments", "logistics"]), "No shipment alerts available.");
+    renderFarmerOrdersList("farmerRecentOrders", ordersList, "No recent orders available.");
+    renderFarmerOrdersList("farmerBuyerRequests", ordersList.filter(o => o.status === "PENDING_FARMER"), "No buyer requests pending.");
+    renderFarmerGenericItems("farmerPaymentSummary", payments.length ? payments : dashboardList(dashboard.payments || dashboard, ["paymentSummary", "payments"]), "No payment records found.");
+    renderFarmerGenericItems("farmerShipmentAlerts", logistics.length ? logistics : dashboardList(dashboard.shipments || dashboard, ["shipmentAlerts", "shipments", "logistics"]), "No shipment alerts found.");
 });

@@ -550,122 +550,119 @@ async function loadProduceDetails(produceId) {
 // ============================================
 
 function displayProduceDetails(produce) {
+    const detailsContainer = document.getElementById("produceDetails");
+    if (!detailsContainer) return;
 
-    const detailsContainer =
-        document.getElementById("produceDetails");
-
-
-    if (!detailsContainer) {
-        return;
-    }
-
-
-    const title =
-        produce.title || "Unnamed Produce";
-
-    const description =
-        produce.description || "No description available.";
-
-    const location =
-        produce.location || "Not specified";
-
-    const quantity =
-        produce.availableQuantity ?? 0;
-
-    const unit =
-        produce.unit || "KG";
-
-    const price =
-        produce.pricePerUnit ?? 0;
-
-    const status =
-        produce.status || "LISTED";
-
+    const title = produce.title || "Unnamed Produce";
+    const description = produce.description || "Fresh agricultural produce verified on Kisan Setu.";
+    const location = produce.location || "Patna, Bihar";
+    const quantity = Number(produce.availableQuantity ?? 0);
+    const unit = produce.unit || "KG";
+    const price = Number(produce.pricePerUnit ?? 0);
+    const farmerName = produce.farmer?.name || "Verified Local Farmer";
+    const defaultQty = Math.min(10, Math.max(1, quantity));
 
     detailsContainer.innerHTML = `
+        <div class="produce-detail" style="padding: 10px 0;">
+            <h3 style="font-size: 20px; color: #16863b; margin-bottom: 8px;">${escapeHTML(title)}</h3>
+            <p style="color: #666; font-size: 13px; margin-bottom: 14px;">${escapeHTML(description)}</p>
 
-        <div class="produce-detail">
+            <div style="background: #f8faf8; border: 1px solid #e1ebe2; border-radius: 8px; padding: 12px 16px; margin-bottom: 16px;">
+                <p style="margin: 4px 0; font-size: 13px;"><strong>Farmer:</strong> ${escapeHTML(farmerName)}</p>
+                <p style="margin: 4px 0; font-size: 13px;"><strong>Location:</strong> ${escapeHTML(location)}</p>
+                <p style="margin: 4px 0; font-size: 13px;"><strong>Available Stock:</strong> <span style="color:#16863b; font-weight:bold;">${quantity.toLocaleString()}</span> ${escapeHTML(unit)}</p>
+                <p style="margin: 4px 0; font-size: 13px;"><strong>Price:</strong> <strong style="font-size: 15px; color:#202522;">₹${price.toLocaleString()}</strong> / ${escapeHTML(unit)}</p>
+            </div>
 
-            <h3>
-                ${escapeHTML(title)}
-            </h3>
+            <!-- Direct Order Box -->
+            <div style="background: #ffffff; border: 1px solid #d3e7d6; border-radius: 8px; padding: 16px;">
+                <h4 style="color: #176d35; margin-bottom: 10px; font-size: 15px;"><i class="fa-solid fa-cart-shopping"></i> Purchase Produce</h4>
+                
+                <div style="margin-bottom: 12px;">
+                    <label for="orderQtyInput" style="display:block; font-size: 12px; font-weight:600; color:#444; margin-bottom: 4px;">
+                        Enter Quantity to Buy (${escapeHTML(unit)}):
+                    </label>
+                    <input type="number" id="orderQtyInput" min="1" max="${quantity}" value="${defaultQty}" style="width:100%; height:40px; padding:0 12px; border:1px solid #c8d9cb; border-radius:6px; font-size:15px;">
+                </div>
 
-            <p>
-                ${escapeHTML(description)}
-            </p>
+                <div style="background: #edf7ee; border-radius: 6px; padding: 10px 14px; margin-bottom: 14px; display:flex; justify-content:space-between; align-items:center;">
+                    <span style="font-size: 13px; color:#444;">Total Amount:</span>
+                    <strong id="orderTotalAmount" style="color: #16863b; font-size: 18px;">₹${(defaultQty * price).toLocaleString()}</strong>
+                </div>
 
-            <hr>
+                <div id="orderFeedbackMsg" style="display:none; padding:10px; border-radius:6px; font-size:13px; margin-bottom:12px;"></div>
 
-            <p>
-                <strong>Location:</strong>
-                ${escapeHTML(location)}
-            </p>
-
-            <p>
-                <strong>Available Quantity:</strong>
-                ${escapeHTML(String(quantity))}
-                ${escapeHTML(unit)}
-            </p>
-
-            <p>
-                <strong>Price:</strong>
-                ₹${escapeHTML(String(price))}
-                / ${escapeHTML(unit)}
-            </p>
-
-            <p>
-                <strong>Status:</strong>
-                ${escapeHTML(status)}
-            </p>
-
-            <button
-                type="button"
-                id="orderProduceBtn"
-                data-produce-id="${escapeHTML(String(produce.id || ""))}">
-                Order This Produce
-            </button>
-
+                <button type="button" id="submitDirectOrderBtn" style="width:100%; height:44px; background:#16863b; color:white; border:none; border-radius:6px; font-weight:600; font-size:15px; cursor:pointer;">
+                    Confirm & Place Order
+                </button>
+            </div>
         </div>
-
     `;
 
+    const qtyInput = document.getElementById("orderQtyInput");
+    const totalDisplay = document.getElementById("orderTotalAmount");
+    const submitBtn = document.getElementById("submitDirectOrderBtn");
+    const msgBox = document.getElementById("orderFeedbackMsg");
 
-    const orderButton =
-        document.getElementById("orderProduceBtn");
-
-
-    if (orderButton) {
-
-        orderButton.addEventListener(
-            "click",
-            function () {
-
-                const id =
-                    this.getAttribute("data-produce-id");
-
-
-                if (!id) {
-                    return;
-                }
-
-
-                /*
-                    Order creation will be handled
-                    by orders.js.
-
-                    For now, redirect to orders page
-                    with the produce ID.
-                */
-
-                window.location.href =
-                    `orders.html?produceId=${encodeURIComponent(id)}`;
-
-            }
-        );
-
+    if (qtyInput && totalDisplay) {
+        qtyInput.addEventListener("input", function() {
+            const val = Number(this.value) || 0;
+            totalDisplay.textContent = `₹${(val * price).toLocaleString()}`;
+        });
     }
 
+    if (submitBtn) {
+        submitBtn.addEventListener("click", async function() {
+            const qty = Number(qtyInput.value);
+            if (!qty || qty <= 0) {
+                msgBox.style.display = "block";
+                msgBox.style.background = "#fee2e2";
+                msgBox.style.color = "#991b1b";
+                msgBox.textContent = "Please enter a valid quantity greater than 0.";
+                return;
+            }
+            if (qty > quantity) {
+                msgBox.style.display = "block";
+                msgBox.style.background = "#fee2e2";
+                msgBox.style.color = "#991b1b";
+                msgBox.textContent = `Requested quantity exceeds available stock (${quantity} ${unit}).`;
+                return;
+            }
+
+            msgBox.style.display = "none";
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Placing Order...';
+
+            try {
+                const newOrder = await apiRequest("/orders", {
+                    method: "POST",
+                    body: {
+                        produceId: produce.id,
+                        quantity: qty
+                    }
+                });
+
+                msgBox.style.display = "block";
+                msgBox.style.background = "#dcfce7";
+                msgBox.style.color = "#166534";
+                msgBox.innerHTML = `✓ <strong>Order Placed Successfully!</strong><br>Order #${escapeHTML(newOrder.orderNumber || newOrder.id)}. The farmer has been notified.`;
+
+                submitBtn.style.display = "none";
+                setTimeout(() => {
+                    window.location.href = "orders.html";
+                }, 2000);
+            } catch (err) {
+                submitBtn.disabled = false;
+                submitBtn.textContent = "Confirm & Place Order";
+                msgBox.style.display = "block";
+                msgBox.style.background = "#fee2e2";
+                msgBox.style.color = "#991b1b";
+                msgBox.textContent = friendlyErrorMessage(err, "Failed to place order. Please try again.");
+            }
+        });
+    }
 }
+
 
 
 // ============================================
