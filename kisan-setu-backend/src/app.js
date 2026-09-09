@@ -49,6 +49,7 @@ app.all('/', (_req, res) =>
   res.json({
     success: true,
     message: '🌾 Kisan Setu Backend API is running successfully!',
+    version: '1.0.1',
     environment: env.NODE_ENV,
     endpoints: {
       health: '/health',
