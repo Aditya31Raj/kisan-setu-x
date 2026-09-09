@@ -129,7 +129,7 @@
 
         <div class="logout">
 
-            <a href="index.html">
+            <a href="javascript:void(0)" id="logoutBtn" class="logout-btn">
                 🚪 &nbsp; Logout
             </a>
 
@@ -169,24 +169,30 @@
 
             <!-- ADMIN PROFILE -->
 
-            <div class="admin-profile">
+            <div style="display: flex; align-items: center; gap: 15px;">
+                <div class="admin-profile">
 
-                <div class="profile-icon">
-                    A
+                    <div class="profile-icon">
+                        A
+                    </div>
+
+                    <div>
+
+                        <strong>
+                            Admin
+                        </strong>
+
+                        <p>
+                            Prakhand Admin
+                        </p>
+
+                    </div>
+
                 </div>
 
-                <div>
-
-                    <strong>
-                        Admin
-                    </strong>
-
-                    <p>
-                        Prakhand Admin
-                    </p>
-
-                </div>
-
+                <button type="button" class="topbar-logout-btn" id="topbarLogoutBtn" title="Logout" style="display:inline-flex; align-items:center; gap:6px; padding:8px 14px; border-radius:6px; background:#fdf2f2; color:#ba3d32; border:1px solid #fad7d4; font-size:12px; font-weight:600; cursor:pointer;">
+                    🚪 &nbsp; Logout
+                </button>
             </div>
 
 
