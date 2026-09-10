@@ -338,6 +338,8 @@ async function markNotificationRead(
     notificationId
 ) {
 
+    try {
+
         await apiRequest(`/notifications/${encodeURIComponent(notificationId)}/read`, { method: "PATCH" });
 
 
