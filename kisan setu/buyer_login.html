@@ -274,6 +274,13 @@
 
 
 <body>
+    <!-- Top Right Language Switcher -->
+    <div class="auth-lang-corner">
+        <button type="button" class="lang-toggle-btn" title="Change Language / भाषा बदलें">
+            <i class="fa-solid fa-globe"></i>
+            <span class="lang-toggle-label">हिन्दी</span>
+        </button>
+    </div>
 
     <div class="login-container">
 
@@ -287,32 +294,29 @@
                 KISAN SETU
             </div>
 
-            <h1>
-                Welcome Back,<br>
-                Buyer / Vendor
+            <h1 data-i18n="auth_buyer_hero">
+                Buy directly from local verified farmers.
             </h1>
 
-            <p>
-                Connect directly with farmers, discover quality
-                agricultural produce and make secure payments
-                through Kisan Setu.
+            <p data-i18n="auth_buyer_hero_sub">
+                Get fair farm prices, transparent logistics, quality guarantee, and real-time status updates through Kisan Setu.
             </p>
 
             <div class="features">
 
                 <div class="feature">
                     <i class="fa-solid fa-wheat-awn"></i>
-                    <span>Direct access to farmer produce</span>
+                    <span data-i18n="featureDirectMarket">Direct access to farmer produce</span>
                 </div>
 
                 <div class="feature">
                     <i class="fa-solid fa-shield-halved"></i>
-                    <span>Secure and transparent payments</span>
+                    <span data-i18n="featureSecureTransparent">Secure and transparent payments</span>
                 </div>
 
                 <div class="feature">
                     <i class="fa-solid fa-truck"></i>
-                    <span>Track your delivery and logistics</span>
+                    <span data-i18n="featureSafety">Track your delivery and logistics</span>
                 </div>
 
             </div>
@@ -324,9 +328,9 @@
 
         <div class="login-right">
 
-            <h2>Buyer / Vendor Login</h2>
+            <h2 data-i18n="buyer_login_title">Buyer / Vendor Login</h2>
 
-            <p class="subtitle">
+            <p class="subtitle" data-i18n="buyer_login_subtitle">
                 Login to access your Kisan Setu marketplace.
             </p>
 
@@ -337,7 +341,7 @@
 
                 <div class="input-group">
 
-                    <label>Email / Mobile Number</label>
+                    <label data-i18n="email_or_phone">Email / Mobile Number</label>
 
                     <div class="input-box">
 
@@ -348,6 +352,7 @@
                             id="buyerUsername"
                             name="username"
                             placeholder="Enter email or mobile number"
+                            data-i18n-placeholder="email_or_phone_ph"
                             required
                         >
 
@@ -358,7 +363,7 @@
 
                 <div class="input-group">
 
-                    <label>Password</label>
+                    <label data-i18n="password">Password</label>
 
                     <div class="input-box">
 
@@ -369,6 +374,7 @@
                             id="buyerPassword"
                             name="password"
                             placeholder="Enter your password"
+                            data-i18n-placeholder="password_ph"
                             required
                         >
 
@@ -383,11 +389,11 @@
 
                         <input type="checkbox">
 
-                        Remember me
+                        <span data-i18n="remember_me">Remember me</span>
 
                     </label>
 
-                    <a href="#" class="forgot">
+                    <a href="#" class="forgot" data-i18n="forgot_password">
                         Forgot Password?
                     </a>
 
@@ -397,7 +403,7 @@
                 <button type="submit" class="login-button">
 
                     <i class="fa-solid fa-right-to-bracket"></i>
-                    &nbsp; Login
+                    &nbsp; <span data-i18n="login_btn">Login</span>
 
                 </button>
 
@@ -406,9 +412,9 @@
 
             <div class="register">
 
-                New Buyer / Vendor?
+                <span data-i18n="new_to_kisan">New Buyer / Vendor?</span>
 
-                <a href="buyer_register.html">
+                <a href="buyer_register.html" data-i18n="register_now">
                     Register Now
                 </a>
 
@@ -420,7 +426,7 @@
                 <a href="index.html">
 
                     <i class="fa-solid fa-arrow-left"></i>
-                    Back to Home
+                    <span data-i18n="back_to_home">Back to Home</span>
 
                 </a>
 
@@ -430,6 +436,7 @@
 
     </div>
 
+    <script src="js/core/i18n.js"></script>
     <script src="js/core/api.js"></script>
     <script src="js/core/auth.js"></script>
     <script>

@@ -165,20 +165,24 @@
 
             <div>
 
-                <h1>
+                <h1 data-i18n="admin_dashboard_title">
                     Admin Dashboard
                 </h1>
 
-                <p>
+                <p data-i18n="admin_dashboard_sub">
                     Monitor and manage the Kisan Setu marketplace
                 </p>
 
             </div>
 
 
-            <!-- ADMIN PROFILE -->
+            <!-- ADMIN PROFILE & ACTIONS -->
 
             <div style="display: flex; align-items: center; gap: 15px;">
+                <button type="button" class="lang-toggle-btn" id="adminLangToggle" title="Change Language / भाषा बदलें">
+                    <i class="fa-solid fa-globe"></i>
+                    <span class="lang-toggle-label">हिन्दी</span>
+                </button>
                 <div class="admin-profile">
 
                     <div class="profile-icon">
@@ -200,7 +204,7 @@
                 </div>
 
                 <button type="button" class="topbar-logout-btn" id="topbarLogoutBtn" title="Logout" style="display:inline-flex; align-items:center; gap:6px; padding:8px 14px; border-radius:6px; background:#fdf2f2; color:#ba3d32; border:1px solid #fad7d4; font-size:12px; font-weight:600; cursor:pointer;">
-                    🚪 &nbsp; Logout
+                    🚪 &nbsp; <span data-i18n="nav_logout">Logout</span>
                 </button>
             </div>
 
@@ -519,6 +523,7 @@
          JAVASCRIPT
          ================================================== -->
 
+    <script src="js/core/i18n.js"></script>
     <script src="js/core/api.js"></script>
     <script src="js/core/auth.js"></script>
     <script src="js/admin/admin.js"></script>

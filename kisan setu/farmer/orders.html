@@ -14,7 +14,7 @@
                 <img src="../images/logoks.jpeg" alt="Kisan Setu Logo">
                 <div class="brand-text">
                     <h2>Kisan Setu</h2>
-                    <span>FARMER PORTAL</span>
+                    <span data-i18n="portal_farmer">FARMER PORTAL</span>
                 </div>
             </div>
 
@@ -29,34 +29,40 @@
             </div>
 
             <nav class="sidebar-nav">
-                <div class="nav-title">Overview</div>
-                <a href="../farmer_dashboard.html" class="nav-item"><i class="fa-solid fa-gauge"></i> Dashboard</a>
-                <a href="produce.html" class="nav-item"><i class="fa-solid fa-seedling"></i> Produce</a>
-                <a href="orders.html" class="nav-item active"><i class="fa-solid fa-box"></i> Orders</a>
-                <a href="payments.html" class="nav-item"><i class="fa-solid fa-wallet"></i> Payments</a>
-                <a href="logistics.html" class="nav-item"><i class="fa-solid fa-truck"></i> Logistics</a>
-                <a href="history.html" class="nav-item"><i class="fa-solid fa-clock-rotate-left"></i> History</a>
-                <a href="disputes.html" class="nav-item"><i class="fa-solid fa-circle-exclamation"></i> Disputes</a>
-                <a href="notifications.html" class="nav-item"><i class="fa-solid fa-bell"></i> Notifications</a>
-                <a href="profile.html" class="nav-item"><i class="fa-solid fa-user-gear"></i> Profile</a>
+                <div class="nav-title" data-i18n="overview">Overview</div>
+                <a href="../farmer_dashboard.html" class="nav-item"><i class="fa-solid fa-gauge"></i> <span data-i18n="nav_dashboard">Dashboard</span></a>
+                <a href="produce.html" class="nav-item"><i class="fa-solid fa-seedling"></i> <span data-i18n="nav_produce">Produce</span></a>
+                <a href="orders.html" class="nav-item active"><i class="fa-solid fa-box"></i> <span data-i18n="nav_orders">Orders</span></a>
+                <a href="payments.html" class="nav-item"><i class="fa-solid fa-wallet"></i> <span data-i18n="nav_payments">Payments</span></a>
+                <a href="logistics.html" class="nav-item"><i class="fa-solid fa-truck"></i> <span data-i18n="nav_logistics">Logistics</span></a>
+                <a href="history.html" class="nav-item"><i class="fa-solid fa-clock-rotate-left"></i> <span data-i18n="nav_history">History</span></a>
+                <a href="disputes.html" class="nav-item"><i class="fa-solid fa-circle-exclamation"></i> <span data-i18n="nav_disputes">Disputes</span></a>
+                <a href="notifications.html" class="nav-item"><i class="fa-solid fa-bell"></i> <span data-i18n="nav_notifications">Notifications</span></a>
+                <a href="profile.html" class="nav-item"><i class="fa-solid fa-user-gear"></i> <span data-i18n="nav_profile">Profile</span></a>
             </nav>
             <div class="logout">
                 <a href="javascript:void(0)" id="logoutBtn" class="nav-item logout-btn">
                     <i class="fa-solid fa-right-from-bracket"></i>
-                    <span>Logout</span>
+                    <span data-i18n="nav_logout">Logout</span>
                 </a>
             </div>
         </aside>
 
         <div class="main">
             <main class="buyer-container">
-        <section class="page-header">
-            <h1>Farmer Orders</h1>
-            <p>Review and manage orders received from buyers.</p>
+        <section class="page-header" style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px;">
+            <div>
+                <h1 data-i18n="farmer_orders_title">Farmer Orders</h1>
+                <p data-i18n="farmer_orders_sub">Review and manage orders received from buyers.</p>
+            </div>
+            <button type="button" class="lang-toggle-btn" title="Change Language / भाषा बदलें">
+                <i class="fa-solid fa-globe"></i>
+                <span class="lang-toggle-label">हिन्दी</span>
+            </button>
         </section>
 
         <section class="order-controls">
-            <label for="statusFilter">Order Status</label>
+            <label for="statusFilter" data-i18n="order_status_label">Order Status</label>
             <select id="statusFilter">
                 <option value="">All Orders</option>
                 <option value="PENDING_FARMER">Pending Farmer</option>
@@ -70,7 +76,7 @@
                 <option value="CANCELLED">Cancelled</option>
                 <option value="DISPUTED">Disputed</option>
             </select>
-            <button type="button" id="refreshOrdersBtn">Refresh</button>
+            <button type="button" id="refreshOrdersBtn" data-i18n="refresh_btn">Refresh</button>
         </section>
 
         <section class="orders-section">
@@ -130,6 +136,7 @@
         </div>
     </div>
 
+    <script src="../js/core/i18n.js"></script>
     <script src="../js/core/api.js"></script>
     <script src="../js/core/auth.js"></script>
     <script src="../js/farmer/farmer.js"></script>

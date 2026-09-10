@@ -775,7 +775,7 @@
 
                 <h2>KISAN SETU</h2>
 
-                <span>BUYER / VENDOR PORTAL</span>
+                <span data-i18n="portal_buyer">BUYER / VENDOR PORTAL</span>
 
             </div>
 
@@ -809,8 +809,8 @@
 
         <nav class="sidebar-nav">
 
-            <div class="nav-title">
-                Main Menu
+            <div class="nav-title" data-i18n="overview">
+                Overview
             </div>
 
 
@@ -819,7 +819,7 @@
 
                 <i class="fa-solid fa-house"></i>
 
-                <span>Dashboard</span>
+                <span data-i18n="nav_dashboard">Dashboard</span>
 
             </a>
 
@@ -829,7 +829,7 @@
 
                 <i class="fa-solid fa-wheat-awn"></i>
 
-                <span>Find Produce</span>
+                <span data-i18n="nav_find_produce">Find Produce</span>
 
             </a>
 
@@ -839,7 +839,7 @@
 
                 <i class="fa-solid fa-box"></i>
 
-                <span>My Orders</span>
+                <span data-i18n="nav_my_orders">My Orders</span>
 
             </a>
 
@@ -849,7 +849,7 @@
 
                 <i class="fa-solid fa-credit-card"></i>
 
-                <span>Payments</span>
+                <span data-i18n="nav_payments">Payments</span>
 
             </a>
 
@@ -859,7 +859,7 @@
 
                 <i class="fa-solid fa-truck"></i>
 
-                <span>Logistics</span>
+                <span data-i18n="nav_logistics">Logistics</span>
 
             </a>
 
@@ -869,7 +869,7 @@
 
                 <i class="fa-solid fa-clock-rotate-left"></i>
 
-                <span>Payment History</span>
+                <span data-i18n="nav_history">Payment History</span>
 
             </a>
 
@@ -879,7 +879,7 @@
 
                 <i class="fa-solid fa-triangle-exclamation"></i>
 
-                <span>Disputes</span>
+                <span data-i18n="nav_disputes">Disputes</span>
 
             </a>
 
@@ -889,7 +889,7 @@
 
                 <i class="fa-solid fa-bell"></i>
 
-                <span>Notifications</span>
+                <span data-i18n="nav_notifications">Notifications</span>
 
             </a>
 
@@ -899,7 +899,7 @@
 
                 <i class="fa-solid fa-user"></i>
 
-                <span>Profile</span>
+                <span data-i18n="nav_profile">Profile</span>
 
             </a>
 
@@ -916,7 +916,7 @@
 
                 <i class="fa-solid fa-right-from-bracket"></i>
 
-                <span>Logout</span>
+                <span data-i18n="nav_logout">Logout</span>
 
             </a>
 
@@ -938,11 +938,16 @@
                     <i class="fa-solid fa-bars"></i>
                 </button>
                 <div class="page-title">
-                    <h1>Buyer / Vendor Dashboard</h1>
-                    <p>Manage your produce orders, payments, and trade logistics</p>
+                    <h1 data-i18n="buyer_dashboard_title">Buyer / Vendor Dashboard</h1>
+                    <p data-i18n="buyer_dashboard_sub">Manage your produce orders, payments, and trade logistics</p>
                 </div>
             </div>
             <div class="top-actions">
+                <!-- Language Toggle -->
+                <button type="button" class="lang-toggle-btn" id="buyerLangToggle" title="Change Language / भाषा बदलें">
+                    <i class="fa-solid fa-globe"></i>
+                    <span class="lang-toggle-label">हिन्दी</span>
+                </button>
                 <a href="buyer/notifications.html" class="notification" aria-label="Open notifications" title="Notifications">
                     <i class="fa-solid fa-bell"></i>
                 </a>
@@ -952,7 +957,7 @@
                 </a>
                 <button type="button" class="topbar-logout-btn" id="topbarLogoutBtn" title="Logout">
                     <i class="fa-solid fa-right-from-bracket"></i>
-                    <span>Logout</span>
+                    <span data-i18n="nav_logout">Logout</span>
                 </button>
             </div>
         </header>
@@ -1363,6 +1368,7 @@
 
 
 
+<script src="js/core/i18n.js"></script>
 <script src="js/core/api.js"></script>
 <script src="js/core/auth.js"></script>
 <script src="js/core/profile-storage.js"></script>

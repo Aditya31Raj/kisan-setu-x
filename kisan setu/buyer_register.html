@@ -373,13 +373,16 @@
         </a>
 
 
-        <a href="index.html" class="back-home">
-
-            <i class="fa-solid fa-arrow-left"></i>
-
-            Back to Home
-
-        </a>
+        <div style="display: flex; align-items: center; gap: 14px;">
+            <button type="button" class="lang-toggle-btn" title="Change Language / भाषा बदलें">
+                <i class="fa-solid fa-globe"></i>
+                <span class="lang-toggle-label">हिन्दी</span>
+            </button>
+            <a href="index.html" class="back-home">
+                <i class="fa-solid fa-arrow-left"></i>
+                <span data-i18n="back_to_home">Back to Home</span>
+            </a>
+        </div>
 
     </header>
 
@@ -865,6 +868,7 @@
     <!-- ================= JAVASCRIPT ================= -->
 
     <script src="js/core/api.js"></script>
+    <script src="js/core/i18n.js"></script>
     <script src="js/core/auth.js"></script>
     <script src="js/buyer/buyer.js"></script>
     <script src="js/core/profile-storage.js"></script>

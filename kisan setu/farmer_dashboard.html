@@ -18,7 +18,7 @@
                 <img src="images/logoks.jpeg" alt="Kisan Setu Logo">
                 <div class="brand-text">
                     <h2>Kisan Setu</h2>
-                    <span>FARMER PORTAL</span>
+                    <span data-i18n="portal_farmer">FARMER PORTAL</span>
                 </div>
             </div>
 
@@ -33,21 +33,21 @@
             </div>
 
             <nav class="sidebar-nav">
-                <div class="nav-title">Overview</div>
-                <a href="farmer_dashboard.html" class="nav-item active"><i class="fa-solid fa-gauge"></i> Dashboard</a>
-                <a href="farmer/produce.html" class="nav-item"><i class="fa-solid fa-seedling"></i> Produce</a>
-                <a href="farmer/orders.html" class="nav-item"><i class="fa-solid fa-box"></i> Orders</a>
-                <a href="farmer/payments.html" class="nav-item"><i class="fa-solid fa-wallet"></i> Payments</a>
-                <a href="farmer/logistics.html" class="nav-item"><i class="fa-solid fa-truck"></i> Logistics</a>
-                <a href="farmer/history.html" class="nav-item"><i class="fa-solid fa-clock-rotate-left"></i> History</a>
-                <a href="farmer/disputes.html" class="nav-item"><i class="fa-solid fa-circle-exclamation"></i> Disputes</a>
-                <a href="farmer/notifications.html" class="nav-item"><i class="fa-solid fa-bell"></i> Notifications</a>
-                <a href="farmer/profile.html" class="nav-item"><i class="fa-solid fa-user-gear"></i> Profile</a>
+                <div class="nav-title" data-i18n="overview">Overview</div>
+                <a href="farmer_dashboard.html" class="nav-item active"><i class="fa-solid fa-gauge"></i> <span data-i18n="nav_dashboard">Dashboard</span></a>
+                <a href="farmer/produce.html" class="nav-item"><i class="fa-solid fa-seedling"></i> <span data-i18n="nav_produce">Produce</span></a>
+                <a href="farmer/orders.html" class="nav-item"><i class="fa-solid fa-box"></i> <span data-i18n="nav_orders">Orders</span></a>
+                <a href="farmer/payments.html" class="nav-item"><i class="fa-solid fa-wallet"></i> <span data-i18n="nav_payments">Payments</span></a>
+                <a href="farmer/logistics.html" class="nav-item"><i class="fa-solid fa-truck"></i> <span data-i18n="nav_logistics">Logistics</span></a>
+                <a href="farmer/history.html" class="nav-item"><i class="fa-solid fa-clock-rotate-left"></i> <span data-i18n="nav_history">History</span></a>
+                <a href="farmer/disputes.html" class="nav-item"><i class="fa-solid fa-circle-exclamation"></i> <span data-i18n="nav_disputes">Disputes</span></a>
+                <a href="farmer/notifications.html" class="nav-item"><i class="fa-solid fa-bell"></i> <span data-i18n="nav_notifications">Notifications</span></a>
+                <a href="farmer/profile.html" class="nav-item"><i class="fa-solid fa-user-gear"></i> <span data-i18n="nav_profile">Profile</span></a>
             </nav>
             <div class="logout">
                 <a href="javascript:void(0)" id="logoutBtn" class="nav-item logout-btn">
                     <i class="fa-solid fa-right-from-bracket"></i>
-                    <span>Logout</span>
+                    <span data-i18n="nav_logout">Logout</span>
                 </a>
             </div>
         </aside>
@@ -59,11 +59,16 @@
                         <i class="fa-solid fa-bars"></i>
                     </button>
                     <div class="page-title">
-                        <h1>Farmer Dashboard</h1>
-                        <p>Manage your produce, orders, and earnings</p>
+                        <h1 data-i18n="farmer_dashboard_title">Farmer Dashboard</h1>
+                        <p data-i18n="farmer_dashboard_sub">Manage your produce, orders, and earnings</p>
                     </div>
                 </div>
                 <div class="top-actions">
+                    <!-- Language Toggle -->
+                    <button type="button" class="lang-toggle-btn" id="farmerLangToggle" title="Change Language / भाषा बदलें">
+                        <i class="fa-solid fa-globe"></i>
+                        <span class="lang-toggle-label">हिन्दी</span>
+                    </button>
                     <a href="farmer/notifications.html" class="notification" aria-label="Open notifications" title="Notifications">
                         <i class="fa-solid fa-bell"></i>
                     </a>
@@ -73,21 +78,21 @@
                     </a>
                     <button type="button" class="topbar-logout-btn" id="topbarLogoutBtn" title="Logout">
                         <i class="fa-solid fa-right-from-bracket"></i>
-                        <span>Logout</span>
+                        <span data-i18n="nav_logout">Logout</span>
                     </button>
                 </div>
             </header>
 
             <div class="content">
                 <section class="welcome">
-                    <h2>Welcome back, <span id="farmerWelcomeName">there</span>!</h2>
+                    <h2><span data-i18n="welcome_back">Welcome back</span>, <span id="farmerWelcomeName">there</span>!</h2>
                     <p id="farmerWelcomeMessage">Loading your farm performance...</p>
                 </section>
 
                 <section class="stats-grid">
                     <div class="stat-card">
                         <div class="stat-info">
-                            <span>Listed Produce</span>
+                            <span data-i18n="stat_listed_produce">Listed Produce</span>
                             <strong id="farmerListedProduceValue">--</strong>
                             <small id="farmerListedProduceNote">Loading...</small>
                         </div>
@@ -95,7 +100,7 @@
                     </div>
                     <div class="stat-card">
                         <div class="stat-info">
-                            <span>Pending Orders</span>
+                            <span data-i18n="stat_pending_orders">Pending Orders</span>
                             <strong id="farmerPendingOrdersValue">--</strong>
                             <small id="farmerPendingOrdersNote">Loading...</small>
                         </div>
@@ -103,7 +108,7 @@
                     </div>
                     <div class="stat-card">
                         <div class="stat-info">
-                            <span>Monthly Revenue</span>
+                            <span data-i18n="stat_monthly_revenue">Monthly Revenue</span>
                             <strong id="farmerRevenueValue">--</strong>
                             <small id="farmerRevenueNote">Loading...</small>
                         </div>
@@ -111,7 +116,7 @@
                     </div>
                     <div class="stat-card">
                         <div class="stat-info">
-                            <span>Crop Health</span>
+                            <span data-i18n="stat_crop_health">Crop Health</span>
                             <strong id="farmerCropHealthValue">--</strong>
                             <small id="farmerCropHealthNote">Loading...</small>
                         </div>
@@ -122,16 +127,16 @@
                 <section class="dashboard-grid">
                     <div class="card">
                         <div class="card-header">
-                            <h3>Recent Orders</h3>
-                            <a href="farmer/orders.html" class="link-btn">View all</a>
+                            <h3 data-i18n="recent_orders">Recent Orders</h3>
+                            <a href="farmer/orders.html" class="link-btn" data-i18n="view_all">View all</a>
                         </div>
                         <div id="farmerRecentOrders" class="table-list"><p class="empty-state">Loading orders...</p></div>
                     </div>
 
                     <div class="card">
                         <div class="card-header">
-                            <h3>Buyer Requests</h3>
-                            <a href="farmer/produce.html" class="link-btn">Manage</a>
+                            <h3 data-i18n="buyer_requests">Buyer Requests</h3>
+                            <a href="farmer/produce.html" class="link-btn" data-i18n="btn_manage">Manage</a>
                         </div>
                         <div id="farmerBuyerRequests" class="list-stack"><p class="empty-state">Loading requests...</p></div>
                     </div>
@@ -140,16 +145,16 @@
                 <section class="dashboard-grid">
                     <div class="card">
                         <div class="card-header">
-                            <h3>Payment Summary</h3>
-                            <a href="farmer/payments.html" class="link-btn">Details</a>
+                            <h3 data-i18n="payment_summary">Payment Summary</h3>
+                            <a href="farmer/payments.html" class="link-btn" data-i18n="btn_details">Details</a>
                         </div>
                         <div id="farmerPaymentSummary" class="list-stack"><p class="empty-state">Loading payments...</p></div>
                     </div>
 
                     <div class="card">
                         <div class="card-header">
-                            <h3>Shipment Alerts</h3>
-                            <a href="farmer/logistics.html" class="link-btn">Track</a>
+                            <h3 data-i18n="shipment_alerts">Shipment Alerts</h3>
+                            <a href="farmer/logistics.html" class="link-btn" data-i18n="btn_track">Track</a>
                         </div>
                         <div id="farmerShipmentAlerts" class="list-stack"><p class="empty-state">Loading shipments...</p></div>
                     </div>
@@ -158,6 +163,7 @@
         </main>
     </div>
 
+    <script src="js/core/i18n.js"></script>
     <script src="js/core/api.js"></script>
     <script src="js/core/auth.js"></script>
     <script src="js/core/profile-storage.js"></script>

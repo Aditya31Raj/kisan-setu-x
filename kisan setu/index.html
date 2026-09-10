@@ -2241,8 +2241,18 @@
 
     function applyLanguage(language) {
 
+        const langCode = (language === "हिन्दी" || language === "hi") ? "hi" : "en";
+        const displayLabel = (langCode === "hi") ? "हिन्दी" : "English";
+
+        // Persist via centralized i18n engine if available
+        if (window.kisanI18n && window.kisanI18n.getLanguage() !== langCode) {
+            window.kisanI18n.setLanguage(langCode);
+        } else {
+            try { localStorage.setItem("kisan_setu_lang", langCode); } catch(e) {}
+        }
+
         const translationSet =
-            translations[language] ||
+            translations[displayLabel] ||
             translations.English;
 
 
@@ -2264,8 +2274,10 @@
             });
 
 
-        selectedLanguage.textContent =
-            language;
+        if (selectedLanguage) {
+            selectedLanguage.textContent =
+                displayLabel;
+        }
 
 
         languageOptions.forEach(function(option) {
@@ -2275,7 +2287,7 @@
                 "selected",
 
                 option.getAttribute("data-language")
-                === language
+                === displayLabel
 
             );
 
@@ -2414,10 +2426,18 @@
 
 
     /* =====================================================
-       DEFAULT LANGUAGE
+       INITIALIZE LANGUAGE (PERSISTED OR DEFAULT)
     ===================================================== */
 
-    applyLanguage("English");
+    const savedLang = (function() {
+        try {
+            const s = localStorage.getItem("kisan_setu_lang");
+            if (s === "hi" || s === "हिन्दी") return "हिन्दी";
+        } catch(e) {}
+        return "English";
+    })();
+
+    applyLanguage(savedLang);
 
 
     /* =====================================================
@@ -2432,6 +2452,7 @@
 
 </script>
 
+<script src="js/core/i18n.js"></script>
 <script src="js/core/api.js"></script>
 <script src="js/core/auth.js"></script>
 

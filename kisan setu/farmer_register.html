@@ -97,7 +97,13 @@
                 <p>Farmer Registration</p>
             </div>
         </a>
-        <a href="index.html" class="back-home">Back to Home</a>
+        <div style="display: flex; align-items: center; gap: 14px;">
+            <button type="button" class="lang-toggle-btn" title="Change Language / भाषा बदलें">
+                <i class="fa-solid fa-globe"></i>
+                <span class="lang-toggle-label">हिन्दी</span>
+            </button>
+            <a href="index.html" class="back-home"><span data-i18n="back_to_home">Back to Home</span></a>
+        </div>
     </nav>
 
     <main class="main-container">
@@ -162,6 +168,7 @@
             </div>
         </div>
     </main>
+    <script src="js/core/i18n.js"></script>
     <script src="js/core/api.js"></script>
     <script src="js/core/auth.js"></script>
     <script src="js/farmer/farmer.js"></script>
