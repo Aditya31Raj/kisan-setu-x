@@ -120,12 +120,24 @@
 
         .logo-area img {
 
-            width: 95px;
-            height: 95px;
+            width: 78px;
+            height: 78px;
 
             object-fit: contain;
 
             display: block;
+
+            border-radius: 12px;
+
+            filter: drop-shadow(0 2px 8px rgba(16, 185, 129, 0.16));
+
+            transition: transform 0.25s ease;
+        }
+
+
+        .logo-area:hover img {
+
+            transform: scale(1.04);
         }
 
 
@@ -133,21 +145,27 @@
 
             color: #10B981;
 
-            font-size: 25px;
+            font-size: 26px;
 
             font-weight: 800;
 
             line-height: 1;
+
+            letter-spacing: 0.5px;
         }
 
 
         .logo-text p {
 
-            color: #66716a;
+            color: #4b5563;
 
-            font-size: 11px;
+            font-size: 11.5px;
 
-            margin-top: 6px;
+            font-weight: 500;
+
+            margin-top: 5px;
+
+            letter-spacing: 0.2px;
         }
 
 
@@ -1202,29 +1220,15 @@
 
             .logo-area img {
 
-                width: 58px;
+                width: 56px;
 
-                height: 58px;
+                height: 56px;
             }
 
 
             .logo-text h1 {
 
-                font-size: 18px;
-            }
-
-
-            .login-btn {
-
-                padding: 9px 12px;
-
-                font-size: 12px;
-            }
-
-
-            .language-dropdown {
-
-                display: none;
+                font-size: 19px;
             }
 
 
@@ -1429,24 +1433,6 @@
             </div>
 
         </div>
-
-
-        <!-- LOGIN -->
-
-        <a
-            href="buyer_login.html"
-            class="login-btn"
-        >
-
-            <i class="fa-regular fa-user"></i>
-
-            &nbsp;
-
-            <span data-i18n="login">
-                Login
-            </span>
-
-        </a>
 
     </div>
 
