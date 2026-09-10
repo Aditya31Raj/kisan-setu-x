@@ -2,30 +2,74 @@
 <html lang="en">
 
 <head>
-
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <title>Kisan Setu - Grievances</title>
+    <title>Kisan Setu - Disputes & Grievances Redressal Center</title>
 
     <link rel="stylesheet" href="../css/style.css">
     <link rel="stylesheet" href="../css/admin.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
 
     <style>
-
         /* =========================
-           GRIEVANCES PAGE
+           DISPUTES & GRIEVANCES HUB
            ========================= */
+        .redressal-tabs {
+            display: flex;
+            gap: 14px;
+            margin-bottom: 22px;
+        }
 
-        .grievance-filters {
+        .tab-btn {
+            flex: 1;
+            padding: 14px 20px;
+            font-size: 14px;
+            font-weight: 600;
+            border-radius: 10px;
+            border: 1px solid #dfe7e2;
+            background: #ffffff;
+            color: #56615a;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            transition: all 0.25s ease;
+        }
+
+        .tab-btn:hover {
+            background: #f4faf5;
+            border-color: #badfc0;
+        }
+
+        .tab-btn.active {
+            border-color: #16863b;
+            background: #edf8ef;
+            color: #16863b;
+            box-shadow: 0 3px 10px rgba(22, 134, 59, 0.12);
+        }
+
+        .pill-badge {
+            background: #6c757d;
+            color: #fff;
+            padding: 3px 9px;
+            border-radius: 12px;
+            font-size: 11px;
+            font-weight: 700;
+        }
+
+        .tab-btn.active .pill-badge {
+            background: #16863b;
+        }
+
+        .filters-container {
             background: white;
             border: 1px solid #dfe7e2;
             border-radius: 10px;
             padding: 20px;
             margin-bottom: 20px;
-
             display: grid;
-            grid-template-columns: 1fr 1fr 1fr auto;
+            grid-template-columns: 2fr 1fr 1fr auto;
             gap: 15px;
             align-items: end;
         }
@@ -52,111 +96,108 @@
         }
 
         .filter-btn {
-            padding: 10px 18px;
+            padding: 10px 20px;
             border: none;
             border-radius: 7px;
-            background: #198754;
+            background: #16863b;
             color: white;
             font-weight: 600;
             cursor: pointer;
+            transition: background 0.2s;
         }
 
         .filter-btn:hover {
-            background: #146c43;
+            background: #0e682d;
         }
 
-        .grievance-table-wrapper {
+        .table-wrapper {
             background: white;
             border: 1px solid #dfe7e2;
             border-radius: 10px;
-            padding: 20px;
-            overflow-x: auto;
+            padding: 22px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
         }
 
-        .grievance-table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-
-        .grievance-table th,
-        .grievance-table td {
-            padding: 13px 12px;
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
             border-bottom: 1px solid #edf0ee;
-            text-align: left;
-            font-size: 12px;
+            padding-bottom: 14px;
+            margin-bottom: 18px;
         }
 
-        .grievance-table th {
-            background: #f8faf9;
-            color: #555;
-            font-weight: 600;
-        }
-
-        .grievance-table tr:hover td {
-            background: #fbfdfb;
-        }
-
-        .grievance-id {
-            color: #198754;
-            font-weight: 600;
+        .section-header h2 {
+            font-size: 17px;
+            color: #202522;
+            margin: 0;
+            display: flex;
+            align-items: center;
+            gap: 8px;
         }
 
         .status {
             display: inline-block;
-            padding: 5px 9px;
+            padding: 4px 10px;
             border-radius: 12px;
-            font-size: 10px;
+            font-size: 11px;
             font-weight: 600;
+            text-transform: uppercase;
         }
 
-        .status.pending {
+        .status.pending, .status.open {
             background: #fff5dc;
             color: #8a6500;
         }
 
-        .status.progress {
+        .status.progress, .status.in_review {
             background: #e8f1fb;
             color: #376b9d;
         }
 
-        .status.resolved {
+        .status.resolved, .status.completed {
             background: #e9f6ec;
             color: #176b38;
         }
 
-        .status.rejected {
+        .status.rejected, .status.failed {
             background: #fdeaea;
             color: #b3261e;
         }
 
-        .priority {
-            font-weight: 600;
+        .role-badge {
+            display: inline-block;
+            padding: 2px 7px;
+            border-radius: 6px;
+            font-size: 10px;
+            font-weight: 700;
+            text-transform: uppercase;
         }
 
-        .priority.high {
-            color: #dc3545;
+        .role-badge.buyer {
+            background: #e0f2fe;
+            color: #0369a1;
         }
 
-        .priority.medium {
-            color: #b07a00;
-        }
-
-        .priority.low {
-            color: #198754;
+        .role-badge.farmer {
+            background: #fef3c7;
+            color: #92400e;
         }
 
         .view-btn {
-            padding: 6px 11px;
-            border: 1px solid #198754;
+            padding: 8px 16px;
+            border: none;
             border-radius: 6px;
-            background: white;
-            color: #198754;
-            font-size: 11px;
+            background: #16863b;
+            color: white;
+            font-size: 12px;
+            font-weight: 600;
             cursor: pointer;
+            transition: background 0.2s;
         }
 
         .view-btn:hover {
-            background: #eef8f2;
+            background: #0e682d;
         }
 
         .page-info {
@@ -168,348 +209,288 @@
             color: #6c757d;
         }
 
-        .pagination {
-            display: flex;
-            gap: 8px;
+        /* MODAL */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
         }
 
-        .pagination button {
-            padding: 7px 12px;
-            border: 1px solid #dfe7e2;
-            border-radius: 6px;
-            background: white;
+        .modal-card {
+            background: #fff;
+            border-radius: 12px;
+            max-width: 650px;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            padding: 26px;
+            position: relative;
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #edf0ee;
+            padding-bottom: 12px;
+            margin-bottom: 16px;
+        }
+
+        .modal-close {
+            background: none;
+            border: none;
+            font-size: 20px;
+            color: #888;
             cursor: pointer;
         }
 
-        .pagination button:hover {
-            background: #eef8f2;
+        .modal-close:hover {
+            color: #333;
         }
 
-        /* =========================
-           RESPONSIVE
-           ========================= */
-
         @media (max-width: 900px) {
-
-            .grievance-filters {
+            .filters-container {
                 grid-template-columns: 1fr 1fr;
             }
-
         }
 
         @media (max-width: 600px) {
-
-            .grievance-filters {
+            .redressal-tabs {
+                flex-direction: column;
+            }
+            .filters-container {
                 grid-template-columns: 1fr;
             }
-
             .admin-main {
                 padding: 15px;
             }
-
         }
-
     </style>
-
 </head>
-
 
 <body>
 
-
-    <!-- =========================
-         ADMIN LAYOUT
-         ========================= -->
-
     <div class="admin-layout">
-
 
         <!-- =========================
              SIDEBAR
              ========================= -->
-
         <aside class="admin-sidebar">
-
             <div class="admin-logo">
                 <img src="../images/logoks.jpeg" alt="Kisan Setu Logo">
-
                 <h2>Kisan Setu</h2>
-
                 <p>ADMIN PORTAL</p>
-
             </div>
-
 
             <ul class="admin-menu">
-
-                <li>
-                    <a href="../admin_dashboard.html">
-                        🏠 Dashboard
-                    </a>
-                </li>
-
-                <li>
-                    <a href="farmers.html">
-                        👨‍🌾 Farmers
-                    </a>
-                </li>
-
-                <li>
-                    <a href="buyers.html">
-                        🛒 Buyers
-                    </a>
-                </li>
-
-                <li>
-                    <a href="requests.html">
-                        📋 Requests
-                    </a>
-                </li>
-
-                <li>
-                    <a href="inputs.html">
-                        🌱 Input Management
-                    </a>
-                </li>
-
-                <li>
-                    <a href="payments.html">
-                        💳 Payments
-                    </a>
-                </li>
-
-                <li>
-                    <a href="reports.html">
-                        📊 Reports
-                    </a>
-                </li>
-
-                <li>
-                    <a href="alerts.html">
-                        🔔 Alerts
-                    </a>
-                </li>
-
-                <li>
-                    <a href="grievances.html" class="active">
-                        ⚠️ Grievances
-                    </a>
-                </li>
-
+                <li><a href="../admin_dashboard.html">🏠 Dashboard</a></li>
+                <li><a href="farmers.html">👨‍🌾 Farmers</a></li>
+                <li><a href="buyers.html">🛒 Buyers</a></li>
+                <li><a href="requests.html">📋 Requests</a></li>
+                <li><a href="inputs.html">🌱 Input Management</a></li>
+                <li><a href="payments.html">💳 Payments</a></li>
+                <li><a href="reports.html">📊 Reports</a></li>
+                <li><a href="alerts.html">🔔 Alerts</a></li>
+                <li><a href="logistics.html">🚚 Logistics</a></li>
+                <li><a href="grievances.html" class="active">⚖️ Disputes & Grievances</a></li>
             </ul>
 
-
             <div class="logout">
-
-                <a href="javascript:void(0)" id="logoutBtn" class="logout-btn">
-                    🚪 Logout
-                </a>
-
+                <a href="javascript:void(0)" id="logoutBtn" class="logout-btn">🚪 Logout</a>
             </div>
-
         </aside>
-
-
 
         <!-- =========================
              MAIN CONTENT
              ========================= -->
-
         <main class="admin-main">
 
-
-            <!-- =========================
-                 TOPBAR
-                 ========================= -->
-
+            <!-- TOPBAR -->
             <div class="admin-topbar">
-
                 <div>
-
-                    <h2>Grievances</h2>
-
-                    <p>
-                        Review and manage complaints submitted by farmers and buyers.
-                    </p>
-
+                    <h2>Disputes & Grievances Redressal Center</h2>
+                    <p>Mediate trade disputes between farmers and buyers, and resolve public complaints.</p>
                 </div>
-
 
                 <div class="admin-profile">
-
-                    <div class="profile-icon">
-                        A
-                    </div>
-
+                    <div class="profile-icon">A</div>
                     <div>
-
-                        <strong>Admin</strong>
-
-                        <p>
-                            Prakhand Admin
-                        </p>
-
+                        <strong id="adminProfileName">Admin</strong>
+                        <p id="adminProfileRole">Prakhand / Super Admin</p>
                     </div>
-
                 </div>
-
             </div>
 
-
-
-            <!-- =========================
-                 FILTERS
-                 ========================= -->
-
-            <div class="grievance-filters">
-
-
-                <div class="filter-group">
-
-                    <label for="searchGrievance">
-                        Search
-                    </label>
-
-                    <input
-                        type="text"
-                        id="searchGrievance"
-                        placeholder="Search grievance ID..."
-                    >
-
-                </div>
-
-
-                <div class="filter-group">
-
-                    <label for="statusFilter">
-                        Status
-                    </label>
-
-                    <select id="statusFilter">
-
-                        <option value="all">
-                            All Status
-                        </option>
-
-                        <option value="pending">
-                            Pending
-                        </option>
-
-                        <option value="progress">
-                            In Progress
-                        </option>
-
-                        <option value="resolved">
-                            Resolved
-                        </option>
-
-                        <option value="rejected">
-                            Rejected
-                        </option>
-
-                    </select>
-
-                </div>
-
-
-                <div class="filter-group">
-
-                    <label for="typeFilter">
-                        Type
-                    </label>
-
-                    <select id="typeFilter">
-
-                        <option value="all">
-                            All Types
-                        </option>
-
-                        <option value="payment">
-                            Payment
-                        </option>
-
-                        <option value="quality">
-                            Produce Quality
-                        </option>
-
-                        <option value="delivery">
-                            Delivery
-                        </option>
-
-                        <option value="pricing">
-                            Pricing
-                        </option>
-
-                        <option value="other">
-                            Other
-                        </option>
-
-                    </select>
-
-                </div>
-
-
-                <button
-                    class="filter-btn"
-                    type="button">
-
-                    Apply Filter
-
+            <!-- TAB SWITCHER -->
+            <div class="redressal-tabs">
+                <button type="button" class="tab-btn active" id="tabDisputesBtn">
+                    <i class="fa-solid fa-scale-balanced"></i>
+                    <span>📦 Order Disputes (व्यापार विवाद)</span>
+                    <span class="pill-badge" id="disputeCountPill">0</span>
                 </button>
-
+                <button type="button" class="tab-btn" id="tabGrievancesBtn">
+                    <i class="fa-solid fa-bullhorn"></i>
+                    <span>📝 General Grievances (जन शिकायतें)</span>
+                    <span class="pill-badge" id="grievanceCountPill">0</span>
+                </button>
             </div>
 
-
-
             <!-- =========================
-                 GRIEVANCE TABLE
+                 PANEL 1: ORDER DISPUTES
                  ========================= -->
-
-            <section class="grievance-table-wrapper">
-
-                <div class="section-header">
-
-                    <h2>
-                        Submitted Grievances
-                    </h2>
-
-                    <span id="adminGrievanceCountBadge">
-                        Loading...
-                    </span>
-
+            <section id="disputesPanel">
+                <!-- Filters -->
+                <div class="filters-container">
+                    <div class="filter-group">
+                        <label for="searchDispute">Search Dispute</label>
+                        <input type="text" id="searchDispute" placeholder="Search by Order ID, Buyer, Farmer...">
+                    </div>
+                    <div class="filter-group">
+                        <label for="disputeStatusFilter">Status</label>
+                        <select id="disputeStatusFilter">
+                            <option value="all">All Status</option>
+                            <option value="open">Open</option>
+                            <option value="in_review">In Review</option>
+                            <option value="resolved">Resolved</option>
+                            <option value="rejected">Rejected</option>
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <label for="disputeRoleFilter">Raised By</label>
+                        <select id="disputeRoleFilter">
+                            <option value="all">All Roles</option>
+                            <option value="buyer">Buyer</option>
+                            <option value="farmer">Farmer</option>
+                        </select>
+                    </div>
+                    <button class="filter-btn" id="filterDisputesBtn" type="button">
+                        <i class="fa-solid fa-filter"></i> Apply
+                    </button>
                 </div>
 
+                <!-- Disputes Table / Cards -->
+                <div class="table-wrapper">
+                    <div class="section-header">
+                        <h2>
+                            <i class="fa-solid fa-handshake-slash" style="color:#16863b;"></i>
+                            Trade & Order Disputes
+                        </h2>
+                        <span id="adminDisputeCountBadge" style="font-size:12px; font-weight:600; color:#555;">Loading...</span>
+                    </div>
 
-                <div id="adminGrievancesContainer" style="display:flex; flex-direction:column; gap:12px; margin-top:16px;">
-                    <div style="text-align:center; padding:32px; color:#666;">
-                        <i class="fa-solid fa-spinner fa-spin" style="margin-right:8px;"></i> Loading grievances...
+                    <div id="adminDisputesContainer" style="display:flex; flex-direction:column; gap:12px;">
+                        <div style="text-align:center; padding:32px; color:#666;">
+                            <i class="fa-solid fa-spinner fa-spin" style="margin-right:8px;"></i> Loading order disputes...
+                        </div>
+                    </div>
+
+                    <div class="page-info">
+                        <span id="adminDisputePageInfo">Showing 0 disputes</span>
                     </div>
                 </div>
-
-
-
-                <!-- =========================
-                     PAGINATION
-                     ========================= -->
-
-                <div class="page-info">
-
-                    <span id="adminGrievancePageInfo">
-                        Showing 0 grievances
-                    </span>
-
-                </div>
-
-
             </section>
 
+            <!-- =========================
+                 PANEL 2: GENERAL GRIEVANCES
+                 ========================= -->
+            <section id="grievancesPanel" style="display:none;">
+                <!-- Filters -->
+                <div class="filters-container">
+                    <div class="filter-group">
+                        <label for="searchGrievance">Search Grievance</label>
+                        <input type="text" id="searchGrievance" placeholder="Search subject, user or ID...">
+                    </div>
+                    <div class="filter-group">
+                        <label for="statusFilter">Status</label>
+                        <select id="statusFilter">
+                            <option value="all">All Status</option>
+                            <option value="open">Open</option>
+                            <option value="in_review">In Review</option>
+                            <option value="resolved">Resolved</option>
+                            <option value="rejected">Rejected</option>
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <label for="typeFilter">Category</label>
+                        <select id="typeFilter">
+                            <option value="all">All Categories</option>
+                            <option value="payment">Payment</option>
+                            <option value="msp">MSP Violation</option>
+                            <option value="input">Seed / Fertilizer</option>
+                            <option value="logistics">Logistics</option>
+                            <option value="other">Other</option>
+                        </select>
+                    </div>
+                    <button class="filter-btn" id="filterGrievancesBtn" type="button">
+                        <i class="fa-solid fa-filter"></i> Apply
+                    </button>
+                </div>
+
+                <!-- Grievances Table / Cards -->
+                <div class="table-wrapper">
+                    <div class="section-header">
+                        <h2>
+                            <i class="fa-solid fa-comment-dots" style="color:#16863b;"></i>
+                            Public & Farmer Grievances
+                        </h2>
+                        <span id="adminGrievanceCountBadge" style="font-size:12px; font-weight:600; color:#555;">Loading...</span>
+                    </div>
+
+                    <div id="adminGrievancesContainer" style="display:flex; flex-direction:column; gap:12px;">
+                        <div style="text-align:center; padding:32px; color:#666;">
+                            <i class="fa-solid fa-spinner fa-spin" style="margin-right:8px;"></i> Loading grievances...
+                        </div>
+                    </div>
+
+                    <div class="page-info">
+                        <span id="adminGrievancePageInfo">Showing 0 grievances</span>
+                    </div>
+                </div>
+            </section>
 
         </main>
 
     </div>
 
+    <!-- =========================
+         RESOLVE / REVIEW MODAL
+         ========================= -->
+    <div id="reviewModal" class="modal-overlay">
+        <div class="modal-card">
+            <div class="modal-header">
+                <h3 id="modalTitle" style="margin:0; font-size:18px; color:#202522;">Review Item</h3>
+                <button type="button" class="modal-close" onclick="closeReviewModal()">&times;</button>
+            </div>
+            <div id="modalBody" style="font-size:13px; color:#333; line-height:1.6; margin-bottom:18px;">
+                <!-- Dynamic Content Loaded Here -->
+            </div>
 
+            <div style="border-top:1px solid #edf0ee; padding-top:16px;">
+                <label for="resolutionNoteInput" style="display:block; font-size:12px; font-weight:600; margin-bottom:6px; color:#333;">
+                    Admin Resolution Note / Order Action <span style="color:#ba3d32;">*</span>
+                </label>
+                <textarea id="resolutionNoteInput" rows="3" placeholder="Enter resolution explanation, mediation ruling, or reason..." style="width:100%; box-sizing:border-box; padding:10px; border:1px solid #d5ded8; border-radius:8px; font-size:13px; resize:vertical;"></textarea>
+                <p id="modalErrorMsg" style="color:#ba3d32; font-size:12px; margin:6px 0 0; display:none;"></p>
 
+                <div style="display:flex; justify-content:flex-end; gap:10px; margin-top:16px;">
+                    <button type="button" onclick="closeReviewModal()" style="padding:9px 16px; border:1px solid #ccc; background:#f8f9fa; border-radius:6px; font-size:12px; cursor:pointer;">Cancel</button>
+                    <button type="button" id="rejectBtn" style="padding:9px 16px; border:none; background:#ba3d32; color:#fff; border-radius:6px; font-size:12px; font-weight:600; cursor:pointer;">Reject</button>
+                    <button type="button" id="resolveBtn" style="padding:9px 18px; border:none; background:#16863b; color:#fff; border-radius:6px; font-size:12px; font-weight:600; cursor:pointer;">Resolve & Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
     <script src="../js/core/api.js"></script>
     <script src="../js/core/auth.js"></script>
     <script src="../js/admin/admin.js"></script>

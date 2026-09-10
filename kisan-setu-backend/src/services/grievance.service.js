@@ -1,1 +1,79 @@
-import {prisma} from '../config/database.js'; import {errors} from '../utils/errors.js'; import {recordAudit} from './audit.service.js'; export async function create(userId,d,m){if(d.orderId&&!await prisma.order.findFirst({where:{id:d.orderId,OR:[{buyerId:userId},{farmerId:userId}]}}))throw errors.notFound('Order not found');const g=await prisma.grievance.create({data:{createdById:userId,...d}});await recordAudit({userId,role:m.role,action:'GRIEVANCE_CREATED',entity:'Grievance',entityId:g.id,requestId:m.requestId,ipAddress:m.ip});return g} export const list=(id,role)=>prisma.grievance.findMany({where:['PRAKHAND_ADMIN','SUPER_ADMIN'].includes(role)?{}:{createdById:id},orderBy:{createdAt:'desc'}}); export async function get(id,role,gid){const g=await prisma.grievance.findFirst({where:['PRAKHAND_ADMIN','SUPER_ADMIN'].includes(role)?{id:gid}:{id:gid,createdById:id}});if(!g)throw errors.notFound('Grievance not found');return g} export async function resolve(adminId,id,d,m){const g=await prisma.grievance.findUnique({where:{id}});if(!g)throw errors.notFound('Grievance not found');const x=await prisma.grievance.update({where:{id},data:{status:d.status,resolution:d.resolution,assignedTo:adminId,resolvedAt:new Date()}});await recordAudit({userId:adminId,role:m.role,action:'GRIEVANCE_RESOLVED',entity:'Grievance',entityId:id,requestId:m.requestId,ipAddress:m.ip});return x}
+import { prisma } from '../config/database.js';
+import { errors } from '../utils/errors.js';
+import { recordAudit } from './audit.service.js';
+
+export async function create(userId, d, m) {
+  if (
+    d.orderId &&
+    !(await prisma.order.findFirst({
+      where: { id: d.orderId, OR: [{ buyerId: userId }, { farmerId: userId }] }
+    }))
+  ) {
+    throw errors.notFound('Order not found');
+  }
+
+  const g = await prisma.grievance.create({ data: { createdById: userId, ...d } });
+
+  await recordAudit({
+    userId,
+    role: m.role,
+    action: 'GRIEVANCE_CREATED',
+    entity: 'Grievance',
+    entityId: g.id,
+    requestId: m.requestId,
+    ipAddress: m.ip
+  });
+
+  return g;
+}
+
+export const list = (id, role) =>
+  prisma.grievance.findMany({
+    where: ['PRAKHAND_ADMIN', 'SUPER_ADMIN'].includes(role) ? {} : { createdById: id },
+    include: {
+      creator: { select: { id: true, name: true, phone: true, role: true } },
+      order: { select: { id: true, orderNumber: true, totalAmount: true } },
+      assignee: { select: { id: true, name: true } }
+    },
+    orderBy: { createdAt: 'desc' }
+  });
+
+export async function get(id, role, gid) {
+  const g = await prisma.grievance.findFirst({
+    where: ['PRAKHAND_ADMIN', 'SUPER_ADMIN'].includes(role) ? { id: gid } : { id: gid, createdById: id },
+    include: {
+      creator: { select: { id: true, name: true, phone: true, role: true } },
+      order: { select: { id: true, orderNumber: true, totalAmount: true } },
+      assignee: { select: { id: true, name: true } }
+    }
+  });
+  if (!g) throw errors.notFound('Grievance not found');
+  return g;
+}
+
+export async function resolve(adminId, id, d, m) {
+  const g = await prisma.grievance.findUnique({ where: { id } });
+  if (!g) throw errors.notFound('Grievance not found');
+
+  const x = await prisma.grievance.update({
+    where: { id },
+    data: {
+      status: d.status,
+      resolution: d.resolution,
+      assignedTo: adminId,
+      resolvedAt: new Date()
+    }
+  });
+
+  await recordAudit({
+    userId: adminId,
+    role: m.role,
+    action: 'GRIEVANCE_RESOLVED',
+    entity: 'Grievance',
+    entityId: id,
+    requestId: m.requestId,
+    ipAddress: m.ip
+  });
+
+  return x;
+}

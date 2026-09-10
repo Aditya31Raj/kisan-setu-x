@@ -932,9 +932,28 @@
 
     <main class="main">
 
+        <header class="topbar">
+            <div style="display: flex; align-items: center; gap: 14px;">
+                <button type="button" class="sidebar-toggle-btn" id="sidebarToggleBtn" aria-label="Open Navigation Menu" title="Menu">
+                    <i class="fa-solid fa-bars"></i>
+                </button>
+                <div class="page-title">
+                    <h1>Buyer / Vendor Dashboard</h1>
+                    <p>Manage your produce orders, payments, and trade logistics</p>
+                </div>
+            </div>
+            <div class="top-actions">
+                <a href="buyer/notifications.html" class="notification" aria-label="Open notifications" title="Notifications">
+                    <i class="fa-solid fa-bell"></i>
+                </a>
+                <a href="buyer/profile.html" class="profile" aria-label="Open profile" title="Profile">
+                    <div class="profile-circle"><i class="fa-solid fa-store"></i></div>
+                    <span id="buyerTopbarName">Buyer</span>
+                </a>
+            </div>
+        </header>
 
         <!-- CONTENT -->
-
         <section class="content">
 
 

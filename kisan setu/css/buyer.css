@@ -53,22 +53,90 @@ textarea {
    ========================================================= */
 
 .sidebar {
-    width: 245px;
+    width: 270px;
     height: 100vh;
-
     position: fixed;
-    left: 0;
+    left: -290px;
     top: 0;
     bottom: 0;
-
     background: #ffffff;
-
     border-right: 1px solid #e1e9e2;
-
     display: flex;
     flex-direction: column;
+    z-index: 2500;
+    transition: left 0.3s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.3s ease;
+    box-shadow: none;
+}
 
-    z-index: 1000;
+.sidebar.active,
+.sidebar.open {
+    left: 0 !important;
+    box-shadow: 6px 0 28px rgba(0, 0, 0, 0.18) !important;
+}
+
+.sidebar-backdrop {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.45);
+    backdrop-filter: blur(2px);
+    z-index: 2400;
+    opacity: 0;
+    transition: opacity 0.25s ease;
+}
+
+.sidebar-backdrop.active {
+    display: block;
+    opacity: 1;
+}
+
+.sidebar-toggle-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 42px;
+    height: 42px;
+    border-radius: 10px;
+    background: #ffffff;
+    border: 1px solid #d0ded3;
+    color: #16863b;
+    font-size: 19px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+    flex-shrink: 0;
+}
+
+.sidebar-toggle-btn:hover {
+    background: #edf8ef;
+    border-color: #16863b;
+    transform: scale(1.04);
+}
+
+.sidebar-toggle-btn:active {
+    transform: scale(0.95);
+}
+
+.sidebar-close-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    background: transparent;
+    border: none;
+    border-radius: 6px;
+    color: #737b75;
+    font-size: 22px;
+    line-height: 1;
+    cursor: pointer;
+    margin-left: auto;
+    transition: all 0.2s ease;
+}
+
+.sidebar-close-btn:hover {
+    background: #fee2e2;
+    color: #ba3d32;
 }
 
 
@@ -313,13 +381,11 @@ textarea {
    ========================================================= */
 
 .main {
-    margin-left: 245px;
-
-    width: calc(100% - 245px);
-
+    margin-left: 0 !important;
+    width: 100% !important;
     min-height: 100vh;
-
     background: #f7faf7;
+    transition: all 0.3s ease;
 }
 
 
@@ -1439,9 +1505,8 @@ button:disabled {
     }
 
     .main {
-        margin-left: 70px;
-
-        width: calc(100% - 70px);
+        margin-left: 0;
+        width: 100%;
     }
 
     .produce-grid,
