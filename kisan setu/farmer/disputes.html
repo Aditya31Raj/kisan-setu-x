@@ -3,10 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <title>Kisan Setu - Farmer Disputes</title>
+
     <link rel="stylesheet" href="../css/style.css">
     <link rel="stylesheet" href="../css/farmer.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
 </head>
+
 <body>
     <div class="dashboard">
         <aside class="sidebar">
@@ -14,7 +18,7 @@
                 <img src="../images/logoks.jpeg" alt="Kisan Setu Logo">
                 <div class="brand-text">
                     <h2>Kisan Setu</h2>
-                    <span>FARMER PORTAL</span>
+                    <span data-i18n="portal_farmer">FARMER PORTAL</span>
                 </div>
             </div>
 
@@ -22,70 +26,76 @@
                 <div class="user-info">
                     <div class="user-icon"><i class="fa-solid fa-user"></i></div>
                     <div>
-                        <strong id="farmerSidebarName">Loading...</strong>
-                        <span id="farmerSidebarId">Farmer Portal</span>
+                        <strong id="farmerSidebarName">Loading profile...</strong>
+                        <span id="farmerSidebarId">Farmer ID: --</span>
                     </div>
                 </div>
             </div>
 
             <nav class="sidebar-nav">
-                <div class="nav-title">Overview</div>
-                <a href="../farmer_dashboard.html" class="nav-item"><i class="fa-solid fa-gauge"></i> Dashboard</a>
-                <a href="produce.html" class="nav-item"><i class="fa-solid fa-seedling"></i> Produce</a>
-                <a href="orders.html" class="nav-item"><i class="fa-solid fa-box"></i> Orders</a>
-                <a href="payments.html" class="nav-item"><i class="fa-solid fa-wallet"></i> Payments</a>
-                <a href="logistics.html" class="nav-item"><i class="fa-solid fa-truck"></i> Logistics</a>
-                <a href="history.html" class="nav-item"><i class="fa-solid fa-clock-rotate-left"></i> History</a>
-                <a href="disputes.html" class="nav-item active"><i class="fa-solid fa-circle-exclamation"></i> Disputes</a>
-                <a href="notifications.html" class="nav-item"><i class="fa-solid fa-bell"></i> Notifications</a>
-                <a href="profile.html" class="nav-item"><i class="fa-solid fa-user-gear"></i> Profile</a>
+                <div class="nav-title" data-i18n="overview">Overview</div>
+                <a href="../farmer_dashboard.html" class="nav-item"><i class="fa-solid fa-gauge"></i> <span data-i18n="nav_dashboard">Dashboard</span></a>
+                <a href="produce.html" class="nav-item"><i class="fa-solid fa-seedling"></i> <span data-i18n="nav_produce">Produce</span></a>
+                <a href="orders.html" class="nav-item"><i class="fa-solid fa-box"></i> <span data-i18n="nav_orders">Orders</span></a>
+                <a href="payments.html" class="nav-item"><i class="fa-solid fa-wallet"></i> <span data-i18n="nav_payments">Payments</span></a>
+                <a href="logistics.html" class="nav-item"><i class="fa-solid fa-truck"></i> <span data-i18n="nav_logistics">Logistics</span></a>
+                <a href="history.html" class="nav-item"><i class="fa-solid fa-clock-rotate-left"></i> <span data-i18n="nav_history">History</span></a>
+                <a href="disputes.html" class="nav-item active"><i class="fa-solid fa-circle-exclamation"></i> <span data-i18n="nav_disputes">Disputes</span></a>
+                <a href="notifications.html" class="nav-item"><i class="fa-solid fa-bell"></i> <span data-i18n="nav_notifications">Notifications</span></a>
+                <a href="profile.html" class="nav-item"><i class="fa-solid fa-user-gear"></i> <span data-i18n="nav_profile">Profile</span></a>
             </nav>
             <div class="logout">
                 <a href="javascript:void(0)" id="logoutBtn" class="nav-item logout-btn">
                     <i class="fa-solid fa-right-from-bracket"></i>
-                    <span>Logout</span>
+                    <span data-i18n="nav_logout">Logout</span>
                 </a>
             </div>
         </aside>
 
         <div class="main">
             <main class="buyer-container">
-        <section class="page-header">
-            <h1>Disputes</h1>
-            <p>Raise and track disputes related to sales and logistics.</p>
+        <section class="page-header" style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px;">
+            <div>
+                <h1 data-i18n="disputes_title">Disputes</h1>
+                <p data-i18n="disputes_sub">Raise and track disputes related to sales and logistics.</p>
+            </div>
+            <button type="button" class="lang-toggle-btn" title="Change Language / भाषा बदलें">
+                <i class="fa-solid fa-globe"></i>
+                <span class="lang-toggle-label">हिन्दी</span>
+            </button>
         </section>
 
         <section class="form-section">
-            <h2>Raise a Dispute</h2>
+            <h2 data-i18n="raise_dispute">Raise a Dispute</h2>
             <form id="disputeForm">
                 <div class="form-group">
-                    <label for="orderId">Order ID</label>
-                    <input type="text" id="orderId" name="orderId" placeholder="Enter order ID" required>
+                    <label for="orderId" data-i18n="order_id">Order ID</label>
+                    <input type="text" id="orderId" name="orderId" placeholder="Enter order ID" data-i18n-placeholder="order_id_ph" required>
                 </div>
                 <div class="form-group">
-                    <label for="reason">Reason</label>
-                    <textarea id="reason" name="reason" rows="5" placeholder="Describe the reason for the dispute" required></textarea>
+                    <label for="reason" data-i18n="reason">Reason</label>
+                    <textarea id="reason" name="reason" rows="5" placeholder="Describe the reason for the dispute" data-i18n-placeholder="reason_ph" required></textarea>
                 </div>
-                <button type="submit" id="submitDisputeBtn">Submit Dispute</button>
+                <button type="submit" id="submitDisputeBtn" data-i18n="submit_dispute">Submit Dispute</button>
             </form>
         </section>
 
         <div id="disputeMessage"></div>
 
         <section class="disputes-section">
-            <div class="section-heading">
-                <h2>My Disputes</h2>
-                <button type="button" id="refreshDisputesBtn">Refresh</button>
+            <div class="section-heading" style="display: flex; justify-content: space-between; align-items: center;">
+                <h2 data-i18n="my_disputes">My Disputes</h2>
+                <button type="button" id="refreshDisputesBtn" data-i18n="refresh_btn">Refresh</button>
             </div>
             <div id="disputesContainer">
-                <p>Loading disputes...</p>
+                <p data-i18n="loading">Loading disputes...</p>
             </div>
         </section>
 
         <section class="pagination-section">
-            <button type="button" id="previousBtn" disabled>Previous</button>
+            <button type="button" id="previousBtn" disabled data-i18n="btn_previous">Previous</button>
             <span id="pageNumber">Page 1</span>
-            <button type="button" id="nextBtn">Next</button>
+            <button type="button" id="nextBtn" data-i18n="btn_next">Next</button>
         </section>
             </main>
         </div>
@@ -94,11 +104,12 @@
     <div id="disputeModal" class="modal" style="display: none;">
         <div class="modal-content">
             <button type="button" id="closeModalBtn" class="close-btn">×</button>
-            <h2>Dispute Details</h2>
+            <h2 data-i18n="btn_details">Dispute Details</h2>
             <div id="disputeDetails"></div>
         </div>
     </div>
 
+    <script src="../js/core/i18n.js"></script>
     <script src="../js/core/api.js"></script>
     <script src="../js/core/auth.js"></script>
     <script src="../js/farmer/farmer.js"></script>

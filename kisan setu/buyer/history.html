@@ -50,7 +50,8 @@
     <main class="buyer-container">
 
 
-        <section class="page-header">
+        <section class="page-header" style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px;">
+            <div>
 
             <h1>
                 Order History
@@ -60,6 +61,11 @@
                 View your completed and past orders.
             </p>
 
+        </div>
+            <button type="button" class="lang-toggle-btn" title="Change Language / भाषा बदलें">
+                <i class="fa-solid fa-globe"></i>
+                <span class="lang-toggle-label">हिन्दी</span>
+            </button>
         </section>
 
 
@@ -206,6 +212,7 @@
 
     <!-- JAVASCRIPT -->
 
+    <script src="../js/core/i18n.js"></script>
     <script src="../js/core/api.js"></script>
 
     <script src="../js/core/auth.js"></script>

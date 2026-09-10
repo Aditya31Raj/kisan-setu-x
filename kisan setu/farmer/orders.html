@@ -64,31 +64,31 @@
         <section class="order-controls">
             <label for="statusFilter" data-i18n="order_status_label">Order Status</label>
             <select id="statusFilter">
-                <option value="">All Orders</option>
-                <option value="PENDING_FARMER">Pending Farmer</option>
-                <option value="ACCEPTED">Accepted</option>
-                <option value="PAYMENT_PENDING">Payment Pending</option>
-                <option value="PAID">Paid</option>
-                <option value="LOGISTICS_PENDING">Logistics Pending</option>
-                <option value="IN_TRANSIT">In Transit</option>
-                <option value="DELIVERED">Delivered</option>
-                <option value="COMPLETED">Completed</option>
-                <option value="CANCELLED">Cancelled</option>
-                <option value="DISPUTED">Disputed</option>
+                <option value="" data-i18n="filter_status">All Orders</option>
+                <option value="PENDING_FARMER" data-i18n="STATUS_PENDING_FARMER">Pending Farmer</option>
+                <option value="ACCEPTED" data-i18n="STATUS_ACCEPTED">Accepted</option>
+                <option value="PAYMENT_PENDING" data-i18n="STATUS_PAYMENT_PENDING">Payment Pending</option>
+                <option value="PAID" data-i18n="STATUS_PAID">Paid</option>
+                <option value="LOGISTICS_PENDING" data-i18n="nav_logistics">Logistics Pending</option>
+                <option value="IN_TRANSIT" data-i18n="STATUS_IN_TRANSIT">In Transit</option>
+                <option value="DELIVERED" data-i18n="STATUS_DELIVERED">Delivered</option>
+                <option value="COMPLETED" data-i18n="STATUS_COMPLETED">Completed</option>
+                <option value="CANCELLED" data-i18n="STATUS_CANCELLED">Cancelled</option>
+                <option value="DISPUTED" data-i18n="STATUS_DISPUTED">Disputed</option>
             </select>
             <button type="button" id="refreshOrdersBtn" data-i18n="refresh_btn">Refresh</button>
         </section>
 
         <section class="orders-section">
             <div id="ordersContainer">
-                <p>Loading orders...</p>
+                <p data-i18n="loading">Loading orders...</p>
             </div>
         </section>
 
         <section class="pagination-section">
-            <button type="button" id="previousBtn" disabled>Previous</button>
+            <button type="button" id="previousBtn" disabled data-i18n="btn_previous">Previous</button>
             <span id="pageNumber">Page 1</span>
-            <button type="button" id="nextBtn">Next</button>
+            <button type="button" id="nextBtn" data-i18n="btn_next">Next</button>
         </section>
             </main>
         </div>
@@ -97,7 +97,7 @@
     <div id="orderModal" class="modal" style="display: none;">
         <div class="modal-content">
             <button type="button" id="closeModalBtn" class="close-btn">×</button>
-            <h2>Order Details</h2>
+            <h2 data-i18n="btn_details">Order Details</h2>
             <div id="orderDetails"></div>
         </div>
     </div>
@@ -106,31 +106,31 @@
     <div id="logisticsModal" class="modal" style="display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 1100; align-items: center; justify-content: center;">
         <div class="modal-content" style="background: white; border-radius: 12px; width: 500px; max-width: 95%; padding: 24px; box-shadow: 0 10px 30px rgba(0,0,0,0.2);">
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; border-bottom: 1px solid #eef2ef; padding-bottom: 10px;">
-                <h3 style="margin: 0; font-size: 18px; color: #166534;"><i class="fa-solid fa-truck-fast"></i> Request Block Logistics</h3>
+                <h3 style="margin: 0; font-size: 18px; color: #166534;"><i class="fa-solid fa-truck-fast"></i> <span data-i18n="request_logistics">Request Block Logistics</span></h3>
                 <button type="button" id="closeLogisticsModalBtn" style="border: none; background: none; font-size: 22px; cursor: pointer; color: #888;">&times;</button>
             </div>
             <form id="logisticsRequestForm">
                 <input type="hidden" id="logisticsOrderId">
                 <div style="margin-bottom: 12px;">
-                    <label style="display: block; font-size: 12px; font-weight: 600; margin-bottom: 4px; color: #333;">Order Reference</label>
+                    <label style="display: block; font-size: 12px; font-weight: 600; margin-bottom: 4px; color: #333;" data-i18n="th_order_id">Order Reference</label>
                     <input type="text" id="logisticsOrderNumber" readonly style="width: 100%; padding: 8px 10px; background: #f3f4f6; border: 1px solid #d1d5db; border-radius: 6px; font-size: 13px;">
                 </div>
                 <div style="margin-bottom: 12px;">
-                    <label style="display: block; font-size: 12px; font-weight: 600; margin-bottom: 4px; color: #333;">Pickup Location (Your Farm / Village)</label>
-                    <input type="text" id="logisticsPickup" required placeholder="e.g. Village Rampur, Block Barh, Dist. Patna" style="width: 100%; padding: 8px 10px; border: 1px solid #cbd5e1; border-radius: 6px; font-size: 13px;">
+                    <label style="display: block; font-size: 12px; font-weight: 600; margin-bottom: 4px; color: #333;" data-i18n="pickup_location">Pickup Location (Your Farm / Village)</label>
+                    <input type="text" id="logisticsPickup" required placeholder="e.g. Village Rampur, Block Barh, Dist. Patna" data-i18n-placeholder="pickup_location_ph" style="width: 100%; padding: 8px 10px; border: 1px solid #cbd5e1; border-radius: 6px; font-size: 13px;">
                 </div>
                 <div style="margin-bottom: 12px;">
-                    <label style="display: block; font-size: 12px; font-weight: 600; margin-bottom: 4px; color: #333;">Buyer Destination / Mandi</label>
-                    <input type="text" id="logisticsDestination" required placeholder="e.g. Krishi Mandi Shed #4, Patna" style="width: 100%; padding: 8px 10px; border: 1px solid #cbd5e1; border-radius: 6px; font-size: 13px;">
+                    <label style="display: block; font-size: 12px; font-weight: 600; margin-bottom: 4px; color: #333;" data-i18n="drop_destination">Buyer Destination / Mandi</label>
+                    <input type="text" id="logisticsDestination" required placeholder="e.g. Krishi Mandi Shed #4, Patna" data-i18n-placeholder="drop_destination_ph" style="width: 100%; padding: 8px 10px; border: 1px solid #cbd5e1; border-radius: 6px; font-size: 13px;">
                 </div>
                 <div style="margin-bottom: 16px;">
-                    <label style="display: block; font-size: 12px; font-weight: 600; margin-bottom: 4px; color: #333;">Preferred Pickup Date</label>
+                    <label style="display: block; font-size: 12px; font-weight: 600; margin-bottom: 4px; color: #333;" data-i18n="pickup_date">Preferred Pickup Date</label>
                     <input type="date" id="logisticsDate" style="width: 100%; padding: 8px 10px; border: 1px solid #cbd5e1; border-radius: 6px; font-size: 13px;">
                 </div>
                 <div id="logisticsFormError" style="display: none; color: #b91c1c; font-size: 12px; margin-bottom: 12px; background: #fef2f2; padding: 8px; border-radius: 6px;"></div>
                 <div style="display: flex; justify-content: flex-end; gap: 10px;">
-                    <button type="button" id="cancelLogisticsBtn" style="padding: 8px 16px; border: 1px solid #ccc; background: white; border-radius: 6px; cursor: pointer;">Cancel</button>
-                    <button type="submit" id="submitLogisticsBtn" style="padding: 8px 18px; background: #16863b; color: white; border: none; border-radius: 6px; font-weight: 600; cursor: pointer;">Submit Request to Admin</button>
+                    <button type="button" id="cancelLogisticsBtn" data-i18n="btn_cancel" style="padding: 8px 16px; border: 1px solid #ccc; background: white; border-radius: 6px; cursor: pointer;">Cancel</button>
+                    <button type="submit" id="submitLogisticsBtn" data-i18n="submit_request" style="padding: 8px 18px; background: #16863b; color: white; border: none; border-radius: 6px; font-weight: 600; cursor: pointer;">Submit Request to Admin</button>
                 </div>
             </form>
         </div>

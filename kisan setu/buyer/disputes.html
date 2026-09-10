@@ -18,33 +18,35 @@
             <div class="brand"><img src="../images/logoks.jpeg" alt="Kisan Setu Logo"><div class="brand-text"><h2>KISAN SETU</h2><span>BUYER / VENDOR PORTAL</span></div></div>
             <div class="user-box"><div class="user-info"><div class="user-icon"><i class="fa-solid fa-store"></i></div><div><strong id="buyerSidebarName">Loading...</strong><span id="buyerSidebarId">Buyer / Vendor</span></div></div></div>
             <nav class="sidebar-nav">
-                <div class="nav-title">Main Menu</div>
-                <a href="../buyer_dashboard.html" class="nav-item"><i class="fa-solid fa-house"></i><span>Dashboard</span></a>
-                <a href="produce.html" class="nav-item"><i class="fa-solid fa-wheat-awn"></i><span>Find Produce</span></a>
-                <a href="orders.html" class="nav-item"><i class="fa-solid fa-box"></i><span>My Orders</span></a>
-                <a href="payments.html" class="nav-item"><i class="fa-solid fa-credit-card"></i><span>Payments</span></a>
-                <a href="logistics.html" class="nav-item"><i class="fa-solid fa-truck"></i><span>Logistics</span></a>
-                <a href="history.html" class="nav-item"><i class="fa-solid fa-clock-rotate-left"></i><span>Payment History</span></a>
-                <a href="disputes.html" class="nav-item active"><i class="fa-solid fa-triangle-exclamation"></i><span>Disputes</span></a>
-                <a href="notifications.html" class="nav-item"><i class="fa-solid fa-bell"></i><span>Notifications</span></a>
-                <a href="profile.html" class="nav-item"><i class="fa-solid fa-user"></i><span>Profile</span></a>
+                <div class="nav-title" data-i18n="mainMenu">Main Menu</div>
+                <a href="../buyer_dashboard.html" class="nav-item"><i class="fa-solid fa-house"></i><span data-i18n="nav_dashboard">Dashboard</span></a>
+                <a href="produce.html" class="nav-item"><i class="fa-solid fa-wheat-awn"></i><span data-i18n="nav_find_produce">Find Produce</span></a>
+                <a href="orders.html" class="nav-item"><i class="fa-solid fa-box"></i><span data-i18n="nav_my_orders">My Orders</span></a>
+                <a href="payments.html" class="nav-item"><i class="fa-solid fa-credit-card"></i><span data-i18n="nav_payments">Payments</span></a>
+                <a href="logistics.html" class="nav-item"><i class="fa-solid fa-truck"></i><span data-i18n="nav_logistics">Logistics</span></a>
+                <a href="history.html" class="nav-item"><i class="fa-solid fa-clock-rotate-left"></i><span data-i18n="nav_payment_history">Payment History</span></a>
+                <a href="disputes.html" class="nav-item active"><i class="fa-solid fa-triangle-exclamation"></i><span data-i18n="nav_disputes">Disputes</span></a>
+                <a href="notifications.html" class="nav-item"><i class="fa-solid fa-bell"></i><span data-i18n="nav_notifications">Notifications</span></a>
+                <a href="profile.html" class="nav-item"><i class="fa-solid fa-user"></i><span data-i18n="nav_profile">Profile</span></a>
             </nav>
-            <div class="logout"><a href="javascript:void(0)" id="logoutBtn" class="nav-item logout-btn"><i class="fa-solid fa-right-from-bracket"></i><span>Logout</span></a></div>
+            <div class="logout"><a href="javascript:void(0)" id="logoutBtn" class="nav-item logout-btn"><i class="fa-solid fa-right-from-bracket"></i><span data-i18n="nav_logout">Logout</span></a></div>
         </aside>
         <main class="main">
-
 
     <!-- MAIN -->
     <main class="buyer-container">
 
-        <section class="page-header">
-
-            <h1>Disputes</h1>
-
-            <p>
-                Raise and track disputes related to your orders.
-            </p>
-
+        <section class="page-header" style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px;">
+            <div>
+                <h1 data-i18n="disputes_title">Disputes</h1>
+                <p data-i18n="disputes_sub">
+                    Raise and track disputes related to your orders.
+                </p>
+            </div>
+            <button type="button" class="lang-toggle-btn" title="Change Language / भाषा बदलें">
+                <i class="fa-solid fa-globe"></i>
+                <span class="lang-toggle-label">हिन्दी</span>
+            </button>
         </section>
 
 
@@ -52,13 +54,13 @@
 
         <section class="form-section">
 
-            <h2>Raise a Dispute</h2>
+            <h2 data-i18n="raise_dispute">Raise a Dispute</h2>
 
             <form id="disputeForm">
 
                 <div class="form-group">
 
-                    <label for="orderId">
+                    <label for="orderId" data-i18n="order_id">
                         Order ID
                     </label>
 
@@ -67,6 +69,7 @@
                         id="orderId"
                         name="orderId"
                         placeholder="Enter order ID"
+                        data-i18n-placeholder="order_id_ph"
                         required
                     >
 
@@ -75,7 +78,7 @@
 
                 <div class="form-group">
 
-                    <label for="reason">
+                    <label for="reason" data-i18n="reason">
                         Reason
                     </label>
 
@@ -84,6 +87,7 @@
                         name="reason"
                         rows="5"
                         placeholder="Describe the reason for the dispute"
+                        data-i18n-placeholder="reason_ph"
                         required
                     ></textarea>
 
@@ -92,10 +96,9 @@
 
                 <button
                     type="submit"
-                    id="submitDisputeBtn">
-
+                    id="submitDisputeBtn"
+                    data-i18n="submit_dispute">
                     Submit Dispute
-
                 </button>
 
             </form>
@@ -112,27 +115,24 @@
 
         <section class="disputes-section">
 
-            <div class="section-heading">
+            <div class="section-heading" style="display: flex; justify-content: space-between; align-items: center;">
 
-                <h2>My Disputes</h2>
+                <h2 data-i18n="my_disputes">My Disputes</h2>
 
                 <button
                     type="button"
-                    id="refreshDisputesBtn">
-
+                    id="refreshDisputesBtn"
+                    data-i18n="refresh_btn">
                     Refresh
-
                 </button>
 
             </div>
 
 
             <div id="disputesContainer">
-
-                <p>
+                <p data-i18n="loading">
                     Loading disputes...
                 </p>
-
             </div>
 
         </section>
@@ -145,10 +145,9 @@
             <button
                 type="button"
                 id="previousBtn"
+                data-i18n="btn_previous"
                 disabled>
-
                 Previous
-
             </button>
 
             <span id="pageNumber">
@@ -157,10 +156,9 @@
 
             <button
                 type="button"
-                id="nextBtn">
-
+                id="nextBtn"
+                data-i18n="btn_next">
                 Next
-
             </button>
 
         </section>
@@ -182,19 +180,15 @@
                 type="button"
                 id="closeModalBtn"
                 class="close-btn">
-
                 ×
-
             </button>
 
-            <h2>
+            <h2 data-i18n="btn_details">
                 Dispute Details
             </h2>
 
             <div id="disputeDetails">
-
                 <!-- Loaded by disputes.js -->
-
             </div>
 
         </div>
@@ -204,6 +198,7 @@
 
     <!-- JAVASCRIPT -->
 
+    <script src="../js/core/i18n.js"></script>
     <script src="../js/core/api.js"></script>
     <script src="../js/core/auth.js"></script>
     <script src="../js/buyer/buyer.js"></script>

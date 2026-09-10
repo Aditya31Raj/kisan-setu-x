@@ -110,60 +110,60 @@
         <div class="register-card">
             <div class="register-header">
                 <div class="icon"><i class="fa-solid fa-tractor"></i></div>
-                <h2>Create Farmer Account</h2>
-                <p>Join Kisan Setu and start selling directly to buyers.</p>
+                <h2 data-i18n="farmer_register_title">Create Farmer Account</h2>
+                <p data-i18n="farmer_register_sub">Join Kisan Setu and start selling directly to buyers.</p>
             </div>
 
             <div class="form-container">
-                <div class="section-title"><i class="fa-solid fa-user"></i> Personal Details</div>
+                <div class="section-title"><i class="fa-solid fa-user"></i> <span data-i18n="personal_details">Personal Details</span></div>
                 <form id="farmerRegistrationForm">
                     <div class="form-grid">
                         <div class="form-group">
-                            <label for="fullName">Full Name <span>*</span></label>
-                            <input type="text" id="fullName" placeholder="Enter full name">
+                            <label for="fullName"><span data-i18n="full_name">Full Name</span> <span>*</span></label>
+                            <input type="text" id="fullName" placeholder="Enter full name" data-i18n-placeholder="full_name_ph">
                         </div>
                         <div class="form-group">
-                            <label for="phone">Mobile Number <span>*</span></label>
-                            <input type="tel" id="phone" placeholder="Enter mobile number">
+                            <label for="phone"><span data-i18n="phone_number">Mobile Number</span> <span>*</span></label>
+                            <input type="tel" id="phone" placeholder="Enter mobile number" data-i18n-placeholder="phone_ph">
                         </div>
                         <div class="form-group">
-                            <label for="email">Email Address <span>*</span></label>
-                            <input type="email" id="email" placeholder="you@example.com">
+                            <label for="email"><span data-i18n="email_address">Email Address</span> <span>*</span></label>
+                            <input type="email" id="email" placeholder="you@example.com" data-i18n-placeholder="email_ph">
                         </div>
                         <div class="form-group">
-                            <label for="profilePicture">Profile Picture</label>
+                            <label for="profilePicture"><span data-i18n="profile_picture">Profile Picture</span></label>
                             <input type="file" id="profilePicture" accept="image/*">
                         </div>
                         <div class="form-group">
-                            <label for="district">District <span>*</span></label>
-                            <input type="text" id="district" placeholder="Your district">
+                            <label for="district"><span data-i18n="district">District</span> <span>*</span></label>
+                            <input type="text" id="district" placeholder="Your district" data-i18n-placeholder="district_ph">
                         </div>
                         <div class="form-group full">
-                            <label for="address">Farm Address <span>*</span></label>
-                            <input type="text" id="address" placeholder="Village / block / street address">
+                            <label for="address"><span data-i18n="farm_address">Farm Address</span> <span>*</span></label>
+                            <input type="text" id="address" placeholder="Village / block / street address" data-i18n-placeholder="farm_address_ph">
                         </div>
                         <div class="form-group">
-                            <label for="landSize">Farm Area (acres)</label>
-                            <input type="text" id="landSize" placeholder="e.g. 4.5">
+                            <label for="landSize"><span data-i18n="farm_area">Farm Area (acres)</span></label>
+                            <input type="text" id="landSize" placeholder="e.g. 4.5" data-i18n-placeholder="farm_area_ph">
                         </div>
                         <div class="form-group">
-                            <label for="cropType">Primary Crop Type</label>
-                            <input type="text" id="cropType" placeholder="Rice, Wheat, Cotton...">
+                            <label for="cropType"><span data-i18n="primary_crop">Primary Crop Type</span></label>
+                            <input type="text" id="cropType" placeholder="Rice, Wheat, Cotton..." data-i18n-placeholder="primary_crop_ph">
                         </div>
                         <div class="form-group">
-                            <label for="password">Password <span>*</span></label>
-                            <input type="password" id="password" placeholder="Create a password">
+                            <label for="password"><span data-i18n="password">Password</span> <span>*</span></label>
+                            <input type="password" id="password" placeholder="Create a password" data-i18n-placeholder="password_ph">
                         </div>
                         <div class="form-group">
-                            <label for="confirmPassword">Confirm Password <span>*</span></label>
-                            <input type="password" id="confirmPassword" placeholder="Re-enter password">
+                            <label for="confirmPassword"><span data-i18n="confirm_password">Confirm Password</span> <span>*</span></label>
+                            <input type="password" id="confirmPassword" placeholder="Re-enter password" data-i18n-placeholder="confirm_password_ph">
                         </div>
                     </div>
 
                     <div id="registerError" style="display:none; background:#fee2e2; border:1px solid #f87171; color:#991b1b; padding:10px 14px; border-radius:8px; font-size:13px; margin:14px 0;"></div>
 
-                    <button type="submit" class="submit-btn">Register as Farmer</button>
-                    <div class="login-link">Already have an account? <a href="farmer_login.html">Login here</a></div>
+                    <button type="submit" class="submit-btn" data-i18n="register_btn_farmer">Register as Farmer</button>
+                    <div class="login-link"><span data-i18n="already_account">Already have an account?</span> <a href="farmer_login.html" data-i18n="login_here">Login here</a></div>
                 </form>
             </div>
         </div>

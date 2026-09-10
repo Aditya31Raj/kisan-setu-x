@@ -110,7 +110,12 @@
                 </p>
             </div>
 
-            <div class="admin-profile">
+            <div style="display: flex; align-items: center; gap: 14px;">
+                <button type="button" class="lang-toggle-btn" title="Change Language / भाषा बदलें">
+                    <i class="fa-solid fa-globe"></i>
+                    <span class="lang-toggle-label">हिन्दी</span>
+                </button>
+                <div class="admin-profile">
 
                 <div class="profile-icon">
                     A
@@ -124,6 +129,7 @@
                     </p>
                 </div>
 
+            </div>
             </div>
 
         </div>
@@ -269,7 +275,8 @@
 </div>
 
 
-<script src="../js/core/api.js"></script>
+<script src="../js/core/i18n.js"></script>
+    <script src="../js/core/api.js"></script>
 <script src="../js/core/auth.js"></script>
 <script src="../js/admin/admin.js"></script>
 <script>

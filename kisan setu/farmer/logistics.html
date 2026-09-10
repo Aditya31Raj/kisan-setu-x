@@ -50,10 +50,16 @@
 
         <div class="main">
             <main class="buyer-container">
-                <section class="page-header">
+                <section class="page-header" style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px;">
+            <div>
                     <h1>Logistics & Fleet Coordination</h1>
                     <p>Request transport from Block Admin, track dispatches, and coordinate delivery.</p>
-                </section>
+                </div>
+            <button type="button" class="lang-toggle-btn" title="Change Language / भाषा बदलें">
+                <i class="fa-solid fa-globe"></i>
+                <span class="lang-toggle-label">हिन्दी</span>
+            </button>
+        </section>
 
                 <!-- SEARCH / TRACK BAR -->
                 <section class="logistics-search" style="background: white; border: 1px solid #e2ece3; border-radius: 10px; padding: 18px 22px; margin-bottom: 24px; box-shadow: 0 2px 6px rgba(0,0,0,0.02); display: flex; gap: 12px; align-items: flex-end; flex-wrap: wrap;">
@@ -159,6 +165,7 @@
         </div>
     </div>
 
+    <script src="../js/core/i18n.js"></script>
     <script src="../js/core/api.js"></script>
     <script src="../js/core/auth.js"></script>
     <script src="../js/farmer/farmer.js"></script>

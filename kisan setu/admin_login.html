@@ -210,6 +210,13 @@
 </head>
 
 <body>
+    <!-- Top Right Language Switcher -->
+    <div class="auth-lang-corner">
+        <button type="button" class="lang-toggle-btn" title="Change Language / भाषा बदलें">
+            <i class="fa-solid fa-globe"></i>
+            <span class="lang-toggle-label">हिन्दी</span>
+        </button>
+    </div>
 
     <div class="login-container">
 
@@ -223,15 +230,13 @@
 
             <div class="logo">
                 <img src="images/logoks.jpeg" alt="Kisan Setu Logo">
-                KISAN SETU
+                <span data-i18n="brandName">KISAN SETU</span>
             </div>
 
-            <h2>Admin Portal</h2>
+            <h2 data-i18n="admin_dashboard_title">Admin Portal</h2>
 
-            <p>
-                Manage farmers, buyers, requests, payments,
-                payments and marketplace activities from one
-                centralized dashboard.
+            <p data-i18n="admin_login_subtitle">
+                Manage farmers, buyers, requests, payments, and marketplace activities from one centralized dashboard.
             </p>
 
         </div>
@@ -241,9 +246,9 @@
 
         <div class="right-section">
 
-            <h1>Admin Login</h1>
+            <h1 data-i18n="admin_login_title">Admin Login</h1>
 
-            <p class="subtitle">
+            <p class="subtitle" data-i18n="admin_login_subtitle">
                 Login to access the Kisan Setu administration panel.
             </p>
 
@@ -255,7 +260,7 @@
 
                 <div class="input-group">
 
-                    <label for="email">
+                    <label for="email" data-i18n="email_address">
                         Admin Email
                     </label>
 
@@ -264,6 +269,7 @@
                         id="email"
                         name="email"
                         placeholder="Enter admin email"
+                        data-i18n-placeholder="email_ph"
                         required
                     >
 
@@ -276,11 +282,11 @@
 
                     <div class="password-row">
 
-                        <label for="password">
+                        <label for="password" data-i18n="password">
                             Password
                         </label>
 
-                        <a href="#" class="forgot-password">
+                        <a href="#" class="forgot-password" data-i18n="forgot_password">
                             Forgot Password?
                         </a>
 
@@ -291,6 +297,7 @@
                         id="password"
                         name="password"
                         placeholder="Enter password"
+                        data-i18n-placeholder="password_ph"
                         required
                     >
 
@@ -299,7 +306,7 @@
 
                 <!-- LOGIN BUTTON -->
 
-                <button type="submit" class="login-btn">
+                <button type="submit" class="login-btn" data-i18n="login_btn">
                     Login
                 </button>
 
@@ -312,7 +319,7 @@
 
             <div class="back-link">
                 <a href="index.html">
-                    ← Back to Kisan Setu
+                    ← <span data-i18n="back_to_home">Back to Kisan Setu</span>
                 </a>
             </div>
 
@@ -320,7 +327,7 @@
 
     </div>
 
-
+    <script src="js/core/i18n.js"></script>
     <script src="js/core/api.js"></script>
     <script src="js/core/auth.js"></script>
     <script>

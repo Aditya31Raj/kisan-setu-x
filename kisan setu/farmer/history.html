@@ -50,9 +50,15 @@
 
         <div class="main">
             <main class="buyer-container">
-        <section class="page-header">
+        <section class="page-header" style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px;">
+            <div>
             <h1>Order History</h1>
             <p>Review completed and past sales transactions.</p>
+        </div>
+            <button type="button" class="lang-toggle-btn" title="Change Language / भाषा बदलें">
+                <i class="fa-solid fa-globe"></i>
+                <span class="lang-toggle-label">हिन्दी</span>
+            </button>
         </section>
 
         <section class="history-filter">
@@ -93,6 +99,7 @@
         </div>
     </div>
 
+    <script src="../js/core/i18n.js"></script>
     <script src="../js/core/api.js"></script>
     <script src="../js/core/auth.js"></script>
     <script src="../js/farmer/farmer.js"></script>

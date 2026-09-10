@@ -22,6 +22,7 @@
             } catch (e) {}
         })();
     </script>
+    <script src="js/core/i18n.js"></script>
 
 
     <!-- Google Font -->
@@ -1396,12 +1397,7 @@
 
                 <i class="fa-solid fa-globe"></i>
 
-                <span
-                    id="selectedLanguage"
-                    data-i18n="languageEnglish"
-                >
-                    English
-                </span>
+                <span id="selectedLanguage">English</span>
 
                 <i class="fa-solid fa-chevron-down arrow"></i>
 
@@ -1891,7 +1887,7 @@
                 </strong>
 
                 <a
-                    href="buyer_login.html"
+                    href="farmer_login.html"
                     data-i18n="farmerLoginLink"
                 >
                     Farmer Login
@@ -1955,344 +1951,16 @@
 
 
     /* =====================================================
-       TRANSLATIONS
-    ===================================================== */
-
-    const translations = {
-
-
-        English: {
-
-            brandName: "KISAN SETU",
-
-            brandTagline:
-                "Direct Market. Fair Price. Stronger Farmers.",
-
-            navHome: "Home",
-
-            navAbout: "About Us",
-
-            navHow: "How It Works",
-
-            navFeatures: "Features",
-
-            navMsp: "MSP Info",
-
-            navMspInfo: "MSP Information",
-
-            navContact: "Contact Us",
-
-            languageEnglish: "English",
-
-            login: "Login",
-
-            heroTitle1:
-                "Empowering Farmers.",
-
-            heroTitle2:
-                "Connecting Markets.",
-
-            heroTitle3:
-                "Building a Stronger India.",
-
-            heroText:
-                "Kisan Setu is a digital platform that connects farmers directly with buyers and government authorities for better prices, transparent payments and a sustainable agriculture ecosystem.",
-
-            featureFairPrice:
-                "Fair Price",
-
-            featureMspProtection:
-                "MSP Protection",
-
-            featureDirectMarket:
-                "Direct Market",
-
-            featureNoMiddlemen:
-                "No Middlemen",
-
-            featureSecureTransparent:
-                "Secure & Transparent",
-
-            featureSafety:
-                "End-to-End Safety",
-
-            featureTogether:
-                "Stronger Together",
-
-            featureFuture:
-                "Better Future",
-
-            chooseRoleTitle:
-                "CHOOSE YOUR ROLE",
-
-            chooseRoleText:
-                "Select the option that best describes you to continue.",
-
-            farmerTitle:
-                "I am a Farmer",
-
-            farmerText:
-                "List your produce, connect with buyers, get fair prices and grow your business.",
-
-            continueFarmer:
-                "Continue as Farmer",
-
-            newFarmerRegister:
-                "New Farmer? Register Now",
-
-            buyerTitle:
-                "I am a Buyer / Vendor",
-
-            buyerText:
-                "Find quality produce, place orders and build strong connections.",
-
-            continueBuyer:
-                "Continue as Buyer",
-
-            newBuyerRegister:
-                "New Buyer? Register Now",
-
-            statFarmers:
-                "Farmers Registered",
-
-            statOrders:
-                "Orders Completed",
-
-            statPayments:
-                "Worth Payments",
-
-            statStates:
-                "States Covered",
-
-            footerBrand:
-                "🌾 KISAN SETU",
-
-            footerText:
-                "Direct Market. Fair Price. Stronger Farmers. Connecting farmers and buyers for a more transparent agricultural ecosystem.",
-
-            footerQuickLinks:
-                "Quick Links",
-
-            footerInfo:
-                "Information",
-
-            footerAccount:
-                "Account",
-
-            farmerLoginLink:
-                "Farmer Login",
-
-            buyerLoginLink:
-                "Buyer Login",
-
-            copyrightText:
-                "© 2026 Kisan Setu. All Rights Reserved."
-
-        },
-
-
-        हिन्दी: {
-
-            brandName:
-                "किसान सेतु",
-
-            brandTagline:
-                "सीधा बाजार। उचित मूल्य। मजबूत किसान।",
-
-            navHome:
-                "होम",
-
-            navAbout:
-                "हमारे बारे में",
-
-            navHow:
-                "यह कैसे काम करता है",
-
-            navFeatures:
-                "विशेषताएँ",
-
-            navMsp:
-                "एमएसपी जानकारी",
-
-            navMspInfo:
-                "एमएसपी जानकारी",
-
-            navContact:
-                "संपर्क करें",
-
-            languageEnglish:
-                "हिन्दी",
-
-            login:
-                "लॉगिन",
-
-            heroTitle1:
-                "किसानों को सशक्त बनाना।",
-
-            heroTitle2:
-                "बाजारों को जोड़ना।",
-
-            heroTitle3:
-                "मजबूत भारत बनाना।",
-
-            heroText:
-                "किसान सेतु एक डिजिटल प्लेटफॉर्म है जो किसानों को सीधे खरीदारों और सरकारी अधिकारियों से जोड़ता है ताकि उन्हें बेहतर कीमत और पारदर्शी लेन-देन मिले।",
-
-            featureFairPrice:
-                "न्यायपूर्ण मूल्य",
-
-            featureMspProtection:
-                "एमएसपी संरक्षण",
-
-            featureDirectMarket:
-                "सीधा बाजार",
-
-            featureNoMiddlemen:
-                "बिना बिचौलियों",
-
-            featureSecureTransparent:
-                "सुरक्षित और पारदर्शी",
-
-            featureSafety:
-                "अंत तक सुरक्षा",
-
-            featureTogether:
-                "साथ मिलकर मजबूत",
-
-            featureFuture:
-                "बेहतर भविष्य",
-
-            chooseRoleTitle:
-                "अपना रोल चुनें",
-
-            chooseRoleText:
-                "जारी रखने के लिए अपनी सही श्रेणी चुनें।",
-
-            farmerTitle:
-                "मैं किसान हूँ",
-
-            farmerText:
-                "अपना उत्पाद सूचीबद्ध करें, खरीदारों से जुड़ें और उचित कीमत प्राप्त करें।",
-
-            continueFarmer:
-                "किसान के रूप में जारी रखें",
-
-            newFarmerRegister:
-                "नया किसान? अभी रजिस्टर करें",
-
-            buyerTitle:
-                "मैं खरीदार / विक्रेता हूँ",
-
-            buyerText:
-                "गुणवत्ता वाली फसलें खोजें और ऑर्डर दें।",
-
-            continueBuyer:
-                "खरीदार के रूप में जारी रखें",
-
-            newBuyerRegister:
-                "नया खरीदार? अभी रजिस्टर करें",
-
-            statFarmers:
-                "पंजीकृत किसान",
-
-            statOrders:
-                "पूर्ण ऑर्डर",
-
-            statPayments:
-                "लेनदेन की राशि",
-
-            statStates:
-                "आच्छादित राज्य",
-
-            footerBrand:
-                "🌾 किसान सेतु",
-
-            footerText:
-                "सीधा बाजार। उचित मूल्य। मजबूत किसान।",
-
-            footerQuickLinks:
-                "त्वरित लिंक",
-
-            footerInfo:
-                "जानकारी",
-
-            footerAccount:
-                "अकाउंट",
-
-            farmerLoginLink:
-                "किसान लॉगिन",
-
-            buyerLoginLink:
-                "खरीदार लॉगिन",
-
-            copyrightText:
-                "© 2026 किसान सेतु। सर्वाधिकार सुरक्षित।"
-
-        }
-
-
-    };
-
-
-
-    /* =====================================================
-       APPLY LANGUAGE
+       LANGUAGE INTEGRATION (via Centralized i18n Engine)
     ===================================================== */
 
     function applyLanguage(language) {
-
         const langCode = (language === "हिन्दी" || language === "hi") ? "hi" : "en";
-        const displayLabel = (langCode === "hi") ? "हिन्दी" : "English";
-
-        // Persist via centralized i18n engine if available
-        if (window.kisanI18n && window.kisanI18n.getLanguage() !== langCode) {
+        if (window.kisanI18n) {
             window.kisanI18n.setLanguage(langCode);
         } else {
             try { localStorage.setItem("kisan_setu_lang", langCode); } catch(e) {}
         }
-
-        const translationSet =
-            translations[displayLabel] ||
-            translations.English;
-
-
-        document
-            .querySelectorAll("[data-i18n]")
-            .forEach(function(element) {
-
-                const key =
-                    element.getAttribute("data-i18n");
-
-
-                if (translationSet[key]) {
-
-                    element.textContent =
-                        translationSet[key];
-
-                }
-
-            });
-
-
-        if (selectedLanguage) {
-            selectedLanguage.textContent =
-                displayLabel;
-        }
-
-
-        languageOptions.forEach(function(option) {
-
-            option.classList.toggle(
-
-                "selected",
-
-                option.getAttribute("data-language")
-                === displayLabel
-
-            );
-
-        });
-
     }
 
 
@@ -2452,7 +2120,6 @@
 
 </script>
 
-<script src="js/core/i18n.js"></script>
 <script src="js/core/api.js"></script>
 <script src="js/core/auth.js"></script>
 
