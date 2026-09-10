@@ -527,6 +527,7 @@ async function loadDisputeDetails(
     `;
 
 
+    try {
         const data = await apiRequest(`/disputes/${encodeURIComponent(disputeId)}`);
 
 
