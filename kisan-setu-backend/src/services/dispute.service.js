@@ -3,25 +3,27 @@ import { errors } from '../utils/errors.js';
 import { recordAudit } from './audit.service.js';
 
 export async function create(id, d, m) {
+  const isUuid = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(d.orderId);
+
   const o = await prisma.order.findFirst({
     where: {
-      id: d.orderId,
+      ...(isUuid ? { id: d.orderId } : { orderNumber: d.orderId }),
       OR: [{ buyerId: id }, { farmerId: id }]
     }
   });
-  if (!o) throw errors.notFound('Order not found');
+  if (!o) throw errors.notFound('Order not found or you do not have permission for this order');
 
   const [x] = await prisma.$transaction([
     prisma.dispute.create({
       data: {
         createdById: id,
-        orderId: d.orderId,
+        orderId: o.id,
         reason: d.reason,
         evidence: d.evidence ?? null
       }
     }),
     prisma.order.update({
-      where: { id: d.orderId },
+      where: { id: o.id },
       data: { status: 'DISPUTED' }
     })
   ]);
@@ -49,7 +51,14 @@ export const list = (id, role) =>
           buyer: { select: { id: true, name: true, phone: true } },
           items: {
             include: {
-              produce: { select: { cropName: true, unit: true, pricePerUnit: true } }
+              produce: {
+                select: {
+                  title: true,
+                  unit: true,
+                  pricePerUnit: true,
+                  crop: { select: { name: true } }
+                }
+              }
             }
           }
         }
@@ -70,7 +79,14 @@ export async function get(id, role, did) {
           buyer: { select: { id: true, name: true, phone: true } },
           items: {
             include: {
-              produce: { select: { cropName: true, unit: true, pricePerUnit: true } }
+              produce: {
+                select: {
+                  title: true,
+                  unit: true,
+                  pricePerUnit: true,
+                  crop: { select: { name: true } }
+                }
+              }
             }
           }
         }
