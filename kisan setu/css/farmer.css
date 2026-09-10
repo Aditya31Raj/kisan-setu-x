@@ -1187,3 +1187,16 @@ body {
     border-color: #ba3d32;
 }
 
+.universal-topbar {
+    height: 64px;
+    background: #ffffff;
+    border-bottom: 1px solid #e2e9e3;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 24px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+

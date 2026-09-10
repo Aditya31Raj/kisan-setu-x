@@ -1933,3 +1933,38 @@ body {
     background: #ffffff;
     box-shadow: 0 4px 12px rgba(47, 158, 98, 0.05);
 }
+
+.topbar-logout-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    padding: 7px 14px;
+    border-radius: 7px;
+    background: #fdf2f2;
+    color: #ba3d32;
+    border: 1px solid #fad7d4;
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    text-decoration: none;
+}
+
+.topbar-logout-btn:hover {
+    background: #ba3d32;
+    color: #ffffff;
+    border-color: #ba3d32;
+}
+
+.universal-topbar {
+    height: 64px;
+    background: #ffffff;
+    border-bottom: 1px solid #e2e9e3;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 24px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}

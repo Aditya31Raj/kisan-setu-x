@@ -62,37 +62,72 @@ function setupHamburgerSidebar() {
 		brand.appendChild(closeBtn);
 	}
 
+	const topbar = document.querySelector(".topbar");
+	const main = document.querySelector(".main");
+
 	let toggleBtn = document.getElementById("sidebarToggleBtn") || document.querySelector(".sidebar-toggle-btn");
-	if (!toggleBtn) {
-		const topbar = document.querySelector(".topbar");
-		const pageHeader = document.querySelector(".page-header");
-		const main = document.querySelector(".main");
 
-		toggleBtn = document.createElement("button");
-		toggleBtn.type = "button";
-		toggleBtn.className = "sidebar-toggle-btn";
-		toggleBtn.id = "sidebarToggleBtn";
-		toggleBtn.setAttribute("aria-label", "Open Navigation Menu");
-		toggleBtn.setAttribute("title", "Navigation Menu");
-		toggleBtn.innerHTML = '<i class="fa-solid fa-bars"></i>';
-
-		if (topbar) {
+	if (topbar) {
+		if (!toggleBtn) {
+			toggleBtn = document.createElement("button");
+			toggleBtn.type = "button";
+			toggleBtn.className = "sidebar-toggle-btn";
+			toggleBtn.id = "sidebarToggleBtn";
+			toggleBtn.setAttribute("aria-label", "Open Navigation Menu");
+			toggleBtn.setAttribute("title", "Menu");
+			toggleBtn.innerHTML = '<i class="fa-solid fa-bars"></i>';
 			topbar.insertBefore(toggleBtn, topbar.firstChild);
-		} else if (pageHeader) {
-			pageHeader.style.display = "flex";
-			pageHeader.style.alignItems = "center";
-			pageHeader.style.gap = "14px";
-			pageHeader.insertBefore(toggleBtn, pageHeader.firstChild);
-		} else if (main) {
-			const topBar = document.createElement("div");
-			topBar.style.cssText = "padding: 12px 20px; background: #ffffff; border-bottom: 1px solid #e2e9e3; display: flex; align-items: center; gap: 14px; position: sticky; top: 0; z-index: 100;";
-			topBar.appendChild(toggleBtn);
-			const titleSpan = document.createElement("span");
-			titleSpan.style.cssText = "font-weight: 700; color: #16863b; font-size: 15px;";
-			titleSpan.textContent = "Kisan Setu - Buyer Portal";
-			topBar.appendChild(titleSpan);
-			main.insertBefore(topBar, main.firstChild);
 		}
+		// Ensure topbar has a logout button
+		const topActions = topbar.querySelector(".top-actions");
+		if (topActions && !topActions.querySelector("#topbarLogoutBtn") && !topActions.querySelector(".topbar-logout-btn")) {
+			const topLogout = document.createElement("button");
+			topLogout.type = "button";
+			topLogout.className = "topbar-logout-btn logout-btn";
+			topLogout.id = "topbarLogoutBtn";
+			topLogout.title = "Logout";
+			topLogout.innerHTML = '<i class="fa-solid fa-right-from-bracket"></i> <span>Logout</span>';
+			topActions.appendChild(topLogout);
+		}
+	} else if (main && !document.querySelector(".universal-topbar")) {
+		// Create universal sticky topbar for inner pages
+		const uniBar = document.createElement("div");
+		uniBar.className = "universal-topbar";
+
+		const leftBox = document.createElement("div");
+		leftBox.style.cssText = "display: flex; align-items: center; gap: 14px;";
+
+		if (!toggleBtn) {
+			toggleBtn = document.createElement("button");
+			toggleBtn.type = "button";
+			toggleBtn.className = "sidebar-toggle-btn";
+			toggleBtn.id = "sidebarToggleBtn";
+			toggleBtn.setAttribute("aria-label", "Open Navigation Menu");
+			toggleBtn.setAttribute("title", "Menu");
+			toggleBtn.innerHTML = '<i class="fa-solid fa-bars"></i>';
+		}
+		leftBox.appendChild(toggleBtn);
+
+		const brandTitle = document.createElement("span");
+		brandTitle.style.cssText = "font-weight: 700; color: #16863b; font-size: 15px;";
+		brandTitle.textContent = "Kisan Setu - Buyer Portal";
+		leftBox.appendChild(brandTitle);
+
+		const rightBox = document.createElement("div");
+		rightBox.style.cssText = "display: flex; align-items: center; gap: 12px;";
+
+		const topLogout = document.createElement("button");
+		topLogout.type = "button";
+		topLogout.className = "topbar-logout-btn logout-btn";
+		topLogout.id = "topbarLogoutBtn";
+		topLogout.title = "Logout";
+		topLogout.innerHTML = '<i class="fa-solid fa-right-from-bracket"></i> <span>Logout</span>';
+		rightBox.appendChild(topLogout);
+
+		uniBar.appendChild(leftBox);
+		uniBar.appendChild(rightBox);
+
+		main.insertBefore(uniBar, main.firstChild);
 	}
 
 	function openSidebar() {
@@ -119,6 +154,7 @@ function setupHamburgerSidebar() {
 	}
 
 	if (toggleBtn) {
+		toggleBtn.removeEventListener("click", toggleSidebar);
 		toggleBtn.addEventListener("click", toggleSidebar);
 	}
 
@@ -126,8 +162,37 @@ function setupHamburgerSidebar() {
 		backdrop.addEventListener("click", closeSidebar);
 	}
 
-	sidebar.querySelectorAll(".nav-item").forEach((item) => {
+	// Auto close on regular navigation links (excluding logout)
+	sidebar.querySelectorAll(".nav-item:not(.logout-btn):not(#logoutBtn)").forEach((item) => {
 		item.addEventListener("click", closeSidebar);
+	});
+
+	// Robust logout binding on ALL logout buttons
+	const handleLogoutClick = async (e) => {
+		if (e) {
+			e.preventDefault();
+			e.stopPropagation();
+		}
+		try {
+			if (typeof logoutUser === "function") {
+				await logoutUser();
+			}
+		} catch (err) {
+			console.warn("Logout error:", err);
+		}
+		try {
+			localStorage.removeItem("kisan_setu_user");
+			localStorage.removeItem("kisan_setu_token");
+			localStorage.removeItem("accessToken");
+			localStorage.removeItem("user");
+		} catch {}
+		const isInSubdir = window.location.pathname.includes("/farmer/") || window.location.pathname.includes("/buyer/");
+		window.location.replace(isInSubdir ? "../index.html" : "index.html");
+	};
+
+	document.querySelectorAll("#logoutBtn, #topbarLogoutBtn, .topbar-logout-btn, .logout-btn").forEach((btn) => {
+		btn.removeEventListener("click", handleLogoutClick);
+		btn.addEventListener("click", handleLogoutClick);
 	});
 
 	document.addEventListener("keydown", (e) => {
