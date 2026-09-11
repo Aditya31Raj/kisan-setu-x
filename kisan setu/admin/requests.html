@@ -913,9 +913,6 @@
 
 
         </div>
-
-
-
         <!-- ==================================================
              REQUEST TABLE
              ================================================== -->
@@ -1083,9 +1080,7 @@
                             <th>
                                 Action
                             </th>
-
                         </tr>
-
                     </thead>
 
                     <tbody id="requestTableBody">
@@ -1114,150 +1109,16 @@
          JAVASCRIPT
          ================================================== -->
 
-    <script>
-
-        function viewRequest(requestId) {
-
-            alert(
-                "Viewing request: " + requestId
-            );
-
-        }
-
-
-        function approveRequest(requestId) {
-
-            alert(
-                "Request " +
-                requestId +
-                " approved."
-            );
-
-        }
-
-
-        function rejectRequest(requestId) {
-
-            alert(
-                "Request " +
-                requestId +
-                " rejected."
-            );
-
-        }
-
-
-        function filterRequests() {
-
-            const search =
-                document
-                .getElementById("searchRequest")
-                .value
-                .toLowerCase();
-
-            const type =
-                document
-                .getElementById("requestType")
-                .value
-                .toLowerCase();
-
-            const status =
-                document
-                .getElementById("requestStatus")
-                .value
-                .toLowerCase();
-
-
-            const rows =
-                document.querySelectorAll(
-                    "#requestTableBody tr"
-                );
-
-
-            rows.forEach(function(row) {
-
-                const text =
-                    row.innerText.toLowerCase();
-
-
-                let show = true;
-
-
-                if (
-                    search &&
-                    !text.includes(search)
-                ) {
-
-                    show = false;
-
-                }
-
-
-                if (
-                    type !== "all" &&
-                    !text.includes(type)
-                ) {
-
-                    /*
-                     * Current static table uses
-                     * human-readable request types.
-                     * This condition is intentionally
-                     * simple for now.
-                     */
-
-                    if (
-                        type === "farmer" &&
-                        !text.includes("farmer")
-                    ) {
-
-                        show = false;
-
-                    }
-
-                    if (
-                        type === "buyer" &&
-                        !text.includes("buyer")
-                    ) {
-
-                        show = false;
-
-                    }
-
-                    if (
-                        type === "input" &&
-                        !text.includes("input")
-                    ) {
-
-                        show = false;
-
-                    }
-
-                }
-
-
-                if (
-                    status !== "all" &&
-                    !text.includes(status)
-                ) {
-
-                    show = false;
-
-                }
-
-
-                row.style.display =
-                    show ? "" : "none";
-
-            });
-
-        }
-    </script>
 
     <script src="../js/core/i18n.js"></script>
     <script src="../js/core/api.js"></script>
     <script src="../js/core/auth.js"></script>
     <script src="../js/admin/admin.js"></script>
+    <script src="../js/admin/admin-users.js"></script>
+    <script src="../js/admin/admin-inputs.js"></script>
     <script>
+        let allRequestsList = [];
+
         document.addEventListener("DOMContentLoaded", async () => {
             const user = await ensureAdminAuth();
             if (!user) return;
@@ -1265,52 +1126,113 @@
             const tbody = document.getElementById("requestTableBody");
 
             try {
-                const [dash, inputsRes, grievancesRes] = await Promise.allSettled([
+                const [dash, inputsRes, grievancesRes, farmersRes, buyersRes, produceRes] = await Promise.allSettled([
                     getAdminDashboard(),
                     apiRequest("/inputs"),
-                    apiRequest("/grievances")
+                    apiRequest("/grievances"),
+                    getAdminFarmers({ limit: 50 }),
+                    getAdminBuyers({ limit: 50 }),
+                    apiRequest("/produce?limit=50")
                 ]);
 
-                if (dash.status === "fulfilled" && dash.value) {
-                    const d = dash.value;
-                    const pending = Number(d.pendingInputRequests || 0) + Number(d.openGrievances || 0);
-                    const totalEl = document.getElementById("adminRequestsTotal");
-                    const pendingEl = document.getElementById("adminRequestsPending");
-                    if (totalEl) totalEl.textContent = pending;
-                    if (pendingEl) pendingEl.textContent = pending;
+                allRequestsList = [];
+
+                // 1. Pending KYC Requests
+                if (farmersRes.status === "fulfilled" && farmersRes.value) {
+                    const fItems = farmersRes.value.items || [];
+                    fItems.filter(f => !f.isVerified).forEach(f => {
+                        allRequestsList.push({
+                            id: `KYC-FR-${f.id.slice(0, 5).toUpperCase()}`,
+                            applicant: `${f.name} (Farmer)`,
+                            type: "KYC Verification",
+                            badgeColor: "#dbeafe; color:#1e40af;",
+                            date: f.createdAt ? new Date(f.createdAt).toLocaleDateString("en-IN", { day: '2-digit', month: 'short', year: 'numeric' }) : "N/A",
+                            status: "PENDING",
+                            actionType: "kyc_farmer",
+                            rawId: f.id,
+                            userObj: f
+                        });
+                    });
                 }
 
-                let allRequests = [];
+                if (buyersRes.status === "fulfilled" && buyersRes.value) {
+                    const bItems = buyersRes.value.items || [];
+                    bItems.filter(b => !b.isVerified).forEach(b => {
+                        allRequestsList.push({
+                            id: `KYC-BY-${b.id.slice(0, 5).toUpperCase()}`,
+                            applicant: `${b.buyerProfile?.businessName || b.name} (Buyer)`,
+                            type: "KYC Verification",
+                            badgeColor: "#dbeafe; color:#1e40af;",
+                            date: b.createdAt ? new Date(b.createdAt).toLocaleDateString("en-IN", { day: '2-digit', month: 'short', year: 'numeric' }) : "N/A",
+                            status: "PENDING",
+                            actionType: "kyc_buyer",
+                            rawId: b.id,
+                            userObj: b
+                        });
+                    });
+                }
+
+                // 2. Block Produce Procurement Offers
+                if (produceRes.status === "fulfilled" && produceRes.value) {
+                    const pItems = Array.isArray(produceRes.value) ? produceRes.value : (produceRes.value.data || produceRes.value.items || []);
+                    pItems.filter(p => (p.title || "").includes("[Block Procurement") || (p.description || "").includes("Block Procurement")).forEach(p => {
+                        allRequestsList.push({
+                            id: `MSP-PR-${(p.id || '').slice(0, 5).toUpperCase()}`,
+                            applicant: p.farmer?.name || "Farmer (Local Block)",
+                            type: "Block Procurement (MSP)",
+                            badgeColor: "#fef3c7; color:#92400e; border:1px solid #fcd34d;",
+                            date: p.createdAt ? new Date(p.createdAt).toLocaleDateString("en-IN", { day: '2-digit', month: 'short', year: 'numeric' }) : "N/A",
+                            status: (p.status || "LISTED").toUpperCase(),
+                            actionType: "block_produce",
+                            rawId: p.id,
+                            produceObj: p
+                        });
+                    });
+                }
+
+                // 3. Inputs (Seeds & Fertilizers)
                 if (inputsRes.status === "fulfilled" && inputsRes.value) {
                     const inpItems = Array.isArray(inputsRes.value) ? inputsRes.value : (inputsRes.value.items || []);
-                    inpItems.forEach(i => allRequests.push({
+                    inpItems.forEach(i => allRequestsList.push({
                         id: `INP-${(i.id || '').slice(0, 5).toUpperCase()}`,
                         applicant: i.farmer?.name || i.farmerName || "Farmer",
-                        type: "Input Request",
+                        type: "Seed / Fertilizer Request",
+                        badgeColor: "#f0fdf4; color:#166534;",
                         date: i.createdAt ? new Date(i.createdAt).toLocaleDateString("en-IN", { day: '2-digit', month: 'short', year: 'numeric' }) : "N/A",
                         status: (i.status || "PENDING").toUpperCase(),
+                        actionType: "input",
                         rawId: i.id
                     }));
                 }
 
+                // 4. Grievances
                 if (grievancesRes.status === "fulfilled" && grievancesRes.value) {
                     const grvItems = Array.isArray(grievancesRes.value) ? grievancesRes.value : (grievancesRes.value.items || []);
-                    grvItems.forEach(g => allRequests.push({
+                    grvItems.forEach(g => allRequestsList.push({
                         id: `GRV-${(g.id || '').slice(0, 5).toUpperCase()}`,
                         applicant: g.user?.name || g.farmerName || "Citizen / Farmer",
                         type: "Grievance",
+                        badgeColor: "#fdf2f8; color:#9d174d;",
                         date: g.createdAt ? new Date(g.createdAt).toLocaleDateString("en-IN", { day: '2-digit', month: 'short', year: 'numeric' }) : "N/A",
                         status: (g.status || "PENDING").toUpperCase(),
+                        actionType: "grievance",
                         rawId: g.id
                     }));
                 }
 
-                if (!allRequests.length) {
+                // Dynamic stats
+                const pendingCount = allRequestsList.filter(r => r.status === "PENDING" || r.status === "LISTED" || r.status === "OPEN").length;
+                const totalEl = document.getElementById("adminRequestsTotal");
+                const pendingEl = document.getElementById("adminRequestsPending");
+                if (totalEl) totalEl.textContent = allRequestsList.length;
+                if (pendingEl) pendingEl.textContent = pendingCount;
+
+                if (!allRequestsList.length) {
                     if (tbody) tbody.innerHTML = `
                         <tr>
                             <td colspan="6" style="text-align:center; padding:36px; color:#777;">
                                 <i class="fa-solid fa-clipboard-check" style="font-size:28px; margin-bottom:8px; display:block; color:#9cb1a0;"></i>
-                                No pending requests found in the system.
+                                No requests or authorization items found in the system.
                             </td>
                         </tr>
                     `;
@@ -1318,16 +1240,20 @@
                 }
 
                 if (tbody) {
-                    tbody.innerHTML = allRequests.map(r => {
-                        const sClass = r.status === "APPROVED" || r.status === "RESOLVED" ? "status approved" : (r.status === "REJECTED" ? "status rejected" : "status pending");
+                    tbody.innerHTML = allRequestsList.map(r => {
+                        const sClass = r.status === "APPROVED" || r.status === "RESOLVED" || r.status === "ACCEPTED" ? "status approved" : (r.status === "REJECTED" ? "status rejected" : "status pending");
                         return `
                             <tr>
                                 <td><strong>#${r.id}</strong></td>
-                                <td>${r.applicant}</td>
-                                <td><span style="background:#f0fdf4; color:#166534; padding:3px 8px; border-radius:10px; font-size:11px; font-weight:600;">${r.type}</span></td>
+                                <td>${escapeHTML(r.applicant)}</td>
+                                <td><span style="background:${r.badgeColor || '#f0fdf4; color:#166534;'}; padding:3px 8px; border-radius:10px; font-size:11px; font-weight:700;">${escapeHTML(r.type)}</span></td>
                                 <td>${r.date}</td>
-                                <td><span class="${sClass}">${r.status}</span></td>
-                                <td><button type="button" class="action-btn" onclick="alert('Viewing request: ' + '${r.id}')" style="background:#176b38; color:#fff; border:none; padding:5px 12px; border-radius:4px; font-size:11px; cursor:pointer;">Review</button></td>
+                                <td><span class="${sClass}">${escapeHTML(r.status)}</span></td>
+                                <td>
+                                    <button type="button" class="action-btn" onclick="handleAdminRequestAction('${r.id}')" style="background:#176b38; color:#fff; border:none; padding:6px 14px; border-radius:6px; font-size:11px; font-weight:700; cursor:pointer;">
+                                        Review
+                                    </button>
+                                </td>
                             </tr>
                         `;
                     }).join("");
@@ -1336,7 +1262,181 @@
                 console.warn("Could not load request stats:", e);
             }
         });
+
+        function handleAdminRequestAction(reqId) {
+            const r = allRequestsList.find(x => x.id === reqId);
+            if (!r) return;
+
+            if (r.actionType === "kyc_farmer") {
+                openUserKycModal(r.rawId, "farmer");
+            } else if (r.actionType === "kyc_buyer") {
+                openUserKycModal(r.rawId, "buyer");
+            } else if (r.actionType === "input") {
+                reviewAdminInput(r.rawId);
+            } else if (r.actionType === "block_produce") {
+                openBlockProcureReceiptModal(r.produceObj);
+            } else {
+                alert(`Viewing Request: #${r.id}\nApplicant: ${r.applicant}\nType: ${r.type}\nStatus: ${r.status}`);
+            }
+        }
+
+        function openBlockProcureReceiptModal(produce) {
+            if (!produce) return;
+            let modal = document.getElementById("adminBlockProcureModal");
+            if (!modal) {
+                modal = document.createElement("div");
+                modal.id = "adminBlockProcureModal";
+                modal.style.cssText = "position:fixed; top:0; left:0; width:100vw; height:100vh; background:rgba(0,0,0,0.6); display:flex; align-items:center; justify-content:center; z-index:9999; padding:20px;";
+                document.body.appendChild(modal);
+            }
+
+            const crop = (produce.title || produce.name || "Crop").replace(/\[Block Procurement[^\]]*\]/g, "").trim();
+            const qty = Number(produce.availableQuantity) || 100;
+            const rate = Number(produce.pricePerUnit) || 24;
+            const total = qty * rate;
+            const farmer = produce.farmer?.name || "Registered Farmer";
+            const location = produce.location || "Patna Block, Bihar";
+
+            modal.innerHTML = `
+                <div style="background:white; border-radius:14px; width:540px; max-width:100%; box-shadow:0 20px 40px rgba(0,0,0,0.2); overflow:hidden; border:1px solid #e2e8e3;">
+                    <div style="background:linear-gradient(135deg, #10B981, #059669); color:white; padding:18px 24px; display:flex; justify-content:space-between; align-items:center;">
+                        <h3 style="margin:0; font-size:17px; font-weight:700;">
+                            <i class="fa-solid fa-building-columns" style="margin-right:8px;"></i> Government Block Procurement (प्रखंड सरकारी खरीद)
+                        </h3>
+                        <button type="button" onclick="document.getElementById('adminBlockProcureModal').style.display='none'" style="background:none; border:none; color:white; font-size:22px; cursor:pointer;">&times;</button>
+                    </div>
+                    <div style="padding:22px 24px;">
+                        <div style="border-bottom:2px dashed #10B981; padding-bottom:14px; margin-bottom:16px;">
+                            <span style="font-size:11px; font-weight:700; color:#047857; text-transform:uppercase;">Procurement Center / खरीद केंद्र</span>
+                            <h4 style="margin:2px 0 0; font-size:16px; color:#111827;">प्रखंड कृषि कार्यालय / Block Krishi Bhavan, Patna</h4>
+                            <p style="margin:2px 0 0; font-size:12px; color:#6b7280;">MSP Guarantee Scheme &bull; Govt of Bihar / Direct Farmer Purchase</p>
+                        </div>
+
+                        <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-bottom:16px; font-size:13px;">
+                            <div style="background:#f8faf9; padding:10px 14px; border-radius:8px;">
+                                <span style="color:#6b7280; font-size:11px; display:block;">Farmer / कृषक</span>
+                                <strong>${escapeHTML(farmer)}</strong>
+                            </div>
+                            <div style="background:#f8faf9; padding:10px 14px; border-radius:8px;">
+                                <span style="color:#6b7280; font-size:11px; display:block;">Location</span>
+                                <strong>${escapeHTML(location)}</strong>
+                            </div>
+                        </div>
+
+                        <div style="background:#ecfdf5; border:1px solid #a7f3d0; border-radius:10px; padding:14px 18px; margin-bottom:20px;">
+                            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
+                                <span style="font-size:13px; font-weight:600; color:#065f46;">Commodity / Crop:</span>
+                                <strong style="font-size:15px; color:#047857;">${escapeHTML(crop)}</strong>
+                            </div>
+                            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
+                                <span style="font-size:13px; font-weight:600; color:#065f46;">Quantity:</span>
+                                <strong style="font-size:14px; color:#047857;">${qty} ${escapeHTML(produce.unit || 'KG')}</strong>
+                            </div>
+                            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
+                                <span style="font-size:13px; font-weight:600; color:#065f46;">Official MSP Rate:</span>
+                                <strong style="font-size:14px; color:#047857;">₹${rate} / ${escapeHTML(produce.unit || 'KG')}</strong>
+                            </div>
+                            <div style="display:flex; justify-content:space-between; align-items:center; border-top:1px dashed #a7f3d0; padding-top:8px; margin-top:8px;">
+                                <span style="font-size:14px; font-weight:700; color:#065f46;">Total Government Payout:</span>
+                                <strong style="font-size:18px; color:#15803d;">₹${total.toLocaleString('en-IN')}</strong>
+                            </div>
+                        </div>
+
+                        <div style="display:flex; justify-content:flex-end; gap:10px;">
+                            <button type="button" onclick="document.getElementById('adminBlockProcureModal').style.display='none'" style="background:#e5e7eb; border:none; padding:10px 18px; border-radius:7px; font-weight:600; cursor:pointer;">
+                                Close
+                            </button>
+                            <button type="button" onclick="confirmBlockProcure('${produce.id}', ${qty})" style="background:#10B981; color:white; border:none; padding:10px 22px; border-radius:7px; font-weight:700; cursor:pointer; display:flex; align-items:center; gap:8px;">
+                                <i class="fa-solid fa-stamp"></i> Issue Procurement Order
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            `;
+            modal.style.display = "flex";
+        }
+
+        async function confirmBlockProcure(produceId, quantity) {
+            try {
+                const res = await apiRequest("/orders", {
+                    method: "POST",
+                    body: { produceId, quantity }
+                });
+                alert(`Government Procurement Order issued successfully!\nOrder Number: ${res.orderNumber || 'KS-PROC'}\nDirect Payout slip dispatched to farmer.`);
+                document.getElementById("adminBlockProcureModal").style.display = "none";
+                window.location.reload();
+            } catch (err) {
+                alert(`Failed to issue procurement order: ${friendlyErrorMessage(err)}`);
+            }
+        }
+
+        
+        function renderRequestsTable(list) {
+            const tbody = document.getElementById("requestTableBody");
+            if (!tbody) return;
+            if (!list.length) {
+                tbody.innerHTML = `
+                    <tr>
+                        <td colspan="6" style="text-align:center; padding:36px; color:#777;">
+                            <i class="fa-solid fa-clipboard-check" style="font-size:28px; margin-bottom:8px; display:block; color:#9cb1a0;"></i>
+                            No matching requests found in the system.
+                        </td>
+                    </tr>
+                `;
+                return;
+            }
+
+            tbody.innerHTML = list.map(r => {
+                const sClass = r.status === "APPROVED" || r.status === "RESOLVED" || r.status === "ACCEPTED" ? "status approved" : (r.status === "REJECTED" ? "status rejected" : "status pending");
+                return `
+                    <tr>
+                        <td><strong>#${r.id}</strong></td>
+                        <td>${escapeHTML(r.applicant)}</td>
+                        <td><span style="background:${r.badgeColor || '#f0fdf4; color:#166534;'}; padding:3px 8px; border-radius:10px; font-size:11px; font-weight:700;">${escapeHTML(r.type)}</span></td>
+                        <td>${r.date}</td>
+                        <td><span class="${sClass}">${escapeHTML(r.status)}</span></td>
+                        <td>
+                            <button type="button" class="action-btn" onclick="handleAdminRequestAction('${r.id}')" style="background:#176b38; color:#fff; border:none; padding:6px 14px; border-radius:6px; font-size:11px; font-weight:700; cursor:pointer;">
+                                Review
+                            </button>
+                        </td>
+                    </tr>
+                `;
+            }).join("");
+        }
+
+        function filterRequests() {
+            const search = (document.getElementById("searchRequest")?.value || "").toLowerCase().trim();
+            const type = (document.getElementById("requestType")?.value || "all").toLowerCase();
+            const status = (document.getElementById("requestStatus")?.value || "all").toLowerCase();
+
+            const filtered = allRequestsList.filter(r => {
+                const text = `${r.id} ${r.applicant} ${r.type} ${r.status}`.toLowerCase();
+                if (search && !text.includes(search)) return false;
+
+                if (type !== "all") {
+                    if (type === "farmer" && !r.type.toLowerCase().includes("farmer") && !r.applicant.toLowerCase().includes("farmer") && r.actionType !== "kyc_farmer") return false;
+                    if (type === "buyer" && !r.type.toLowerCase().includes("buyer") && !r.applicant.toLowerCase().includes("buyer") && r.actionType !== "kyc_buyer") return false;
+                    if (type === "input" && !r.type.toLowerCase().includes("seed") && !r.type.toLowerCase().includes("fertilizer") && r.actionType !== "input") return false;
+                }
+
+                if (status !== "all") {
+                    const s = r.status.toLowerCase();
+                    if (status === "pending" && s !== "pending" && s !== "listed" && s !== "open") return false;
+                    if (status === "approved" && s !== "approved" && s !== "resolved" && s !== "accepted") return false;
+                    if (status === "rejected" && s !== "rejected") return false;
+                }
+
+                return true;
+            });
+
+            renderRequestsTable(filtered);
+        }
+
+        window.filterRequests = filterRequests;
+        window.handleAdminRequestAction = handleAdminRequestAction;
+        window.openBlockProcureReceiptModal = openBlockProcureReceiptModal;
+        window.confirmBlockProcure = confirmBlockProcure;
     </script>
 </body>
 </html>
-

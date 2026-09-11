@@ -36,7 +36,8 @@ export async function users(role,q={}){
       select:{
         id:true,name:true,email:true,phone:true,role:true,isActive:true,isVerified:true,createdAt:true,lastLoginAt:true,
         farmerProfile:{select:{id:true,farmName:true,village:true,district:true,state:true,landAreaAcres:true}},
-        buyerProfile:{select:{id:true,businessName:true,businessType:true,district:true,state:true}}
+        buyerProfile:{select:{id:true,businessName:true,businessType:true,district:true,state:true}},
+        identity:{select:{id:true,status:true,maskedIdentifier:true,providerReference:true,verifiedAt:true}}
       },
       orderBy:{createdAt:'desc'},
       skip,
@@ -58,12 +59,50 @@ export async function audits(q={}){
   return{items:a,pagination:paginationMeta(page,limit,total)};
 }
 
-export const updateUser=(id,d)=>prisma.user.update({
-  where:{id},
-  data:{
-    ...(typeof d.isActive==='boolean'?{isActive:d.isActive}:{}),
-    ...(typeof d.isVerified==='boolean'?{isVerified:d.isVerified}:{})
-  },
-  select:{id:true,name:true,email:true,phone:true,role:true,isActive:true,isVerified:true}
-});
+export async function updateUser(id, d) {
+  const updatedUser = await prisma.$transaction(async (tx) => {
+    const u = await tx.user.update({
+      where: { id },
+      data: {
+        ...(typeof d.isActive === 'boolean' ? { isActive: d.isActive } : {}),
+        ...(typeof d.isVerified === 'boolean' ? { isVerified: d.isVerified } : {})
+      },
+      select: { id: true, name: true, email: true, phone: true, role: true, isActive: true, isVerified: true }
+    });
+    if (typeof d.isVerified === 'boolean') {
+      await tx.identityVerification.upsert({
+        where: { userId: id },
+        update: {
+          status: d.isVerified ? 'VERIFIED' : 'FAILED',
+          verifiedAt: d.isVerified ? new Date() : null
+        },
+        create: {
+          userId: id,
+          provider: 'MOCK',
+          status: d.isVerified ? 'VERIFIED' : 'FAILED',
+          verifiedAt: d.isVerified ? new Date() : null
+        }
+      });
+    }
+    return u;
+  });
+
+  if (typeof d.isVerified === 'boolean') {
+    try {
+      const { notifyUser } = await import('./notification.service.js');
+      await notifyUser({
+        userId: id,
+        title: d.isVerified ? 'KYC Verification Approved' : 'KYC Verification Status Updated',
+        message: d.isVerified
+          ? 'Your KYC documents have been reviewed and approved by the Block Admin. Your account is now fully authorized for trading and government services.'
+          : 'Your KYC verification request could not be approved at this time. Please contact your Block Agriculture Office or re-submit valid documentation.',
+        metadata: { isVerified: d.isVerified }
+      });
+    } catch (e) {
+      console.warn('Could not dispatch user KYC status notification:', e?.message || e);
+    }
+  }
+
+  return updatedUser;
+}
 

@@ -892,6 +892,14 @@
             const buyerType = document.getElementById("buyerType").value;
             const district = document.getElementById("district").value.trim();
             const state = document.getElementById("state").value;
+            const kycType = document.getElementById("kycType").value;
+            const kycNumber = document.getElementById("kycNumber").value.trim();
+
+            if (!kycType || !kycNumber) {
+                errBox.textContent = "Please provide your KYC Document Type and Document / GSTIN / PAN Number.";
+                errBox.style.display = "block";
+                return;
+            }
 
             btn.disabled = true;
             btn.innerHTML = 'Creating Account... <i class="fa-solid fa-spinner fa-spin"></i>';
@@ -912,13 +920,18 @@
                     businessType: buyerType,
                     district: district,
                     state: state,
+                    kycType: kycType,
+                    kycNumber: kycNumber,
                     profilePicture
                 });
 
                 const payload = {
                     name: ownerName || businessName,
                     role: "BUYER",
-                    password
+                    password,
+                    kycType,
+                    kycNumber,
+                    identityReference: `${kycType}: ${kycNumber}`
                 };
                 if (email) payload.email = email;
                 if (mobile) payload.phone = mobile;

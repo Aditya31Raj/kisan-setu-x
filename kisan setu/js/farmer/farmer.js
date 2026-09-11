@@ -107,6 +107,43 @@ async function syncFarmerSidebarProfile() {
 		if (user) {
 			if (sName && user.name) sName.textContent = user.name;
 			if (sId && user.id) sId.textContent = `Farmer ID: KS-${String(user.id).substring(0, 6).toUpperCase()}`;
+
+			const banner = document.getElementById("farmerKycStatusBanner");
+			if (banner) {
+				if (!user.isVerified) {
+					banner.style.display = "block";
+					banner.innerHTML = `
+						<div style="background:linear-gradient(135deg, #fffbeb, #fef3c7); border:1px solid #f59e0b; color:#92400e; padding:14px 20px; border-radius:12px; display:flex; align-items:center; justify-content:space-between; gap:14px; box-shadow:0 4px 12px rgba(245,158,11,0.08);">
+							<div style="display:flex; align-items:center; gap:12px;">
+								<i class="fa-solid fa-clock-rotate-left" style="font-size:22px; color:#d97706;"></i>
+								<div>
+									<strong style="font-size:14px; display:block; color:#92400e;">KYC Verification Pending / सत्यापन प्रक्रियाधीन</strong>
+									<span style="font-size:12px; color:#b45309;">Your KYC documents have been submitted to your Block Agriculture Admin for authorization. You will receive an in-app alert upon approval.</span>
+								</div>
+							</div>
+							<span style="background:#f59e0b; color:white; font-size:11px; font-weight:700; padding:6px 12px; border-radius:20px; white-space:nowrap; letter-spacing:0.5px;">
+								UNDER REVIEW
+							</span>
+						</div>
+					`;
+				} else {
+					banner.style.display = "block";
+					banner.innerHTML = `
+						<div style="background:linear-gradient(135deg, #f0fdf4, #dcfce7); border:1px solid #86efac; color:#166534; padding:12px 20px; border-radius:12px; display:flex; align-items:center; justify-content:space-between; gap:14px;">
+							<div style="display:flex; align-items:center; gap:10px;">
+								<i class="fa-solid fa-circle-check" style="font-size:18px; color:#16a34a;"></i>
+								<div>
+									<strong style="font-size:13px; color:#15803d;">KYC Verified Farmer Account (प्रमाणित किसान)</strong>
+									<span style="font-size:11px; color:#166534; display:block;">Authorized for Open Market Trading, Block Procurement, and Subsidized Seeds/Fertilizer Quotas.</span>
+								</div>
+							</div>
+							<span style="background:#16a34a; color:white; font-size:11px; font-weight:700; padding:4px 10px; border-radius:20px; white-space:nowrap;">
+								AUTHORIZED ✓
+							</span>
+						</div>
+					`;
+				}
+			}
 		}
 	} catch (e) {
 		console.debug("Sidebar farmer sync note:", e);

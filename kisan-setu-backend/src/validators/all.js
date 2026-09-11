@@ -21,7 +21,9 @@ export const registerSchema = z
       .transform((v) => v || undefined),
     password: z.string().min(8, 'Password must be at least 8 characters').max(128),
     role: z.enum(['FARMER', 'BUYER']),
-    identityReference: z.string().max(100).optional()
+    identityReference: z.string().max(100).optional(),
+    kycType: z.string().max(50).optional(),
+    kycNumber: z.string().max(100).optional()
   })
   .refine((v) => Boolean(v.email || v.phone), {
     message: 'Either email or mobile number is required'

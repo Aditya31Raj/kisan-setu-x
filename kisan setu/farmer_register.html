@@ -150,6 +150,28 @@
                             <label for="cropType"><span data-i18n="primary_crop">Primary Crop Type</span></label>
                             <input type="text" id="cropType" placeholder="Rice, Wheat, Cotton..." data-i18n-placeholder="primary_crop_ph">
                         </div>
+                    </div>
+
+                    <div class="section-title"><i class="fa-solid fa-id-card"></i> <span>KYC & Verification Details / पहचान सत्यापन</span></div>
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label for="kycType"><span>KYC Document Type</span> <span>*</span></label>
+                            <select id="kycType" required>
+                                <option value="">Select KYC Document</option>
+                                <option value="Aadhaar Card">Aadhaar Card (आधार कार्ड)</option>
+                                <option value="Kisan Credit Card (KCC)">Kisan Credit Card (KCC - किसान क्रेडिट कार्ड)</option>
+                                <option value="Voter ID">Voter ID (मतदाता पहचान पत्र)</option>
+                                <option value="Land Registry / Khata">Land Revenue Record (जमीन खतियान)</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="kycNumber"><span>Document Number / ID</span> <span>*</span></label>
+                            <input type="text" id="kycNumber" placeholder="Enter document number" required>
+                        </div>
+                    </div>
+
+                    <div class="section-title"><i class="fa-solid fa-lock"></i> <span>Security / पासवर्ड</span></div>
+                    <div class="form-grid">
                         <div class="form-group">
                             <label for="password"><span data-i18n="password">Password</span> <span>*</span></label>
                             <input type="password" id="password" placeholder="Create a password" data-i18n-placeholder="password_ph">
@@ -200,6 +222,8 @@
             const address = document.getElementById("address").value.trim();
             const landSize = document.getElementById("landSize").value.trim();
             const cropType = document.getElementById("cropType").value.trim();
+            const kycType = document.getElementById("kycType").value;
+            const kycNumber = document.getElementById("kycNumber").value.trim();
 
             if (!name || name.length < 2) {
                 errBox.textContent = "Please enter your Full Name (at least 2 characters).";
@@ -209,6 +233,12 @@
 
             if (!email && !phone) {
                 errBox.textContent = "Please provide either an Email Address or Mobile Number.";
+                errBox.style.display = "block";
+                return;
+            }
+
+            if (!kycType || !kycNumber) {
+                errBox.textContent = "Please select a KYC Document and enter your Document Number.";
                 errBox.style.display = "block";
                 return;
             }
@@ -234,13 +264,16 @@
                 }
 
                 saveRegistrationProfile("farmer", {
-                    name, email, phone, district, address, landSize, cropType, profilePicture
+                    name, email, phone, district, address, landSize, cropType, kycType, kycNumber, profilePicture
                 });
 
                 const payload = {
                     name,
                     role: "FARMER",
-                    password
+                    password,
+                    kycType,
+                    kycNumber,
+                    identityReference: `${kycType}: ${kycNumber}`
                 };
                 if (email) payload.email = email;
                 if (phone) payload.phone = phone;

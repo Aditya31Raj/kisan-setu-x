@@ -65,10 +65,24 @@ async function loadFarmerProduce(page = 1) {
 		list.forEach((produce) => {
 			const item = document.createElement("div");
 			item.className = "produce-card";
-			const displayName = produce.cropName || produce.title || produce.name || "Unnamed Produce";
+			const rawTitle = produce.title || produce.name || "Unnamed Produce";
+			const isBlockProcurement = rawTitle.includes("[Block Procurement") || (produce.description || "").includes("Block Procurement");
+			const displayName = rawTitle.replace(/\[Block Procurement[^\]]*\]/g, "").trim();
+
 			item.innerHTML = `
-				<div class="produce-icon"><i class="fa-solid ${cropIconClass(displayName)}" aria-hidden="true"></i></div>
-				<h3>${escapeHTML(displayName)}</h3>
+				<div style="display:flex; justify-content:space-between; align-items:flex-start;">
+					<div class="produce-icon"><i class="fa-solid ${cropIconClass(displayName)}" aria-hidden="true"></i></div>
+					${isBlockProcurement ? `
+						<span style="background:#fef3c7; color:#92400e; font-size:10px; font-weight:700; padding:3px 8px; border-radius:6px; border:1px solid #fcd34d;">
+							<i class="fa-solid fa-building-columns"></i> BLOCK MSP
+						</span>
+					` : `
+						<span style="background:#f0fdf4; color:#166534; font-size:10px; font-weight:600; padding:3px 8px; border-radius:6px;">
+							OPEN MARKET
+						</span>
+					`}
+				</div>
+				<h3 style="margin-top:8px;">${escapeHTML(displayName)}</h3>
 				<p><strong>Category:</strong> ${escapeHTML(produce.category || produce.variety || "General")}</p>
 				<p><strong>Quantity:</strong> ${escapeHTML(String(produce.availableQuantity ?? produce.quantity ?? 0))} ${escapeHTML(produce.unit || "kg")}</p>
 				<p><strong>Price:</strong> ₹${escapeHTML(String(produce.pricePerUnit ?? produce.price ?? 0))}/${escapeHTML(produce.unit || "kg")}</p>
@@ -105,23 +119,42 @@ function setupAddProduce() {
 	toggleButton?.addEventListener("click", () => setOpen(true));
 	cancelButton?.addEventListener("click", () => { form.reset(); setOpen(false); });
 
+	const blockRadio = document.getElementById("saleTargetBlock");
+	const marketRadio = document.getElementById("saleTargetMarket");
+	const blockInfo = document.getElementById("blockProcurementInfo");
+
+	blockRadio?.addEventListener("change", () => {
+		if (blockInfo) blockInfo.style.display = blockRadio.checked ? "block" : "none";
+	});
+	marketRadio?.addEventListener("change", () => {
+		if (blockInfo) blockInfo.style.display = "none";
+	});
+
 	form.addEventListener("submit", async (event) => {
 		event.preventDefault();
 		message.textContent = "Saving produce...";
+
+		const isBlock = Boolean(document.getElementById("saleTargetBlock")?.checked);
+		const baseTitle = document.getElementById("produceName").value.trim();
+		const finalTitle = isBlock ? `[Block Procurement / PACS] ${baseTitle}` : baseTitle;
+		const baseDesc = document.getElementById("produceDescription").value.trim();
+		const finalDesc = isBlock ? `[Target: Block Procurement Center - MSP Sale] ${baseDesc}` : baseDesc;
+
 		const payload = {
-			title: document.getElementById("produceName").value.trim(),
-			name: document.getElementById("produceName").value.trim(),
+			title: finalTitle,
+			name: finalTitle,
 			category: document.getElementById("produceCategory").value.trim(),
 			quantity: Number(document.getElementById("produceQuantity").value),
 			unit: document.getElementById("produceUnit").value,
 			price: Number(document.getElementById("producePrice").value),
 			location: document.getElementById("produceLocation").value.trim(),
-			description: document.getElementById("produceDescription").value.trim()
+			description: finalDesc
 		};
 		try {
 			await createFarmerProduce(payload);
-			message.textContent = "Produce added successfully.";
+			message.textContent = isBlock ? "Produce offered to Block Procurement Center successfully!" : "Produce added successfully.";
 			form.reset();
+			if (blockInfo) blockInfo.style.display = "none";
 			setOpen(false);
 			loadFarmerProduce(1);
 		} catch (error) {
