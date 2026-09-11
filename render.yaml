@@ -1,0 +1,56 @@
+services:
+  # Backend API Web Service
+  - type: web
+    name: kisan-setu-backend
+    runtime: node
+    plan: free
+    rootDir: kisan-setu-backend
+    buildCommand: npm install && npm run build
+    startCommand: npm start
+    healthCheckPath: /health
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 5000
+      - key: DATABASE_URL
+        fromDatabase:
+          name: kisan-setu-db
+          property: connectionString
+      - key: JWT_ACCESS_SECRET
+        generateValue: true
+      - key: JWT_REFRESH_SECRET
+        generateValue: true
+      - key: CSRF_SECRET
+        generateValue: true
+      - key: CSRF_ENABLED
+        value: "false"
+      - key: COOKIE_SECURE
+        value: "true"
+      - key: COOKIE_SAME_SITE
+        value: "lax"
+      - key: CLIENT_URL
+        value: https://kisan-setu-x.onrender.com
+      - key: SEED_FARMER_PASSWORD
+        value: Farmer12345!
+      - key: SEED_BUYER_PASSWORD
+        value: Buyer12345!
+      - key: SEED_ADMIN_PASSWORD
+        value: Admin12345!
+      - key: SEED_SUPER_ADMIN_PASSWORD
+        value: iconic31
+      - key: ADMIN_EMAIL
+        value: meiconic.here31@gmail.com
+
+  # Frontend Static Site
+  - type: static
+    name: kisan-setu-frontend
+    rootDir: kisan setu
+    buildCommand: ""
+    staticPublishPath: .
+
+databases:
+  - name: kisan-setu-db
+    plan: free
+    databaseName: kisan_setu
+    user: kisan_admin
