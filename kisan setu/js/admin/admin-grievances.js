@@ -242,9 +242,27 @@ async function loadGrievances() {
         const openCount = items.filter(g => (g.status || "").toUpperCase() === "OPEN" || (g.status || "").toUpperCase() === "PENDING").length;
         if (pill) pill.textContent = openCount;
         if (badge) badge.textContent = `${items.length} grievance${items.length === 1 ? "" : "s"} (${openCount} open)`;
-        if (pageInfo) pageInfo.textContent = `Showing ${items.length} grievance${items.length === 1 ? "" : "s"}`;
-
         renderGrievances(items);
+
+        // Handle URL deep linking (e.g. from requests.html)
+        const urlParams = new URLSearchParams(window.location.search);
+        const targetId = urlParams.get("id");
+        const searchQ = urlParams.get("search") || urlParams.get("q");
+        if (targetId) {
+            const found = items.find(x => x.id === targetId || (x.id && x.id.toLowerCase().includes(targetId.toLowerCase())));
+            if (found) {
+                const tabGrievancesBtn = document.getElementById("tabGrievancesBtn");
+                if (tabGrievancesBtn) tabGrievancesBtn.click();
+                renderGrievances([found]);
+                openGrievanceModal(found.id);
+            }
+        } else if (searchQ && document.getElementById("searchGrievance")) {
+            const tabGrievancesBtn = document.getElementById("tabGrievancesBtn");
+            if (tabGrievancesBtn) tabGrievancesBtn.click();
+            document.getElementById("searchGrievance").value = searchQ;
+            const filterGrievancesBtn = document.getElementById("filterGrievancesBtn");
+            if (filterGrievancesBtn) filterGrievancesBtn.click();
+        }
     } catch (err) {
         console.error("Error loading grievances:", err);
         container.innerHTML = `

@@ -83,6 +83,22 @@ async function loadAdminInputs() {
         if (pageInfo) {
             pageInfo.textContent = `Showing ${items.length} request${items.length === 1 ? "" : "s"}`;
         }
+
+        // Deep-link handling
+        const urlParams = new URLSearchParams(window.location.search);
+        const targetId = urlParams.get("id");
+        const searchQ = urlParams.get("search") || urlParams.get("q");
+        if (targetId) {
+            const found = items.find(x => x.id === targetId || (x.id && x.id.toLowerCase().includes(targetId.toLowerCase())));
+            if (found) {
+                renderInputCards([found]);
+                reviewAdminInput(found.id, found);
+            }
+        } else if (searchQ && document.getElementById("searchInput")) {
+            document.getElementById("searchInput").value = searchQ;
+            const filterBtn = document.querySelector(".filter-btn");
+            if (filterBtn) filterBtn.click();
+        }
     } catch (err) {
         console.error("Error loading inputs:", err);
         container.innerHTML = `
@@ -195,9 +211,19 @@ function setupInputControls() {
     if (statusFilter) statusFilter.addEventListener("change", applyFilter);
 }
 
-function reviewAdminInput(id) {
-    const item = allInputRequests.find((x) => x.id === id);
-    if (!item) return;
+function reviewAdminInput(id, inputObj = null) {
+    let item = inputObj;
+    if (!item) {
+        item = allInputRequests.find((x) => x.id === id);
+    }
+    if (!item && window.allRequestsList) {
+        const found = window.allRequestsList.find(x => x.rawId === id || x.id === id);
+        if (found) item = found.inputObj;
+    }
+    if (!item) {
+        console.warn("Input request not found:", id);
+        return;
+    }
 
     let modal = document.getElementById("adminInputReviewModal");
     if (!modal) {
@@ -261,7 +287,10 @@ function reviewAdminInput(id) {
                         <input type="text" id="adminInputNote" placeholder="e.g. Approved. Collect from Block Agriculture Godown (Counter 1)" style="width:100%; padding:10px 12px; border:1px solid #d1d5db; border-radius:7px; font-size:13px; box-sizing:border-box;">
                     </div>
 
-                    <div style="display:flex; justify-content:flex-end; gap:10px;">
+                    <div style="display:flex; justify-content:flex-end; gap:10px; align-items:center;">
+                        <a href="inputs.html?id=${encodeURIComponent(item.id)}" style="margin-right:auto; color:#047857; font-size:12px; font-weight:600; text-decoration:underline; display:inline-flex; align-items:center; gap:4px;">
+                            <i class="fa-solid fa-arrow-up-right-from-square"></i> Open in Inputs Page
+                        </a>
                         <button type="button" onclick="closeAdminInputModal()" style="background:#e5e7eb; border:none; padding:9px 16px; border-radius:7px; font-weight:600; cursor:pointer;">
                             Cancel
                         </button>
@@ -276,7 +305,10 @@ function reviewAdminInput(id) {
                     <div style="padding:10px; background:#f3f4f6; border-radius:8px; text-align:center; font-size:13px; color:#4b5563;">
                         This request is already marked as <strong>${status}</strong>.
                     </div>
-                    <div style="display:flex; justify-content:flex-end; margin-top:16px;">
+                    <div style="display:flex; justify-content:flex-end; gap:10px; align-items:center; margin-top:16px;">
+                        <a href="inputs.html?id=${encodeURIComponent(item.id)}" style="margin-right:auto; color:#047857; font-size:12px; font-weight:600; text-decoration:underline; display:inline-flex; align-items:center; gap:4px;">
+                            <i class="fa-solid fa-arrow-up-right-from-square"></i> Open in Inputs Page
+                        </a>
                         <button type="button" onclick="closeAdminInputModal()" style="background:#10b981; color:white; border:none; padding:9px 20px; border-radius:7px; font-weight:600; cursor:pointer;">Close</button>
                     </div>
                 `}
@@ -303,7 +335,11 @@ async function submitInputDecision(id, action) {
 
         alert(`Input request ${isApprove ? 'APPROVED & ALLOTTED' : 'REJECTED'}. Farmer has been notified.`);
         closeAdminInputModal();
-        await loadAdminInputs();
+        if (window.location.pathname.includes("requests.html")) {
+            window.location.reload();
+        } else {
+            await loadAdminInputs();
+        }
     } catch (err) {
         console.error("Error submitting decision:", err);
         alert(`Failed to ${action} request: ${friendlyErrorMessage(err)}`);
@@ -338,9 +374,9 @@ function setupAddInputModal() {
                         <div>
                             <label style="display:block; font-size:12px; font-weight:600; color:#374151; margin-bottom:6px;">Category <span>*</span></label>
                             <select id="newProdCat" style="width:100%; padding:9px 12px; border:1px solid #d1d5db; border-radius:7px; font-size:13px;">
-                                <option value="Seed">Seed (बीज)</option>
-                                <option value="Fertilizer">Fertilizer (खाद)</option>
-                                <option value="Pesticide">Pesticide (कीटनाशक)</option>
+                                <option value="Seed">Seeds</option>
+                                <option value="Fertilizer">Fertilizers</option>
+                                <option value="Pesticide">Pesticides</option>
                             </select>
                         </div>
                         <div>

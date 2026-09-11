@@ -58,8 +58,8 @@ async function syncBuyerSidebarProfile() {
 							<div style="display:flex; align-items:center; gap:10px;">
 								<i class="fa-solid fa-circle-check" style="font-size:18px; color:#16a34a;"></i>
 								<div>
-									<strong style="font-size:13px; color:#15803d;">Verified Commercial Buyer (प्रमाणित व्यापारी)</strong>
-									<span style="font-size:11px; color:#166534; display:block;">KYC Verified & Authorized for direct agricultural purchasing with escrow payment protection.</span>
+									<strong style="font-size:13px; color:#15803d;"><span data-i18n="kyc_verified_buyer">Verified Commercial Buyer</span></strong>
+									<span style="font-size:11px; color:#166534; display:block;" data-i18n="kyc_verified_buyer_desc">KYC Verified & Authorized for direct agricultural purchasing with escrow payment protection.</span>
 								</div>
 							</div>
 							<span style="background:#16a34a; color:white; font-size:11px; font-weight:700; padding:4px 10px; border-radius:20px; white-space:nowrap;">
@@ -67,6 +67,9 @@ async function syncBuyerSidebarProfile() {
 							</span>
 						</div>
 					`;
+					if (window.i18n && typeof window.i18n.applyCurrentLanguage === "function") {
+						window.i18n.applyCurrentLanguage();
+					}
 				}
 			}
 		}

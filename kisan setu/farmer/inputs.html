@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kisan Setu - Seeds & Fertilizers (बीज एवं खाद)</title>
+    <title>Kisan Setu - Seeds & Fertilizers</title>
     <link rel="stylesheet" href="../css/style.css">
     <link rel="stylesheet" href="../css/farmer.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
@@ -165,7 +165,7 @@
                 <div class="nav-title" data-i18n="overview">Overview</div>
                 <a href="../farmer_dashboard.html" class="nav-item"><i class="fa-solid fa-gauge"></i> <span data-i18n="nav_dashboard">Dashboard</span></a>
                 <a href="produce.html" class="nav-item"><i class="fa-solid fa-seedling"></i> <span data-i18n="nav_produce">Produce</span></a>
-                <a href="inputs.html" class="nav-item active"><i class="fa-solid fa-flask"></i> <span>Seeds & Fertilizers</span></a>
+                <a href="inputs.html" class="nav-item active"><i class="fa-solid fa-flask"></i> <span data-i18n="seeds_fertilizers">Seeds & Fertilizers</span></a>
                 <a href="orders.html" class="nav-item"><i class="fa-solid fa-box"></i> <span data-i18n="nav_orders">Orders</span></a>
                 <a href="payments.html" class="nav-item"><i class="fa-solid fa-wallet"></i> <span data-i18n="nav_payments">Payments</span></a>
                 <a href="logistics.html" class="nav-item"><i class="fa-solid fa-truck"></i> <span data-i18n="nav_logistics">Logistics</span></a>
@@ -190,8 +190,8 @@
                         <i class="fa-solid fa-bars"></i>
                     </button>
                     <div>
-                        <h1 style="margin:0; font-size:20px; font-weight:700; color:#202522;">Subsidized Seeds & Fertilizers (बीज एवं उर्वरक मांग)</h1>
-                        <p style="margin:3px 0 0; font-size:12px; color:#6b7280;">Request certified seeds, urea, and fertilizers from your Prakhand Agriculture Office</p>
+                        <h1 style="margin:0; font-size:20px; font-weight:700; color:#202522;" data-i18n="subsidized_inputs">Subsidized Seeds & Fertilizers</h1>
+                        <p style="margin:3px 0 0; font-size:12px; color:#6b7280;" data-i18n="subsidized_inputs_sub">Request certified seeds, urea, and fertilizers from your Prakhand Agriculture Office</p>
                     </div>
                 </div>
                 <div style="display:flex; align-items:center; gap:14px;">
@@ -212,7 +212,7 @@
                 <section style="margin-bottom:32px;">
                     <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px;">
                         <div>
-                            <h2 style="margin:0; font-size:17px; color:#111827;">Available Stock at Block Warehouse (प्रखंड गोदाम स्टॉक)</h2>
+                            <h2 style="margin:0; font-size:17px; color:#111827;" data-i18n="available_block_stock">Available Stock at Block Warehouse</h2>
                             <p style="margin:2px 0 0; font-size:12px; color:#6b7280;">Subsidized quotas allocated by Agriculture Department</p>
                         </div>
                     </div>
@@ -227,7 +227,7 @@
                 <section>
                     <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px;">
                         <div>
-                            <h2 style="margin:0; font-size:17px; color:#111827;">My Input Requests (मेरी मांग सूची)</h2>
+                            <h2 style="margin:0; font-size:17px; color:#111827;" data-i18n="my_input_requests">My Input Requests</h2>
                             <p style="margin:2px 0 0; font-size:12px; color:#6b7280;">Track the approval status and allotment of your requests</p>
                         </div>
                         <button type="button" onclick="openRequestModal()" class="req-btn" style="width:auto; padding:8px 18px;">
@@ -285,16 +285,16 @@
                 </div>
 
                 <div class="form-group-custom">
-                    <label for="modalSeason">Cropping Season / मौसम</label>
+                    <label for="modalSeason" data-i18n="cropping_season">Cropping Season</label>
                     <select id="modalSeason">
-                        <option value="Rabi">Rabi (रबी - गेहूं, चना, सरसों)</option>
-                        <option value="Kharif">Kharif (खरीफ - धान, मक्का)</option>
-                        <option value="Zaid">Zaid (जायद - सब्जियां, मूंग)</option>
+                        <option value="Rabi" data-i18n="season_rabi">Rabi Season</option>
+                        <option value="Kharif" data-i18n="season_kharif">Kharif Season</option>
+                        <option value="Zaid" data-i18n="season_zaid">Zaid Season</option>
                     </select>
                 </div>
 
                 <div class="form-group-custom">
-                    <label for="modalReason">Requirement Reason / Farm Size (कारण / रकबा)</label>
+                    <label for="modalReason" data-i18n="requirement_reason">Requirement Reason / Farm Size</label>
                     <textarea id="modalReason" rows="3" placeholder="e.g. Required for 4 acres wheat sowing in Patna block."></textarea>
                 </div>
 

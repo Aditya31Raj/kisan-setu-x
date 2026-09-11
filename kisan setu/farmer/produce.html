@@ -33,7 +33,7 @@
                 <div class="nav-title" data-i18n="overview">Overview</div>
                 <a href="../farmer_dashboard.html" class="nav-item"><i class="fa-solid fa-gauge"></i> <span data-i18n="nav_dashboard">Dashboard</span></a>
                 <a href="produce.html" class="nav-item active"><i class="fa-solid fa-seedling"></i> <span data-i18n="nav_produce">Produce</span></a>
-                <a href="inputs.html" class="nav-item"><i class="fa-solid fa-flask"></i> <span>Seeds & Fertilizers (बीज-खाद)</span></a>
+                <a href="inputs.html" class="nav-item"><i class="fa-solid fa-flask"></i> <span data-i18n="seeds_fertilizers">Seeds & Fertilizers</span></a>
                 <a href="orders.html" class="nav-item"><i class="fa-solid fa-box"></i> <span data-i18n="nav_orders">Orders</span></a>
                 <a href="payments.html" class="nav-item"><i class="fa-solid fa-wallet"></i> <span data-i18n="nav_payments">Payments</span></a>
                 <a href="logistics.html" class="nav-item"><i class="fa-solid fa-truck"></i> <span data-i18n="nav_logistics">Logistics</span></a>
@@ -76,16 +76,16 @@
             <form id="addProduceForm" class="add-produce-form" hidden>
                 <div class="form-group full" style="background:#f0fdf4; border:1px solid #bbf7d0; padding:14px 16px; border-radius:10px; margin-bottom:10px;">
                     <label style="font-weight:700; color:#166534; display:block; margin-bottom:8px;">
-                        <i class="fa-solid fa-building-columns" style="margin-right:6px;"></i> Selling Channel / बिक्री माध्यम
+                        <i class="fa-solid fa-building-columns" style="margin-right:6px;"></i> <span data-i18n="selling_channel">Selling Channel</span>
                     </label>
                     <div style="display:flex; gap:20px; flex-wrap:wrap;">
                         <label style="display:flex; align-items:center; gap:8px; cursor:pointer; font-weight:500; font-size:13px; color:#1f2937;">
                             <input type="radio" name="saleTarget" value="MARKET" checked id="saleTargetMarket">
-                            <span>Open Market (All Commercial Buyers)</span>
+                            <span data-i18n="channel_market">Open Market (All Commercial Buyers)</span>
                         </label>
                         <label style="display:flex; align-items:center; gap:8px; cursor:pointer; font-weight:600; font-size:13px; color:#166534;">
                             <input type="radio" name="saleTarget" value="BLOCK" id="saleTargetBlock">
-                            <span>Sell to Block Procurement Center (प्रखंड सरकारी खरीद केंद्र - MSP)</span>
+                            <span data-i18n="channel_block">Block Procurement Center (MSP Guarantee)</span>
                         </label>
                     </div>
                     <div id="blockProcurementInfo" style="display:none; margin-top:10px; font-size:12px; color:#15803d; background:white; padding:10px 14px; border-radius:8px; border:1px dashed #86efac;">

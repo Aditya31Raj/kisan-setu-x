@@ -859,7 +859,7 @@ function setupLogout() {
             } else {
 
                 window.location.href =
-                    "../../buyer_login.html";
+                    "../buyer_login.html";
 
             }
 

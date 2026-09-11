@@ -291,21 +291,33 @@ async function authorizeUser(userId, approve, roleType) {
 	try {
 		await updateAdminUser(userId, { isVerified: approve });
 		alert(`User KYC status successfully updated to: ${approve ? "VERIFIED & AUTHORIZED" : "UNVERIFIED"}.`);
-		if (roleType === "farmer") {
+		closeUserKycModal();
+		if (window.location.pathname.includes("requests.html")) {
+			window.location.reload();
+		} else if (roleType === "farmer") {
 			await loadAdminFarmers();
 		} else {
 			await loadAdminBuyers();
 		}
-		closeUserKycModal();
 	} catch (err) {
 		console.error("Error authorizing user:", err);
 		alert(`Action failed: ${friendlyErrorMessage(err)}`);
 	}
 }
 
-function openUserKycModal(userId, roleType) {
-	const user = (roleType === "farmer" ? allFarmers : allBuyers).find(x => x.id === userId);
-	if (!user) return;
+function openUserKycModal(userId, roleType, userObj = null) {
+	let user = userObj;
+	if (!user) {
+		user = (roleType === "farmer" ? allFarmers : allBuyers).find(x => x.id === userId);
+	}
+	if (!user && window.allRequestsList) {
+		const found = window.allRequestsList.find(x => x.rawId === userId || x.id === userId);
+		if (found) user = found.userObj;
+	}
+	if (!user) {
+		console.warn("User data not found for KYC review:", userId);
+		return;
+	}
 
 	let modal = document.getElementById("adminUserKycModal");
 	if (!modal) {
@@ -321,6 +333,7 @@ function openUserKycModal(userId, roleType) {
 	const loc = roleType === "farmer"
 		? [user.farmerProfile?.village, user.farmerProfile?.district, user.farmerProfile?.state].filter(Boolean).join(", ")
 		: [user.buyerProfile?.district, user.buyerProfile?.state].filter(Boolean).join(", ");
+	const targetPage = roleType === "farmer" ? "farmers.html" : "buyers.html";
 
 	modal.innerHTML = `
 		<div style="background:white; border-radius:14px; width:520px; max-width:100%; box-shadow:0 20px 40px rgba(0,0,0,0.15); overflow:hidden; border:1px solid #e2e8e3; animation:fadeIn 0.2s ease;">
@@ -365,7 +378,10 @@ function openUserKycModal(userId, roleType) {
 					</div>
 				</div>
 
-				<div style="display:flex; gap:10px; justify-content:flex-end;">
+				<div style="display:flex; gap:10px; justify-content:flex-end; align-items:center;">
+					<a href="${targetPage}?search=${encodeURIComponent(user.name || user.id)}" style="margin-right:auto; color:#047857; font-size:12px; font-weight:600; text-decoration:underline; display:inline-flex; align-items:center; gap:4px;">
+						<i class="fa-solid fa-arrow-up-right-from-square"></i> Open in ${roleType === 'farmer' ? 'Farmers' : 'Buyers'} Page
+					</a>
 					<button type="button" onclick="closeUserKycModal()" style="background:#e5e7eb; color:#374151; border:none; padding:9px 18px; border-radius:7px; font-weight:600; cursor:pointer; font-size:13px;">
 						Close
 					</button>
@@ -395,9 +411,16 @@ document.addEventListener("DOMContentLoaded", () => {
 	const path = (window.location.pathname || "").toLowerCase();
 	const hasFarmerTable = Boolean(document.getElementById("farmerTableBody") || document.getElementById("farmerSearch"));
 	const hasBuyerTable = Boolean(document.getElementById("buyerTableBody") || document.getElementById("buyerSearch"));
+	const urlParams = new URLSearchParams(window.location.search);
+	const initialSearch = urlParams.get("search") || urlParams.get("q") || urlParams.get("id");
 
 	if (hasFarmerTable || path.includes("farmer")) {
-		loadAdminFarmers();
+		loadAdminFarmers().then(() => {
+			if (initialSearch && document.getElementById("farmerSearch")) {
+				document.getElementById("farmerSearch").value = initialSearch;
+				filterFarmers();
+			}
+		});
 
 		document.querySelector(".admin-search-btn")?.addEventListener("click", filterFarmers);
 		document.getElementById("farmerSearch")?.addEventListener("input", filterFarmers);
@@ -413,7 +436,12 @@ document.addEventListener("DOMContentLoaded", () => {
 	}
 	
 	if (hasBuyerTable || path.includes("buyer")) {
-		loadAdminBuyers();
+		loadAdminBuyers().then(() => {
+			if (initialSearch && document.getElementById("buyerSearch")) {
+				document.getElementById("buyerSearch").value = initialSearch;
+				filterBuyers();
+			}
+		});
 
 		document.querySelector(".admin-search-btn")?.addEventListener("click", filterBuyers);
 		document.getElementById("buyerSearch")?.addEventListener("input", filterBuyers);

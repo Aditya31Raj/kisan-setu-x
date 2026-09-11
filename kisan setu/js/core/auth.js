@@ -34,24 +34,24 @@ async function refreshSession() {
 	return apiRequest("/auth/refresh", { method: "POST" });
 }
 
-async function logoutUser() {
-	await getCsrfToken();
-	return apiRequest("/auth/logout", { method: "POST" });
-}
-
-async function changePassword(passwordData) {
-	return apiRequest("/auth/change-password", {
-		method: "POST",
-		body: passwordData
-	});
+async function requestServerLogout() {
+	try {
+		await getCsrfToken();
+		return await apiRequest("/auth/logout", { method: "POST" });
+	} catch (err) {
+		console.warn("Server logout request error:", err?.message || err);
+	}
 }
 
 async function performLogout(e) {
 	if (e && typeof e.preventDefault === "function") {
 		e.preventDefault();
 	}
+	if (e && typeof e.stopPropagation === "function") {
+		e.stopPropagation();
+	}
 	try {
-		await logoutUser();
+		await requestServerLogout();
 	} catch (err) {
 		console.warn("Logout request failed or server unreachable:", err?.message || err);
 	} finally {
@@ -77,9 +77,12 @@ async function performLogout(e) {
 			targetUrl = isInSubdir ? "../admin_login.html" : "admin_login.html";
 		}
 
-		// Use location.replace so the last portal page is replaced in history
 		window.location.replace(targetUrl);
 	}
+}
+
+async function logoutUser() {
+	return performLogout();
 }
 
 function bindLogoutButtons() {
@@ -98,6 +101,18 @@ function bindLogoutButtons() {
 		el.addEventListener("click", performLogout);
 	});
 }
+
+// Global capture-phase listener guarantees logout works even if another script attaches a listener
+document.addEventListener("click", function (e) {
+	const btn = e.target && typeof e.target.closest === "function"
+		? e.target.closest("#logoutBtn, #topbarLogoutBtn, .logout-btn, .logout a, .logout button, [data-action='logout'], .logout-action")
+		: null;
+	if (btn) {
+		e.preventDefault();
+		e.stopPropagation();
+		performLogout();
+	}
+}, true);
 
 function setupLoginHistoryGuard() {
 	const path = (window.location.pathname || "").toLowerCase();
