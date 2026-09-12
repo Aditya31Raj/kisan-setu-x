@@ -91,7 +91,15 @@ async function loadFarmerOrders(page = 1) {
 			let statusBg = "#fef3c7";
 			let statusText = status.replace(/_/g, " ");
 
-			if (status === "ACCEPTED" || status === "PAID" || status === "COMPLETED") {
+			if (status === "ACCEPTED") {
+				statusColor = "#0284c7";
+				statusBg = "#e0f2fe";
+				statusText = "ACCEPTED (Awaiting Buyer Payment)";
+			} else if (status === "PAID") {
+				statusColor = "#166534";
+				statusBg = "#dcfce7";
+				statusText = "PAID (₹1 Demo Verified)";
+			} else if (status === "COMPLETED") {
 				statusColor = "#166534";
 				statusBg = "#dcfce7";
 			} else if (status === "CANCELLED" || status === "REJECTED") {
@@ -138,7 +146,13 @@ async function loadFarmerOrders(page = 1) {
 						</div>
 					`;
 				}
-			} else if (["ACCEPTED", "PAID", "LOGISTICS_PENDING"].includes(status)) {
+			} else if (status === "ACCEPTED") {
+				actionButtons = `
+					<div style="margin-top:14px; padding:10px 14px; background:#f0fdf4; border:1px solid #bbf7d0; border-radius:6px; font-size:12px; color:#166534; display:flex; justify-content:space-between; align-items:center;">
+						<span><i class="fa-solid fa-qrcode"></i> <strong>Order Accepted:</strong> PhonePe UPI QR code sent to buyer for payment confirmation.</span>
+					</div>
+				`;
+			} else if (["PAID", "LOGISTICS_PENDING"].includes(status)) {
 				actionButtons = `
 					<div style="margin-top:16px; padding-top:14px; border-top:1px solid #f0f4f1; display:flex; gap:12px; align-items:center;">
 						<button type="button" class="request-logistics-btn" style="background:#15803d; color:white; border:none; padding:9px 18px; border-radius:6px; font-weight:600; font-size:13px; cursor:pointer;" onclick="openFarmerLogisticsModal('${order.id}', '${escapeHTML(orderNum)}', '${escapeHTML(buyerName)}')">

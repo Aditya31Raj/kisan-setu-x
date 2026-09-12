@@ -121,22 +121,19 @@ function displayProduce(data) {
     let produceList = [];
 
     if (Array.isArray(data)) {
-
         produceList = data;
-
     } else if (Array.isArray(data.data)) {
-
         produceList = data.data;
-
     } else if (Array.isArray(data.items)) {
-
         produceList = data.items;
-
     } else if (Array.isArray(data.produce)) {
-
         produceList = data.produce;
-
     }
+
+    // Filter out completely sold out produce so it is not shown to other buyers
+    produceList = produceList.filter(function (produce) {
+        return Number(produce.availableQuantity) > 0 && produce.status !== 'SOLD_OUT';
+    });
 
     // No produce found
     if (produceList.length === 0) {
@@ -570,11 +567,12 @@ function displayProduceDetails(produce) {
             <div style="background: #f8faf8; border: 1px solid #e1ebe2; border-radius: 8px; padding: 12px 16px; margin-bottom: 16px;">
                 <p style="margin: 4px 0; font-size: 13px;"><strong>Farmer:</strong> ${escapeHTML(farmerName)}</p>
                 <p style="margin: 4px 0; font-size: 13px;"><strong>Location:</strong> ${escapeHTML(location)}</p>
-                <p style="margin: 4px 0; font-size: 13px;"><strong>Available Stock:</strong> <span style="color:#16863b; font-weight:bold;">${quantity.toLocaleString()}</span> ${escapeHTML(unit)}</p>
+                <p style="margin: 4px 0; font-size: 13px;"><strong>Available Stock:</strong> ${quantity > 0 ? `<span style="color:#16863b; font-weight:bold;">${quantity.toLocaleString()}</span> ${escapeHTML(unit)}` : `<span style="color:#dc2626; font-weight:bold;"><i class="fa-solid fa-ban"></i> 0 ${escapeHTML(unit)} (SOLD OUT)</span>`}</p>
                 <p style="margin: 4px 0; font-size: 13px;"><strong>Price:</strong> <strong style="font-size: 15px; color:#202522;">₹${price.toLocaleString()}</strong> / ${escapeHTML(unit)}</p>
             </div>
 
-            <!-- Direct Order Box -->
+            <!-- Direct Order Box or Sold Out Box -->
+            ${quantity > 0 ? `
             <div style="background: #ffffff; border: 1px solid #d3e7d6; border-radius: 8px; padding: 16px;">
                 <h4 style="color: #176d35; margin-bottom: 10px; font-size: 15px;"><i class="fa-solid fa-cart-shopping"></i> Purchase Produce</h4>
                 
@@ -596,6 +594,14 @@ function displayProduceDetails(produce) {
                     Confirm & Place Order
                 </button>
             </div>
+            ` : `
+            <div style="background: #fef2f2; border: 1px solid #fecaca; border-radius: 8px; padding: 20px; text-align: center;">
+                <span style="display:inline-block; background:#dc2626; color:white; font-weight:bold; padding:5px 16px; border-radius:16px; font-size:13px; margin-bottom:8px;">
+                    <i class="fa-solid fa-ban"></i> SOLD OUT
+                </span>
+                <p style="color:#991b1b; font-size:14px; margin:0;">All stock for this produce listing has been purchased and is unavailable.</p>
+            </div>
+            `}
         </div>
     `;
 

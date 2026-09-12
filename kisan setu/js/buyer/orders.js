@@ -23,6 +23,8 @@ document.addEventListener("DOMContentLoaded", function () {
 
     setupBuyerLogisticsModal();
 
+    setupUpiPaymentModal();
+
     setupLogout();
 
 });
@@ -254,12 +256,20 @@ function createOrderCard(order) {
                 ${formatDate(createdAt)}
             </p>
 
+            ${['ACCEPTED', 'PAYMENT_PENDING'].includes(status) ? `
+                <div style="margin:10px 0;">
+                    <button type="button" class="pay-upi-btn" style="background:linear-gradient(135deg, #16863b, #0f5132); color:white; border:none; padding:9px 16px; border-radius:6px; font-weight:700; font-size:13px; cursor:pointer; display:inline-flex; align-items:center; gap:6px; box-shadow:0 2px 6px rgba(22,134,59,0.3);" onclick="openUpiPaymentModal('${id}', '${escapeHTML(String(orderNumber))}', '${escapeHTML(farmerName)}', '${escapeHTML(itemsSummary)}', ${total})">
+                        <i class="fa-solid fa-qrcode"></i> Pay via UPI QR (₹1 Demo)
+                    </button>
+                </div>
+            ` : ''}
+
             ${order.logistics ? `
                 <div style="margin:10px 0; padding:8px 12px; border-radius:6px; font-size:12px; ${order.logistics.status === 'PENDING' ? 'background:#fffbeb; border:1px solid #fef3c7; color:#92400e;' : 'background:#f0fdf4; border:1px solid #bbf7d0; color:#166534;'}">
                     ${order.logistics.status === 'PENDING' ? '<span><i class="fa-solid fa-clock"></i> <strong>Logistics Requested:</strong> Awaiting Block Admin transport assignment.</span>' : `<div><i class="fa-solid fa-truck"></i> <strong>Transport:</strong> ${escapeHTML(order.logistics.vehicleReference || 'Assigned')} | Driver: ${escapeHTML(order.logistics.driverReference || 'Assigned')} (${escapeHTML(order.logistics.status)})</div>`}
                     <div style="margin-top:4px;"><a href="logistics.html?id=${encodeURIComponent(order.logistics.id)}" style="font-weight:600; text-decoration:underline;">Live Tracking &rarr;</a></div>
                 </div>
-            ` : (['ACCEPTED', 'PAID', 'LOGISTICS_PENDING'].includes(status) ? `
+            ` : (['PAID', 'LOGISTICS_PENDING'].includes(status) ? `
                 <div style="margin:10px 0;">
                     <button type="button" class="request-logistics-btn" style="background:#16863b; color:white; border:none; padding:8px 14px; border-radius:6px; font-weight:600; font-size:12px; cursor:pointer;" onclick="openBuyerLogisticsModal('${id}', '${escapeHTML(String(orderNumber))}', '${escapeHTML(farmerName)}')">
                         <i class="fa-solid fa-truck-fast"></i> Request Block Logistics
@@ -554,6 +564,14 @@ function displayOrderDetails(order) {
             </p>
 
             ${itemsHTML}
+
+            ${['ACCEPTED', 'PAYMENT_PENDING'].includes(status) ? `
+                <div style="margin-top:18px; padding-top:14px; border-top:1px solid #e2ece3;">
+                    <button type="button" style="width:100%; padding:12px; background:linear-gradient(135deg, #16863b, #0f5132); color:white; border:none; border-radius:8px; font-weight:700; font-size:14px; cursor:pointer; display:flex; align-items:center; justify-content:center; gap:8px; box-shadow:0 3px 8px rgba(22,134,59,0.3);" onclick="document.getElementById('orderModal').style.display='none'; openUpiPaymentModal('${order.id}', '${escapeHTML(String(orderNumber))}', '${escapeHTML(order.farmer?.name || 'Farmer')}', 'Produce Order', ${total})">
+                        <i class="fa-solid fa-qrcode"></i> Pay via UPI QR (₹1 Demo for Judges)
+                    </button>
+                </div>
+            ` : ''}
 
         </div>
 
@@ -999,4 +1017,135 @@ function setupBuyerLogisticsModal() {
 }
 
 window.openBuyerLogisticsModal = openBuyerLogisticsModal;
-window.closeBuyerLogisticsModal = closeBuyerLogisticsModal;
+window.closeBuyerLogisticsModal = closeBuyerLogisticsModal;
+
+// ============================================
+// UPI PAYMENT MODAL LOGIC (₹1 JUDGE DEMO MODE)
+// ============================================
+
+let currentUpiOrderId = null;
+let currentUpiOrderNumber = null;
+
+function openUpiPaymentModal(orderId, orderNum, farmerName, produceTitle, totalAmount) {
+    currentUpiOrderId = orderId;
+    currentUpiOrderNumber = orderNum;
+
+    const modal = document.getElementById("upiPaymentModal");
+    const numEl = document.getElementById("upiOrderNumber");
+    const prodEl = document.getElementById("upiProduceTitle");
+    const amtEl = document.getElementById("upiListedAmount");
+    const utrInput = document.getElementById("upiUtrInput");
+    const statusBox = document.getElementById("upiPaymentStatus");
+
+    if (numEl) numEl.textContent = `#${orderNum}`;
+    if (prodEl) prodEl.textContent = produceTitle || "Agricultural Produce";
+    if (amtEl) amtEl.textContent = `₹${Number(totalAmount).toLocaleString()}`;
+    if (utrInput) utrInput.value = `UPI-${Date.now().toString().slice(-6)}`;
+    if (statusBox) statusBox.style.display = "none";
+
+    if (modal) modal.style.display = "flex";
+}
+
+function closeUpiPaymentModal() {
+    const modal = document.getElementById("upiPaymentModal");
+    if (modal) modal.style.display = "none";
+    currentUpiOrderId = null;
+    currentUpiOrderNumber = null;
+}
+
+function setupUpiPaymentModal() {
+    const closeBtn = document.getElementById("closeUpiPaymentModalBtn");
+    const confirmBtn = document.getElementById("confirmUpiPaidBtn");
+    const instantBtn = document.getElementById("instantDemoPayBtn");
+    const modal = document.getElementById("upiPaymentModal");
+
+    if (closeBtn) {
+        closeBtn.addEventListener("click", closeUpiPaymentModal);
+    }
+    if (modal) {
+        modal.addEventListener("click", function(e) {
+            if (e.target === modal) closeUpiPaymentModal();
+        });
+    }
+
+    async function executePayment(isInstant) {
+        if (!currentUpiOrderId) return;
+        const utrInput = document.getElementById("upiUtrInput");
+        const statusBox = document.getElementById("upiPaymentStatus");
+        const btn = isInstant ? instantBtn : confirmBtn;
+        const originalText = btn ? btn.innerHTML : "";
+
+        if (statusBox) {
+            statusBox.style.display = "block";
+            statusBox.style.background = "#eff6ff";
+            statusBox.style.color = "#1d4ed8";
+            statusBox.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Verifying payment with escrow system...';
+        }
+        if (btn) {
+            btn.disabled = true;
+            btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Processing ₹1 Demo Transaction...';
+        }
+
+        try {
+            // 1. Initiate payment with amount 1 (₹1 Judge Demo)
+            const payment = await apiRequest("/payments/initiate", {
+                method: "POST",
+                body: {
+                    orderId: currentUpiOrderId,
+                    idempotencyKey: `pay-${currentUpiOrderId}-${Date.now()}`,
+                    amount: 1
+                }
+            });
+
+            const paymentId = payment.id || payment.data?.id;
+            const providerRef = payment.providerPaymentId || payment.data?.providerPaymentId;
+            const utr = (utrInput && utrInput.value.trim()) ? utrInput.value.trim() : `DEMO-UTR-${Date.now()}`;
+
+            // 2. Verify payment
+            await apiRequest(`/payments/${encodeURIComponent(paymentId)}/verify`, {
+                method: "POST",
+                body: {
+                    providerPaymentId: providerRef,
+                    success: true,
+                    utr: utr
+                }
+            });
+
+            if (statusBox) {
+                statusBox.style.background = "#dcfce7";
+                statusBox.style.color = "#166534";
+                statusBox.innerHTML = '🎉 <strong>Payment of ₹1 Verified!</strong><br>Order is confirmed and paid. Farmer notified.';
+            }
+
+            setTimeout(function() {
+                closeUpiPaymentModal();
+                loadOrders(currentOrderPage);
+            }, 1800);
+        } catch (err) {
+            console.error("Payment error:", err);
+            if (statusBox) {
+                statusBox.style.background = "#fee2e2";
+                statusBox.style.color = "#991b1b";
+                statusBox.textContent = friendlyErrorMessage(err, "Payment verification failed. Please try again.");
+            }
+            if (btn) {
+                btn.disabled = false;
+                btn.innerHTML = originalText;
+            }
+        }
+    }
+
+    if (confirmBtn) {
+        confirmBtn.addEventListener("click", function() {
+            executePayment(false);
+        });
+    }
+    if (instantBtn) {
+        instantBtn.addEventListener("click", function() {
+            executePayment(true);
+        });
+    }
+}
+
+window.openUpiPaymentModal = openUpiPaymentModal;
+window.closeUpiPaymentModal = closeUpiPaymentModal;

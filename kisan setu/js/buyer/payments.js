@@ -245,14 +245,19 @@ function createPaymentCard(payment) {
                 ${formatDate(createdAt)}
             </p>
 
-            <button
-                type="button"
-                class="view-payment-btn"
-                data-id="${escapeHTML(String(paymentId))}">
-
-                View Details
-
-            </button>
+            <div style="display: flex; gap: 8px; align-items: center; margin-top: 10px; flex-wrap: wrap;">
+                <button
+                    type="button"
+                    class="view-payment-btn"
+                    data-id="${escapeHTML(String(paymentId))}">
+                    View Details
+                </button>
+                ${status === 'PENDING' ? `
+                    <a href="orders.html" style="padding: 7px 14px; background: #16863b; color: white; border-radius: 6px; font-size: 12px; font-weight: 600; text-decoration: none; display: inline-flex; align-items: center; gap: 6px;">
+                        <i class="fa-solid fa-qrcode"></i> Pay via UPI QR (₹1 Demo)
+                    </a>
+                ` : ''}
+            </div>
 
         </div>
 
