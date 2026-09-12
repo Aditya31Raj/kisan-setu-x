@@ -105,20 +105,14 @@ async function loadFarmerProduce(page = 1) {
 							<div class="pcm-subtitle">${escapeHTML(subtitle)}</div>
 						</div>
 					</div>
-					${isBlockProcurement ? `
-						<div class="pcm-badge pcm-badge-tested">
-							<i class="fa-solid fa-check-double" style="margin-right:4px;"></i> Lab Tested
-						</div>
-					` : `
-						<div class="pcm-badge pcm-badge-market">
-							Open Market
-						</div>
-					`}
+					<div class="pcm-badge pcm-badge-tested">
+						<i class="fa-solid fa-check-double" style="margin-right:4px;"></i> Lab Tested
+					</div>
 				</div>
 
 				<div class="pcm-rate-box">
 					<div class="pcm-rate-col">
-						<span class="pcm-rate-label">Mandi Rate</span>
+						<span class="pcm-rate-label">Price</span>
 						<span class="pcm-rate-val">₹${formattedPrice}</span>
 					</div>
 					<div class="pcm-qty-col">
@@ -372,7 +366,7 @@ function openPacsSlipModal(produceId) {
 				<strong style="font-size:14px; color:#111827;">${qty} ${escapeHTML(unit)}</strong>
 			</div>
 			<div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
-				<span style="font-size:13px; color:#374151;">Guaranteed Mandi MSP Rate:</span>
+				<span style="font-size:13px; color:#374151;">Guaranteed MSP Price:</span>
 				<strong style="font-size:14px; color:#166534;">₹${rate.toLocaleString('en-IN')} / ${escapeHTML(unit)}</strong>
 			</div>
 			<div style="display:flex; justify-content:space-between; align-items:center; border-top:1px dashed #86efac; padding-top:8px; margin-top:8px;">

@@ -231,7 +231,7 @@ function createProduceCard(produce) {
 
         <div class="pcm-rate-box">
             <div class="pcm-rate-col">
-                <span class="pcm-rate-label">Mandi Rate</span>
+                <span class="pcm-rate-label">Price</span>
                 <span class="pcm-rate-val">₹${formattedPrice}</span>
             </div>
             <div class="pcm-qty-col">

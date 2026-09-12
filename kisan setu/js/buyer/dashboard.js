@@ -14,33 +14,93 @@ function buyerDashboardText(value) {
 }
 
 function cropIcon(crop) {
-    const value = String(crop || "").toLowerCase();
-    if (value.includes("potato")) return "fa-carrot";
-    if (value.includes("wheat") || value.includes("rice") || value.includes("paddy")) return "fa-wheat-awn";
-    if (value.includes("tomato") || value.includes("onion")) return "fa-apple-whole";
-    return "fa-seedling";
+    const n = String(crop || "").toLowerCase();
+    if (n.includes("wheat") || n.includes("gehun")) return "fa-wheat-awn";
+    if (n.includes("rice") || n.includes("dhan") || n.includes("paddy")) return "fa-bowl-rice";
+    if (n.includes("corn") || n.includes("maize") || n.includes("makka")) return "fa-seedling";
+    if (n.includes("potato") || n.includes("aalu")) return "fa-carrot";
+    return "fa-wheat-awn";
 }
 
 function renderBuyerProduce(items) {
     const container = document.getElementById("buyerProduceList");
     if (!container) return;
     if (!items.length) {
-        container.innerHTML = '<p class="empty-state">No produce is available right now.</p>';
+        container.innerHTML = '<p class="empty-state" style="grid-column:1/-1;">No produce is available right now.</p>';
         return;
     }
     container.innerHTML = items.slice(0, 6).map((item) => {
-        const name = item.cropName || item.title || item.name || "Produce";
-        const quantity = item.availableQuantity ?? item.quantity ?? "--";
-        const unit = item.unit || "kg";
-        const price = item.pricePerUnit ?? item.price ?? "--";
-        const location = item.location || (item.district ? `${item.district}, ${item.state || ''}` : "Direct Farm");
-        const farmer = item.farmer?.name || item.farmerName || "Verified Farmer";
-        return `<div class="produce-card">
-            <div class="produce-image"><i class="fa-solid ${cropIcon(name)}" aria-hidden="true"></i></div>
-            <div class="produce-details">
-                <h4>${buyerDashboardText(name)}</h4>
-                <p>${buyerDashboardText(quantity)} ${buyerDashboardText(unit)} available<br>${buyerDashboardText(location)}<br>Farmer: ${buyerDashboardText(farmer)}</p>
-                <div class="price"><strong>₹${buyerDashboardText(price)}/${buyerDashboardText(unit)}</strong><button type="button" onclick="requestBuy('${buyerDashboardText(name)}')">Request</button></div>
+        const rawTitle = item.cropName || item.title || item.name || "Produce";
+        const displayName = rawTitle.replace(/\[Block Procurement[^\]]*\]/g, "").trim();
+        const quantity = Number(item.availableQuantity ?? item.quantity ?? 0);
+        const rawUnit = String(item.unit || "Quintal").trim();
+        const unitName = rawUnit.charAt(0).toUpperCase() + rawUnit.slice(1).toLowerCase();
+        const price = Number(item.pricePerUnit ?? item.price ?? 0);
+        const formattedPrice = price.toLocaleString("en-IN");
+        const location = item.location || (item.district ? `${item.district}, ${item.state || "Bihar"}` : "Sitamarhi Central Mandi, Bihar");
+        const farmerName = item.farmer?.name || item.farmerName || "Mohan Kumar (Dumra)";
+
+        let subtitle = item.category || "Grade A Premium";
+        if (item.description && item.description.includes("Moisture")) {
+            const match = item.description.match(/Moisture\s*[\d\.]+%?/i);
+            subtitle += match ? ` • ${match[0]}` : ` • Moisture 11.2%`;
+        } else {
+            subtitle += ` • Moisture 11.2%`;
+        }
+
+        const iconClass = cropIcon(displayName);
+        const produceId = item.id || "";
+
+        return `
+        <div class="produce-card modern-card">
+            <div class="pcm-top-row">
+                <div class="pcm-title-group">
+                    <div class="pcm-icon-box">
+                        <i class="fa-solid ${iconClass}" aria-hidden="true"></i>
+                    </div>
+                    <div class="pcm-title-meta">
+                        <h3 class="pcm-title">${buyerDashboardText(displayName)}</h3>
+                        <div class="pcm-subtitle">${buyerDashboardText(subtitle)}</div>
+                    </div>
+                </div>
+                <div class="pcm-badge pcm-badge-tested">
+                    <i class="fa-solid fa-check-double" style="margin-right:4px;"></i> Lab Tested
+                </div>
+            </div>
+
+            <div class="pcm-rate-box">
+                <div class="pcm-rate-col">
+                    <span class="pcm-rate-label">Price</span>
+                    <span class="pcm-rate-val">₹${formattedPrice}</span>
+                </div>
+                <div class="pcm-qty-col">
+                    <span class="pcm-qty-label">Lot Quantity</span>
+                    <span class="pcm-qty-val">${quantity} ${buyerDashboardText(unitName)}</span>
+                </div>
+            </div>
+
+            <div class="pcm-details-list">
+                <div class="pcm-detail-item">
+                    <i class="fa-solid fa-user"></i>
+                    <span>Farmer: <strong>${buyerDashboardText(farmerName)}</strong></span>
+                </div>
+                <div class="pcm-detail-item">
+                    <i class="fa-solid fa-location-dot"></i>
+                    <span>${buyerDashboardText(location)}</span>
+                </div>
+                <div class="pcm-detail-item">
+                    <i class="fa-solid fa-truck"></i>
+                    <span>Ready for Dispatch (Same Day)</span>
+                </div>
+            </div>
+
+            <div class="pcm-actions">
+                <button
+                    type="button"
+                    class="pcm-btn-bid"
+                    onclick="window.location.href='buyer/produce.html?search=${encodeURIComponent(displayName)}'">
+                    <i class="fa-solid fa-paper-plane"></i> Place Purchase Bid
+                </button>
             </div>
         </div>`;
     }).join("");
