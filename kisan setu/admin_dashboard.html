@@ -568,7 +568,8 @@
                             const pId = p.id ? `PY-${p.id.slice(0, 6).toUpperCase()}` : "--";
                             const farmerName = p.order?.farmer?.name || "Farmer";
                             const buyerName = p.order?.buyer?.name || "Buyer";
-                            const amt = p.amount ? `₹${Number(p.amount).toLocaleString()}` : "₹0";
+                            const rawAmt = Number(p.order?.totalAmount ?? p.totalAmount ?? p.totalOrderAmount ?? p.amount ?? 0);
+                            const amt = `₹${rawAmt.toLocaleString('en-IN')}`;
                             const status = p.status || "COMPLETED";
                             const statusClass = status === "SUCCESS" || status === "COMPLETED" ? "status success" : status === "PENDING" ? "status pending" : "status danger";
                             return `

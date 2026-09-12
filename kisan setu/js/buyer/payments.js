@@ -188,28 +188,29 @@ function createPaymentCard(payment) {
     const orderId =
         payment.orderId || "N/A";
 
-    const amount =
-        payment.amount ?? 0;
+    const rawAmt = Number(payment.order?.totalAmount ?? payment.totalOrderAmount ?? payment.amount ?? 0);
+    const amount = rawAmt.toLocaleString('en-IN');
 
     const currency =
-        payment.currency || "INR";
+        payment.currency === 'INR' || !payment.currency ? '₹' : payment.currency;
 
     const status =
         payment.status || "INITIATED";
 
     const provider =
-        payment.provider || "N/A";
+        payment.provider === 'upi_phonepe' ? 'PhonePe UPI Escrow' : (payment.provider || "Escrow");
 
     const createdAt =
         payment.createdAt || "";
 
+    const orderRef = payment.order?.orderNumber || (payment.orderId ? `#${String(payment.orderId).slice(0, 8)}` : "N/A");
 
     card.innerHTML = `
 
         <div class="payment-card-content">
 
             <h3>
-                Payment
+                Payment ${escapeHTML(String(orderRef))}
             </h3>
 
             <p>
@@ -218,18 +219,17 @@ function createPaymentCard(payment) {
             </p>
 
             <p>
-                <strong>Order ID:</strong>
-                ${escapeHTML(String(orderId))}
+                <strong>Order Reference:</strong>
+                ${escapeHTML(String(orderRef))}
             </p>
 
             <p>
-                <strong>Amount:</strong>
-                ${escapeHTML(String(currency))}
-                ${escapeHTML(String(amount))}
+                <strong>Order Total Amount:</strong>
+                <strong style="color:#166534; font-size:16px;">${escapeHTML(String(currency))} ${escapeHTML(String(amount))}</strong>
             </p>
 
             <p>
-                <strong>Provider:</strong>
+                <strong>Payment Method:</strong>
                 ${escapeHTML(String(provider))}
             </p>
 
@@ -465,11 +465,11 @@ function displayPaymentDetails(payment) {
     const providerPaymentId =
         payment.providerPaymentId || "N/A";
 
-    const amount =
-        payment.amount ?? 0;
+    const rawAmt = Number(payment.order?.totalAmount ?? payment.totalOrderAmount ?? payment.amount ?? 0);
+    const amount = rawAmt.toLocaleString('en-IN');
 
     const currency =
-        payment.currency || "INR";
+        payment.currency === 'INR' || !payment.currency ? '₹' : payment.currency;
 
     const status =
         payment.status || "N/A";
@@ -480,40 +480,42 @@ function displayPaymentDetails(payment) {
     const createdAt =
         payment.createdAt || null;
 
+    const orderRef = payment.order?.orderNumber || (payment.orderId ? `#${String(payment.orderId).slice(0, 8)}` : "N/A");
 
     details.innerHTML = `
 
         <div class="payment-detail">
 
             <p>
-                <strong>Payment ID:</strong>
+                <strong>Payment Reference:</strong>
                 ${escapeHTML(String(paymentId))}
             </p>
 
             <p>
-                <strong>Order ID:</strong>
-                ${escapeHTML(String(orderId))}
+                <strong>Order Reference:</strong>
+                ${escapeHTML(String(orderRef))}
             </p>
 
             <p>
-                <strong>Provider:</strong>
-                ${escapeHTML(String(provider))}
+                <strong>Payment Method:</strong>
+                ${escapeHTML(String(provider === 'upi_phonepe' ? 'PhonePe UPI Escrow' : provider))}
             </p>
 
             <p>
-                <strong>Provider Payment ID:</strong>
+                <strong>Transaction / UTR Reference:</strong>
                 ${escapeHTML(String(providerPaymentId))}
             </p>
 
-            <p>
-                <strong>Amount:</strong>
-                ${escapeHTML(String(currency))}
-                ${escapeHTML(String(amount))}
+            <p style="background:#f0fdf4; border:1px solid #bbf7d0; padding:10px 14px; border-radius:8px; margin:12px 0;">
+                <strong style="color:#166534; font-size:14px;">Total Order Amount:</strong>
+                <span style="font-size:18px; font-weight:800; color:#15803d; float:right;">${escapeHTML(String(currency))} ${escapeHTML(String(amount))}</span>
             </p>
 
             <p>
-                <strong>Status:</strong>
-                ${escapeHTML(String(status))}
+                <strong>Escrow Status:</strong>
+                <span class="payment-status" style="font-weight:700; color:#166534;">
+                    ${escapeHTML(String(status))}
+                </span>
             </p>
 
             <p>

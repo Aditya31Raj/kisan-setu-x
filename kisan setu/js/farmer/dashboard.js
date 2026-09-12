@@ -53,12 +53,27 @@ function renderFarmerGenericItems(id, items, emptyMessage) {
         container.innerHTML = `<p class="empty-state">${emptyMessage}</p>`;
         return;
     }
-    container.innerHTML = items.slice(0, 4).map((item) => `
-        <div class="list-item">
-            <div><strong>${dashboardText(item.title || item.name || item.method || item.trackingNumber || "Record")}</strong>
-            <span>${dashboardText(item.description || item.amount ? `₹${item.amount}` : item.carrierName || item.status || "Details")}</span></div>
-            <span class="tag">${dashboardText(item.status || "Active")}</span>
-        </div>`).join("");
+    container.innerHTML = items.slice(0, 4).map((item) => {
+        const isPayment = id === "farmerPaymentSummary" || item.provider || item.orderId;
+        let title = item.title || item.name || item.method || item.trackingNumber || "Record";
+        let sub = item.description || item.carrierName || item.status || "Details";
+
+        if (isPayment) {
+            const orderRef = item.order?.orderNumber || (item.orderId ? `#${String(item.orderId).slice(0, 8)}` : null);
+            title = orderRef ? `Payment for ${orderRef}` : (item.id ? `Payment #${String(item.id).slice(0, 8)}` : "Order Payment");
+            const rawAmt = Number(item.order?.totalAmount ?? item.totalOrderAmount ?? item.totalAmount ?? item.amount ?? 0);
+            sub = `Total Order Amount: ₹${rawAmt.toLocaleString('en-IN')}`;
+        } else if (item.amount) {
+            sub = `₹${Number(item.amount).toLocaleString('en-IN')}`;
+        }
+
+        return `
+            <div class="list-item">
+                <div><strong>${dashboardText(title)}</strong>
+                <span>${dashboardText(sub)}</span></div>
+                <span class="tag">${dashboardText(item.status || "Active")}</span>
+            </div>`;
+    }).join("");
 }
 
 document.addEventListener("DOMContentLoaded", async () => {

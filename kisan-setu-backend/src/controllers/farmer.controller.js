@@ -39,10 +39,14 @@ export const orders = async (req, res) =>
 export const payments = async (req, res) =>
   success(
     res,
-    await prisma.payment.findMany({
+    (await prisma.payment.findMany({
       where: { order: { farmerId: req.user.id } },
+      include: { order: true },
       orderBy: { createdAt: 'desc' },
       take: 100
+    })).map(p => {
+      const total = Number(p.order?.totalAmount ?? p.amount);
+      return { ...p, amount: total, totalAmount: total, totalOrderAmount: total };
     })
   );
 

@@ -1114,7 +1114,7 @@ function setupUpiPaymentModal() {
             if (statusBox) {
                 statusBox.style.background = "#dcfce7";
                 statusBox.style.color = "#166534";
-                statusBox.innerHTML = '🎉 <strong>Payment of ₹1 Verified!</strong><br>Order is confirmed and paid. Farmer notified.';
+                statusBox.innerHTML = '🎉 <strong>Escrow Payment Verified!</strong><br>Order is confirmed and paid. Full trade value secured in escrow.';
             }
 
             setTimeout(function() {

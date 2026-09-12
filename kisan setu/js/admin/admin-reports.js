@@ -451,7 +451,7 @@ function renderTableForReportType(type, items) {
             const pId = p.id ? `TX-${p.id.slice(0, 6).toUpperCase()}` : "TX-000000";
             const fName = p.farmer?.name || p.farmerName || "Farmer";
             const bName = p.buyer?.buyerProfile?.businessName || p.buyer?.name || p.buyerName || "Buyer";
-            const amt = Number(p.amount || p.totalAmount || 0);
+            const amt = Number(p.order?.totalAmount ?? p.totalOrderAmount ?? p.totalAmount ?? p.amount ?? 0);
             const status = (p.status || "SUCCESS").toUpperCase();
             const provider = p.provider || "Escrow NetBanking / UPI";
 
@@ -836,7 +836,7 @@ function viewReportVoucher(id, type) {
                             </div>
                             <div style="display:flex; justify-content:space-between; border-top:1px dashed #d1d5db; padding-top:8px; margin-top:8px;">
                                 <span style="font-weight:700; color:#111827;">Disbursed Amount:</span>
-                                <strong style="font-size:18px; color:#15803d;">${formatCurrency(record.amount || 0)}</strong>
+                                <strong style="font-size:18px; color:#15803d;">${formatCurrency(record.order?.totalAmount ?? record.totalOrderAmount ?? record.totalAmount ?? record.amount ?? 0)}</strong>
                             </div>
                         </div>
                     ` : `

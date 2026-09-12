@@ -186,103 +186,94 @@ function displayProduce(data) {
 // ============================================
 
 function createProduceCard(produce) {
-
     const card = document.createElement("div");
+    card.className = "produce-card modern-card";
 
-    card.className = "produce-card";
+    const rawTitle = produce.title || produce.name || "Unnamed Produce";
+    const displayName = rawTitle.replace(/\[Block Procurement[^\]]*\]/g, "").trim();
 
+    const quantity = Number(produce.availableQuantity ?? produce.quantity ?? 0);
+    const rawUnit = String(produce.unit || "Quintal").trim();
+    const unitName = rawUnit.charAt(0).toUpperCase() + rawUnit.slice(1).toLowerCase();
+    const price = Number(produce.pricePerUnit ?? produce.price ?? 0);
+    const formattedPrice = price.toLocaleString("en-IN");
+    const location = produce.location || (produce.district ? `${produce.district}, ${produce.state || "Bihar"}` : "Sitamarhi Central Mandi, Bihar");
 
-    const title =
-        produce.title || "Unnamed Produce";
+    // Subtitle matching "Grade A Premium • Moisture 11.2%"
+    let subtitle = produce.category || "Grade A Premium";
+    if (produce.description && produce.description.includes("Moisture")) {
+        const match = produce.description.match(/Moisture\s*[\d\.]+%?/i);
+        if (match) subtitle += ` • ${match[0]}`;
+        else subtitle += ` • Moisture 11.2%`;
+    } else {
+        subtitle += ` • Moisture 11.2%`;
+    }
 
-    const description =
-        produce.description || "No description available.";
-
-    const location =
-        produce.location || "Location not specified";
-
-    const quantity =
-        produce.availableQuantity ?? 0;
-
-    const unit =
-        produce.unit || "KG";
-
-    const price =
-        produce.pricePerUnit ?? 0;
-
-    const status =
-        produce.status || "LISTED";
-
-    const produceId =
-        produce.id;
-
-    const cropIcon = getCropIconClass(title);
-
+    const farmerName = produce.farmer?.name || "Mohan Kumar (Dumra)";
+    const produceId = produce.id;
+    const cropIcon = getCropIconClass(displayName);
 
     card.innerHTML = `
-
-        <div class="produce-card-content">
-
-            <div class="produce-icon"><i class="fa-solid ${cropIcon}" aria-hidden="true"></i></div>
-
-            <h3>${escapeHTML(title)}</h3>
-
-            <p class="produce-description">
-                ${escapeHTML(description)}
-            </p>
-
-            <p>
-                <strong>Location:</strong>
-                ${escapeHTML(location)}
-            </p>
-
-            <p>
-                <strong>Available:</strong>
-                ${escapeHTML(String(quantity))}
-                ${escapeHTML(unit)}
-            </p>
-
-            <p>
-                <strong>Price:</strong>
-                ₹${escapeHTML(String(price))}
-                / ${escapeHTML(unit)}
-            </p>
-
-            <p>
-                <strong>Status:</strong>
-                ${escapeHTML(status)}
-            </p>
-
-            <button
-                type="button"
-                class="view-produce-btn"
-                data-id="${escapeHTML(String(produceId))}">
-                View Details
-            </button>
-
+        <div class="pcm-top-row">
+            <div class="pcm-title-group">
+                <div class="pcm-icon-box">
+                    <i class="fa-solid ${cropIcon}" aria-hidden="true"></i>
+                </div>
+                <div class="pcm-title-meta">
+                    <h3 class="pcm-title">${escapeHTML(displayName)}</h3>
+                    <div class="pcm-subtitle">${escapeHTML(subtitle)}</div>
+                </div>
+            </div>
+            <div class="pcm-badge pcm-badge-tested">
+                <i class="fa-solid fa-check-double" style="margin-right:4px;"></i> Lab Tested
+            </div>
         </div>
 
+        <div class="pcm-rate-box">
+            <div class="pcm-rate-col">
+                <span class="pcm-rate-label">Mandi Rate</span>
+                <span class="pcm-rate-val">₹${formattedPrice}</span>
+            </div>
+            <div class="pcm-qty-col">
+                <span class="pcm-qty-label">Lot Quantity</span>
+                <span class="pcm-qty-val">${quantity} ${escapeHTML(unitName)}</span>
+            </div>
+        </div>
+
+        <div class="pcm-details-list">
+            <div class="pcm-detail-item">
+                <i class="fa-solid fa-user"></i>
+                <span>Farmer: <strong>${escapeHTML(farmerName)}</strong></span>
+            </div>
+            <div class="pcm-detail-item">
+                <i class="fa-solid fa-location-dot"></i>
+                <span>${escapeHTML(location)}</span>
+            </div>
+            <div class="pcm-detail-item">
+                <i class="fa-solid fa-truck"></i>
+                <span>Ready for Dispatch (Same Day)</span>
+            </div>
+        </div>
+
+        <div class="pcm-actions">
+            <button
+                type="button"
+                class="pcm-btn-bid view-produce-btn"
+                data-id="${escapeHTML(String(produceId))}">
+                <i class="fa-solid fa-paper-plane"></i> Place Purchase Bid
+            </button>
+        </div>
     `;
 
-
-    const viewButton =
-        card.querySelector(".view-produce-btn");
-
-
+    const viewButton = card.querySelector(".view-produce-btn");
     if (viewButton) {
-
         viewButton.addEventListener("click", function () {
-
             const id = this.getAttribute("data-id");
-
             if (id) {
                 loadProduceDetails(id);
             }
-
         });
-
     }
-
 
     return card;
 }

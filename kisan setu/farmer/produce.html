@@ -74,56 +74,85 @@
                 </button>
             </div>
             <form id="addProduceForm" class="add-produce-form" hidden>
-                <div class="form-group full" style="background:#f0fdf4; border:1px solid #bbf7d0; padding:14px 16px; border-radius:10px; margin-bottom:10px;">
-                    <label style="font-weight:700; color:#166534; display:block; margin-bottom:8px;">
+                <div class="form-group full" style="background:#f0fdf4; border:1px solid #bbf7d0; padding:16px 18px; border-radius:12px; margin-bottom:12px;">
+                    <label style="font-weight:700; color:#166534; display:block; margin-bottom:8px; font-size:14px;">
                         <i class="fa-solid fa-building-columns" style="margin-right:6px;"></i> <span data-i18n="selling_channel">Selling Channel</span>
                     </label>
-                    <div style="display:flex; gap:20px; flex-wrap:wrap;">
-                        <label style="display:flex; align-items:center; gap:8px; cursor:pointer; font-weight:500; font-size:13px; color:#1f2937;">
+                    <div style="display:flex; gap:20px; flex-wrap:wrap; margin-bottom:10px;">
+                        <label style="display:flex; align-items:center; gap:8px; cursor:pointer; font-weight:600; font-size:13px; color:#1f2937;">
                             <input type="radio" name="saleTarget" value="MARKET" checked id="saleTargetMarket">
                             <span data-i18n="channel_market">Open Market (All Commercial Buyers)</span>
                         </label>
-                        <label style="display:flex; align-items:center; gap:8px; cursor:pointer; font-weight:600; font-size:13px; color:#166534;">
+                        <label style="display:flex; align-items:center; gap:8px; cursor:pointer; font-weight:700; font-size:13px; color:#166534;">
                             <input type="radio" name="saleTarget" value="BLOCK" id="saleTargetBlock">
                             <span data-i18n="channel_block">Block Procurement Center (MSP Guarantee)</span>
                         </label>
                     </div>
-                    <div id="blockProcurementInfo" style="display:none; margin-top:10px; font-size:12px; color:#15803d; background:white; padding:10px 14px; border-radius:8px; border:1px dashed #86efac;">
-                        <i class="fa-solid fa-circle-info"></i> <strong>Government MSP Guarantee:</strong> Selling directly to your Block Office guarantees Minimum Support Price (MSP) with direct procurement receipt and PACS warehouse delivery slip.
+                    <div id="blockProcurementInfo" style="display:none; margin-top:12px; font-size:12.5px; color:#15803d; background:white; padding:14px 16px; border-radius:10px; border:1px solid #86efac; box-shadow:0 2px 8px rgba(22,101,52,0.04);">
+                        <div style="display:flex; align-items:flex-start; gap:8px; margin-bottom:10px;">
+                            <i class="fa-solid fa-shield-halved" style="font-size:16px; margin-top:2px;"></i>
+                            <div>
+                                <strong style="font-size:13px;">Government MSP Guarantee & Direct DBT Payout:</strong>
+                                <p style="margin:2px 0 0; color:#4b5563; font-size:12px;">Selling to your Block Office / PACS Mandi guarantees the official Minimum Support Price with instant government warehouse delivery slip.</p>
+                            </div>
+                        </div>
+                        <div style="margin-top:10px; border-top:1px dashed #bbf7d0; padding-top:10px;">
+                            <span style="font-size:11px; font-weight:700; color:#166534; text-transform:uppercase; letter-spacing:0.5px; display:block; margin-bottom:6px;">
+                                Quick Select Official Government MSP Rates:
+                            </span>
+                            <div style="display:flex; gap:8px; flex-wrap:wrap;">
+                                <button type="button" class="msp-quick-btn" data-crop="Sharbati Gehun" data-cat="Grains" data-unit="quintal" data-rate="2450" style="background:#f0fdf4; border:1px solid #86efac; padding:6px 12px; border-radius:6px; font-size:12px; cursor:pointer; font-weight:600; color:#166534;">
+                                    🌾 Sharbati Gehun: ₹2,450/Qtl
+                                </button>
+                                <button type="button" class="msp-quick-btn" data-crop="Paddy (Dhan)" data-cat="Cereals" data-unit="quintal" data-rate="2320" style="background:#f0fdf4; border:1px solid #86efac; padding:6px 12px; border-radius:6px; font-size:12px; cursor:pointer; font-weight:600; color:#166534;">
+                                    🌾 Paddy (Dhan): ₹2,320/Qtl
+                                </button>
+                                <button type="button" class="msp-quick-btn" data-crop="Maize (Makka)" data-cat="Cereals" data-unit="quintal" data-rate="2225" style="background:#f0fdf4; border:1px solid #86efac; padding:6px 12px; border-radius:6px; font-size:12px; cursor:pointer; font-weight:600; color:#166534;">
+                                    🌽 Maize: ₹2,225/Qtl
+                                </button>
+                                <button type="button" class="msp-quick-btn" data-crop="Potato (Aalu)" data-cat="Vegetables" data-unit="quintal" data-rate="2200" style="background:#f0fdf4; border:1px solid #86efac; padding:6px 12px; border-radius:6px; font-size:12px; cursor:pointer; font-weight:600; color:#166534;">
+                                    🥔 Potato: ₹2,200/Qtl
+                                </button>
+                            </div>
+                        </div>
+                        <div id="blockPayoutEstimate" style="display:none; margin-top:12px; background:#ecfdf5; border:1px solid #a7f3d0; border-radius:8px; padding:10px 14px; color:#065f46; font-size:13px;">
+                            <strong>Estimated Government DBT Payout: </strong> <span id="blockPayoutValue" style="font-size:16px; font-weight:800; color:#047857;">₹0</span>
+                            <span style="display:block; font-size:11px; color:#059669; margin-top:2px;">Credited directly to farmer's registered bank account upon PACS warehouse weighment.</span>
+                        </div>
                     </div>
                 </div>
                 <div class="form-group">
                     <label for="produceName" data-i18n="produce_name">Produce Name</label>
-                    <input type="text" id="produceName" placeholder="e.g. Rice" data-i18n-placeholder="produce_name_ph" required>
+                    <input type="text" id="produceName" placeholder="e.g. Sharbati Gehun" data-i18n-placeholder="produce_name_ph" required>
                 </div>
                 <div class="form-group">
                     <label for="produceCategory" data-i18n="category">Category</label>
-                    <input type="text" id="produceCategory" placeholder="e.g. Grains" data-i18n-placeholder="category_ph">
+                    <input type="text" id="produceCategory" placeholder="e.g. Grade A Premium" data-i18n-placeholder="category_ph">
                 </div>
                 <div class="form-group">
                     <label for="produceQuantity" data-i18n="available_quantity">Available Quantity</label>
-                    <input type="number" id="produceQuantity" min="0" step="0.01" placeholder="Enter quantity" data-i18n-placeholder="quantity_ph" required>
+                    <input type="number" id="produceQuantity" min="0" step="0.01" placeholder="Enter quantity (e.g. 150)" data-i18n-placeholder="quantity_ph" required>
                 </div>
                 <div class="form-group">
                     <label for="produceUnit" data-i18n="unit">Unit</label>
                     <select id="produceUnit">
+                        <option value="quintal" selected data-i18n="unit_quintal">Quintal</option>
                         <option value="kg" data-i18n="unit_kg">Kilogram</option>
-                        <option value="quintal" data-i18n="unit_quintal">Quintal</option>
                         <option value="tonne" data-i18n="unit_tonne">Tonne</option>
                         <option value="piece" data-i18n="unit_piece">Piece</option>
                     </select>
                 </div>
                 <div class="form-group">
                     <label for="producePrice" data-i18n="price_per_unit">Price per Unit (₹)</label>
-                    <input type="number" id="producePrice" min="0" step="0.01" placeholder="Enter price" data-i18n-placeholder="price_ph" required>
+                    <input type="number" id="producePrice" min="0" step="0.01" placeholder="Enter price (e.g. 2450)" data-i18n-placeholder="price_ph" required>
                 </div>
                 <div class="form-group">
-                    <label for="produceLocation" data-i18n="location">Location</label>
-                    <input type="text" id="produceLocation" placeholder="District or village" data-i18n-placeholder="location_ph" required>
+                    <label for="produceLocation" data-i18n="location">Location / Mandi</label>
+                    <input type="text" id="produceLocation" placeholder="e.g. Sitamarhi Central Mandi, Bihar" data-i18n-placeholder="location_ph" required>
                 </div>
                 <div class="form-group full">
-                    <label for="produceDescription" data-i18n="description">Description</label>
-                    <textarea id="produceDescription" placeholder="Add quality or harvest details" data-i18n-placeholder="description_ph"></textarea>
+                    <label for="produceDescription" data-i18n="description">Description & Quality Grade</label>
+                    <textarea id="produceDescription" placeholder="e.g. Grade A Premium • Moisture 11.2% • Lab Tested" data-i18n-placeholder="description_ph"></textarea>
                 </div>
                 <div class="form-actions">
                     <button type="submit"><i class="fa-solid fa-check"></i> <span data-i18n="save_produce">Save Produce</span></button>
@@ -167,13 +196,27 @@
         </div>
     </div>
 
+    <!-- PACS Mandi Procurement Slip Modal -->
+    <div id="pacsSlipModal" class="modal" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.6); z-index:9999; align-items:center; justify-content:center; padding:20px;">
+        <div style="background:white; border-radius:16px; width:560px; max-width:100%; box-shadow:0 24px 48px rgba(0,0,0,0.25); overflow:hidden; border:1px solid #cbd5e1;">
+            <div style="background:linear-gradient(135deg, #064e3b, #047857); color:white; padding:18px 24px; display:flex; justify-content:space-between; align-items:center;">
+                <h3 style="margin:0; font-size:17px; font-weight:700; display:flex; align-items:center; gap:8px;">
+                    <i class="fa-solid fa-building-columns"></i> Government MSP Procurement Slip
+                </h3>
+                <button type="button" onclick="document.getElementById('pacsSlipModal').style.display='none'" style="background:none; border:none; color:white; font-size:24px; cursor:pointer; line-height:1;">&times;</button>
+            </div>
+            <div id="pacsSlipContent" style="padding:22px 24px;"></div>
+        </div>
+    </div>
+
     <div id="produceModal" class="modal" style="display: none;">
         <div class="modal-content">
             <button type="button" id="closeModalBtn" class="close-btn">×</button>
-                <h2 id="modalTitle">Produce Details</h2>
+            <h2 id="modalTitle">Produce Details</h2>
             <div id="produceDetails"></div>
         </div>
     </div>
+
 
     <script src="../js/core/i18n.js"></script>
     <script src="../js/core/api.js"></script>

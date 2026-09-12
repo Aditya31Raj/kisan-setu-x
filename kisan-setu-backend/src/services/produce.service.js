@@ -35,13 +35,16 @@ export async function create(userId, d, m) {
 
   const x = await enforceListingCompliance({
     cropId: d.cropId,
+    cropName: c.name,
     location: d.location,
+    price: d.pricePerUnit,
     pricePerKg: d.pricePerUnit,
+    unit: d.unit,
     farmerId: userId,
     requestId: m.requestId,
     ipAddress: m.ip
   });
-  if (x.violation) throw errors.unprocessable(`Price is below applicable MSP (${x.mspPrice}/${d.unit})`);
+  if (x.violation) throw errors.unprocessable(`Price is below applicable MSP (${x.mspPrice}/${x.mspUnit || d.unit})`);
 
   const l = await prisma.produceListing.create({ data: { farmerId: userId, ...d, status: 'LISTED' } });
   await recordAudit({
@@ -122,12 +125,14 @@ export async function update(userId, id, d, m) {
   const x = await enforceListingCompliance({
     cropId,
     location: loc,
+    price,
     pricePerKg: price,
+    unit: d.unit || old.unit,
     farmerId: userId,
     requestId: m.requestId,
     ipAddress: m.ip
   });
-  if (x.violation) throw errors.unprocessable(`Price is below applicable MSP (${x.mspPrice})`);
+  if (x.violation) throw errors.unprocessable(`Price is below applicable MSP (${x.mspPrice}/${x.mspUnit || d.unit || old.unit})`);
   return prisma.produceListing.update({ where: { id }, data: d });
 }
 
