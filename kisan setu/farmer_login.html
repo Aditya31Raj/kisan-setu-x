@@ -142,6 +142,9 @@
                 </div>
 
                 <button type="submit" class="login-button" data-i18n="login_btn">Login to Dashboard</button>
+                <button type="button" id="fillDemoFarmerBtn" style="width:100%; margin-top:10px; padding:10px; border:1px dashed #16863b; border-radius:8px; background:#f0fdf4; color:#166534; font-size:12px; font-weight:600; cursor:pointer; display:flex; align-items:center; justify-content:center; gap:8px;">
+                    <i class="fa-solid fa-user-check"></i> <span>Quick Demo: Use Demo Farmer (Auto-Fill)</span>
+                </button>
             </form>
 
             <div class="register"><span data-i18n="new_to_kisan">New to Kisan Setu?</span> <a href="farmer_register.html" data-i18n="register_now">Register as Farmer</a></div>
@@ -153,6 +156,13 @@
     <script src="js/core/api.js"></script>
     <script src="js/core/auth.js"></script>
     <script>
+        document.getElementById("fillDemoFarmerBtn")?.addEventListener("click", () => {
+            document.getElementById("email").value = "demo.farmer@kisansetu.local";
+            document.getElementById("password").value = "ChangeMeFarmer123!";
+            const errBox = document.getElementById("loginError");
+            if (errBox) errBox.style.display = "none";
+        });
+
         document.getElementById("farmerLoginForm").addEventListener("submit", async (e) => {
             e.preventDefault();
             const email = document.getElementById("email").value.trim();

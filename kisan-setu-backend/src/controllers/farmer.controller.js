@@ -11,7 +11,7 @@ export const updateMe = async (req, res) =>
       req.user.id,
       Object.fromEntries(
         Object.entries(req.body).filter(([k]) =>
-          ['farmName', 'village', 'district', 'state', 'landAreaAcres', 'bankAccountLast4'].includes(k)
+          ['name', 'farmName', 'village', 'district', 'state', 'landAreaAcres', 'bankAccountLast4'].includes(k)
         )
       ),
       'Profile updated'

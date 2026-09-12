@@ -132,7 +132,19 @@ function setupAddProduce() {
 
 	form.addEventListener("submit", async (event) => {
 		event.preventDefault();
-		message.textContent = "Saving produce...";
+		const submitBtn = form.querySelector("button[type='submit']");
+		if (submitBtn) {
+			submitBtn.disabled = true;
+			submitBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Saving...';
+		}
+		message.style.display = "block";
+		message.style.padding = "10px 14px";
+		message.style.borderRadius = "8px";
+		message.style.marginBottom = "14px";
+		message.style.background = "#eff6ff";
+		message.style.border = "1px solid #bfdbfe";
+		message.style.color = "#1d4ed8";
+		message.textContent = "Saving produce listing...";
 
 		const isBlock = Boolean(document.getElementById("saleTargetBlock")?.checked);
 		const baseTitle = document.getElementById("produceName").value.trim();
@@ -143,22 +155,37 @@ function setupAddProduce() {
 		const payload = {
 			title: finalTitle,
 			name: finalTitle,
-			category: document.getElementById("produceCategory").value.trim(),
+			category: document.getElementById("produceCategory").value.trim() || "Standard",
 			quantity: Number(document.getElementById("produceQuantity").value),
-			unit: document.getElementById("produceUnit").value,
+			unit: (document.getElementById("produceUnit").value || "KG").toUpperCase(),
 			price: Number(document.getElementById("producePrice").value),
-			location: document.getElementById("produceLocation").value.trim(),
+			location: document.getElementById("produceLocation").value.trim() || "Patna, Bihar",
 			description: finalDesc
 		};
+
 		try {
 			await createFarmerProduce(payload);
-			message.textContent = isBlock ? "Produce offered to Block Procurement Center successfully!" : "Produce added successfully.";
+			message.style.background = "#f0fdf4";
+			message.style.border = "1px solid #bbf7d0";
+			message.style.color = "#166534";
+			message.innerHTML = `<i class="fa-solid fa-circle-check"></i> ${isBlock ? "Produce offered to Block Procurement Center successfully!" : "Produce added successfully!"}`;
 			form.reset();
 			if (blockInfo) blockInfo.style.display = "none";
 			setOpen(false);
-			loadFarmerProduce(1);
+			await loadFarmerProduce(1);
+			setTimeout(() => {
+				message.style.display = "none";
+			}, 5000);
 		} catch (error) {
-			message.textContent = error.message || "Unable to add produce.";
+			message.style.background = "#fef2f2";
+			message.style.border = "1px solid #fecaca";
+			message.style.color = "#b91c1c";
+			message.innerHTML = `<i class="fa-solid fa-circle-exclamation"></i> ${escapeHTML(friendlyErrorMessage(error, "Unable to add produce. Please check your inputs or login status."))}`;
+		} finally {
+			if (submitBtn) {
+				submitBtn.disabled = false;
+				submitBtn.innerHTML = '<i class="fa-solid fa-check"></i> <span data-i18n="save_produce">Save Produce</span>';
+			}
 		}
 	});
 }

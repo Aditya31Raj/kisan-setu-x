@@ -158,7 +158,6 @@ async function checkLoggedInRedirect() {
 				localStorage.setItem("kisan_setu_user", JSON.stringify(me));
 			}
 		} catch (err) {
-			// Token is invalid/expired, quietly clear session
 			if (typeof clearAuthToken === "function") clearAuthToken();
 			localStorage.removeItem("kisan_setu_token");
 			localStorage.removeItem("kisan_setu_user");
@@ -168,6 +167,18 @@ async function checkLoggedInRedirect() {
 	}
 
 	if (!role) return;
+
+	// If user is intentionally visiting a specific login page, DO NOT bounce them away if their role is different!
+	// (e.g. A user with a buyer session visiting farmer_login.html wants to log into a farmer account).
+	if (isLoginPage) {
+		const isFarmerLogin = path.includes("farmer_login");
+		const isBuyerLogin = path.includes("buyer_login");
+		const isAdminLogin = path.includes("admin_login");
+
+		if (isFarmerLogin && role !== "FARMER") return;
+		if (isBuyerLogin && role !== "BUYER") return;
+		if (isAdminLogin && !["PRAKHAND_ADMIN", "SUPER_ADMIN"].includes(role)) return;
+	}
 
 	const isInSubdir = path.includes("/farmer/") || path.includes("/buyer/") || path.includes("/admin/");
 	let targetUrl = null;
@@ -181,7 +192,6 @@ async function checkLoggedInRedirect() {
 	}
 
 	if (targetUrl) {
-		// Replace history so Back button doesn't trap the user
 		window.location.replace(targetUrl);
 	}
 }
@@ -205,10 +215,12 @@ async function checkAllRouteGuards() {
 		return;
 	}
 
-	// 1. Check local session token
+	const isInSubdir = path.includes("/farmer/") || path.includes("/buyer/") || path.includes("/admin/");
 	const token = localStorage.getItem("kisan_setu_token");
+	const role = localStorage.getItem("kisan_setu_role");
+
+	// 1. If not logged in at all, redirect to respective login
 	if (!token) {
-		const isInSubdir = path.includes("/farmer/") || path.includes("/buyer/") || path.includes("/admin/");
 		let target = "index.html";
 		if (isFarmerPortal) target = isInSubdir ? "../farmer_login.html" : "farmer_login.html";
 		else if (isBuyerPortal) target = isInSubdir ? "../buyer_login.html" : "buyer_login.html";
@@ -218,7 +230,21 @@ async function checkAllRouteGuards() {
 		return;
 	}
 
-	// 2. Extra verification for Admin pages
+	// 2. Role verification for Farmer portal
+	if (isFarmerPortal && role && role !== "FARMER") {
+		console.warn("Logged in role is " + role + ", but farmer account required for farmer portal. Redirecting to farmer login.");
+		window.location.replace(isInSubdir ? "../farmer_login.html" : "farmer_login.html");
+		return;
+	}
+
+	// 3. Role verification for Buyer portal
+	if (isBuyerPortal && role && role !== "BUYER") {
+		console.warn("Logged in role is " + role + ", but buyer account required for buyer portal. Redirecting to buyer login.");
+		window.location.replace(isInSubdir ? "../buyer_login.html" : "buyer_login.html");
+		return;
+	}
+
+	// 4. Role verification for Admin pages
 	if (isAdminPortal) {
 		try {
 			const user = await getCurrentUser();
@@ -226,7 +252,6 @@ async function checkAllRouteGuards() {
 				throw new Error("Unauthorized");
 			}
 		} catch {
-			const isInSubdir = path.includes("/admin/");
 			window.location.replace(isInSubdir ? "../admin_login.html" : "admin_login.html");
 		}
 	}

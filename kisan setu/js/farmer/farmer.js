@@ -11,7 +11,17 @@ async function getFarmerDashboard() {
 }
 
 async function getFarmerProduce(params = {}) {
-	return apiRequest(`/produce${queryString(params)}`);
+	let farmerId = params.farmerId;
+	if (!farmerId) {
+		try {
+			const rawUser = localStorage.getItem("kisan_setu_user");
+			if (rawUser) {
+				const u = JSON.parse(rawUser);
+				if (u && u.id) farmerId = u.id;
+			}
+		} catch {}
+	}
+	return apiRequest(`/produce${queryString({ ...params, ...(farmerId ? { farmerId } : {}) })}`);
 }
 
 async function getFarmerCrops(params = {}) {
@@ -25,23 +35,56 @@ async function createFarmerCrop(crop) {
 async function createFarmerProduce(produce) {
 	let cropId = produce.cropId;
 	if (!cropId) {
+		// Clean crop name (strip bracketed channel prefix if any, e.g. [Block Procurement / PACS] Rice -> Rice)
+		const rawTitle = (produce.title || produce.name || "General").trim();
+		const cleanCropName = rawTitle.replace(/\[[^\]]*\]/g, "").trim() || "Farm Produce";
+
 		try {
 			const crops = await getFarmerCrops();
-			const cropList = Array.isArray(crops) ? crops : (crops?.items || []);
-			const cropName = (produce.title || produce.name || "General").trim();
-			const matched = cropList.find((c) => c.name.toLowerCase() === cropName.toLowerCase());
+			const cropList = Array.isArray(crops) ? crops : (crops?.items || crops?.data || []);
+
+			// Try case-insensitive exact or substring match
+			let matched = cropList.find((c) => c.name && c.name.toLowerCase() === cleanCropName.toLowerCase());
+			if (!matched && cropList.length > 0) {
+				matched = cropList.find((c) => c.name && (cleanCropName.toLowerCase().includes(c.name.toLowerCase()) || c.name.toLowerCase().includes(cleanCropName.toLowerCase())));
+			}
+
 			if (matched) {
 				cropId = matched.id;
 			} else {
 				const newCrop = await createFarmerCrop({
-					name: cropName,
+					name: cleanCropName,
 					variety: produce.category || "Standard",
 					season: "Rabi"
 				});
-				cropId = newCrop.id;
+				cropId = newCrop?.id || newCrop?.data?.id || (newCrop?.data ? newCrop.data.id : null);
 			}
 		} catch (err) {
 			console.warn("Could not auto-link crop:", err);
+			// Fallback: if farmer has any crops, pick the first available one
+			try {
+				const crops = await getFarmerCrops();
+				const cropList = Array.isArray(crops) ? crops : (crops?.items || crops?.data || []);
+				if (cropList.length > 0) {
+					cropId = cropList[0].id;
+				}
+			} catch {}
+		}
+	}
+
+	// Final fallback if crop creation or linking had an issue
+	if (!cropId) {
+		const rawTitle = (produce.title || produce.name || "Produce").trim();
+		const cleanCropName = rawTitle.replace(/\[[^\]]*\]/g, "").trim() || "General Crop";
+		try {
+			const emergencyCrop = await createFarmerCrop({
+				name: cleanCropName,
+				variety: produce.category || "Standard",
+				season: "Rabi"
+			});
+			cropId = emergencyCrop?.id || emergencyCrop?.data?.id;
+		} catch (err2) {
+			throw new Error("Unable to create/link crop for this produce listing: " + friendlyErrorMessage(err2));
 		}
 	}
 
@@ -50,7 +93,7 @@ async function createFarmerProduce(produce) {
 		title: produce.title || produce.name || "Produce",
 		description: produce.description || undefined,
 		location: produce.location || "Bihar",
-		unit: produce.unit || "KG",
+		unit: String(produce.unit || "KG").toUpperCase(),
 		availableQuantity: Number(produce.availableQuantity ?? produce.quantity ?? 100),
 		pricePerUnit: Number(produce.pricePerUnit ?? produce.price ?? 25)
 	};
