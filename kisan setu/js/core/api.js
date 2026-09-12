@@ -55,8 +55,10 @@ function friendlyErrorMessage(error, fallback = "Something went wrong. Please tr
 	return message;
 }
 
-function apiUrl(path) {
-	return `${API_BASE_URL}${path.startsWith("/") ? path : `/${path}`}`;
+let currentApiBase = API_BASE_URL;
+
+function apiUrl(path, base = currentApiBase) {
+	return `${base}${path.startsWith("/") ? path : `/${path}`}`;
 }
 
 async function readApiResponse(response) {
@@ -108,6 +110,19 @@ async function getCsrfToken() {
 		csrfToken = body?.token || body?.csrfToken || response.headers.get("x-csrf-token") || csrfToken;
 		return csrfToken;
 	} catch (err) {
+		if (currentApiBase === LOCAL_API_URL && PROD_API_URL) {
+			currentApiBase = PROD_API_URL;
+			try {
+				const response = await fetch(apiUrl("/auth/csrf"), {
+					method: "GET",
+					credentials: "include",
+					headers: { Accept: "application/json" }
+				});
+				const body = await readApiResponse(response);
+				csrfToken = body?.token || body?.csrfToken || response.headers.get("x-csrf-token") || csrfToken;
+				return csrfToken;
+			} catch {}
+		}
 		console.warn("Could not obtain CSRF token from server:", err?.message || err);
 		return csrfToken;
 	}
@@ -145,7 +160,23 @@ async function apiRequest(path, options = {}) {
 		body: isJsonBody ? JSON.stringify(options.body) : options.body
 	};
 
-	let response = await fetch(apiUrl(path), requestOptions);
+	let response;
+	try {
+		response = await fetch(apiUrl(path), requestOptions);
+	} catch (netErr) {
+		if (currentApiBase === LOCAL_API_URL && PROD_API_URL) {
+			console.warn(`Local backend unreachable on port 5000. Failing over to production API (${PROD_API_URL}).`);
+			currentApiBase = PROD_API_URL;
+			csrfToken = null;
+			if (["POST", "PATCH", "PUT", "DELETE"].includes(method)) {
+				await getCsrfToken();
+				if (csrfToken) headers.set("X-CSRF-Token", csrfToken);
+			}
+			response = await fetch(apiUrl(path), requestOptions);
+		} else {
+			throw netErr;
+		}
+	}
 	if (response.status === 401 && path !== "/auth/refresh" && path !== "/auth/login") {
 		try {
 			const refreshHeaders = new Headers({ Accept: "application/json" });

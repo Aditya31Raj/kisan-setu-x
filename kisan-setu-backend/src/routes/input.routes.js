@@ -7,9 +7,11 @@ import {inputSchema, inputReviewSchema, inputProductSchema} from '../validators/
 import {csrfProtection} from '../middleware/csrf.js';
 
 const r = Router();
-r.use(authenticate);
 
+// Available input products catalog is publicly readable
 r.get('/products', c.listProducts);
+
+r.use(authenticate);
 r.post('/products', authorize('PRAKHAND_ADMIN', 'SUPER_ADMIN'), csrfProtection, validate(inputProductSchema), c.createProduct);
 
 r.post('/', authorize('FARMER'), csrfProtection, validate(inputSchema), c.create);

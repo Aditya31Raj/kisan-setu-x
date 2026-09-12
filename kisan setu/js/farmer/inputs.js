@@ -58,13 +58,36 @@ document.addEventListener("DOMContentLoaded", async function () {
     document.getElementById("inputRequestForm")?.addEventListener("submit", handleInputSubmit);
 });
 
+async function inputApi(subPath = "", options = {}) {
+    const cleanSub = subPath ? (subPath.startsWith("/") ? subPath : `/${subPath}`) : "";
+    try {
+        return await apiRequest(`/input-requests${cleanSub}`, options);
+    } catch (err) {
+        if (err && (err.status === 404 || String(err.message || "").includes("Route not found") || String(err.message || "").includes("Cannot"))) {
+            return await apiRequest(`/inputs${cleanSub}`, options);
+        }
+        throw err;
+    }
+}
+
+const DEFAULT_CATALOG_FALLBACK = [
+    { id: "def-urea", name: "Urea Fertilizer (Neem Coated) - यूरिया", category: "Fertilizer", unit: "BAG (45 KG)", stock: 500 },
+    { id: "def-dap", name: "DAP Fertilizer (18:46:0) - डीएपी खाद", category: "Fertilizer", unit: "BAG (50 KG)", stock: 400 },
+    { id: "def-npk", name: "NPK Complex (10:26:26) - एनपीके खाद", category: "Fertilizer", unit: "BAG (50 KG)", stock: 350 },
+    { id: "def-wheat", name: "Certified Wheat Seed (HD-2967) - गेहूं बीज", category: "Seed", unit: "KG", stock: 1200 },
+    { id: "def-paddy", name: "Hybrid Paddy Seed (Basmati) - धान बीज", category: "Seed", unit: "KG", stock: 1000 },
+    { id: "def-mustard", name: "Certified Mustard Seed (Pusa Bold) - सरसों बीज", category: "Seed", unit: "KG", stock: 800 },
+    { id: "def-pesticide", name: "Bio-Pesticide Neem Oil 1500 PPM - कीटनाशक", category: "Pesticide", unit: "LITRE", stock: 250 }
+];
+
 async function loadAvailableProducts() {
     const container = document.getElementById("inputsCatalogContainer");
     const selectEl = document.getElementById("modalSelectProduct");
 
     try {
-        const res = await apiRequest("/inputs/products");
-        availableProducts = Array.isArray(res) ? res : (res?.data || []);
+        const res = await inputApi("/products");
+        const list = Array.isArray(res) ? res : (res?.data || []);
+        availableProducts = list.length > 0 ? list : DEFAULT_CATALOG_FALLBACK;
 
         if (selectEl) {
             selectEl.innerHTML = '<option value="">Select item...</option>' + availableProducts.map(p => `
@@ -124,9 +147,16 @@ async function loadAvailableProducts() {
         if (container) {
             container.innerHTML = `
                 <div style="grid-column:1/-1; text-align:center; padding:24px; color:#b91c1c;">
-                    Failed to load input products: ${escapeHTML(friendlyErrorMessage(err))}
+                    Unable to reach Block Server right now: ${escapeHTML(friendlyErrorMessage(err))}. Showing standard quota catalog.
                 </div>
             `;
+            // Even if network fails, populate default catalog
+            availableProducts = DEFAULT_CATALOG_FALLBACK;
+            if (selectEl) {
+                selectEl.innerHTML = '<option value="">Select item...</option>' + availableProducts.map(p => `
+                    <option value="${p.id}">${escapeHTML(p.name)} (${escapeHTML(p.unit)}) - Stock: ${p.stock}</option>
+                `).join("");
+            }
         }
     }
 }
@@ -136,7 +166,7 @@ async function loadMyRequests() {
     if (!tbody) return;
 
     try {
-        const res = await apiRequest("/inputs");
+        const res = await inputApi("");
         myRequests = Array.isArray(res) ? res : (res?.data || []);
 
         if (myRequests.length === 0) {
@@ -185,10 +215,14 @@ async function loadMyRequests() {
         }).join("");
     } catch (err) {
         console.error("Error loading my input requests:", err);
+        const isAuthError = err && (err.status === 401 || String(err.message || '').includes('expired') || String(err.message || '').includes('token'));
         tbody.innerHTML = `
             <tr>
                 <td colspan="7" style="text-align:center; padding:24px; color:#b91c1c;">
-                    Failed to load requests: ${escapeHTML(friendlyErrorMessage(err))}
+                    ${isAuthError
+                        ? 'Your session has expired. Please <a href="../farmer_login.html" style="color:#10B981; font-weight:700; text-decoration:underline;">Login again</a> to view your requests.'
+                        : `Failed to load requests: ${escapeHTML(friendlyErrorMessage(err))}`
+                    }
                 </td>
             </tr>
         `;
@@ -244,7 +278,7 @@ async function handleInputSubmit(e) {
     }
 
     try {
-        await apiRequest("/inputs", {
+        await inputApi("", {
             method: "POST",
             body: {
                 inputProductId,

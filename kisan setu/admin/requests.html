@@ -1128,7 +1128,7 @@
             try {
                 const [dash, inputsRes, grievancesRes, farmersRes, buyersRes, produceRes] = await Promise.allSettled([
                     getAdminDashboard(),
-                    apiRequest("/inputs"),
+                    apiRequest("/input-requests").catch(() => apiRequest("/inputs")),
                     apiRequest("/grievances"),
                     getAdminFarmers({ limit: 50 }),
                     getAdminBuyers({ limit: 50 }),

@@ -370,6 +370,28 @@ if (typeof document !== "undefined") {
 	}
 }
 
+async function getFarmerInputs(params = {}) {
+	try {
+		return await apiRequest(`/input-requests${queryString(params)}`);
+	} catch (err) {
+		if (err && (err.status === 404 || String(err.message || "").includes("Route not found"))) {
+			return await apiRequest(`/inputs${queryString(params)}`);
+		}
+		throw err;
+	}
+}
+
+async function requestFarmerInput(data) {
+	try {
+		return await apiRequest("/input-requests", { method: "POST", body: data });
+	} catch (err) {
+		if (err && (err.status === 404 || String(err.message || "").includes("Route not found"))) {
+			return await apiRequest("/inputs", { method: "POST", body: data });
+		}
+		throw err;
+	}
+}
+
 window.getFarmerProfile = getFarmerProfile;
 window.updateFarmerProfile = updateFarmerProfile;
 window.getFarmerDashboard = getFarmerDashboard;
@@ -384,6 +406,8 @@ window.getFarmerLogistics = getFarmerLogistics;
 window.getFarmerHistory = getFarmerHistory;
 window.getFarmerDisputes = getFarmerDisputes;
 window.getFarmerNotifications = getFarmerNotifications;
+window.getFarmerInputs = getFarmerInputs;
+window.requestFarmerInput = requestFarmerInput;
 window.syncFarmerSidebarProfile = syncFarmerSidebarProfile;
 window.setupHamburgerSidebar = setupHamburgerSidebar;
 

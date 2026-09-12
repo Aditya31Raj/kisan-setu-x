@@ -5,6 +5,18 @@
 
 let allInputRequests = [];
 
+async function adminInputApi(subPath = "", options = {}) {
+    const cleanSub = subPath ? (subPath.startsWith("/") ? subPath : `/${subPath}`) : "";
+    try {
+        return await apiRequest(`/input-requests${cleanSub}`, options);
+    } catch (err) {
+        if (err && (err.status === 404 || String(err.message || "").includes("Route not found") || String(err.message || "").includes("Cannot"))) {
+            return await apiRequest(`/inputs${cleanSub}`, options);
+        }
+        throw err;
+    }
+}
+
 function escapeHTML(value) {
     return String(value ?? "")
         .replace(/&/g, "&amp;")
@@ -48,7 +60,7 @@ async function loadAdminInputs() {
 
     try {
         const [inputsRes] = await Promise.allSettled([
-            apiRequest("/inputs")
+            adminInputApi("")
         ]);
 
         let items = [];
@@ -328,7 +340,7 @@ async function submitInputDecision(id, action) {
     const isApprove = action === "approve";
 
     try {
-        await apiRequest(`/inputs/${encodeURIComponent(id)}/${isApprove ? 'approve' : 'reject'}`, {
+        await adminInputApi(`/${encodeURIComponent(id)}/${isApprove ? 'approve' : 'reject'}`, {
             method: "POST",
             body: { note }
         });
@@ -405,7 +417,7 @@ function setupAddInputModal() {
             const stock = Number(document.getElementById("newProdStock").value);
 
             try {
-                await apiRequest("/inputs/products", {
+                await adminInputApi("/products", {
                     method: "POST",
                     body: { name, category, unit, stock }
                 });
