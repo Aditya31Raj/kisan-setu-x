@@ -35,8 +35,9 @@ export async function users(role,q={}){
       where,
       select:{
         id:true,name:true,email:true,phone:true,role:true,isActive:true,isVerified:true,createdAt:true,lastLoginAt:true,
-        farmerProfile:{select:{id:true,farmName:true,village:true,district:true,state:true,landAreaAcres:true}},
+        farmerProfile:{select:{id:true,farmName:true,village:true,district:true,state:true,landAreaAcres:true,bankAccountLast4:true,crops:{select:{id:true,name:true,variety:true,season:true,areaAcres:true}}}},
         buyerProfile:{select:{id:true,businessName:true,businessType:true,district:true,state:true}},
+        addresses:{select:{id:true,label:true,line1:true,line2:true,village:true,district:true,state:true,postalCode:true}},
         identity:{select:{id:true,status:true,maskedIdentifier:true,providerReference:true,verifiedAt:true}}
       },
       orderBy:{createdAt:'desc'},

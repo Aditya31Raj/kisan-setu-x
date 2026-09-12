@@ -52,20 +52,23 @@
         }
 
         /* =========================
-           REPORT FILTERS
+           REPORT FILTERS & CONTROLS
            ========================= */
-
-        .report-filters {
+        .report-filters-card {
             background: white;
             border: 1px solid #dfe7e2;
-            border-radius: 10px;
-            padding: 20px;
-            margin-bottom: 20px;
+            border-radius: 12px;
+            padding: 20px 24px;
+            margin-bottom: 22px;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.02);
+        }
 
+        .report-filters-grid {
             display: grid;
-            grid-template-columns: 1fr 1fr 1fr auto;
-            gap: 15px;
+            grid-template-columns: 1.5fr 1fr 1fr 1fr;
+            gap: 16px;
             align-items: end;
+            margin-bottom: 16px;
         }
 
         .filter-group {
@@ -75,109 +78,273 @@
 
         .filter-group label {
             font-size: 12px;
-            font-weight: 600;
+            font-weight: 700;
             margin-bottom: 6px;
-            color: #404844;
+            color: #374151;
+            display: flex;
+            align-items: center;
+            gap: 6px;
         }
 
         .filter-group input,
         .filter-group select {
             padding: 10px 12px;
-            border: 1px solid #d5ded8;
-            border-radius: 7px;
+            border: 1px solid #d1d5db;
+            border-radius: 8px;
             font-size: 13px;
-            background: white;
+            background: #ffffff;
+            color: #1f2937;
+            outline: none;
+            transition: border-color 0.2s;
         }
 
-        .generate-btn {
-            padding: 10px 18px;
-            border: none;
-            border-radius: 7px;
-            background: #198754;
-            color: white;
+        .filter-group input:focus,
+        .filter-group select:focus {
+            border-color: #10b981;
+            box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.15);
+        }
+
+        .preset-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 12px;
+            padding-top: 14px;
+            border-top: 1px solid #edf0ee;
+        }
+
+        .preset-buttons {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+        }
+
+        .preset-btn {
+            background: #f3f4f6;
+            border: 1px solid #e5e7eb;
+            color: #4b5563;
+            padding: 6px 12px;
+            border-radius: 6px;
             font-size: 12px;
             font-weight: 600;
             cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .preset-btn:hover {
+            background: #e5e7eb;
+            color: #1f2937;
+        }
+
+        .preset-btn.active {
+            background: #dcfce7;
+            border-color: #86efac;
+            color: #15803d;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .generate-btn {
+            padding: 9px 18px;
+            border: none;
+            border-radius: 8px;
+            background: linear-gradient(135deg, #10b981, #059669);
+            color: white;
+            font-size: 13px;
+            font-weight: 700;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+            box-shadow: 0 2px 4px rgba(16, 185, 129, 0.25);
+            transition: transform 0.15s, box-shadow 0.15s;
         }
 
         .generate-btn:hover {
-            background: #146c43;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 8px rgba(16, 185, 129, 0.35);
+        }
+
+        .export-btn {
+            padding: 9px 16px;
+            border: 1px solid #10b981;
+            border-radius: 8px;
+            background: #ffffff;
+            color: #047857;
+            font-size: 13px;
+            font-weight: 700;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            transition: background 0.2s;
+        }
+
+        .export-btn:hover {
+            background: #f0fdf4;
+        }
+
+        .print-btn {
+            padding: 9px 15px;
+            border: 1px solid #d1d5db;
+            border-radius: 8px;
+            background: #ffffff;
+            color: #374151;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .print-btn:hover {
+            background: #f9fafb;
         }
 
         /* =========================
-           REPORT CARDS
+           OFFICIAL REPORT HEADER & KPIS
            ========================= */
-
-        .report-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 20px;
+        .official-doc-header {
+            background: linear-gradient(135deg, #ffffff 0%, #f0fdf4 100%);
+            border: 1px solid #bbf7d0;
+            border-radius: 12px;
+            padding: 16px 20px;
             margin-bottom: 20px;
-        }
-
-        .report-card {
-            background: white;
-            border: 1px solid #dfe7e2;
-            border-radius: 10px;
-            padding: 20px;
-        }
-
-        .report-card-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 15px;
+            flex-wrap: wrap;
+            gap: 14px;
         }
 
-        .report-card-header h3 {
+        .official-doc-title h3 {
             margin: 0;
-            font-size: 16px;
+            font-size: 18px;
+            color: #111827;
+            font-weight: 800;
+            letter-spacing: -0.2px;
         }
 
-        .report-card-header span {
-            font-size: 11px;
-            color: #6c757d;
+        .official-doc-title p {
+            margin: 3px 0 0;
+            font-size: 12px;
+            color: #4b5563;
         }
 
-        .report-value {
-            font-size: 28px;
-            font-weight: bold;
-            color: #198754;
+        .official-doc-meta {
+            text-align: right;
+            font-size: 12px;
+            color: #4b5563;
         }
 
-        .report-description {
-            color: #6c757d;
-            font-size: 11px;
-            margin-top: 5px;
+        .official-badge {
+            background: #16a34a;
+            color: white;
+            font-size: 10px;
+            font-weight: 800;
+            padding: 3px 8px;
+            border-radius: 4px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            display: inline-block;
+            margin-bottom: 4px;
         }
 
-        .report-progress {
-            width: 100%;
-            height: 7px;
-            background: #edf1ee;
-            border-radius: 10px;
-            margin-top: 15px;
-            overflow: hidden;
+        /* DYNAMIC KPI STRIP */
+        .report-kpi-strip {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 16px;
+            margin-bottom: 22px;
         }
 
-        .report-progress span {
-            display: block;
-            height: 100%;
-            width: 82%;
-            background: #198754;
-            border-radius: 10px;
-        }
-
-        /* =========================
-           REPORT TABLE
-           ========================= */
-
-        .report-table-wrapper {
+        .report-kpi-card {
             background: white;
             border: 1px solid #dfe7e2;
-            border-radius: 10px;
+            border-radius: 12px;
+            padding: 18px 20px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+            transition: transform 0.15s, border-color 0.15s;
+        }
+
+        .report-kpi-card:hover {
+            border-color: #86efac;
+            transform: translateY(-2px);
+        }
+
+        .report-kpi-card span {
+            display: block;
+            color: #6b7280;
+            font-size: 12px;
+            font-weight: 600;
+            margin-bottom: 6px;
+        }
+
+        .report-kpi-card strong {
+            display: block;
+            font-size: 24px;
+            font-weight: 800;
+            color: #15803d;
+        }
+
+        .report-kpi-card small {
+            display: block;
+            color: #9ca3af;
+            font-size: 11px;
+            margin-top: 4px;
+        }
+
+        /* IN-REPORT TOOLBAR & TABLE */
+        .report-table-section {
+            background: white;
+            border: 1px solid #dfe7e2;
+            border-radius: 12px;
             padding: 20px;
-            overflow-x: auto;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.02);
+        }
+
+        .report-table-toolbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 14px;
+            margin-bottom: 16px;
+        }
+
+        .report-search-box {
+            position: relative;
+            flex-grow: 1;
+            max-width: 420px;
+        }
+
+        .report-search-box input {
+            width: 100%;
+            box-sizing: border-box;
+            padding: 9px 14px 9px 36px;
+            border: 1px solid #d1d5db;
+            border-radius: 7px;
+            font-size: 13px;
+            outline: none;
+        }
+
+        .report-search-box input:focus {
+            border-color: #10b981;
+        }
+
+        .report-search-box i {
+            position: absolute;
+            left: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #9ca3af;
+            font-size: 13px;
         }
 
         .report-table {
@@ -195,67 +362,89 @@
 
         .report-table th {
             background: #f8faf9;
-            color: #555;
-            font-weight: 600;
+            color: #4b5563;
+            font-weight: 700;
+            text-transform: uppercase;
+            font-size: 11px;
+            letter-spacing: 0.5px;
         }
 
         .report-table tr:hover td {
-            background: #fbfdfb;
-        }
-
-        .report-name {
-            color: #198754;
-            font-weight: 600;
+            background: #f9fbf9;
         }
 
         .download-btn {
-            padding: 6px 11px;
-            border: 1px solid #198754;
+            padding: 6px 12px;
+            border: 1px solid #10b981;
             border-radius: 6px;
             background: white;
-            color: #198754;
+            color: #047857;
             font-size: 11px;
+            font-weight: 700;
             cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
         }
 
         .download-btn:hover {
-            background: #eef8f2;
+            background: #dcfce7;
         }
 
-        /* =========================
-           RESPONSIVE
-           ========================= */
-
-        @media (max-width: 1000px) {
-
-            .report-stats {
-                grid-template-columns: repeat(2, 1fr);
+        /* PRINT MEDIA STYLES */
+        @media print {
+            .admin-sidebar, .sidebar, .topbar, .admin-topbar, .report-filters-card, .report-table-toolbar, .download-btn, .action-btn, .lang-toggle-btn {
+                display: none !important;
             }
+            .admin-main, .main {
+                margin: 0 !important;
+                padding: 0 !important;
+                width: 100% !important;
+            }
+            .official-doc-header {
+                border: none !important;
+                border-bottom: 2px solid #000 !important;
+                padding: 0 0 10px 0 !important;
+                background: none !important;
+            }
+            .report-table-section {
+                border: none !important;
+                box-shadow: none !important;
+                padding: 0 !important;
+            }
+            .report-table th, .report-table td {
+                font-size: 11px !important;
+                padding: 6px 8px !important;
+            }
+        }
 
-            .report-filters {
+        /* RESPONSIVE */
+        @media (max-width: 1000px) {
+            .report-filters-grid {
                 grid-template-columns: 1fr 1fr;
             }
-
-            .report-grid {
-                grid-template-columns: 1fr;
+            .report-kpi-strip {
+                grid-template-columns: repeat(2, 1fr);
             }
-
         }
 
         @media (max-width: 600px) {
-
-            .report-stats {
+            .report-filters-grid {
                 grid-template-columns: 1fr;
             }
-
-            .report-filters {
+            .report-kpi-strip {
                 grid-template-columns: 1fr;
             }
-
-            .admin-main {
-                padding: 15px;
+            .preset-row {
+                flex-direction: column;
+                align-items: stretch;
             }
-
+            .action-buttons {
+                justify-content: stretch;
+            }
+            .action-buttons button {
+                flex-grow: 1;
+            }
         }
 
     </style>
@@ -468,191 +657,161 @@
                 </div>
 
 
-            </div>
-
-
-
-            <!-- =========================
-                 FILTERS
-                 ========================= -->
-
-            <div class="report-filters">
-
-
-                <div class="filter-group">
-
-                    <label for="reportType">
-                        Report Type
-                    </label>
-
-                    <select id="reportType">
-
-                        <option value="payments">
-                            Payment Report
-                        </option>
-
-                        <option value="farmers">
-                            Farmer Report
-                        </option>
-
-                        <option value="buyers">
-                            Buyer Report
-                        </option>
-
-                        <option value="payments">
-                            Payment Report
-                        </option>
-
-                        <option value="msp">
-                            MSP Compliance Report
-                        </option>
-
-                        <option value="inputs">
-                            Input Distribution Report
-                        </option>
-
-                    </select>
-
-                </div>
-
-
-                <div class="filter-group">
-
-                    <label for="fromDate">
-                        From Date
-                    </label>
-
-                    <input
-                        type="date"
-                        id="fromDate">
-
-                </div>
-
-
-                <div class="filter-group">
-
-                    <label for="toDate">
-                        To Date
-                    </label>
-
-                    <input
-                        type="date"
-                        id="toDate">
-
-                </div>
-
-
-                <button
-                    type="button"
-                    class="generate-btn">
-
-                    Generate Report
-
-                </button>
-
 
             </div>
 
+            <!-- =========================
+                 REPORT CONTROLS & FILTERS
+                 ========================= -->
+            <div class="report-filters-card">
+                <div class="report-filters-grid">
+                    <div class="filter-group">
+                        <label for="reportType">
+                            <i class="fa-solid fa-folder-tree" style="color:#10b981;"></i> Report Category
+                        </label>
+                        <select id="reportType">
+                            <option value="payments" selected>💳 Payment &amp; Settlement Audit</option>
+                            <option value="farmers">👨‍🌾 Farmer Registry &amp; Landholdings</option>
+                            <option value="buyers">🛒 Buyer Directory &amp; Procurement</option>
+                            <option value="msp">⚖️ MSP Price Compliance &amp; Market Rates</option>
+                            <option value="inputs">🌱 Subsidized Seeds &amp; Fertilizers Distribution</option>
+                        </select>
+                    </div>
 
+                    <div class="filter-group">
+                        <label for="fromDate">
+                            <i class="fa-solid fa-calendar-days" style="color:#10b981;"></i> From Date
+                        </label>
+                        <input type="date" id="fromDate">
+                    </div>
+
+                    <div class="filter-group">
+                        <label for="toDate">
+                            <i class="fa-solid fa-calendar-check" style="color:#10b981;"></i> To Date
+                        </label>
+                        <input type="date" id="toDate">
+                    </div>
+
+                    <div class="filter-group">
+                        <label for="reportStatus">
+                            <i class="fa-solid fa-filter" style="color:#10b981;"></i> Status Filter
+                        </label>
+                        <select id="reportStatus">
+                            <option value="all" selected>All Statuses</option>
+                            <option value="success">Success / Verified</option>
+                            <option value="pending">Pending Review</option>
+                            <option value="failed">Failed / Flagged</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="preset-row">
+                    <div class="preset-buttons">
+                        <span style="font-size:11px; font-weight:700; color:#6b7280; text-transform:uppercase; margin-right:4px;">Range:</span>
+                        <button type="button" class="preset-btn" data-preset="all">All Records</button>
+                        <button type="button" class="preset-btn active" data-preset="month">This Month</button>
+                        <button type="button" class="preset-btn" data-preset="30days">Last 30 Days</button>
+                        <button type="button" class="preset-btn" data-preset="quarter">This Quarter</button>
+                    </div>
+
+                    <div class="action-buttons">
+                        <button type="button" id="generateReportBtn" class="generate-btn">
+                            <i class="fa-solid fa-arrows-rotate"></i> Generate Report
+                        </button>
+                        <button type="button" id="exportCsvBtn" class="export-btn" title="Export tabular data to CSV spreadsheet">
+                            <i class="fa-solid fa-file-excel"></i> Export CSV
+                        </button>
+                        <button type="button" id="printReportBtn" class="print-btn" title="Print official PDF report">
+                            <i class="fa-solid fa-print"></i> Print / PDF
+                        </button>
+                    </div>
+                </div>
+            </div>
 
             <!-- =========================
-                 REPORT OVERVIEW
+                 OFFICIAL REPORT HEADER
                  ========================= -->
+            <div class="official-doc-header" id="officialDocHeader">
+                <div class="official-doc-title">
+                    <div style="display:flex; align-items:center; gap:8px; margin-bottom:4px;">
+                        <span class="official-badge">OFFICIAL KRISHI REPORT</span>
+                        <span style="font-size:11px; color:#15803d; font-weight:700;">GOVT. OF BIHAR &bull; DEPT. OF AGRICULTURE</span>
+                    </div>
+                    <h3 id="reportHeaderTitle">Payment &amp; Settlement Audit Report</h3>
+                    <p id="reportHeaderSubtitle">Consolidated transaction settlements between verified buyers and registered farmers</p>
+                </div>
 
-            <div class="report-grid">
+                <div class="official-doc-meta" id="reportHeaderMeta">
+                    <div><strong>Authority:</strong> Prakhand Krishi Adhikari</div>
+                    <div><strong>Generated:</strong> <span id="reportGeneratedTimestamp">--</span></div>
+                    <div><strong>Total Records:</strong> <strong id="reportMetaRecordsCount" style="color:#15803d;">0</strong></div>
+                </div>
+            </div>
 
+            <!-- =========================
+                 DYNAMIC EXECUTIVE KPIS
+                 ========================= -->
+            <div class="report-kpi-strip" id="reportDynamicKpis">
+                <div class="report-kpi-card">
+                    <span id="kpiLabel1">Total Settlements</span>
+                    <strong id="kpiValue1">0</strong>
+                    <small id="kpiSub1">Recorded transactions</small>
+                </div>
+                <div class="report-kpi-card">
+                    <span id="kpiLabel2">Settlement Value</span>
+                    <strong id="kpiValue2">₹0</strong>
+                    <small id="kpiSub2">Disbursed to farmers</small>
+                </div>
+                <div class="report-kpi-card">
+                    <span id="kpiLabel3">Completion Rate</span>
+                    <strong id="kpiValue3">100%</strong>
+                    <small id="kpiSub3">Successful payouts</small>
+                </div>
+                <div class="report-kpi-card">
+                    <span id="kpiLabel4">Average Settlement</span>
+                    <strong id="kpiValue4">₹0</strong>
+                    <small id="kpiSub4">Per transaction payout</small>
+                </div>
+            </div>
 
-                <div class="report-card">
-
-                    <div class="report-card-header">
-
-                        <h3>
-                            Payment Performance
-                        </h3>
-
-                        <span>
-                            This Month
+            <!-- =========================
+                 REPORT DATA TABLE
+                 ========================= -->
+            <section class="report-table-section">
+                <div class="report-table-toolbar">
+                    <div class="report-search-box">
+                        <i class="fa-solid fa-magnifying-glass"></i>
+                        <input type="text" id="reportSearchInput" placeholder="Filter report by name, ID, location, commodity, or status...">
+                    </div>
+                    <div>
+                        <span id="reportRecordCounter" style="font-size:12px; font-weight:600; color:#6b7280; background:#f3f4f6; padding:6px 12px; border-radius:6px;">
+                            Showing 0 records
                         </span>
-
-                    </div>
-
-                    <div class="report-value">
-                        1,284
-                    </div>
-
-                    <div class="report-description">
-                        Payments completed this month
-                    </div>
-
-                    <div class="report-progress">
-
-                        <span style="width: 82%;"></span>
-
-                    </div>
-
-                </div>
-
-
-
-                <div class="report-card">
-
-                    <div class="report-card-header">
-
-                        <h3>
-                            MSP Compliance
-                        </h3>
-
-                        <span>
-                            Current
-                        </span>
-
-                    </div>
-
-                    <div class="report-value">
-                        96.8%
-                    </div>
-
-                    <div class="report-description">
-                        Payments meeting or exceeding MSP
-                    </div>
-
-                    <div class="report-progress">
-
-                        <span style="width: 96.8%;"></span>
-
-                    </div>
-
-                </div>
-
-
-            </div>
-
-
-
-            <!-- =========================
-                 GENERATED REPORTS
-                 ========================= -->
-
-            <section class="report-table-wrapper">
-
-
-                <div class="section-header">
-
-                    <h2>
-                        Generated Reports
-                    </h2>
-
-                </div>
-
-
-                <div id="adminReportsContainer" style="display:flex; flex-direction:column; gap:12px; margin-top:16px;">
-                    <div style="text-align:center; padding:32px; color:#666;">
-                        <i class="fa-solid fa-spinner fa-spin" style="margin-right:8px;"></i> Loading reports &amp; transactions...
                     </div>
                 </div>
 
+                <div style="overflow-x:auto;">
+                    <table class="report-table" id="adminReportsMainTable">
+                        <thead id="reportTableHead">
+                            <!-- Headers dynamically injected by admin-reports.js -->
+                        </thead>
+                        <tbody id="reportTableBody">
+                            <tr>
+                                <td colspan="8" style="text-align:center; padding:36px; color:#666;">
+                                    <i class="fa-solid fa-spinner fa-spin" style="margin-right:8px;"></i> Initializing report engine...
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
             </section>
 
+            <!-- =========================
+                 VOUCHER / RECEIPT MODAL
+                 ========================= -->
+            <div id="adminReportVoucherModal" style="display:none; position:fixed; top:0; left:0; width:100vw; height:100vh; background:rgba(0,0,0,0.65); z-index:9999; align-items:center; justify-content:center; padding:20px; box-sizing:border-box;">
+                <!-- Content dynamically injected by admin-reports.js -->
+            </div>
 
         </main>
 
@@ -663,10 +822,10 @@
     <script src="../js/core/i18n.js"></script>
     <script src="../js/core/api.js"></script>
     <script src="../js/core/auth.js"></script>
+    <script src="../js/admin/admin-users.js"></script>
     <script src="../js/admin/admin.js"></script>
     <script src="../js/admin/admin-reports.js"></script>
 
 </body>
 
 </html>
-
