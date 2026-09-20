@@ -1,202 +1,446 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
+
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kisan Setu - Admin Buyers</title>
+
+    <title>Kisan Setu - Buyers</title>
+
     <link rel="stylesheet" href="../css/style.css">
     <link rel="stylesheet" href="../css/admin.css">
+
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
 </head>
+
+
 <body>
-    <div class="dashboard">
-        <!-- SIDEBAR -->
-        <aside class="sidebar">
-            <div class="logo">
-                <img src="../images/logoks.jpeg" alt="Kisan Setu Logo">
-                KISAN SETU
-            </div>
-            <div class="admin-label">
-                ADMIN PORTAL
-            </div>
-            <ul class="menu">
-                <li>
-                    <a href="../admin_dashboard.html"><i class="fa-solid fa-chart-line"></i> <span data-i18n="nav_dashboard">Dashboard</span></a>
-                </li>
-                <li>
-                    <a href="farmers.html"><i class="fa-solid fa-users"></i> <span data-i18n="nav_farmers">Farmers</span></a>
-                </li>
-                <li>
-                    <a href="buyers.html" class="active"><i class="fa-solid fa-store"></i> <span data-i18n="nav_buyers">Buyers</span></a>
-                </li>
-                <li>
-                    <a href="requests.html"><i class="fa-solid fa-clipboard-check"></i> <span data-i18n="nav_requests">Requests</span></a>
-                </li>
-                <li>
-                    <a href="inputs.html"><i class="fa-solid fa-seedling"></i> <span data-i18n="nav_inputs">Input Management</span></a>
-                </li>
-                <li>
-                    <a href="payments.html"><i class="fa-solid fa-shield-halved"></i> <span data-i18n="nav_payments">Payments</span></a>
-                </li>
-                <li>
-                    <a href="reports.html"><i class="fa-solid fa-chart-pie"></i> <span data-i18n="nav_reports">Reports</span></a>
-                </li>
-                <li>
-                    <a href="alerts.html"><i class="fa-solid fa-triangle-exclamation"></i> <span data-i18n="nav_alerts">Alerts</span></a>
-                </li>
-                <li>
-                    <a href="grievances.html"><i class="fa-solid fa-scale-balanced"></i> <span data-i18n="nav_grievances">Disputes & Grievances</span></a>
-                </li>
-            </ul>
-            <div class="logout">
-                <a href="javascript:void(0)" id="logoutBtn" class="logout-btn"><i class="fa-solid fa-arrow-right-from-bracket"></i> <span data-i18n="nav_logout">Logout</span></a>
-            </div>
-        </aside>
 
-        <!-- MAIN -->
-        <main class="main">
-            <!-- TOPBAR -->
-            <div class="topbar">
+
+    <!-- ================= SIDEBAR ================= -->
+
+    <aside class="sidebar">
+
+        <div class="logo">
+            <img src="../images/logoks.jpeg" alt="Kisan Setu Logo">
+            KISAN SETU
+        </div>
+
+        <div class="admin-label">
+            ADMIN PORTAL
+        </div>
+
+
+        <ul class="menu">
+
+            <li>
+                <a href="../admin_dashboard.html"><i class="fa-solid fa-chart-line"></i> <span data-i18n="nav_dashboard">Dashboard</span></a>
+            </li>
+
+            <li>
+                <a href="farmers.html"><i class="fa-solid fa-users"></i> <span data-i18n="nav_farmers">Farmers</span></a>
+            </li>
+
+            <li>
+                <a href="buyers.html" class="active"><i class="fa-solid fa-store"></i> <span data-i18n="nav_buyers">Buyers</span></a>
+            </li>
+
+            <li>
+                <a href="requests.html"><i class="fa-solid fa-clipboard-check"></i> <span data-i18n="nav_requests">Requests</span></a>
+            </li>
+
+            <li>
+                <a href="inputs.html"><i class="fa-solid fa-seedling"></i> <span data-i18n="nav_inputs">Input Management</span></a>
+            </li>
+
+            <li>
+                <a href="payments.html"><i class="fa-solid fa-shield-halved"></i> <span data-i18n="nav_payments">Payments</span></a>
+            </li>
+
+            <li>
+                <a href="reports.html"><i class="fa-solid fa-chart-pie"></i> <span data-i18n="nav_reports">Reports</span></a>
+            </li>
+
+            <li>
+                <a href="alerts.html"><i class="fa-solid fa-triangle-exclamation"></i> <span data-i18n="nav_alerts">Alerts</span></a>
+            </li>
+
+            <li>
+                <a href="grievances.html"><i class="fa-solid fa-scale-balanced"></i> <span data-i18n="nav_grievances">Disputes & Grievances</span></a>
+            </li>
+
+        </ul>
+
+
+        <div class="logout">
+
+            <a href="javascript:void(0)" id="logoutBtn" class="logout-btn"><i class="fa-solid fa-arrow-right-from-bracket"></i> <span data-i18n="nav_logout">Logout</span></a>
+
+        </div>
+
+    </aside>
+
+
+
+    <!-- ================= MAIN ================= -->
+
+    <main class="main">
+
+
+        <!-- ================= TOPBAR ================= -->
+
+        <div class="topbar">
+
+            <div>
+
+                <h1>Buyers</h1>
+
+                <p>
+                    Manage and monitor registered buyers
+                </p>
+
+            </div>
+
+
+            <div style="display: flex; align-items: center; gap: 14px;">
+                <button type="button" class="lang-toggle-btn" title="Change Language / भाषा बदलें">
+                    <i class="fa-solid fa-globe"></i>
+                    <span class="lang-toggle-label">हिन्दी</span>
+                </button>
+                <div class="admin-profile">
+
+                <div class="profile-icon">
+                    A
+                </div>
+
                 <div>
-                    <h1>Buyers & Procurement Vendors</h1>
-                    <p>Manage and monitor registered commercial buyers, mills, and traders</p>
+
+                    <strong>Admin</strong>
+
+                    <p>
+                        Prakhand Admin
+                    </p>
+
                 </div>
-                <div style="display: flex; align-items: center; gap: 14px;">
-                    <button type="button" class="lang-toggle-btn" title="Change Language / भाषा बदलें">
-                        <i class="fa-solid fa-globe"></i>
-                        <span class="lang-toggle-label">हिन्दी</span>
-                    </button>
-                    <div class="admin-profile">
-                        <div class="profile-icon">A</div>
-                        <div>
-                            <strong>Admin</strong>
-                            <p>Prakhand Admin</p>
-                        </div>
-                    </div>
-                </div>
+
+            </div>
             </div>
 
-            <!-- TRUST BANNER -->
-            <div class="trust-guarantee-banner" style="margin: 20px 0;">
-                <div class="trust-banner-content">
-                    <div class="trust-pill-row">
-                        <span class="trust-tag"><i class="fa-solid fa-store"></i> Institutional Buyer Registry</span>
-                        <span class="trust-live-pill"><span class="pulse-dot"></span> GSTIN & APMC Verified</span>
-                    </div>
-                    <h3>Prakhand Buyer Surveillance & Escrow Accreditation</h3>
-                    <p>Monitor licensed grain merchants, flour millers, food processing corporates, and cooperative procurement agencies.</p>
+        </div>
+
+
+
+        <!-- ================= STATISTICS ================= -->
+
+        <div class="stats">
+
+
+            <div class="card">
+
+                <div class="card-title">
+                    Total Buyers
                 </div>
-                <div class="trust-stat-chips">
-                    <div class="trust-chip">
-                        <i class="fa-solid fa-building-circle-check"></i>
-                        <div>
-                            <strong>APMC Licensed</strong>
-                            <span>Trade Compliance Certified</span>
-                        </div>
-                    </div>
-                    <div class="trust-chip">
-                        <i class="fa-solid fa-vault"></i>
-                        <div>
-                            <strong>SafePay Escrow Line</strong>
-                            <span>100% Upfront Funding</span>
-                        </div>
-                    </div>
+
+                <div class="card-value" id="adminStatTotalBuyers">
+                    --
                 </div>
+
+                <div class="card-small">
+                    Registered buyers
+                </div>
+
             </div>
 
-            <!-- STATISTICS -->
-            <div class="stats">
-                <div class="card">
-                    <div class="card-title">Total Buyers</div>
-                    <div class="card-value" id="adminStatTotalBuyers">--</div>
-                    <div class="card-small">Registered buyers</div>
+
+
+            <div class="card">
+
+                <div class="card-title">
+                    Active Buyers
                 </div>
-                <div class="card">
-                    <div class="card-title">Active Buyers</div>
-                    <div class="card-value" id="adminStatActiveBuyers">--</div>
-                    <div class="card-small">Trading actively</div>
+
+                <div class="card-value" id="adminStatActiveBuyers">
+                    --
                 </div>
-                <div class="card">
-                    <div class="card-title">Pending Verification</div>
-                    <div class="card-value" id="adminStatPendingBuyers">--</div>
-                    <div class="card-small">Awaiting GST check</div>
+
+                <div class="card-small">
+                    Currently active
                 </div>
-                <div class="card">
-                    <div class="card-title">Suspended</div>
-                    <div class="card-value" id="adminStatSuspendedBuyers">--</div>
-                    <div class="card-small">Payment violations</div>
-                </div>
+
             </div>
 
-            <!-- SEARCH / FILTER -->
-            <section class="section">
-                <div class="section-header">
-                    <h2>Buyer Directory</h2>
-                    <span class="view-all" id="buyerTotalCount">Loading buyers...</span>
-                </div>
-                <form class="admin-filter-form">
-                    <div class="admin-filter-group">
-                        <label for="buyerSearch">Search Buyer</label>
-                        <input type="text" id="buyerSearch" placeholder="Name, company or phone">
-                    </div>
-                    <div class="admin-filter-group">
-                        <label for="buyerStatus">Status</label>
-                        <select id="buyerStatus">
-                            <option value="">All Status</option>
-                            <option value="active">Active</option>
-                            <option value="pending">Pending</option>
-                            <option value="suspended">Suspended</option>
-                        </select>
-                    </div>
-                    <div class="admin-filter-group">
-                        <label for="buyerLocation">Location</label>
-                        <input type="text" id="buyerLocation" placeholder="District / City">
-                    </div>
-                    <button type="button" class="admin-search-btn">Search</button>
-                    <button type="button" class="admin-clear-btn">Clear</button>
-                </form>
-            </section>
 
-            <!-- BUYER TABLE -->
-            <section class="section">
-                <div class="section-header">
-                    <h2>Registered Buyers</h2>
-                    <span class="view-all">Corporate & Retail Traders</span>
-                </div>
-                <div class="admin-table-wrapper">
-                    <table class="admin-table">
-                        <thead>
-                            <tr>
-                                <th>Buyer ID</th>
-                                <th>Buyer / Company Name</th>
-                                <th>Location</th>
-                                <th>Contact</th>
-                                <th>Registration</th>
-                                <th>Status</th>
-                                <th>Action</th>
-                            </tr>
-                        </thead>
-                        <tbody id="buyerTableBody">
-                            <tr>
-                                <td colspan="7" style="text-align:center; padding:32px; color:#666;">
-                                    Loading registered buyers...
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </section>
 
-            <!-- PAGINATION -->
-            <div class="admin-pagination">
-                <button type="button" disabled>Previous</button>
-                <span id="adminBuyerPageInfo">Page 1 of 1</span>
-                <button type="button">Next</button>
+            <div class="card">
+
+                <div class="card-title">
+                    Pending Verification
+                </div>
+
+                <div class="card-value" id="adminStatPendingBuyers">
+                    --
+                </div>
+
+                <div class="card-small">
+                    Awaiting approval
+                </div>
+
             </div>
-        </main>
-    </div>
 
-    <!-- JAVASCRIPT -->
+
+
+            <div class="card">
+
+                <div class="card-title">
+                    Suspended
+                </div>
+
+                <div class="card-value" id="adminStatSuspendedBuyers">
+                    --
+                </div>
+
+                <div class="card-small">
+                    Requires attention
+                </div>
+
+            </div>
+
+
+        </div>
+
+
+
+        <!-- ================= SEARCH / FILTER ================= -->
+
+        <section class="section">
+
+
+            <div class="section-header">
+
+                <h2>
+                    Buyer Directory
+                </h2>
+
+                <span class="view-all" id="adminBuyersCountBadge">
+                    Loading buyers...
+                </span>
+
+            </div>
+
+
+
+            <form class="admin-filter-form">
+
+
+                <div class="admin-filter-group">
+
+                    <label for="buyerSearch">
+                        Search Buyer
+                    </label>
+
+                    <input
+                        type="text"
+                        id="buyerSearch"
+                        placeholder="Name, buyer ID or phone"
+                    >
+
+                </div>
+
+
+
+                <div class="admin-filter-group">
+
+                    <label for="buyerStatus">
+                        Status
+                    </label>
+
+                    <select id="buyerStatus">
+
+                        <option value="">
+                            All Status
+                        </option>
+
+                        <option value="active">
+                            Active
+                        </option>
+
+                        <option value="pending">
+                            Pending
+                        </option>
+
+                        <option value="suspended">
+                            Suspended
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+
+                <div class="admin-filter-group">
+
+                    <label for="buyerLocation">
+                        Location
+                    </label>
+
+                    <input
+                        type="text"
+                        id="buyerLocation"
+                        placeholder="District / City"
+                    >
+
+                </div>
+
+
+
+                <button
+                    type="button"
+                    class="admin-search-btn">
+
+                    Search
+
+                </button>
+
+
+
+                <button
+                    type="button"
+                    class="admin-clear-btn">
+
+                    Clear
+
+                </button>
+
+
+            </form>
+
+        </section>
+
+
+
+        <!-- ================= BUYER TABLE ================= -->
+
+        <section class="section">
+
+
+            <div class="section-header">
+
+                <h2>
+                    Registered Buyers
+                </h2>
+
+                <span class="view-all" id="buyerTotalCount">
+                    Loading buyers...
+                </span>
+
+            </div>
+
+
+
+            <div class="admin-table-wrapper">
+
+
+                <table class="admin-table">
+
+
+                    <thead>
+
+                        <tr>
+
+                            <th>
+                                Buyer ID
+                            </th>
+
+                            <th>
+                                Buyer / Business
+                            </th>
+
+                            <th>
+                                Location
+                            </th>
+
+                            <th>
+                                Contact
+                            </th>
+
+                            <th>
+                                Registration
+                            </th>
+
+                            <th>
+                                Status
+                            </th>
+
+                            <th>
+                                Action
+                            </th>
+
+                        </tr>
+
+                    </thead>
+
+
+
+                    <tbody id="buyerTableBody">
+                        <tr>
+                            <td colspan="7" style="text-align:center; padding:32px; color:#666;">
+                                Loading registered buyers...
+                            </td>
+                        </tr>
+                    </tbody>
+
+
+
+
+
+                </table>
+
+
+            </div>
+
+
+        </section>
+
+
+
+        <!-- ================= PAGINATION ================= -->
+
+        <div class="admin-pagination">
+
+
+            <button
+                type="button"
+                disabled>
+
+                Previous
+
+            </button>
+
+
+            <span id="adminBuyerPageInfo">
+                Page 1 of 1
+            </span>
+
+
+            <button
+                type="button">
+
+                Next
+
+            </button>
+
+
+        </div>
+
+
+    </main>
+
+
+
+    <!-- ================= JAVASCRIPT ================= -->
+
     <script src="../js/core/i18n.js"></script>
     <script src="../js/core/api.js"></script>
     <script src="../js/core/auth.js"></script>
@@ -204,5 +448,7 @@
     <script>
         console.log("Kisan Setu Buyers Page Loaded");
     </script>
+
 </body>
+
 </html>

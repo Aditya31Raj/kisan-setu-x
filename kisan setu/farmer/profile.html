@@ -49,140 +49,71 @@
 
         <div class="main">
             <main class="buyer-container">
-                <section class="page-header" style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px;">
-                    <div>
-                        <h1>Farmer Profile & Identity Verification</h1>
-                        <p>View and manage verified KYC credentials, land records, and DBT bank accounts.</p>
-                    </div>
-                    <button type="button" class="lang-toggle-btn" title="Change Language / भाषा बदलें">
-                        <i class="fa-solid fa-globe"></i>
-                        <span class="lang-toggle-label">हिन्दी</span>
-                    </button>
-                </section>
+        <section class="page-header" style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px;">
+            <div>
+            <h1>My Profile</h1>
+            <p>View and update your farmer account information.</p>
+        </div>
+            <button type="button" class="lang-toggle-btn" title="Change Language / भाषा बदलें">
+                <i class="fa-solid fa-globe"></i>
+                <span class="lang-toggle-label">हिन्दी</span>
+            </button>
+        </section>
 
-                <!-- TRUST BANNER -->
-                <div class="trust-guarantee-banner" style="margin-bottom: 24px;">
-                    <div class="trust-banner-content">
-                        <div class="trust-pill-row">
-                            <span class="trust-tag"><i class="fa-solid fa-shield-halved"></i> PM-Kisan & PACS Verified</span>
-                            <span class="trust-live-pill"><span class="pulse-dot"></span> Aadhaar DBT Linked</span>
-                        </div>
-                        <h3>Digital Krishi Identity (DKI) Hub</h3>
-                        <p>Government certified farmer status verified with Sitamarhi District Agriculture Office for direct DBT payouts and crop subsidies.</p>
-                    </div>
-                    <div class="trust-stat-chips">
-                        <div class="trust-chip">
-                            <i class="fa-solid fa-address-card"></i>
-                            <div>
-                                <strong>KYC Tier 1</strong>
-                                <span>Verified Govt Beneficiary</span>
-                            </div>
-                        </div>
-                        <div class="trust-chip">
-                            <i class="fa-solid fa-building-columns"></i>
-                            <div>
-                                <strong>NPCI DBT Active</strong>
-                                <span>Direct Escrow Bank Link</span>
-                            </div>
-                        </div>
-                    </div>
+        <section class="profile-section">
+            <div id="profileMessage"></div>
+            <div class="profile-identity">
+                <img id="profilePicturePreview" class="profile-picture" src="../images/logoks.jpeg" alt="Farmer profile picture">
+                <div class="profile-identity-details">
+                    <h2 id="profileDisplayName">Farmer Profile</h2>
+                    <p id="profileDisplayRole">Farmer</p>
+                    <label for="profilePictureInput" class="profile-picture-button">
+                        <i class="fa-solid fa-camera"></i> Change Picture
+                    </label>
+                    <input type="file" id="profilePictureInput" accept="image/*" hidden>
                 </div>
-
-                <!-- KPI SUMMARY GRID -->
-                <div class="kpi-summary-grid" style="margin-bottom: 28px;">
-                    <div class="kpi-card">
-                        <div class="kpi-icon-wrap kpi-emerald">
-                            <i class="fa-solid fa-user-check"></i>
-                        </div>
-                        <div class="kpi-details">
-                            <span class="kpi-label">Account Status</span>
-                            <h3 class="kpi-val" style="color:#15803d; font-size:18px;">VERIFIED</h3>
-                            <span class="kpi-trend positive"><i class="fa-solid fa-circle-check"></i> Tier 1 Verified</span>
-                        </div>
-                    </div>
-                    <div class="kpi-card">
-                        <div class="kpi-icon-wrap kpi-sky">
-                            <i class="fa-solid fa-landmark"></i>
-                        </div>
-                        <div class="kpi-details">
-                            <span class="kpi-label">DBT Escrow Link</span>
-                            <h3 class="kpi-val" style="color:#0284c7; font-size:18px;">ACTIVE</h3>
-                            <span class="kpi-trend positive"><i class="fa-solid fa-building-columns"></i> Instant Payout</span>
-                        </div>
-                    </div>
-                    <div class="kpi-card">
-                        <div class="kpi-icon-wrap kpi-purple">
-                            <i class="fa-solid fa-shield-halved"></i>
-                        </div>
-                        <div class="kpi-details">
-                            <span class="kpi-label">Trust Score</span>
-                            <h3 class="kpi-val">98 / 100</h3>
-                            <span class="kpi-trend positive"><i class="fa-solid fa-star"></i> High Reliability</span>
-                        </div>
-                    </div>
-                    <div class="kpi-card">
-                        <div class="kpi-icon-wrap kpi-amber">
-                            <i class="fa-solid fa-wheat-awn"></i>
-                        </div>
-                        <div class="kpi-details">
-                            <span class="kpi-label">Registered Crops</span>
-                            <h3 class="kpi-val">5 Types</h3>
-                            <span class="kpi-trend positive"><i class="fa-solid fa-seedling"></i> Rabi & Kharif</span>
-                        </div>
-                    </div>
+                <button type="button" id="editProfileBtn" class="profile-edit-btn">
+                    <i class="fa-solid fa-pen"></i> Edit Profile
+                </button>
+            </div>
+            <form id="profileForm">
+                <div class="form-group">
+                    <label for="name">Name</label>
+                    <input type="text" id="name" name="name" required>
                 </div>
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" name="email" readonly>
+                </div>
+                <div class="form-group">
+                    <label for="phone">Phone</label>
+                    <input type="tel" id="phone" name="phone" readonly>
+                </div>
+                <div class="form-group">
+                    <label for="farmName">Farm Name</label>
+                    <input type="text" id="farmName" name="farmName">
+                </div>
+                <div class="form-group">
+                    <label for="district">District</label>
+                    <input type="text" id="district" name="district">
+                </div>
+                <div class="form-group">
+                    <label for="state">State</label>
+                    <input type="text" id="state" name="state">
+                </div>
+                <button type="submit" id="saveProfileBtn">Save Changes</button>
+            </form>
+        </section>
 
-                <section class="profile-section">
-                    <div id="profileMessage"></div>
-                    <div class="profile-identity">
-                        <img id="profilePicturePreview" class="profile-picture" src="../images/logoks.jpeg" alt="Farmer profile picture">
-                        <div class="profile-identity-details">
-                            <h2 id="profileDisplayName">Farmer Profile</h2>
-                            <p id="profileDisplayRole">Farmer</p>
-                            <label for="profilePictureInput" class="profile-picture-button">
-                                <i class="fa-solid fa-camera"></i> Change Picture
-                            </label>
-                            <input type="file" id="profilePictureInput" accept="image/*" hidden>
-                        </div>
-                        <button type="button" id="editProfileBtn" class="profile-edit-btn">
-                            <i class="fa-solid fa-pen"></i> Edit Profile
-                        </button>
-                    </div>
-                    <form id="profileForm">
-                        <div class="form-group">
-                            <label for="name">Name</label>
-                            <input type="text" id="name" name="name" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="email">Email</label>
-                            <input type="email" id="email" name="email" readonly>
-                        </div>
-                        <div class="form-group">
-                            <label for="phone">Phone</label>
-                            <input type="tel" id="phone" name="phone" readonly>
-                        </div>
-                        <div class="form-group">
-                            <label for="farmName">Farm Name</label>
-                            <input type="text" id="farmName" name="farmName">
-                        </div>
-                        <div class="form-group">
-                            <label for="district">District</label>
-                            <input type="text" id="district" name="district">
-                        </div>
-                        <div class="form-group">
-                            <label for="state">State</label>
-                            <input type="text" id="state" name="state">
-                        </div>
-                        <div class="form-group">
-                            <label for="preferredLanguage">Preferred Language</label>
-                            <select id="preferredLanguage" name="preferredLanguage">
-                                <option value="en">English</option>
-                                <option value="hi">Hindi</option>
-                            </select>
-                        </div>
-                        <button type="submit" id="saveProfileBtn" disabled>Save Profile</button>
-                    </form>
-                </section>
+        <section class="address-section">
+            <div class="section-heading">
+                <h2>Farm Addresses</h2>
+                <button type="button" id="addAddressBtn">Add Address</button>
+            </div>
+            <div id="addressContainer">
+                <p>Address management will be available here.</p>
+            </div>
+        </section>
             </main>
         </div>
     </div>
@@ -190,6 +121,7 @@
     <script src="../js/core/i18n.js"></script>
     <script src="../js/core/api.js"></script>
     <script src="../js/core/auth.js"></script>
+    <script src="../js/core/profile-storage.js"></script>
     <script src="../js/farmer/farmer.js"></script>
     <script src="../js/farmer/profile.js"></script>
 </body>

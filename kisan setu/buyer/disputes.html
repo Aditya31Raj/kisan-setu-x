@@ -3,186 +3,206 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kisan Setu - Buyer Disputes</title>
+
+    <title>Kisan Setu - Disputes</title>
+
     <link rel="stylesheet" href="../css/style.css">
     <link rel="stylesheet" href="../css/buyer.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
 </head>
+
 <body>
+
     <div class="dashboard">
         <aside class="sidebar">
-            <div class="brand">
-                <img src="../images/logoks.jpeg" alt="Kisan Setu Logo">
-                <div class="brand-text">
-                    <h2>KISAN SETU</h2>
-                    <span data-i18n="portal_buyer">BUYER / VENDOR PORTAL</span>
-                </div>
-            </div>
-            <div class="user-box">
-                <div class="user-info">
-                    <div class="user-icon"><i class="fa-solid fa-store"></i></div>
-                    <div>
-                        <strong id="buyerSidebarName">Loading...</strong>
-                        <span id="buyerSidebarId">Buyer / Vendor</span>
-                    </div>
-                </div>
-            </div>
+            <div class="brand"><img src="../images/logoks.jpeg" alt="Kisan Setu Logo"><div class="brand-text"><h2>KISAN SETU</h2><span data-i18n="portal_buyer">BUYER / VENDOR PORTAL</span></div></div>
+            <div class="user-box"><div class="user-info"><div class="user-icon"><i class="fa-solid fa-store"></i></div><div><strong id="buyerSidebarName">Loading...</strong><span id="buyerSidebarId">Buyer / Vendor</span></div></div></div>
             <nav class="sidebar-nav">
                 <div class="nav-title" data-i18n="mainMenu">Main Menu</div>
-                <a href="../buyer_dashboard.html" class="nav-item"><i class="fa-solid fa-house"></i> <span data-i18n="nav_dashboard">Dashboard</span></a>
-                <a href="produce.html" class="nav-item"><i class="fa-solid fa-wheat-awn"></i> <span data-i18n="nav_find_produce">Find Produce</span></a>
-                <a href="orders.html" class="nav-item"><i class="fa-solid fa-box"></i> <span data-i18n="nav_my_orders">My Orders</span></a>
-                <a href="payments.html" class="nav-item"><i class="fa-solid fa-credit-card"></i> <span data-i18n="nav_payments">Payments</span></a>
-                <a href="logistics.html" class="nav-item"><i class="fa-solid fa-truck"></i> <span data-i18n="nav_logistics">Logistics</span></a>
-                <a href="history.html" class="nav-item"><i class="fa-solid fa-clock-rotate-left"></i> <span data-i18n="nav_payment_history">Order History</span></a>
-                <a href="disputes.html" class="nav-item active"><i class="fa-solid fa-triangle-exclamation"></i> <span data-i18n="nav_disputes">Disputes</span></a>
-                <a href="notifications.html" class="nav-item"><i class="fa-solid fa-bell"></i> <span data-i18n="nav_notifications">Notifications</span></a>
-                <a href="profile.html" class="nav-item"><i class="fa-solid fa-user"></i> <span data-i18n="nav_profile">Profile</span></a>
+                <a href="../buyer_dashboard.html" class="nav-item"><i class="fa-solid fa-house"></i><span data-i18n="nav_dashboard">Dashboard</span></a>
+                <a href="produce.html" class="nav-item"><i class="fa-solid fa-wheat-awn"></i><span data-i18n="nav_find_produce">Find Produce</span></a>
+                <a href="orders.html" class="nav-item"><i class="fa-solid fa-box"></i><span data-i18n="nav_my_orders">My Orders</span></a>
+                <a href="payments.html" class="nav-item"><i class="fa-solid fa-credit-card"></i><span data-i18n="nav_payments">Payments</span></a>
+                <a href="logistics.html" class="nav-item"><i class="fa-solid fa-truck"></i><span data-i18n="nav_logistics">Logistics</span></a>
+                <a href="history.html" class="nav-item"><i class="fa-solid fa-clock-rotate-left"></i><span data-i18n="nav_payment_history">Payment History</span></a>
+                <a href="disputes.html" class="nav-item active"><i class="fa-solid fa-triangle-exclamation"></i><span data-i18n="nav_disputes">Disputes</span></a>
+                <a href="notifications.html" class="nav-item"><i class="fa-solid fa-bell"></i><span data-i18n="nav_notifications">Notifications</span></a>
+                <a href="profile.html" class="nav-item"><i class="fa-solid fa-user"></i><span data-i18n="nav_profile">Profile</span></a>
             </nav>
-            <div class="logout">
-                <a href="javascript:void(0)" id="logoutBtn" class="nav-item logout-btn"><i class="fa-solid fa-right-from-bracket"></i> <span data-i18n="nav_logout">Logout</span></a>
-            </div>
+            <div class="logout"><a href="javascript:void(0)" id="logoutBtn" class="nav-item logout-btn"><i class="fa-solid fa-right-from-bracket"></i><span data-i18n="nav_logout">Logout</span></a></div>
         </aside>
+        <main class="main">
 
-        <div class="main">
-            <main class="buyer-container">
-                <section class="page-header" style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px;">
-                    <div>
-                        <h1 data-i18n="disputes_title">Dispute Resolution & Quality Claims</h1>
-                        <p data-i18n="disputes_sub">Raise claims for quality variance, quantity shortage, or logistics delays.</p>
-                    </div>
-                    <button type="button" class="lang-toggle-btn" title="Change Language / भाषा बदलें">
-                        <i class="fa-solid fa-globe"></i>
-                        <span class="lang-toggle-label">हिन्दी</span>
-                    </button>
-                </section>
+    <!-- MAIN -->
+    <main class="buyer-container">
 
-                <!-- TRUST BANNER -->
-                <div class="trust-guarantee-banner" style="margin-bottom: 24px;">
-                    <div class="trust-banner-content">
-                        <div class="trust-pill-row">
-                            <span class="trust-tag"><i class="fa-solid fa-shield-halved"></i> Escrow Buyer Protection</span>
-                            <span class="trust-live-pill"><span class="pulse-dot"></span> Quality Arbitration Active</span>
-                        </div>
-                        <h3>Buyer Escrow Claim & Mediation Chamber</h3>
-                        <p>Funds remain locked in safe escrow until dispute investigation completes. Official agricultural quality testing supported.</p>
-                    </div>
-                    <div class="trust-stat-chips">
-                        <div class="trust-chip">
-                            <i class="fa-solid fa-lock"></i>
-                            <div>
-                                <strong>Safe Escrow Hold</strong>
-                                <span>Zero Unauthorized Payout</span>
-                            </div>
-                        </div>
-                        <div class="trust-chip">
-                            <i class="fa-solid fa-clock-rotate-left"></i>
-                            <div>
-                                <strong>48h Resolution</strong>
-                                <span>Direct Admin Mediation</span>
-                            </div>
-                        </div>
-                    </div>
+        <section class="page-header" style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px;">
+            <div>
+                <h1 data-i18n="disputes_title">Disputes</h1>
+                <p data-i18n="disputes_sub">
+                    Raise and track disputes related to your orders.
+                </p>
+            </div>
+            <button type="button" class="lang-toggle-btn" title="Change Language / भाषा बदलें">
+                <i class="fa-solid fa-globe"></i>
+                <span class="lang-toggle-label">हिन्दी</span>
+            </button>
+        </section>
+
+
+        <!-- CREATE DISPUTE -->
+
+        <section class="form-section">
+
+            <h2 data-i18n="raise_dispute">Raise a Dispute</h2>
+
+            <form id="disputeForm">
+
+                <div class="form-group">
+
+                    <label for="orderId" data-i18n="order_id">
+                        Order ID
+                    </label>
+
+                    <input
+                        type="text"
+                        id="orderId"
+                        name="orderId"
+                        placeholder="Enter order ID"
+                        data-i18n-placeholder="order_id_ph"
+                        required
+                    >
+
                 </div>
 
-                <!-- KPI SUMMARY GRID -->
-                <div class="kpi-summary-grid" style="margin-bottom: 28px;">
-                    <div class="kpi-card">
-                        <div class="kpi-icon-wrap kpi-rose">
-                            <i class="fa-solid fa-circle-exclamation"></i>
-                        </div>
-                        <div class="kpi-details">
-                            <span class="kpi-label">Active Claims</span>
-                            <h3 class="kpi-val" id="kpiBuyerActiveDisputes">--</h3>
-                            <span class="kpi-trend neutral"><i class="fa-solid fa-clock"></i> In Verification</span>
-                        </div>
-                    </div>
-                    <div class="kpi-card">
-                        <div class="kpi-icon-wrap kpi-amber">
-                            <i class="fa-solid fa-magnifying-glass"></i>
-                        </div>
-                        <div class="kpi-details">
-                            <span class="kpi-label">Under Inspection</span>
-                            <h3 class="kpi-val" id="kpiBuyerInReview">--</h3>
-                            <span class="kpi-trend neutral"><i class="fa-solid fa-clipboard-check"></i> Quality Check</span>
-                        </div>
-                    </div>
-                    <div class="kpi-card">
-                        <div class="kpi-icon-wrap kpi-emerald">
-                            <i class="fa-solid fa-circle-check"></i>
-                        </div>
-                        <div class="kpi-details">
-                            <span class="kpi-label">Resolved & Settled</span>
-                            <h3 class="kpi-val" id="kpiBuyerResolved">--</h3>
-                            <span class="kpi-trend positive"><i class="fa-solid fa-handshake"></i> Cleared</span>
-                        </div>
-                    </div>
-                    <div class="kpi-card">
-                        <div class="kpi-icon-wrap kpi-purple">
-                            <i class="fa-solid fa-vault"></i>
-                        </div>
-                        <div class="kpi-details">
-                            <span class="kpi-label">Escrow Refund Protection</span>
-                            <h3 class="kpi-val">100%</h3>
-                            <span class="kpi-trend positive"><i class="fa-solid fa-shield"></i> SafePay Backed</span>
-                        </div>
-                    </div>
+
+                <div class="form-group">
+
+                    <label for="reason" data-i18n="reason">
+                        Reason
+                    </label>
+
+                    <textarea
+                        id="reason"
+                        name="reason"
+                        rows="5"
+                        placeholder="Describe the reason for the dispute"
+                        data-i18n-placeholder="reason_ph"
+                        required
+                    ></textarea>
+
                 </div>
 
-                <!-- CREATE DISPUTE -->
-                <section class="form-section">
-                    <h2 data-i18n="raise_dispute">Raise a Dispute / Claim</h2>
-                    <form id="disputeForm">
-                        <div class="form-group">
-                            <label for="orderId" data-i18n="order_id">Order ID</label>
-                            <input type="text" id="orderId" name="orderId" placeholder="Enter order ID" data-i18n-placeholder="order_id_ph" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="reason" data-i18n="reason">Reason / Discrepancy Details</label>
-                            <textarea id="reason" name="reason" rows="5" placeholder="Describe the reason for the dispute (e.g. moisture level above standard, bag weight short by 5%)" data-i18n-placeholder="reason_ph" required></textarea>
-                        </div>
-                        <button type="submit" id="submitDisputeBtn" data-i18n="submit_dispute">Submit Dispute</button>
-                    </form>
-                </section>
 
-                <!-- MESSAGE -->
-                <div id="disputeMessage"></div>
+                <button
+                    type="submit"
+                    id="submitDisputeBtn"
+                    data-i18n="submit_dispute">
+                    Submit Dispute
+                </button>
 
-                <!-- DISPUTES LIST -->
-                <section class="disputes-section">
-                    <div class="section-heading" style="display: flex; justify-content: space-between; align-items: center;">
-                        <h2 data-i18n="my_disputes">My Disputes</h2>
-                        <button type="button" id="refreshDisputesBtn" data-i18n="refresh_btn"><i class="fa-solid fa-rotate"></i> Refresh</button>
-                    </div>
-                    <div id="disputesContainer">
-                        <p data-i18n="loading">Loading disputes...</p>
-                    </div>
-                </section>
+            </form>
 
-                <!-- PAGINATION -->
-                <section class="pagination-section">
-                    <button type="button" id="previousBtn" data-i18n="btn_previous" disabled>Previous</button>
-                    <span id="pageNumber">Page 1</span>
-                    <button type="button" id="nextBtn" data-i18n="btn_next">Next</button>
-                </section>
-            </main>
-        </div>
+        </section>
+
+
+        <!-- MESSAGE -->
+
+        <div id="disputeMessage"></div>
+
+
+        <!-- DISPUTES LIST -->
+
+        <section class="disputes-section">
+
+            <div class="section-heading" style="display: flex; justify-content: space-between; align-items: center;">
+
+                <h2 data-i18n="my_disputes">My Disputes</h2>
+
+                <button
+                    type="button"
+                    id="refreshDisputesBtn"
+                    data-i18n="refresh_btn">
+                    Refresh
+                </button>
+
+            </div>
+
+
+            <div id="disputesContainer">
+                <p data-i18n="loading">
+                    Loading disputes...
+                </p>
+            </div>
+
+        </section>
+
+
+        <!-- PAGINATION -->
+
+        <section class="pagination-section">
+
+            <button
+                type="button"
+                id="previousBtn"
+                data-i18n="btn_previous"
+                disabled>
+                Previous
+            </button>
+
+            <span id="pageNumber">
+                Page 1
+            </span>
+
+            <button
+                type="button"
+                id="nextBtn"
+                data-i18n="btn_next">
+                Next
+            </button>
+
+        </section>
+
+        </main>
     </div>
+
 
     <!-- DISPUTE DETAILS MODAL -->
-    <div id="disputeModal" class="modal" style="display: none;">
+
+    <div
+        id="disputeModal"
+        class="modal"
+        style="display: none;">
+
         <div class="modal-content">
-            <button type="button" id="closeModalBtn" class="close-btn">&times;</button>
-            <h2 data-i18n="btn_details">Dispute Details</h2>
-            <div id="disputeDetails"></div>
+
+            <button
+                type="button"
+                id="closeModalBtn"
+                class="close-btn">
+                ×
+            </button>
+
+            <h2 data-i18n="btn_details">
+                Dispute Details
+            </h2>
+
+            <div id="disputeDetails">
+                <!-- Loaded by disputes.js -->
+            </div>
+
         </div>
+
     </div>
 
+
     <!-- JAVASCRIPT -->
+
     <script src="../js/core/i18n.js"></script>
     <script src="../js/core/api.js"></script>
     <script src="../js/core/auth.js"></script>
     <script src="../js/buyer/buyer.js"></script>
     <script src="../js/buyer/disputes.js"></script>
+
 </body>
 </html>

@@ -50,87 +50,15 @@
         <div class="main">
             <main class="buyer-container">
                 <section class="page-header" style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px;">
-                    <div>
-                        <h1>Logistics & Fleet Coordination</h1>
-                        <p>Request transport from Block Admin, track dispatches, and coordinate delivery.</p>
-                    </div>
-                    <button type="button" class="lang-toggle-btn" title="Change Language / भाषा बदलें">
-                        <i class="fa-solid fa-globe"></i>
-                        <span class="lang-toggle-label">हिन्दी</span>
-                    </button>
-                </section>
-
-                <!-- TRUST BANNER -->
-                <div class="trust-guarantee-banner" style="margin-bottom: 24px;">
-                    <div class="trust-banner-content">
-                        <div class="trust-pill-row">
-                            <span class="trust-tag"><i class="fa-solid fa-shield-halved"></i> PACS Fleet Tracking</span>
-                            <span class="trust-live-pill"><span class="pulse-dot"></span> GPS Telemetry Active</span>
-                        </div>
-                        <h3>Farm-to-Buyer Cold Chain & Transport</h3>
-                        <p>Block administrative fleet coordination, geo-tagged waybills, and driver contact verification for seamless farm-gate collection.</p>
-                    </div>
-                    <div class="trust-stat-chips">
-                        <div class="trust-chip">
-                            <i class="fa-solid fa-truck-ramp-box"></i>
-                            <div>
-                                <strong>Direct Farm Pickup</strong>
-                                <span>Zero Intermediate Handling</span>
-                            </div>
-                        </div>
-                        <div class="trust-chip">
-                            <i class="fa-solid fa-shield-check"></i>
-                            <div>
-                                <strong>Transit Insured</strong>
-                                <span>Govt Regulated Waybill</span>
-                            </div>
-                        </div>
-                    </div>
+            <div>
+                    <h1>Logistics & Fleet Coordination</h1>
+                    <p>Request transport from Block Admin, track dispatches, and coordinate delivery.</p>
                 </div>
-
-                <!-- KPI SUMMARY GRID -->
-                <div class="kpi-summary-grid" style="margin-bottom: 28px;">
-                    <div class="kpi-card">
-                        <div class="kpi-icon-wrap kpi-emerald">
-                            <i class="fa-solid fa-truck-fast"></i>
-                        </div>
-                        <div class="kpi-details">
-                            <span class="kpi-label">Active Dispatches</span>
-                            <h3 class="kpi-val" id="kpiActiveDispatches">--</h3>
-                            <span class="kpi-trend positive"><i class="fa-solid fa-arrow-up"></i> On Schedule</span>
-                        </div>
-                    </div>
-                    <div class="kpi-card">
-                        <div class="kpi-icon-wrap kpi-amber">
-                            <i class="fa-solid fa-bell"></i>
-                        </div>
-                        <div class="kpi-details">
-                            <span class="kpi-label">Awaiting Fleet</span>
-                            <h3 class="kpi-val" id="kpiAwaitingFleet">--</h3>
-                            <span class="kpi-trend neutral"><i class="fa-solid fa-clock"></i> Assigning Driver</span>
-                        </div>
-                    </div>
-                    <div class="kpi-card">
-                        <div class="kpi-icon-wrap kpi-sky">
-                            <i class="fa-solid fa-route"></i>
-                        </div>
-                        <div class="kpi-details">
-                            <span class="kpi-label">In Transit</span>
-                            <h3 class="kpi-val" id="kpiInTransitShipments">--</h3>
-                            <span class="kpi-trend positive"><i class="fa-solid fa-location-dot"></i> Live Waybill</span>
-                        </div>
-                    </div>
-                    <div class="kpi-card">
-                        <div class="kpi-icon-wrap kpi-purple">
-                            <i class="fa-solid fa-circle-check"></i>
-                        </div>
-                        <div class="kpi-details">
-                            <span class="kpi-label">Delivered Rate</span>
-                            <h3 class="kpi-val" id="kpiDeliverySuccess">99.4%</h3>
-                            <span class="kpi-trend positive"><i class="fa-solid fa-shield"></i> Zero Spoilage</span>
-                        </div>
-                    </div>
-                </div>
+            <button type="button" class="lang-toggle-btn" title="Change Language / भाषा बदलें">
+                <i class="fa-solid fa-globe"></i>
+                <span class="lang-toggle-label">हिन्दी</span>
+            </button>
+        </section>
 
                 <!-- SEARCH / TRACK BAR -->
                 <section class="logistics-search" style="background: white; border: 1px solid #e2ece3; border-radius: 10px; padding: 18px 22px; margin-bottom: 24px; box-shadow: 0 2px 6px rgba(0,0,0,0.02); display: flex; gap: 12px; align-items: flex-end; flex-wrap: wrap;">
@@ -186,38 +114,53 @@
                     </div>
 
                     <div class="status-update" style="margin-top: 18px; padding-top: 16px; border-top: 1px solid #eee;">
-                        <label for="newStatus" style="font-weight: 600; font-size: 13px; margin-right: 8px;">Update Delivery Status:</label>
-                        <select id="newStatus" style="padding: 6px 12px; border-radius: 6px; border: 1px solid #ccc; font-size: 13px;">
-                            <option value="PICKED_UP">Picked Up from Farm</option>
-                            <option value="IN_TRANSIT">In Transit to Destination</option>
-                            <option value="DELIVERED">Delivered</option>
-                        </select>
-                        <button type="button" id="updateStatusBtn" style="padding: 7px 16px; background: #16863b; color: white; border: none; border-radius: 6px; font-weight: 600; cursor: pointer; margin-left: 8px;">
-                            Update Status
-                        </button>
+                        <h3 style="font-size: 14px; margin-bottom: 8px;">Dispatch Status Update</h3>
+                        <div style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap;">
+                            <select id="newStatus" style="padding: 8px 12px; border: 1px solid #ccc; border-radius: 6px;">
+                                <option value="">Select Status</option>
+                                <option value="PICKED_UP">Picked Up</option>
+                                <option value="IN_TRANSIT">In Transit</option>
+                                <option value="DELIVERED">Delivered</option>
+                            </select>
+                            <button type="button" id="updateStatusBtn" style="padding: 8px 18px; background: #16863b; color: white; border: none; border-radius: 6px; cursor: pointer; font-weight: 600;">Update Status</button>
+                        </div>
                     </div>
                 </section>
             </main>
         </div>
     </div>
 
-    <!-- UPDATE MODAL FOR TABLE ROWS -->
-    <div id="updateModal" style="display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.4); z-index: 1000; align-items: center; justify-content: center;">
-        <div style="background: white; border-radius: 10px; padding: 24px; width: 380px; max-width: 90%; box-shadow: 0 4px 20px rgba(0,0,0,0.15);">
-            <h3 style="margin: 0 0 16px; font-size: 16px; color: #166534;"><i class="fa-solid fa-truck"></i> Update Shipment Status</h3>
-            <p id="modalShipmentInfo" style="font-size: 13px; color: #555; margin-bottom: 14px;"></p>
-            <label for="modalStatusSelect" style="display: block; font-size: 12px; font-weight: 600; color: #444; margin-bottom: 6px;">Select New Status</label>
-            <select id="modalStatusSelect" style="width: 100%; padding: 8px 10px; border-radius: 6px; border: 1px solid #ccc; margin-bottom: 16px; font-size: 13px;">
-                <option value="ASSIGNED">Assigned</option>
-                <option value="IN_TRANSIT">In Transit</option>
-                <option value="DELIVERED">Delivered</option>
-                <option value="FAILED">Failed</option>
-            </select>
-            <div id="modalError" style="display: none; color: #b91c1c; font-size: 12px; margin-bottom: 12px;"></div>
-            <div style="display: flex; justify-content: flex-end; gap: 10px;">
-                <button type="button" id="modalCancelBtn" style="padding: 7px 14px; border: 1px solid #ccc; background: white; border-radius: 6px; cursor: pointer;">Cancel</button>
-                <button type="button" id="modalConfirmBtn" style="padding: 7px 16px; background: #16863b; color: white; border: none; border-radius: 6px; font-weight: 600; cursor: pointer;">Confirm Update</button>
+    <!-- Logistics Request Modal -->
+    <div id="logisticsModal" class="modal" style="display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 1100; align-items: center; justify-content: center;">
+        <div class="modal-content" style="background: white; border-radius: 12px; width: 500px; max-width: 95%; padding: 24px; box-shadow: 0 10px 30px rgba(0,0,0,0.2);">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; border-bottom: 1px solid #eef2ef; padding-bottom: 10px;">
+                <h3 style="margin: 0; font-size: 18px; color: #166534;"><i class="fa-solid fa-truck-fast"></i> Request Block Logistics</h3>
+                <button type="button" id="closeLogisticsModalBtn" style="border: none; background: none; font-size: 22px; cursor: pointer; color: #888;">&times;</button>
             </div>
+            <form id="logisticsRequestForm">
+                <input type="hidden" id="logisticsOrderId">
+                <div style="margin-bottom: 12px;">
+                    <label style="display: block; font-size: 12px; font-weight: 600; margin-bottom: 4px; color: #333;">Order Reference</label>
+                    <input type="text" id="logisticsOrderNumber" readonly style="width: 100%; padding: 8px 10px; background: #f3f4f6; border: 1px solid #d1d5db; border-radius: 6px; font-size: 13px;">
+                </div>
+                <div style="margin-bottom: 12px;">
+                    <label style="display: block; font-size: 12px; font-weight: 600; margin-bottom: 4px; color: #333;">Pickup Farm / Village Location</label>
+                    <input type="text" id="logisticsPickup" required placeholder="e.g. Village Rampur, Block Barh, Dist. Patna" style="width: 100%; padding: 8px 10px; border: 1px solid #cbd5e1; border-radius: 6px; font-size: 13px;">
+                </div>
+                <div style="margin-bottom: 12px;">
+                    <label style="display: block; font-size: 12px; font-weight: 600; margin-bottom: 4px; color: #333;">Buyer Destination / Mandi</label>
+                    <input type="text" id="logisticsDestination" required placeholder="e.g. Krishi Mandi Shed #4, Patna" style="width: 100%; padding: 8px 10px; border: 1px solid #cbd5e1; border-radius: 6px; font-size: 13px;">
+                </div>
+                <div style="margin-bottom: 16px;">
+                    <label style="display: block; font-size: 12px; font-weight: 600; margin-bottom: 4px; color: #333;">Preferred Pickup Date</label>
+                    <input type="date" id="logisticsDate" style="width: 100%; padding: 8px 10px; border: 1px solid #cbd5e1; border-radius: 6px; font-size: 13px;">
+                </div>
+                <div id="logisticsFormError" style="display: none; color: #b91c1c; font-size: 12px; margin-bottom: 12px; background: #fef2f2; padding: 8px; border-radius: 6px;"></div>
+                <div style="display: flex; justify-content: flex-end; gap: 10px;">
+                    <button type="button" id="cancelLogisticsBtn" style="padding: 8px 16px; border: 1px solid #ccc; background: white; border-radius: 6px; cursor: pointer;">Cancel</button>
+                    <button type="submit" id="submitLogisticsBtn" style="padding: 8px 18px; background: #16863b; color: white; border: none; border-radius: 6px; font-weight: 600; cursor: pointer;">Submit Request to Admin</button>
+                </div>
+            </form>
         </div>
     </div>
 

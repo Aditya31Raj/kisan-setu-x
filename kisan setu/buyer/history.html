@@ -1,32 +1,32 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
+
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kisan Setu - Buyer Order History</title>
-    <link rel="stylesheet" href="../css/style.css">
-    <link rel="stylesheet" href="../css/buyer.css">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Kisan Setu - Order History</title>
+
+    <link rel="stylesheet"
+          href="../css/style.css">
+
+    <link rel="stylesheet"
+          href="../css/buyer.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
 </head>
+
+
 <body>
+
+
     <div class="dashboard">
         <aside class="sidebar">
-            <div class="brand">
-                <img src="../images/logoks.jpeg" alt="Kisan Setu Logo">
-                <div class="brand-text">
-                    <h2>KISAN SETU</h2>
-                    <span data-i18n="portal_buyer">BUYER / VENDOR PORTAL</span>
-                </div>
-            </div>
-            <div class="user-box">
-                <div class="user-info">
-                    <div class="user-icon"><i class="fa-solid fa-store"></i></div>
-                    <div>
-                        <strong id="buyerSidebarName">Loading...</strong>
-                        <span id="buyerSidebarId">Buyer / Vendor</span>
-                    </div>
-                </div>
-            </div>
+            <div class="brand"><img src="../images/logoks.jpeg" alt="Kisan Setu Logo"><div class="brand-text"><h2>KISAN SETU</h2><span data-i18n="portal_buyer">BUYER / VENDOR PORTAL</span></div></div>
+            <div class="user-box"><div class="user-info"><div class="user-icon"><i class="fa-solid fa-store"></i></div><div><strong id="buyerSidebarName">Loading...</strong><span id="buyerSidebarId">Buyer / Vendor</span></div></div></div>
             <nav class="sidebar-nav">
                 <div class="nav-title" data-i18n="mainMenu">Main Menu</div>
                 <a href="../buyer_dashboard.html" class="nav-item"><i class="fa-solid fa-house"></i> <span data-i18n="nav_dashboard">Dashboard</span></a>
@@ -34,146 +34,193 @@
                 <a href="orders.html" class="nav-item"><i class="fa-solid fa-box"></i> <span data-i18n="nav_my_orders">My Orders</span></a>
                 <a href="payments.html" class="nav-item"><i class="fa-solid fa-credit-card"></i> <span data-i18n="nav_payments">Payments</span></a>
                 <a href="logistics.html" class="nav-item"><i class="fa-solid fa-truck"></i> <span data-i18n="nav_logistics">Logistics</span></a>
-                <a href="history.html" class="nav-item active"><i class="fa-solid fa-clock-rotate-left"></i> <span data-i18n="nav_payment_history">Order History</span></a>
+                <a href="history.html" class="nav-item active"><i class="fa-solid fa-clock-rotate-left"></i> <span data-i18n="nav_payment_history">Payment History</span></a>
                 <a href="disputes.html" class="nav-item"><i class="fa-solid fa-triangle-exclamation"></i> <span data-i18n="nav_disputes">Disputes</span></a>
                 <a href="notifications.html" class="nav-item"><i class="fa-solid fa-bell"></i> <span data-i18n="nav_notifications">Notifications</span></a>
                 <a href="profile.html" class="nav-item"><i class="fa-solid fa-user"></i> <span data-i18n="nav_profile">Profile</span></a>
             </nav>
-            <div class="logout">
-                <a href="javascript:void(0)" id="logoutBtn" class="nav-item logout-btn"><i class="fa-solid fa-right-from-bracket"></i> <span data-i18n="nav_logout">Logout</span></a>
-            </div>
+            <div class="logout"><a href="javascript:void(0)" id="logoutBtn" class="nav-item logout-btn"><i class="fa-solid fa-right-from-bracket"></i> <span data-i18n="nav_logout">Logout</span></a></div>
         </aside>
+        <main class="main">
 
-        <div class="main">
-            <main class="buyer-container">
-                <section class="page-header" style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px;">
-                    <div>
-                        <h1>Procurement History & Past Invoices</h1>
-                        <p>View your completed deals, settled escrow invoices, and delivery receipts.</p>
-                    </div>
-                    <button type="button" class="lang-toggle-btn" title="Change Language / भाषा बदलें">
-                        <i class="fa-solid fa-globe"></i>
-                        <span class="lang-toggle-label">हिन्दी</span>
-                    </button>
-                </section>
 
-                <!-- TRUST BANNER -->
-                <div class="trust-guarantee-banner" style="margin-bottom: 24px;">
-                    <div class="trust-banner-content">
-                        <div class="trust-pill-row">
-                            <span class="trust-tag"><i class="fa-solid fa-shield-halved"></i> 100% Tax Invoiced</span>
-                            <span class="trust-live-pill"><span class="pulse-dot"></span> Mandi Clearance Active</span>
-                        </div>
-                        <h3>Corporate & Retail Procurement Archive</h3>
-                        <p>Audited ledger of all mandi crop purchases, GST input tax credit invoices, and verified digital weighbridge certificates.</p>
-                    </div>
-                    <div class="trust-stat-chips">
-                        <div class="trust-chip">
-                            <i class="fa-solid fa-file-invoice-dollar"></i>
-                            <div>
-                                <strong>GST Compliant</strong>
-                                <span>Input Credit Invoices</span>
-                            </div>
-                        </div>
-                        <div class="trust-chip">
-                            <i class="fa-solid fa-circle-check"></i>
-                            <div>
-                                <strong>Escrow Cleared</strong>
-                                <span>Zero Counterparty Risk</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
 
-                <!-- KPI SUMMARY GRID -->
-                <div class="kpi-summary-grid" style="margin-bottom: 28px;">
-                    <div class="kpi-card">
-                        <div class="kpi-icon-wrap kpi-emerald">
-                            <i class="fa-solid fa-clipboard-check"></i>
-                        </div>
-                        <div class="kpi-details">
-                            <span class="kpi-label">Completed Orders</span>
-                            <h3 class="kpi-val" id="kpiBuyerCompleted">--</h3>
-                            <span class="kpi-trend positive"><i class="fa-solid fa-circle-check"></i> 100% Delivered</span>
-                        </div>
-                    </div>
-                    <div class="kpi-card">
-                        <div class="kpi-icon-wrap kpi-purple">
-                            <i class="fa-solid fa-credit-card"></i>
-                        </div>
-                        <div class="kpi-details">
-                            <span class="kpi-label">Total Spend Settled</span>
-                            <h3 class="kpi-val" id="kpiBuyerSpend">₹8,45,000</h3>
-                            <span class="kpi-trend positive"><i class="fa-solid fa-shield-check"></i> Escrow Released</span>
-                        </div>
-                    </div>
-                    <div class="kpi-card">
-                        <div class="kpi-icon-wrap kpi-sky">
-                            <i class="fa-solid fa-boxes-stacked"></i>
-                        </div>
-                        <div class="kpi-details">
-                            <span class="kpi-label">Procured Volume</span>
-                            <h3 class="kpi-val">42.5 MT</h3>
-                            <span class="kpi-trend positive"><i class="fa-solid fa-arrow-trend-up"></i> High Volume Tier</span>
-                        </div>
-                    </div>
-                    <div class="kpi-card">
-                        <div class="kpi-icon-wrap kpi-amber">
-                            <i class="fa-solid fa-percent"></i>
-                        </div>
-                        <div class="kpi-details">
-                            <span class="kpi-label">Intermediary Savings</span>
-                            <h3 class="kpi-val">~18.2%</h3>
-                            <span class="kpi-trend positive"><i class="fa-solid fa-piggy-bank"></i> Farm-Direct Gain</span>
-                        </div>
-                    </div>
-                </div>
+    <!-- MAIN CONTENT -->
 
-                <!-- FILTER -->
-                <section class="history-filter">
-                    <label for="statusFilter">Filter by status:</label>
-                    <select id="statusFilter">
-                        <option value="ALL">All</option>
-                        <option value="COMPLETED">Completed</option>
-                        <option value="DELIVERED">Delivered</option>
-                        <option value="CANCELLED">Cancelled</option>
-                        <option value="REJECTED">Rejected</option>
-                        <option value="DISPUTED">Disputed</option>
-                    </select>
-                    <button id="refreshHistoryBtn" type="button"><i class="fa-solid fa-rotate"></i> Refresh</button>
-                </section>
+    <main class="buyer-container">
 
-                <div id="historyMessage"></div>
 
-                <section class="history-section">
-                    <div id="historyContainer">
-                        <p>Loading order history...</p>
-                    </div>
-                </section>
+        <section class="page-header" style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px;">
+            <div>
 
-                <section class="pagination-section">
-                    <button id="previousBtn" type="button" disabled>Previous</button>
-                    <span id="pageNumber">Page 1</span>
-                    <button id="nextBtn" type="button">Next</button>
-                </section>
-            </main>
+            <h1>
+                Order History
+            </h1>
+
+            <p>
+                View your completed and past orders.
+            </p>
+
         </div>
+            <button type="button" class="lang-toggle-btn" title="Change Language / भाषा बदलें">
+                <i class="fa-solid fa-globe"></i>
+                <span class="lang-toggle-label">हिन्दी</span>
+            </button>
+        </section>
+
+
+
+        <!-- FILTER -->
+
+        <section class="history-filter">
+
+            <label for="statusFilter">
+                Filter by status:
+            </label>
+
+
+            <select id="statusFilter">
+
+                <option value="ALL">
+                    All
+                </option>
+
+                <option value="COMPLETED">
+                    Completed
+                </option>
+
+                <option value="DELIVERED">
+                    Delivered
+                </option>
+
+                <option value="CANCELLED">
+                    Cancelled
+                </option>
+
+                <option value="REJECTED">
+                    Rejected
+                </option>
+
+                <option value="DISPUTED">
+                    Disputed
+                </option>
+
+            </select>
+
+
+            <button id="refreshHistoryBtn"
+                    type="button">
+
+                Refresh
+
+            </button>
+
+        </section>
+
+
+
+        <!-- MESSAGE -->
+
+        <div id="historyMessage"></div>
+
+
+
+        <!-- HISTORY -->
+
+        <section class="history-section">
+
+
+            <div id="historyContainer">
+
+                <p>
+                    Loading order history...
+                </p>
+
+            </div>
+
+
+        </section>
+
+
+
+        <!-- PAGINATION -->
+
+        <section class="pagination-section">
+
+            <button id="previousBtn"
+                    type="button"
+                    disabled>
+
+                Previous
+
+            </button>
+
+
+            <span id="pageNumber">
+                Page 1
+            </span>
+
+
+            <button id="nextBtn"
+                    type="button">
+
+                Next
+
+            </button>
+
+        </section>
+
+        </main>
     </div>
+
+
 
     <!-- ORDER DETAILS MODAL -->
-    <div id="historyModal" class="modal" style="display:none;">
+
+    <div id="historyModal"
+         class="modal"
+         style="display:none;">
+
         <div class="modal-content">
-            <button id="closeModalBtn" type="button" class="close-btn">&times;</button>
-            <h2>Order Details</h2>
-            <div id="historyDetails"></div>
+
+
+            <button id="closeModalBtn"
+                    type="button"
+                    class="close-btn">
+
+                ×
+
+            </button>
+
+
+            <h2>
+                Order Details
+            </h2>
+
+
+            <div id="historyDetails">
+
+                <!-- Filled by history.js -->
+
+            </div>
+
         </div>
+
     </div>
 
+
+
     <!-- JAVASCRIPT -->
+
     <script src="../js/core/i18n.js"></script>
     <script src="../js/core/api.js"></script>
+
     <script src="../js/core/auth.js"></script>
     <script src="../js/buyer/buyer.js"></script>
     <script src="../js/buyer/history.js"></script>
+
+
+
 </body>
+
 </html>

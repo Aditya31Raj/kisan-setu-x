@@ -49,106 +49,34 @@
 
         <div class="main">
             <main class="buyer-container">
-                <section class="page-header" style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px;">
-                    <div>
-                        <h1>Notifications & Broadcast Center</h1>
-                        <p>Stay updated with instant buyer alerts, escrow fund locks, and block advisories.</p>
-                    </div>
-                    <button type="button" class="lang-toggle-btn" title="Change Language / भाषा बदलें">
-                        <i class="fa-solid fa-globe"></i>
-                        <span class="lang-toggle-label">हिन्दी</span>
-                    </button>
-                </section>
+        <section class="page-header" style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px;">
+            <div>
+            <h1>Notifications</h1>
+            <p>Stay updated with buyer updates, payment alerts, and system messages.</p>
+        </div>
+            <button type="button" class="lang-toggle-btn" title="Change Language / भाषा बदलें">
+                <i class="fa-solid fa-globe"></i>
+                <span class="lang-toggle-label">हिन्दी</span>
+            </button>
+        </section>
 
-                <!-- TRUST BANNER -->
-                <div class="trust-guarantee-banner" style="margin-bottom: 24px;">
-                    <div class="trust-banner-content">
-                        <div class="trust-pill-row">
-                            <span class="trust-tag"><i class="fa-solid fa-shield-halved"></i> Real-time Krishi Dispatch</span>
-                            <span class="trust-live-pill"><span class="pulse-dot"></span> Mandi Telemetry Feed</span>
-                        </div>
-                        <h3>Farmer Notification & Broadcast Center</h3>
-                        <p>Live alerts regarding buyer payments, escrow confirmations, weather forecasts, and scheduled PACS crop collections.</p>
-                    </div>
-                    <div class="trust-stat-chips">
-                        <div class="trust-chip">
-                            <i class="fa-solid fa-bell"></i>
-                            <div>
-                                <strong>Instant Alerts</strong>
-                                <span>Zero Delay SMS & Web Push</span>
-                            </div>
-                        </div>
-                        <div class="trust-chip">
-                            <i class="fa-solid fa-cloud-sun-rain"></i>
-                            <div>
-                                <strong>Agri-Advisories</strong>
-                                <span>IMD Weather & Sowing Tips</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+        <section class="notification-controls">
+            <button type="button" id="refreshNotificationsBtn">Refresh</button>
+        </section>
 
-                <!-- KPI SUMMARY GRID -->
-                <div class="kpi-summary-grid" style="margin-bottom: 28px;">
-                    <div class="kpi-card">
-                        <div class="kpi-icon-wrap kpi-emerald">
-                            <i class="fa-solid fa-bell"></i>
-                        </div>
-                        <div class="kpi-details">
-                            <span class="kpi-label">Total Notifications</span>
-                            <h3 class="kpi-val" id="kpiTotalNotifs">--</h3>
-                            <span class="kpi-trend positive"><i class="fa-solid fa-rss"></i> Live Feed</span>
-                        </div>
-                    </div>
-                    <div class="kpi-card">
-                        <div class="kpi-icon-wrap kpi-purple">
-                            <i class="fa-solid fa-wallet"></i>
-                        </div>
-                        <div class="kpi-details">
-                            <span class="kpi-label">Payment Alerts</span>
-                            <h3 class="kpi-val" id="kpiPaymentNotifs">--</h3>
-                            <span class="kpi-trend positive"><i class="fa-solid fa-circle-check"></i> Escrow Releases</span>
-                        </div>
-                    </div>
-                    <div class="kpi-card">
-                        <div class="kpi-icon-wrap kpi-sky">
-                            <i class="fa-solid fa-truck"></i>
-                        </div>
-                        <div class="kpi-details">
-                            <span class="kpi-label">Logistics Alerts</span>
-                            <h3 class="kpi-val" id="kpiLogisticsNotifs">--</h3>
-                            <span class="kpi-trend neutral"><i class="fa-solid fa-route"></i> Dispatches</span>
-                        </div>
-                    </div>
-                    <div class="kpi-card">
-                        <div class="kpi-icon-wrap kpi-amber">
-                            <i class="fa-solid fa-envelope-open-text"></i>
-                        </div>
-                        <div class="kpi-details">
-                            <span class="kpi-label">System Feed</span>
-                            <h3 class="kpi-val" id="kpiUnreadNotifs">Active</h3>
-                            <span class="kpi-trend positive"><i class="fa-solid fa-check"></i> Real-time</span>
-                        </div>
-                    </div>
-                </div>
+        <div id="notificationMessage"></div>
 
-                <section class="notification-controls">
-                    <button type="button" id="refreshNotificationsBtn"><i class="fa-solid fa-rotate"></i> Refresh Notifications</button>
-                </section>
+        <section class="notifications-section">
+            <div id="notificationsContainer">
+                <p>Loading notifications...</p>
+            </div>
+        </section>
 
-                <div id="notificationMessage"></div>
-
-                <section class="notifications-section">
-                    <div id="notificationsContainer">
-                        <p>Loading notifications...</p>
-                    </div>
-                </section>
-
-                <section class="pagination-section">
-                    <button type="button" id="previousBtn" disabled>Previous</button>
-                    <span id="pageNumber">Page 1</span>
-                    <button type="button" id="nextBtn">Next</button>
-                </section>
+        <section class="pagination-section">
+            <button type="button" id="previousBtn" disabled>Previous</button>
+            <span id="pageNumber">Page 1</span>
+            <button type="button" id="nextBtn">Next</button>
+        </section>
             </main>
         </div>
     </div>
