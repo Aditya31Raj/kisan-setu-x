@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Kisan Setu - Logistics</title>
+    <title>Kisan Setu - Buyer Logistics &amp; Delivery Tracking</title>
 
     <link rel="stylesheet" href="../css/style.css">
     <link rel="stylesheet" href="../css/buyer.css">
@@ -15,42 +15,117 @@
 
     <div class="dashboard">
         <aside class="sidebar">
-            <div class="brand"><img src="../images/logoks.jpeg" alt="Kisan Setu Logo"><div class="brand-text"><h2>KISAN SETU</h2><span data-i18n="portal_buyer">BUYER / VENDOR PORTAL</span></div></div>
-            <div class="user-box"><div class="user-info"><div class="user-icon"><i class="fa-solid fa-store"></i></div><div><strong id="buyerSidebarName">Loading...</strong><span id="buyerSidebarId">Buyer / Vendor</span></div></div></div>
+            <div class="brand">
+                <img src="../images/logoks.jpeg" alt="Kisan Setu Logo">
+                <div class="brand-text">
+                    <h2>KISAN SETU</h2>
+                    <span data-i18n="portal_buyer">BUYER / VENDOR PORTAL</span>
+                </div>
+            </div>
+            <div class="user-box">
+                <div class="user-info">
+                    <div class="user-icon"><i class="fa-solid fa-store"></i></div>
+                    <div>
+                        <strong id="buyerSidebarName">Loading...</strong>
+                        <span id="buyerSidebarId">Buyer / Vendor</span>
+                    </div>
+                </div>
+            </div>
             <nav class="sidebar-nav">
                 <div class="nav-title" data-i18n="mainMenu">Main Menu</div>
                 <a href="../buyer_dashboard.html" class="nav-item"><i class="fa-solid fa-house"></i> <span data-i18n="nav_dashboard">Dashboard</span></a>
                 <a href="produce.html" class="nav-item"><i class="fa-solid fa-wheat-awn"></i> <span data-i18n="nav_find_produce">Find Produce</span></a>
                 <a href="orders.html" class="nav-item"><i class="fa-solid fa-box"></i> <span data-i18n="nav_my_orders">My Orders</span></a>
-                <a href="payments.html" class="nav-item"><i class="fa-solid fa-credit-card"></i> <span data-i18n="nav_payments">Payments</span></a>
+                <a href="payments.html" class="nav-item"><i class="fa-solid fa-credit-card"></i> <span data-i18n="nav_payments">Payments &amp; Escrow</span></a>
                 <a href="logistics.html" class="nav-item active"><i class="fa-solid fa-truck"></i> <span data-i18n="nav_logistics">Logistics</span></a>
                 <a href="history.html" class="nav-item"><i class="fa-solid fa-clock-rotate-left"></i> <span data-i18n="nav_payment_history">Payment History</span></a>
                 <a href="disputes.html" class="nav-item"><i class="fa-solid fa-triangle-exclamation"></i> <span data-i18n="nav_disputes">Disputes</span></a>
                 <a href="notifications.html" class="nav-item"><i class="fa-solid fa-bell"></i> <span data-i18n="nav_notifications">Notifications</span></a>
                 <a href="profile.html" class="nav-item"><i class="fa-solid fa-user"></i> <span data-i18n="nav_profile">Profile</span></a>
             </nav>
-            <div class="logout"><a href="javascript:void(0)" id="logoutBtn" class="nav-item logout-btn"><i class="fa-solid fa-right-from-bracket"></i> <span data-i18n="nav_logout">Logout</span></a></div>
+            <div class="logout">
+                <a href="javascript:void(0)" id="logoutBtn" class="nav-item logout-btn">
+                    <i class="fa-solid fa-right-from-bracket"></i>
+                    <span data-i18n="nav_logout">Logout</span>
+                </a>
+            </div>
         </aside>
-        <main class="main">
-            <main class="buyer-container">
-                <section class="page-header" style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px;">
-            <div>
-                    <h1>Logistics & Delivery Coordination</h1>
-                    <p>Track order dispatches, fleet details, and coordinate delivery with Block Admin.</p>
-                </div>
-            <button type="button" class="lang-toggle-btn" title="Change Language / भाषा बदलें">
-                <i class="fa-solid fa-globe"></i>
-                <span class="lang-toggle-label">हिन्दी</span>
-            </button>
-        </section>
 
-                <!-- SEARCH LOGISTICS -->
-                <section class="logistics-search" style="background: white; border: 1px solid #e2ece3; border-radius: 10px; padding: 18px 22px; margin-bottom: 24px; box-shadow: 0 2px 6px rgba(0,0,0,0.02); display: flex; gap: 12px; align-items: flex-end; flex-wrap: wrap;">
+        <!-- MAIN CONTENT -->
+        <div class="main">
+            <main class="buyer-container">
+                <section class="page-header" style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; margin-bottom: 18px;">
+                    <div>
+                        <h1 style="font-size: 24px; font-weight: 800; color: #0f172a; margin-bottom: 4px; display: flex; align-items: center; gap: 10px;">
+                            <i class="fa-solid fa-truck-fast" style="color: #059669;"></i> Logistics &amp; Delivery Tracking
+                        </h1>
+                        <p style="color: #64748b; font-size: 13px; margin: 0;">
+                            Track order dispatches, fleet vehicle assignments, and real-time delivery roadmaps.
+                        </p>
+                    </div>
+                    <button type="button" class="lang-toggle-btn" title="Change Language / भाषा बदलें">
+                        <i class="fa-solid fa-globe"></i>
+                        <span class="lang-toggle-label">हिन्दी</span>
+                    </button>
+                </section>
+
+                <!-- Escrow Trust Guarantee Banner -->
+                <div class="trust-guarantee-banner">
+                    <div class="trust-tag">
+                        <i class="fa-solid fa-shield-halved"></i>
+                        <span>Direct Farm-to-Door Logistics &bull; GPS Tracked Fleet &bull; Delivery Verification OTP Security</span>
+                    </div>
+                    <div class="trust-live-pill">
+                        <span class="pulse-dot"></span> Live Fleet Dispatch
+                    </div>
+                </div>
+
+                <!-- ================= SUMMARY KPI CARDS ================= -->
+                <section class="kpi-summary-grid">
+                    <div class="kpi-card kpi-emerald">
+                        <div class="kpi-icon-wrap"><i class="fa-solid fa-truck"></i></div>
+                        <div class="kpi-info">
+                            <h3>Active Shipments</h3>
+                            <p id="buyerActiveShipmentsCount">--</p>
+                            <span class="kpi-subtext">En Route to Buyer</span>
+                        </div>
+                    </div>
+
+                    <div class="kpi-card kpi-sky">
+                        <div class="kpi-icon-wrap"><i class="fa-solid fa-id-card-clip"></i></div>
+                        <div class="kpi-info">
+                            <h3>Block Fleet Drivers</h3>
+                            <p>5 Active</p>
+                            <span class="kpi-subtext">Verified Transporters</span>
+                        </div>
+                    </div>
+
+                    <div class="kpi-card kpi-amber">
+                        <div class="kpi-icon-wrap"><i class="fa-solid fa-clock"></i></div>
+                        <div class="kpi-info">
+                            <h3>Avg. Delivery Time</h3>
+                            <p>4.2 Hours</p>
+                            <span class="kpi-subtext">Direct Block Express</span>
+                        </div>
+                    </div>
+
+                    <div class="kpi-card kpi-rose">
+                        <div class="kpi-icon-wrap"><i class="fa-solid fa-circle-check"></i></div>
+                        <div class="kpi-info">
+                            <h3>Delivery Success Rate</h3>
+                            <p>99.4%</p>
+                            <span class="kpi-subtext">Verified with OTP</span>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- SEARCH / TRACK BAR -->
+                <section class="logistics-search" style="background: white; border: 1px solid #e2ece3; border-radius: 12px; padding: 18px 22px; margin-bottom: 24px; box-shadow: 0 4px 14px rgba(0,0,0,0.03); display: flex; gap: 12px; align-items: flex-end; flex-wrap: wrap;">
                     <div style="flex: 1; min-width: 250px;">
                         <label for="logisticsId" style="display: block; font-size: 12px; font-weight: 600; color: #444; margin-bottom: 6px;">Track by Logistics ID</label>
-                        <input type="text" id="logisticsId" placeholder="Enter Logistics ID (e.g. e4f7...)">
+                        <input type="text" id="logisticsId" placeholder="Enter Logistics ID (e.g. e4f7...)" style="width: 100%; padding: 9px 12px; border: 1px solid #cbd5e1; border-radius: 8px; font-size: 13px;">
                     </div>
-                    <button type="button" id="trackBtn" style="padding: 11px 22px; background: #16863b; color: white; border: none; border-radius: 6px; font-weight: 600; cursor: pointer;">
+                    <button type="button" id="trackBtn" class="btn-fintech-primary">
                         <i class="fa-solid fa-magnifying-glass"></i> Track Delivery
                     </button>
                 </section>
@@ -67,27 +142,27 @@
                 </section>
 
                 <!-- ACTIVE SHIPMENTS LIST -->
-                <section style="margin-bottom: 28px;">
-                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px;">
-                        <h2 style="font-size: 18px; color: #202522; margin: 0;"><i class="fa-solid fa-truck"></i> Active Shipments</h2>
-                        <button type="button" id="refreshLogisticsBtn" style="background: white; border: 1px solid #d1d5db; padding: 6px 14px; border-radius: 6px; font-size: 12px; cursor: pointer; color: #444;">
+                <section style="margin-bottom: 28px; background: white; border: 1px solid #e2ece3; border-radius: 14px; padding: 22px;">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; padding-bottom: 12px; border-bottom: 1px solid #eef3ef;">
+                        <h2 style="font-size: 18px; color: #202522; margin: 0;"><i class="fa-solid fa-truck" style="color:#0ea5e9;"></i> Active Shipments</h2>
+                        <button type="button" id="refreshLogisticsBtn" class="btn-fintech-outline">
                             <i class="fa-solid fa-rotate"></i> Refresh
                         </button>
                     </div>
                     <div id="shipmentsContainer">
-                        <div style="text-align: center; padding: 36px; color: #666; background: white; border-radius: 10px; border: 1px solid #e0eae2;">
+                        <div style="text-align: center; padding: 36px; color: #666; background: #fcfdfc; border-radius: 10px; border: 1px dashed #e0eae2;">
                             <i class="fa-solid fa-spinner fa-spin" style="margin-right: 8px;"></i> Loading logistics shipments...
                         </div>
                     </div>
                 </section>
 
                 <!-- LOGISTICS DETAILS -->
-                <section id="logisticsDetails" class="logistics-details" style="display: none; background: white; border-radius: 10px; border: 1px solid #e0eae2; padding: 22px; margin-bottom: 24px;">
+                <section id="logisticsDetails" class="logistics-details" style="display: none; background: white; border-radius: 14px; border: 1px solid #e0eae2; padding: 22px; margin-bottom: 24px; box-shadow: 0 4px 14px rgba(0,0,0,0.04);">
                     <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px;">
-                        <h2 style="margin: 0; font-size: 18px; color: #166534;">Tracking Delivery</h2>
+                        <h2 style="margin: 0; font-size: 18px; color: #166534;"><i class="fa-solid fa-location-dot"></i> Live Shipment Details</h2>
                         <button type="button" onclick="document.getElementById('logisticsDetails').style.display='none'" style="border: none; background: none; font-size: 20px; cursor: pointer; color: #888;">&times;</button>
                     </div>
-                    <div class="logistics-info">
+                    <div class="logistics-info" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px; font-size: 13px;">
                         <p><strong>Logistics ID:</strong> <span id="displayLogisticsId">-</span></p>
                         <p><strong>Order ID:</strong> <span id="orderId">-</span></p>
                         <p><strong>Status:</strong> <span id="logisticsStatus">-</span></p>
@@ -98,12 +173,12 @@
                     </div>
                 </section>
             </main>
-        </main>
+        </div>
     </div>
 
     <!-- Logistics Request Modal -->
     <div id="buyerLogisticsModal" class="modal" style="display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 1100; align-items: center; justify-content: center;">
-        <div class="modal-content" style="background: white; border-radius: 12px; width: 500px; max-width: 95%; padding: 24px; box-shadow: 0 10px 30px rgba(0,0,0,0.2);">
+        <div class="modal-content" style="background: white; border-radius: 14px; width: 500px; max-width: 95%; padding: 24px; box-shadow: 0 20px 40px rgba(0,0,0,0.2);">
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; border-bottom: 1px solid #eef2ef; padding-bottom: 10px;">
                 <h3 style="margin: 0; font-size: 18px; color: #166534;"><i class="fa-solid fa-truck-fast"></i> Request Block Logistics</h3>
                 <button type="button" id="closeBuyerLogisticsModalBtn" style="border: none; background: none; font-size: 22px; cursor: pointer; color: #888;">&times;</button>
@@ -128,21 +203,18 @@
                 </div>
                 <div id="buyerLogisticsFormError" style="display: none; color: #b91c1c; font-size: 12px; margin-bottom: 12px; background: #fef2f2; padding: 8px; border-radius: 6px;"></div>
                 <div style="display: flex; justify-content: flex-end; gap: 10px;">
-                    <button type="button" id="cancelBuyerLogisticsBtn" style="padding: 8px 16px; border: 1px solid #ccc; background: white; border-radius: 6px; cursor: pointer;">Cancel</button>
-                    <button type="submit" id="submitBuyerLogisticsBtn" style="padding: 8px 18px; background: #16863b; color: white; border: none; border-radius: 6px; font-weight: 600; cursor: pointer;">Submit Request to Admin</button>
+                    <button type="button" id="cancelBuyerLogisticsBtn" class="btn-fintech-outline">Cancel</button>
+                    <button type="submit" id="submitBuyerLogisticsBtn" class="btn-fintech-primary">Submit Request to Admin</button>
                 </div>
             </form>
         </div>
     </div>
 
-
     <!-- JAVASCRIPT -->
-
     <script src="../js/core/i18n.js"></script>
     <script src="../js/core/api.js"></script>
     <script src="../js/core/auth.js"></script>
     <script src="../js/buyer/buyer.js"></script>
     <script src="../js/buyer/logistics.js"></script>
-
 </body>
 </html>

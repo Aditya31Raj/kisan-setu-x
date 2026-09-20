@@ -1,405 +1,205 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <title>Kisan Setu - Farmers</title>
-
+    <title>Kisan Setu - Admin Farmers</title>
     <link rel="stylesheet" href="../css/style.css">
     <link rel="stylesheet" href="../css/admin.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
 </head>
-
 <body>
-
-    <!-- ================= SIDEBAR ================= -->
-
-    <aside class="sidebar">
-
-        <div class="logo">
-            <img src="../images/logoks.jpeg" alt="Kisan Setu Logo">
-            KISAN SETU
-        </div>
-
-        <div class="admin-label">
-            ADMIN PORTAL
-        </div>
-
-        <ul class="menu">
-
-            <li>
-                <a href="../admin_dashboard.html"><i class="fa-solid fa-chart-line"></i> <span data-i18n="nav_dashboard">Dashboard</span></a>
-            </li>
-
-            <li>
-                <a href="farmers.html" class="active"><i class="fa-solid fa-users"></i> <span data-i18n="nav_farmers">Farmers</span></a>
-            </li>
-
-            <li>
-                <a href="buyers.html"><i class="fa-solid fa-store"></i> <span data-i18n="nav_buyers">Buyers</span></a>
-            </li>
-
-            <li>
-                <a href="requests.html"><i class="fa-solid fa-clipboard-check"></i> <span data-i18n="nav_requests">Requests</span></a>
-            </li>
-
-            <li>
-                <a href="inputs.html"><i class="fa-solid fa-seedling"></i> <span data-i18n="nav_inputs">Input Management</span></a>
-            </li>
-
-            <li>
-                <a href="payments.html"><i class="fa-solid fa-shield-halved"></i> <span data-i18n="nav_payments">Payments</span></a>
-            </li>
-
-            <li>
-                <a href="reports.html"><i class="fa-solid fa-chart-pie"></i> <span data-i18n="nav_reports">Reports</span></a>
-            </li>
-
-            <li>
-                <a href="alerts.html"><i class="fa-solid fa-triangle-exclamation"></i> <span data-i18n="nav_alerts">Alerts</span></a>
-            </li>
-
-            <li>
-                <a href="grievances.html"><i class="fa-solid fa-scale-balanced"></i> <span data-i18n="nav_grievances">Disputes & Grievances</span></a>
-            </li>
-
-        </ul>
-
-        <div class="logout">
-            <a href="javascript:void(0)" id="logoutBtn" class="logout-btn"><i class="fa-solid fa-arrow-right-from-bracket"></i> <span data-i18n="nav_logout">Logout</span></a>
-        </div>
-
-    </aside>
-
-
-    <!-- ================= MAIN ================= -->
-
-    <main class="main">
-
-
-        <!-- ================= TOPBAR ================= -->
-
-        <div class="topbar">
-
-            <div>
-                <h1>Farmers</h1>
-
-                <p>
-                    Manage and monitor registered farmers
-                </p>
+    <div class="dashboard">
+        <!-- SIDEBAR -->
+        <aside class="sidebar">
+            <div class="logo">
+                <img src="../images/logoks.jpeg" alt="Kisan Setu Logo">
+                KISAN SETU
             </div>
+            <div class="admin-label">
+                ADMIN PORTAL
+            </div>
+            <ul class="menu">
+                <li>
+                    <a href="../admin_dashboard.html"><i class="fa-solid fa-chart-line"></i> <span data-i18n="nav_dashboard">Dashboard</span></a>
+                </li>
+                <li>
+                    <a href="farmers.html" class="active"><i class="fa-solid fa-users"></i> <span data-i18n="nav_farmers">Farmers</span></a>
+                </li>
+                <li>
+                    <a href="buyers.html"><i class="fa-solid fa-store"></i> <span data-i18n="nav_buyers">Buyers</span></a>
+                </li>
+                <li>
+                    <a href="requests.html"><i class="fa-solid fa-clipboard-check"></i> <span data-i18n="nav_requests">Requests</span></a>
+                </li>
+                <li>
+                    <a href="inputs.html"><i class="fa-solid fa-seedling"></i> <span data-i18n="nav_inputs">Input Management</span></a>
+                </li>
+                <li>
+                    <a href="payments.html"><i class="fa-solid fa-shield-halved"></i> <span data-i18n="nav_payments">Payments</span></a>
+                </li>
+                <li>
+                    <a href="reports.html"><i class="fa-solid fa-chart-pie"></i> <span data-i18n="nav_reports">Reports</span></a>
+                </li>
+                <li>
+                    <a href="alerts.html"><i class="fa-solid fa-triangle-exclamation"></i> <span data-i18n="nav_alerts">Alerts</span></a>
+                </li>
+                <li>
+                    <a href="grievances.html"><i class="fa-solid fa-scale-balanced"></i> <span data-i18n="nav_grievances">Disputes & Grievances</span></a>
+                </li>
+            </ul>
+            <div class="logout">
+                <a href="javascript:void(0)" id="logoutBtn" class="logout-btn"><i class="fa-solid fa-arrow-right-from-bracket"></i> <span data-i18n="nav_logout">Logout</span></a>
+            </div>
+        </aside>
 
-
-            <div style="display: flex; align-items: center; gap: 14px;">
-                <button type="button" class="lang-toggle-btn" title="Change Language / भाषा बदलें">
-                    <i class="fa-solid fa-globe"></i>
-                    <span class="lang-toggle-label">हिन्दी</span>
-                </button>
-                <div class="admin-profile">
-
-                <div class="profile-icon">
-                    A
-                </div>
-
+        <!-- MAIN -->
+        <main class="main">
+            <!-- TOPBAR -->
+            <div class="topbar">
                 <div>
-                    <strong>Admin</strong>
-
-                    <p>
-                        Prakhand Admin
-                    </p>
+                    <h1>Farmers</h1>
+                    <p>Manage and monitor registered farmers across the block</p>
                 </div>
-
-            </div>
-            </div>
-
-        </div>
-
-
-        <!-- ================= STATISTICS ================= -->
-
-        <div class="stats">
-
-            <div class="card">
-
-                <div class="card-title">
-                    Total Farmers
+                <div style="display: flex; align-items: center; gap: 14px;">
+                    <button type="button" class="lang-toggle-btn" title="Change Language / भाषा बदलें">
+                        <i class="fa-solid fa-globe"></i>
+                        <span class="lang-toggle-label">हिन्दी</span>
+                    </button>
+                    <div class="admin-profile">
+                        <div class="profile-icon">A</div>
+                        <div>
+                            <strong>Admin</strong>
+                            <p>Prakhand Admin</p>
+                        </div>
+                    </div>
                 </div>
-
-                <div class="card-value" id="adminStatTotalFarmers">
-                    --
-                </div>
-
-                <div class="card-small">
-                    Registered farmers
-                </div>
-
             </div>
 
-
-            <div class="card">
-
-                <div class="card-title">
-                    Active Farmers
+            <!-- TRUST BANNER -->
+            <div class="trust-guarantee-banner" style="margin: 20px 0;">
+                <div class="trust-banner-content">
+                    <div class="trust-pill-row">
+                        <span class="trust-tag"><i class="fa-solid fa-users-gear"></i> Farmer Registry & Verification</span>
+                        <span class="trust-live-pill"><span class="pulse-dot"></span> Bihar DBT Synchronized</span>
+                    </div>
+                    <h3>Prakhand Farmer Verification & Allotment Desk</h3>
+                    <p>Verify land titles, inspect Kisan Credit Card (KCC) credentials, and approve subsidized seed and fertilizer quotas.</p>
                 </div>
-
-                <div class="card-value" id="adminStatActiveFarmers">
-                    --
+                <div class="trust-stat-chips">
+                    <div class="trust-chip">
+                        <i class="fa-solid fa-id-card"></i>
+                        <div>
+                            <strong>Govt e-KYC</strong>
+                            <span>Aadhaar & RoR Authenticated</span>
+                        </div>
+                    </div>
+                    <div class="trust-chip">
+                        <i class="fa-solid fa-seedling"></i>
+                        <div>
+                            <strong>Subsidized Quotas</strong>
+                            <span>Direct Allotment Release</span>
+                        </div>
+                    </div>
                 </div>
-
-                <div class="card-small">
-                    Currently active
-                </div>
-
             </div>
 
-
-            <div class="card">
-
-                <div class="card-title">
-                    Pending Verification
+            <!-- STATISTICS -->
+            <div class="stats">
+                <div class="card">
+                    <div class="card-title">Total Farmers</div>
+                    <div class="card-value" id="adminStatTotalFarmers">--</div>
+                    <div class="card-small">Registered farmers</div>
                 </div>
-
-                <div class="card-value" id="adminStatPendingFarmers">
-                    --
+                <div class="card">
+                    <div class="card-title">Active Farmers</div>
+                    <div class="card-value" id="adminStatActiveFarmers">--</div>
+                    <div class="card-small">Currently active</div>
                 </div>
-
-                <div class="card-small">
-                    Awaiting approval
+                <div class="card">
+                    <div class="card-title">Pending Verification</div>
+                    <div class="card-value" id="adminStatPendingFarmers">--</div>
+                    <div class="card-small">Awaiting approval</div>
                 </div>
-
+                <div class="card">
+                    <div class="card-title">Suspended</div>
+                    <div class="card-value" id="adminStatSuspendedFarmers">--</div>
+                    <div class="card-small">Requires attention</div>
+                </div>
             </div>
 
-
-            <div class="card">
-
-                <div class="card-title">
-                    Suspended
+            <!-- SEARCH / FILTER -->
+            <section class="section">
+                <div class="section-header">
+                    <h2>Farmer Directory</h2>
+                    <span class="view-all" id="farmerTotalCount">Loading farmers...</span>
                 </div>
+                <form class="admin-filter-form">
+                    <div class="admin-filter-group">
+                        <label for="farmerSearch">Search Farmer</label>
+                        <input type="text" id="farmerSearch" placeholder="Name, farmer ID or phone">
+                    </div>
+                    <div class="admin-filter-group">
+                        <label for="farmerStatus">Status</label>
+                        <select id="farmerStatus">
+                            <option value="">All Status</option>
+                            <option value="active">Active</option>
+                            <option value="pending">Pending</option>
+                            <option value="suspended">Suspended</option>
+                        </select>
+                    </div>
+                    <div class="admin-filter-group">
+                        <label for="farmerLocation">Location</label>
+                        <input type="text" id="farmerLocation" placeholder="District / Village">
+                    </div>
+                    <button type="button" class="admin-search-btn">Search</button>
+                    <button type="button" class="admin-clear-btn">Clear</button>
+                </form>
+            </section>
 
-                <div class="card-value" id="adminStatSuspendedFarmers">
-                    --
+            <!-- FARMER TABLE -->
+            <section class="section">
+                <div class="section-header">
+                    <h2>Registered Farmers</h2>
+                    <span class="view-all">Latest registrations</span>
                 </div>
-
-                <div class="card-small">
-                    Requires attention
+                <div class="admin-table-wrapper">
+                    <table class="admin-table">
+                        <thead>
+                            <tr>
+                                <th>Farmer ID</th>
+                                <th>Farmer Name</th>
+                                <th>Location</th>
+                                <th>Contact</th>
+                                <th>Registration</th>
+                                <th>Status</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody id="farmerTableBody">
+                            <tr>
+                                <td colspan="7" style="text-align:center; padding:32px; color:#666;">
+                                    Loading registered farmers...
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </div>
+            </section>
 
+            <!-- PAGINATION -->
+            <div class="admin-pagination">
+                <button type="button" disabled>Previous</button>
+                <span id="adminFarmerPageInfo">Page 1 of 1</span>
+                <button type="button">Next</button>
             </div>
+        </main>
+    </div>
 
-        </div>
-
-
-        <!-- ================= SEARCH / FILTER ================= -->
-
-        <section class="section">
-
-            <div class="section-header">
-
-                <h2>Farmer Directory</h2>
-
-                <span class="view-all" id="farmerTotalCount">
-                    Loading farmers...
-                </span>
-
-            </div>
-
-
-            <form class="admin-filter-form">
-
-                <div class="admin-filter-group">
-
-                    <label for="farmerSearch">
-                        Search Farmer
-                    </label>
-
-                    <input
-                        type="text"
-                        id="farmerSearch"
-                        placeholder="Name, farmer ID or phone"
-                    >
-
-                </div>
-
-
-                <div class="admin-filter-group">
-
-                    <label for="farmerStatus">
-                        Status
-                    </label>
-
-                    <select id="farmerStatus">
-
-                        <option value="">
-                            All Status
-                        </option>
-
-                        <option value="active">
-                            Active
-                        </option>
-
-                        <option value="pending">
-                            Pending
-                        </option>
-
-                        <option value="suspended">
-                            Suspended
-                        </option>
-
-                    </select>
-
-                </div>
-
-
-                <div class="admin-filter-group">
-
-                    <label for="farmerLocation">
-                        Location
-                    </label>
-
-                    <input
-                        type="text"
-                        id="farmerLocation"
-                        placeholder="District / Village"
-                    >
-
-                </div>
-
-
-                <button
-                    type="button"
-                    class="admin-search-btn">
-
-                    Search
-
-                </button>
-
-
-                <button
-                    type="button"
-                    class="admin-clear-btn">
-
-                    Clear
-
-                </button>
-
-            </form>
-
-        </section>
-
-
-        <!-- ================= FARMER TABLE ================= -->
-
-        <section class="section">
-
-            <div class="section-header">
-
-                <h2>Registered Farmers</h2>
-
-                <span class="view-all">
-                    Latest registrations
-                </span>
-
-            </div>
-
-
-            <div class="admin-table-wrapper">
-
-                <table class="admin-table">
-
-                    <thead>
-
-                        <tr>
-
-                            <th>
-                                Farmer ID
-                            </th>
-
-                            <th>
-                                Farmer Name
-                            </th>
-
-                            <th>
-                                Location
-                            </th>
-
-                            <th>
-                                Contact
-                            </th>
-
-                            <th>
-                                Registration
-                            </th>
-
-                            <th>
-                                Status
-                            </th>
-
-                            <th>
-                                Action
-                            </th>
-
-                        </tr>
-
-                    </thead>
-
-
-                    <tbody id="farmerTableBody">
-                        <tr>
-                            <td colspan="7" style="text-align:center; padding:32px; color:#666;">
-                                Loading registered farmers...
-                            </td>
-                        </tr>
-                    </tbody>
-
-                </table>
-
-            </div>
-
-        </section>
-
-
-        <!-- ================= PAGINATION ================= -->
-
-        <div class="admin-pagination">
-
-            <button
-                type="button"
-                disabled>
-
-                Previous
-
-            </button>
-
-            <span id="adminFarmerPageInfo">
-                Page 1 of 1
-            </span>
-
-            <button
-                type="button">
-
-                Next
-
-            </button>
-
-        </div>
-
-
-    </main>
-
-
-    <!-- ================= JAVASCRIPT ================= -->
-
+    <!-- JAVASCRIPT -->
     <script src="../js/core/i18n.js"></script>
     <script src="../js/core/api.js"></script>
     <script src="../js/core/auth.js"></script>
     <script src="../js/admin/admin-users.js"></script>
-    <script>
-        console.log("Kisan Setu Farmers Page Loaded");
-    </script>
-
 </body>
-
 </html>
-

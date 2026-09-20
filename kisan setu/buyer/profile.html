@@ -3,20 +3,30 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
     <title>Kisan Setu - Buyer Profile</title>
-
     <link rel="stylesheet" href="../css/style.css">
     <link rel="stylesheet" href="../css/buyer.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
 </head>
-
 <body>
-
     <div class="dashboard">
         <aside class="sidebar">
-            <div class="brand"><img src="../images/logoks.jpeg" alt="Kisan Setu Logo"><div class="brand-text"><h2>KISAN SETU</h2><span data-i18n="portal_buyer">BUYER / VENDOR PORTAL</span></div></div>
-            <div class="user-box"><div class="user-info"><div class="user-icon"><i class="fa-solid fa-store"></i></div><div><strong id="buyerSidebarName">Loading...</strong><span id="buyerSidebarId">Buyer / Vendor</span></div></div></div>
+            <div class="brand">
+                <img src="../images/logoks.jpeg" alt="Kisan Setu Logo">
+                <div class="brand-text">
+                    <h2>KISAN SETU</h2>
+                    <span data-i18n="portal_buyer">BUYER / VENDOR PORTAL</span>
+                </div>
+            </div>
+            <div class="user-box">
+                <div class="user-info">
+                    <div class="user-icon"><i class="fa-solid fa-store"></i></div>
+                    <div>
+                        <strong id="buyerSidebarName">Loading...</strong>
+                        <span id="buyerSidebarId">Buyer / Vendor</span>
+                    </div>
+                </div>
+            </div>
             <nav class="sidebar-nav">
                 <div class="nav-title" data-i18n="mainMenu">Main Menu</div>
                 <a href="../buyer_dashboard.html" class="nav-item"><i class="fa-solid fa-house"></i> <span data-i18n="nav_dashboard">Dashboard</span></a>
@@ -24,222 +34,172 @@
                 <a href="orders.html" class="nav-item"><i class="fa-solid fa-box"></i> <span data-i18n="nav_my_orders">My Orders</span></a>
                 <a href="payments.html" class="nav-item"><i class="fa-solid fa-credit-card"></i> <span data-i18n="nav_payments">Payments</span></a>
                 <a href="logistics.html" class="nav-item"><i class="fa-solid fa-truck"></i> <span data-i18n="nav_logistics">Logistics</span></a>
-                <a href="history.html" class="nav-item"><i class="fa-solid fa-clock-rotate-left"></i> <span data-i18n="nav_payment_history">Payment History</span></a>
+                <a href="history.html" class="nav-item"><i class="fa-solid fa-clock-rotate-left"></i> <span data-i18n="nav_payment_history">Order History</span></a>
                 <a href="disputes.html" class="nav-item"><i class="fa-solid fa-triangle-exclamation"></i> <span data-i18n="nav_disputes">Disputes</span></a>
                 <a href="notifications.html" class="nav-item"><i class="fa-solid fa-bell"></i> <span data-i18n="nav_notifications">Notifications</span></a>
                 <a href="profile.html" class="nav-item active"><i class="fa-solid fa-user"></i> <span data-i18n="nav_profile">Profile</span></a>
             </nav>
-            <div class="logout"><a href="javascript:void(0)" id="logoutBtn" class="nav-item logout-btn"><i class="fa-solid fa-right-from-bracket"></i> <span data-i18n="nav_logout">Logout</span></a></div>
+            <div class="logout">
+                <a href="javascript:void(0)" id="logoutBtn" class="nav-item logout-btn"><i class="fa-solid fa-right-from-bracket"></i> <span data-i18n="nav_logout">Logout</span></a>
+            </div>
         </aside>
-        <main class="main">
 
+        <div class="main">
+            <main class="buyer-container">
+                <section class="page-header" style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px;">
+                    <div>
+                        <h1>Buyer Business Profile & Verification</h1>
+                        <p>Manage corporate procurement credentials, GST identification, and delivery hubs.</p>
+                    </div>
+                    <button type="button" class="lang-toggle-btn" title="Change Language / भाषा बदलें">
+                        <i class="fa-solid fa-globe"></i>
+                        <span class="lang-toggle-label">हिन्दी</span>
+                    </button>
+                </section>
 
-    <!-- ================= MAIN ================= -->
+                <!-- TRUST BANNER -->
+                <div class="trust-guarantee-banner" style="margin-bottom: 24px;">
+                    <div class="trust-banner-content">
+                        <div class="trust-pill-row">
+                            <span class="trust-tag"><i class="fa-solid fa-shield-halved"></i> Verified Business Trader</span>
+                            <span class="trust-live-pill"><span class="pulse-dot"></span> Corporate SafePay Active</span>
+                        </div>
+                        <h3>Verified Institutional Buyer Credentials</h3>
+                        <p>Authorized commercial agri-commodity procurement status with verified GSTIN and automated multi-bank escrow lines.</p>
+                    </div>
+                    <div class="trust-stat-chips">
+                        <div class="trust-chip">
+                            <i class="fa-solid fa-building-circle-check"></i>
+                            <div>
+                                <strong>GST Verified</strong>
+                                <span>Input Tax Credit Eligible</span>
+                            </div>
+                        </div>
+                        <div class="trust-chip">
+                            <i class="fa-solid fa-vault"></i>
+                            <div>
+                                <strong>Escrow Vault Ready</strong>
+                                <span>Instant Lock & Release</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
-    <main class="buyer-container">
+                <!-- KPI SUMMARY GRID -->
+                <div class="kpi-summary-grid" style="margin-bottom: 28px;">
+                    <div class="kpi-card">
+                        <div class="kpi-icon-wrap kpi-emerald">
+                            <i class="fa-solid fa-store"></i>
+                        </div>
+                        <div class="kpi-details">
+                            <span class="kpi-label">Trading Tier</span>
+                            <h3 class="kpi-val" style="color:#15803d; font-size:18px;">ENTERPRISE</h3>
+                            <span class="kpi-trend positive"><i class="fa-solid fa-check"></i> Tier 1 Priority</span>
+                        </div>
+                    </div>
+                    <div class="kpi-card">
+                        <div class="kpi-icon-wrap kpi-purple">
+                            <i class="fa-solid fa-vault"></i>
+                        </div>
+                        <div class="kpi-details">
+                            <span class="kpi-label">SafePay Escrow Line</span>
+                            <h3 class="kpi-val" style="color:#7c3aed; font-size:18px;">ACTIVE</h3>
+                            <span class="kpi-trend positive"><i class="fa-solid fa-shield-check"></i> ICICI / Axis Escrow</span>
+                        </div>
+                    </div>
+                    <div class="kpi-card">
+                        <div class="kpi-icon-wrap kpi-sky">
+                            <i class="fa-solid fa-star"></i>
+                        </div>
+                        <div class="kpi-details">
+                            <span class="kpi-label">Buyer Rating</span>
+                            <h3 class="kpi-val">4.9 / 5.0</h3>
+                            <span class="kpi-trend positive"><i class="fa-solid fa-thumbs-up"></i> 100% On-Time Pay</span>
+                        </div>
+                    </div>
+                    <div class="kpi-card">
+                        <div class="kpi-icon-wrap kpi-amber">
+                            <i class="fa-solid fa-truck"></i>
+                        </div>
+                        <div class="kpi-details">
+                            <span class="kpi-label">Drop Hubs Registered</span>
+                            <h3 class="kpi-val">3 Locations</h3>
+                            <span class="kpi-trend positive"><i class="fa-solid fa-map-pin"></i> Direct Delivery</span>
+                        </div>
+                    </div>
+                </div>
 
-        <section class="page-header" style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px;">
-            <div>
+                <!-- PROFILE -->
+                <section class="profile-section">
+                    <div id="profileMessage"></div>
+                    <div class="profile-identity">
+                        <img id="profilePicturePreview" class="profile-picture" src="../images/logoks.jpeg" alt="Buyer profile picture">
+                        <div class="profile-identity-details">
+                            <h2 id="profileDisplayName">Buyer Profile</h2>
+                            <p id="profileDisplayRole">Buyer / Vendor</p>
+                            <label for="profilePictureInput" class="profile-picture-button">
+                                <i class="fa-solid fa-camera"></i> Change Picture
+                            </label>
+                            <input type="file" id="profilePictureInput" accept="image/*" hidden>
+                        </div>
+                        <button type="button" id="editProfileBtn" class="profile-edit-btn">
+                            <i class="fa-solid fa-pen"></i> Edit Profile
+                        </button>
+                    </div>
 
-            <h1>My Profile</h1>
+                    <form id="profileForm">
+                        <div class="form-group">
+                            <label for="name">Contact Person / Name</label>
+                            <input type="text" id="name" name="name" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="email">Email</label>
+                            <input type="email" id="email" name="email" readonly>
+                        </div>
+                        <div class="form-group">
+                            <label for="phone">Phone</label>
+                            <input type="tel" id="phone" name="phone" readonly>
+                        </div>
+                        <div class="form-group">
+                            <label for="businessName">Business / Company Name</label>
+                            <input type="text" id="businessName" name="businessName">
+                        </div>
+                        <div class="form-group">
+                            <label for="businessType">Business Type (e.g. Retailer, Food Processor, Exporter)</label>
+                            <input type="text" id="businessType" name="businessType">
+                        </div>
+                        <div class="form-group">
+                            <label for="district">District</label>
+                            <input type="text" id="district" name="district">
+                        </div>
+                        <div class="form-group">
+                            <label for="state">State</label>
+                            <input type="text" id="state" name="state">
+                        </div>
+                        <button type="submit" id="saveProfileBtn">Save Changes</button>
+                    </form>
+                </section>
 
-            <p>
-                View and update your buyer account information.
-            </p>
-
+                <!-- ADDRESS -->
+                <section class="address-section">
+                    <div class="section-heading">
+                        <h2>My Delivery / Warehouse Addresses</h2>
+                        <button type="button" id="addAddressBtn"><i class="fa-solid fa-plus"></i> Add Address</button>
+                    </div>
+                    <div id="addressContainer">
+                        <p>Address management will be available here.</p>
+                    </div>
+                </section>
+            </main>
         </div>
-            <button type="button" class="lang-toggle-btn" title="Change Language / भाषा बदलें">
-                <i class="fa-solid fa-globe"></i>
-                <span class="lang-toggle-label">हिन्दी</span>
-            </button>
-        </section>
-
-
-        <!-- ================= PROFILE ================= -->
-
-        <section class="profile-section">
-
-            <div id="profileMessage"></div>
-
-            <div class="profile-identity">
-                <img id="profilePicturePreview" class="profile-picture" src="../images/logoks.jpeg" alt="Buyer profile picture">
-                <div class="profile-identity-details">
-                    <h2 id="profileDisplayName">Buyer Profile</h2>
-                    <p id="profileDisplayRole">Buyer / Vendor</p>
-                    <label for="profilePictureInput" class="profile-picture-button">
-                        <i class="fa-solid fa-camera"></i> Change Picture
-                    </label>
-                    <input type="file" id="profilePictureInput" accept="image/*" hidden>
-                </div>
-                <button type="button" id="editProfileBtn" class="profile-edit-btn">
-                    <i class="fa-solid fa-pen"></i> Edit Profile
-                </button>
-            </div>
-
-            <form id="profileForm">
-
-                <div class="form-group">
-
-                    <label for="name">
-                        Name
-                    </label>
-
-                    <input
-                        type="text"
-                        id="name"
-                        name="name"
-                        required
-                    >
-
-                </div>
-
-
-                <div class="form-group">
-
-                    <label for="email">
-                        Email
-                    </label>
-
-                    <input
-                        type="email"
-                        id="email"
-                        name="email"
-                        readonly
-                    >
-
-                </div>
-
-
-                <div class="form-group">
-
-                    <label for="phone">
-                        Phone
-                    </label>
-
-                    <input
-                        type="tel"
-                        id="phone"
-                        name="phone"
-                        readonly
-                    >
-
-                </div>
-
-
-                <div class="form-group">
-
-                    <label for="businessName">
-                        Business Name
-                    </label>
-
-                    <input
-                        type="text"
-                        id="businessName"
-                        name="businessName"
-                    >
-
-                </div>
-
-
-                <div class="form-group">
-
-                    <label for="businessType">
-                        Business Type
-                    </label>
-
-                    <input
-                        type="text"
-                        id="businessType"
-                        name="businessType"
-                    >
-
-                </div>
-
-
-                <div class="form-group">
-
-                    <label for="district">
-                        District
-                    </label>
-
-                    <input
-                        type="text"
-                        id="district"
-                        name="district"
-                    >
-
-                </div>
-
-
-                <div class="form-group">
-
-                    <label for="state">
-                        State
-                    </label>
-
-                    <input
-                        type="text"
-                        id="state"
-                        name="state"
-                    >
-
-                </div>
-
-
-                <button
-                    type="submit"
-                    id="saveProfileBtn">
-
-                    Save Changes
-
-                </button>
-
-            </form>
-
-        </section>
-
-
-        <!-- ================= ADDRESS ================= -->
-
-        <section class="address-section">
-
-            <div class="section-heading">
-
-                <h2>My Addresses</h2>
-
-                <button
-                    type="button"
-                    id="addAddressBtn">
-
-                    Add Address
-
-                </button>
-
-            </div>
-
-
-            <div id="addressContainer">
-
-                <p>
-                    Address management will be available here.
-                </p>
-
-            </div>
-
-        </section>
-
-        </main>
     </div>
 
-
-    <!-- ================= JAVASCRIPT ================= -->
-
+    <!-- JAVASCRIPT -->
     <script src="../js/core/i18n.js"></script>
     <script src="../js/core/api.js"></script>
     <script src="../js/core/auth.js"></script>
     <script src="../js/core/profile-storage.js"></script>
     <script src="../js/buyer/buyer.js"></script>
     <script src="../js/buyer/profile.js"></script>
-
 </body>
 </html>

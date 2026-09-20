@@ -1,377 +1,281 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <title>Kisan Setu - Alerts</title>
-
+    <title>Kisan Setu - Admin Alerts</title>
     <link rel="stylesheet" href="../css/style.css">
     <link rel="stylesheet" href="../css/admin.css">
-
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
     <style>
-
-        /* ==============================
-           ALERTS PAGE
-           ============================== */
-
         .alerts-header {
             margin-bottom: 20px;
         }
-
         .alerts-header h2 {
             margin-bottom: 5px;
+            font-size: 20px;
+            color: #166534;
         }
-
         .alerts-header p {
             color: #6c757d;
             font-size: 13px;
         }
-
         .alert-card {
             background: white;
             border: 1px solid #dfe7e2;
             border-radius: 10px;
             padding: 18px 20px;
             margin-bottom: 15px;
-
             display: flex;
             justify-content: space-between;
             align-items: center;
-
             transition: 0.2s;
         }
-
         .alert-card:hover {
             box-shadow: 0 4px 15px rgba(0,0,0,0.05);
         }
-
         .alert-left {
             display: flex;
             align-items: center;
             gap: 15px;
         }
-
         .alert-icon {
             width: 42px;
             height: 42px;
-
             border-radius: 50%;
-
             display: flex;
             align-items: center;
             justify-content: center;
-
             font-size: 19px;
         }
-
         .alert-icon.danger {
             background: #fdeaea;
         }
-
         .alert-icon.warning {
             background: #fff5dc;
         }
-
         .alert-icon.success {
             background: #e9f6ec;
         }
-
         .alert-icon.info {
             background: #e8f1fb;
         }
-
-        .alert-info h3 {
-            font-size: 14px;
-            margin-bottom: 4px;
-        }
-
-        .alert-info p {
-            color: #6c757d;
-            font-size: 12px;
-            margin-bottom: 4px;
-        }
-
-        .alert-time {
-            color: #999;
-            font-size: 10px;
-        }
-
         .alert-status {
             padding: 5px 10px;
             border-radius: 15px;
             font-size: 10px;
             font-weight: 600;
         }
-
         .alert-status.unread {
             background: #e9f6ec;
             color: #176b38;
         }
-
         .alert-status.read {
             background: #f1f3f2;
             color: #6c757d;
         }
-
-
-        /* ==============================
-           FILTER BAR
-           ============================== */
-
         .alert-filter {
             background: white;
             border: 1px solid #dfe7e2;
             border-radius: 10px;
-
             padding: 15px 20px;
             margin-bottom: 20px;
-
             display: flex;
             align-items: center;
             gap: 12px;
         }
-
         .alert-filter label {
             font-size: 12px;
             font-weight: 600;
         }
-
         .alert-filter select {
             width: 180px;
             padding: 8px 10px;
             border: 1px solid #d5ded8;
             border-radius: 6px;
         }
-
-
-        /* ==============================
-           RESPONSIVE
-           ============================== */
-
         @media (max-width: 700px) {
-
             .alert-card {
                 align-items: flex-start;
             }
-
             .alert-status {
                 margin-left: 10px;
             }
-
             .alert-filter {
                 flex-direction: column;
                 align-items: flex-start;
             }
-
             .alert-filter select {
                 width: 100%;
             }
-
         }
-
     </style>
-
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
 </head>
-
-
 <body>
-
-
-    <!-- ================= SIDEBAR ================= -->
-
-    <aside class="sidebar">
-
-        <div class="logo">
-            <img src="../images/logoks.jpeg" alt="Kisan Setu Logo">
-            KISAN SETU
-        </div>
-
-        <div class="admin-label">
-            ADMIN PORTAL
-        </div>
-
-
-        <ul class="menu">
-
-            <li>
-                <a href="../admin_dashboard.html"><i class="fa-solid fa-chart-line"></i> <span data-i18n="nav_dashboard">Dashboard</span></a>
-            </li>
-
-            <li>
-                <a href="farmers.html"><i class="fa-solid fa-users"></i> <span data-i18n="nav_farmers">Farmers</span></a>
-            </li>
-
-            <li>
-                <a href="buyers.html"><i class="fa-solid fa-store"></i> <span data-i18n="nav_buyers">Buyers</span></a>
-            </li>
-
-            <li>
-                <a href="requests.html"><i class="fa-solid fa-clipboard-check"></i> <span data-i18n="nav_requests">Requests</span></a>
-            </li>
-
-            <li>
-                <a href="inputs.html"><i class="fa-solid fa-seedling"></i> <span data-i18n="nav_inputs">Input Management</span></a>
-            </li>
-
-            <li>
-                <a href="payments.html"><i class="fa-solid fa-shield-halved"></i> <span data-i18n="nav_payments">Payments</span></a>
-            </li>
-
-            <li>
-                <a href="reports.html"><i class="fa-solid fa-chart-pie"></i> <span data-i18n="nav_reports">Reports</span></a>
-            </li>
-
-            <li>
-                <a href="alerts.html" class="active"><i class="fa-solid fa-triangle-exclamation"></i> <span data-i18n="nav_alerts">Alerts</span></a>
-            </li>
-
-            <li>
-                <a href="grievances.html"><i class="fa-solid fa-scale-balanced"></i> <span data-i18n="nav_grievances">Disputes & Grievances</span></a>
-            </li>
-
-        </ul>
-
-
-        <div class="logout">
-
-            <a href="javascript:void(0)" id="logoutBtn" class="logout-btn"><i class="fa-solid fa-arrow-right-from-bracket"></i> <span data-i18n="nav_logout">Logout</span></a>
-
-        </div>
-
-    </aside>
-
-
-
-    <!-- ================= MAIN ================= -->
-
-    <main class="main">
-
-
-        <!-- ================= TOPBAR ================= -->
-
-        <div class="topbar">
-
-            <div>
-
-                <h1>Alerts</h1>
-
-                <p>
-                    Monitor important alerts and activities
-                    across the Kisan Setu marketplace.
-                </p>
-
+    <div class="dashboard">
+        <!-- SIDEBAR -->
+        <aside class="sidebar">
+            <div class="logo">
+                <img src="../images/logoks.jpeg" alt="Kisan Setu Logo">
+                KISAN SETU
             </div>
+            <div class="admin-label">
+                ADMIN PORTAL
+            </div>
+            <ul class="menu">
+                <li>
+                    <a href="../admin_dashboard.html"><i class="fa-solid fa-chart-line"></i> <span data-i18n="nav_dashboard">Dashboard</span></a>
+                </li>
+                <li>
+                    <a href="farmers.html"><i class="fa-solid fa-users"></i> <span data-i18n="nav_farmers">Farmers</span></a>
+                </li>
+                <li>
+                    <a href="buyers.html"><i class="fa-solid fa-store"></i> <span data-i18n="nav_buyers">Buyers</span></a>
+                </li>
+                <li>
+                    <a href="requests.html"><i class="fa-solid fa-clipboard-check"></i> <span data-i18n="nav_requests">Requests</span></a>
+                </li>
+                <li>
+                    <a href="inputs.html"><i class="fa-solid fa-seedling"></i> <span data-i18n="nav_inputs">Input Management</span></a>
+                </li>
+                <li>
+                    <a href="payments.html"><i class="fa-solid fa-shield-halved"></i> <span data-i18n="nav_payments">Payments</span></a>
+                </li>
+                <li>
+                    <a href="reports.html"><i class="fa-solid fa-chart-pie"></i> <span data-i18n="nav_reports">Reports</span></a>
+                </li>
+                <li>
+                    <a href="alerts.html" class="active"><i class="fa-solid fa-triangle-exclamation"></i> <span data-i18n="nav_alerts">Alerts</span></a>
+                </li>
+                <li>
+                    <a href="grievances.html"><i class="fa-solid fa-scale-balanced"></i> <span data-i18n="nav_grievances">Disputes & Grievances</span></a>
+                </li>
+            </ul>
+            <div class="logout">
+                <a href="javascript:void(0)" id="logoutBtn" class="logout-btn"><i class="fa-solid fa-arrow-right-from-bracket"></i> <span data-i18n="nav_logout">Logout</span></a>
+            </div>
+        </aside>
 
-
-            <div style="display: flex; align-items: center; gap: 14px;">
-                <button type="button" class="lang-toggle-btn" title="Change Language / भाषा बदलें">
-                    <i class="fa-solid fa-globe"></i>
-                    <span class="lang-toggle-label">हिन्दी</span>
-                </button>
-                <div class="admin-profile">
-
-                <div class="profile-icon">
-                    A
-                </div>
-
+        <!-- MAIN -->
+        <main class="main">
+            <!-- TOPBAR -->
+            <div class="topbar">
                 <div>
-
-                    <strong>Admin</strong>
-
-                    <p>
-                        Prakhand Admin
-                    </p>
-
+                    <h1>Marketplace Alerts & Live Surveillance</h1>
+                    <p>Monitor critical alerts, MSP floor violations, and escrow anomalies across the block.</p>
                 </div>
-
+                <div style="display: flex; align-items: center; gap: 14px;">
+                    <button type="button" class="lang-toggle-btn" title="Change Language / भाषा बदलें">
+                        <i class="fa-solid fa-globe"></i>
+                        <span class="lang-toggle-label">हिन्दी</span>
+                    </button>
+                    <div class="admin-profile">
+                        <div class="profile-icon">A</div>
+                        <div>
+                            <strong>Admin</strong>
+                            <p>Prakhand Admin</p>
+                        </div>
+                    </div>
+                </div>
             </div>
+
+            <!-- TRUST BANNER -->
+            <div class="trust-guarantee-banner" style="margin: 20px 0;">
+                <div class="trust-banner-content">
+                    <div class="trust-pill-row">
+                        <span class="trust-tag"><i class="fa-solid fa-triangle-exclamation"></i> Threat & Anomaly Surveillance</span>
+                        <span class="trust-live-pill"><span class="pulse-dot"></span> Early Warning Engine Active</span>
+                    </div>
+                    <h3>Prakhand Marketplace Telemetry & Early Warning System</h3>
+                    <p>Live monitoring of MSP undercut attempts, sudden agricultural inventory drops, overdue escrow releases, and transport route bottlenecks.</p>
+                </div>
+                <div class="trust-stat-chips">
+                    <div class="trust-chip">
+                        <i class="fa-solid fa-shield-halved"></i>
+                        <div>
+                            <strong>Real-time Surveillance</strong>
+                            <span>Zero Violation Enforcement</span>
+                        </div>
+                    </div>
+                    <div class="trust-chip">
+                        <i class="fa-solid fa-bolt"></i>
+                        <div>
+                            <strong>Instant Escalation</strong>
+                            <span>Admin Direct Action</span>
+                        </div>
+                    </div>
+                </div>
             </div>
 
-        </div>
+            <!-- KPI SUMMARY GRID -->
+            <div class="kpi-summary-grid" style="margin-bottom: 24px;">
+                <div class="kpi-card">
+                    <div class="kpi-icon-wrap kpi-emerald">
+                        <i class="fa-solid fa-bell"></i>
+                    </div>
+                    <div class="kpi-details">
+                        <span class="kpi-label">Active Alerts</span>
+                        <h3 class="kpi-val" id="adminActiveAlerts">--</h3>
+                        <span class="kpi-trend positive"><i class="fa-solid fa-rss"></i> Live Feed</span>
+                    </div>
+                </div>
+                <div class="kpi-card">
+                    <div class="kpi-icon-wrap kpi-rose">
+                        <i class="fa-solid fa-triangle-exclamation"></i>
+                    </div>
+                    <div class="kpi-details">
+                        <span class="kpi-label">MSP Price Warnings</span>
+                        <h3 class="kpi-val">0 High</h3>
+                        <span class="kpi-trend positive"><i class="fa-solid fa-shield"></i> 100% Compliant</span>
+                    </div>
+                </div>
+                <div class="kpi-card">
+                    <div class="kpi-icon-wrap kpi-amber">
+                        <i class="fa-solid fa-vault"></i>
+                    </div>
+                    <div class="kpi-details">
+                        <span class="kpi-label">Escrow Action Required</span>
+                        <h3 class="kpi-val">0 Overdue</h3>
+                        <span class="kpi-trend positive"><i class="fa-solid fa-circle-check"></i> All Cleared</span>
+                    </div>
+                </div>
+                <div class="kpi-card">
+                    <div class="kpi-icon-wrap kpi-purple">
+                        <i class="fa-solid fa-heart-pulse"></i>
+                    </div>
+                    <div class="kpi-details">
+                        <span class="kpi-label">Telemetry Status</span>
+                        <h3 class="kpi-val">OPTIMAL</h3>
+                        <span class="kpi-trend positive"><i class="fa-solid fa-check"></i> 99.9% Uptime</span>
+                    </div>
+                </div>
+            </div>
 
+            <!-- FILTER BAR -->
+            <div class="alert-filter">
+                <label for="alertType">Filter Alerts:</label>
+                <select id="alertType">
+                    <option value="all">All Alerts</option>
+                    <option value="danger">Critical</option>
+                    <option value="warning">Warning</option>
+                    <option value="success">Success</option>
+                    <option value="info">Information</option>
+                </select>
+            </div>
 
-
-        <!-- ================= PAGE HEADER ================= -->
-
-        <div class="alerts-header">
-
-            <h2>
-                System Alerts
-            </h2>
-
-            <p>
-                Review important events, warnings and
-                notifications requiring administrative attention.
-            </p>
-
-        </div>
-
-
-
-        <!-- ================= FILTER ================= -->
-
-        <div class="alert-filter">
-
-            <label for="alertType">
-                Filter Alerts:
-            </label>
-
-            <select id="alertType">
-
-                <option value="all">
-                    All Alerts
-                </option>
-
-                <option value="danger">
-                    Critical
-                </option>
-
-                <option value="warning">
-                    Warning
-                </option>
-
-                <option value="success">
-                    Success
-                </option>
-
-                <option value="info">
-                    Information
-                </option>
-
-            </select>
-
-        </div>
-
-
-
-        <!-- ================= ALERT LIST ================= -->
-
-        <section class="admin-section">
-
-            <div class="section-header">
-
-                <h2>
-                    Recent Alerts
-                </h2>
+            <!-- ALERT LIST -->
+            <section class="admin-section">
+                <div class="section-header">
+                    <h2>Recent Alerts</h2>
+                </div>
                 <div id="adminAlertsContainer" style="display:flex; flex-direction:column; gap:16px;">
                     <p style="text-align:center; padding:32px; color:#666;">Loading live alerts...</p>
                 </div>
+            </section>
+        </main>
+    </div>
 
-            </div>
-
-
-        </section>
-
-
-    </main>
-
-
-
-    <!-- ================= JAVASCRIPT ================= -->
+    <!-- JAVASCRIPT -->
     <script src="../js/core/i18n.js"></script>
     <script src="../js/core/api.js"></script>
     <script src="../js/core/auth.js"></script>
@@ -385,6 +289,8 @@
 
         function renderAlertCards(list) {
             const container = document.getElementById("adminAlertsContainer");
+            const kpi = document.getElementById("adminActiveAlerts");
+            if (kpi && list) kpi.textContent = list.length;
             if (!container) return;
 
             if (!list || list.length === 0) {
@@ -436,7 +342,7 @@
                                 </div>
                             </div>
                         </div>
-                        <span class="alert-status ${isRead ? "read" : "unread"} style="${isMspViolation && !isRead ? 'background:#fee2e2; color:#b91c1c;' : ''}">
+                        <span class="alert-status ${isRead ? "read" : "unread"}" style="${isMspViolation && !isRead ? 'background:#fee2e2; color:#b91c1c;' : ''}">
                             ${isRead ? "Resolved" : "Action Required"}
                         </span>
                     </div>

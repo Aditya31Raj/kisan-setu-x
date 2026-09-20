@@ -30,3 +30,14 @@ window.getAdminAlerts = getAdminAlerts;
 window.getAdminAuditLogs = getAdminAuditLogs;
 window.ensureAdminAuth = ensureAdminAuth;
 
+// Ensure Ask Samriddhi is loaded in Admin Portal
+document.addEventListener("DOMContentLoaded", () => {
+	if (!document.getElementById("samriddhi-trigger-btn") && !document.getElementById("samriddhi-script")) {
+		const s = document.createElement("script");
+		s.id = "samriddhi-script";
+		s.src = window.location.pathname.includes("/admin/") ? "../js/core/ask-samriddhi.js" : "js/core/ask-samriddhi.js";
+		document.body.appendChild(s);
+	}
+});
+
+

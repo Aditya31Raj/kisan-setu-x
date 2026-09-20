@@ -52,53 +52,125 @@
 
         <div class="main">
             <main class="buyer-container">
-        <section class="page-header" style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px;">
-            <div>
-                <h1 data-i18n="farmer_orders_title">Farmer Orders</h1>
-                <p data-i18n="farmer_orders_sub">Review and manage orders received from buyers.</p>
-            </div>
-            <button type="button" class="lang-toggle-btn" title="Change Language / भाषा बदलें">
-                <i class="fa-solid fa-globe"></i>
-                <span class="lang-toggle-label">हिन्दी</span>
-            </button>
-        </section>
+                <section class="page-header" style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px;">
+                    <div>
+                        <h1 data-i18n="farmer_orders_title">Farmer Orders</h1>
+                        <p data-i18n="farmer_orders_sub">Review and manage incoming produce orders from buyers.</p>
+                    </div>
+                    <button type="button" class="lang-toggle-btn" title="Change Language / भाषा बदलें">
+                        <i class="fa-solid fa-globe"></i>
+                        <span class="lang-toggle-label">हिन्दी</span>
+                    </button>
+                </section>
 
-        <section class="order-controls">
-            <label for="statusFilter" data-i18n="order_status_label">Order Status</label>
-            <select id="statusFilter">
-                <option value="" data-i18n="filter_status">All Orders</option>
-                <option value="PENDING_FARMER" data-i18n="STATUS_PENDING_FARMER">Pending Farmer</option>
-                <option value="ACCEPTED" data-i18n="STATUS_ACCEPTED">Accepted</option>
-                <option value="PAYMENT_PENDING" data-i18n="STATUS_PAYMENT_PENDING">Payment Pending</option>
-                <option value="PAID" data-i18n="STATUS_PAID">Paid</option>
-                <option value="LOGISTICS_PENDING" data-i18n="nav_logistics">Logistics Pending</option>
-                <option value="IN_TRANSIT" data-i18n="STATUS_IN_TRANSIT">In Transit</option>
-                <option value="DELIVERED" data-i18n="STATUS_DELIVERED">Delivered</option>
-                <option value="COMPLETED" data-i18n="STATUS_COMPLETED">Completed</option>
-                <option value="CANCELLED" data-i18n="STATUS_CANCELLED">Cancelled</option>
-                <option value="DISPUTED" data-i18n="STATUS_DISPUTED">Disputed</option>
-            </select>
-            <button type="button" id="refreshOrdersBtn" data-i18n="refresh_btn">Refresh</button>
-        </section>
+                <!-- TRUST BANNER -->
+                <div class="trust-guarantee-banner" style="margin-bottom: 24px;">
+                    <div class="trust-banner-content">
+                        <div class="trust-pill-row">
+                            <span class="trust-tag"><i class="fa-solid fa-shield-halved"></i> 100% Escrow Protected</span>
+                            <span class="trust-live-pill"><span class="pulse-dot"></span> Mandi Settlements Active</span>
+                        </div>
+                        <h3>Farmer Order Fulfilment Engine</h3>
+                        <p>Direct-to-buyer farm procurements with 100% upfront escrow locking and government regulated dispatch verification.</p>
+                    </div>
+                    <div class="trust-stat-chips">
+                        <div class="trust-chip">
+                            <i class="fa-solid fa-vault"></i>
+                            <div>
+                                <strong>Escrow Locked</strong>
+                                <span>Before Harvest Dispatch</span>
+                            </div>
+                        </div>
+                        <div class="trust-chip">
+                            <i class="fa-solid fa-scale-balanced"></i>
+                            <div>
+                                <strong>MSP Protection</strong>
+                                <span>Fair Price Guaranteed</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
-        <section class="orders-section">
-            <div id="ordersContainer">
-                <p data-i18n="loading">Loading orders...</p>
-            </div>
-        </section>
+                <!-- KPI SUMMARY GRID -->
+                <div class="kpi-summary-grid" style="margin-bottom: 28px;">
+                    <div class="kpi-card">
+                        <div class="kpi-icon-wrap kpi-emerald">
+                            <i class="fa-solid fa-box"></i>
+                        </div>
+                        <div class="kpi-details">
+                            <span class="kpi-label">Active Orders</span>
+                            <h3 class="kpi-val" id="kpiActiveOrders">--</h3>
+                            <span class="kpi-trend positive"><i class="fa-solid fa-arrow-up"></i> Live Procurements</span>
+                        </div>
+                    </div>
+                    <div class="kpi-card">
+                        <div class="kpi-icon-wrap kpi-amber">
+                            <i class="fa-solid fa-hourglass-half"></i>
+                        </div>
+                        <div class="kpi-details">
+                            <span class="kpi-label">Awaiting Acceptance</span>
+                            <h3 class="kpi-val" id="kpiPendingAcceptance">--</h3>
+                            <span class="kpi-trend neutral"><i class="fa-solid fa-clock"></i> Action Required</span>
+                        </div>
+                    </div>
+                    <div class="kpi-card">
+                        <div class="kpi-icon-wrap kpi-sky">
+                            <i class="fa-solid fa-truck-fast"></i>
+                        </div>
+                        <div class="kpi-details">
+                            <span class="kpi-label">In Transit / Pickup</span>
+                            <h3 class="kpi-val" id="kpiInTransit">--</h3>
+                            <span class="kpi-trend positive"><i class="fa-solid fa-route"></i> Driver Assigned</span>
+                        </div>
+                    </div>
+                    <div class="kpi-card">
+                        <div class="kpi-icon-wrap kpi-purple">
+                            <i class="fa-solid fa-vault"></i>
+                        </div>
+                        <div class="kpi-details">
+                            <span class="kpi-label">Escrow Secured Value</span>
+                            <h3 class="kpi-val" id="kpiEscrowSecured">₹1,85,000</h3>
+                            <span class="kpi-trend positive"><i class="fa-solid fa-circle-check"></i> 100% Backed</span>
+                        </div>
+                    </div>
+                </div>
 
-        <section class="pagination-section">
-            <button type="button" id="previousBtn" disabled data-i18n="btn_previous">Previous</button>
-            <span id="pageNumber">Page 1</span>
-            <button type="button" id="nextBtn" data-i18n="btn_next">Next</button>
-        </section>
+                <section class="order-controls">
+                    <label for="statusFilter" data-i18n="order_status_label">Order Status</label>
+                    <select id="statusFilter">
+                        <option value="" data-i18n="filter_status">All Orders</option>
+                        <option value="PENDING_FARMER" data-i18n="STATUS_PENDING_FARMER">Pending Farmer</option>
+                        <option value="ACCEPTED" data-i18n="STATUS_ACCEPTED">Accepted</option>
+                        <option value="PAYMENT_PENDING" data-i18n="STATUS_PAYMENT_PENDING">Payment Pending</option>
+                        <option value="PAID" data-i18n="STATUS_PAID">Paid</option>
+                        <option value="LOGISTICS_PENDING" data-i18n="nav_logistics">Logistics Pending</option>
+                        <option value="IN_TRANSIT" data-i18n="STATUS_IN_TRANSIT">In Transit</option>
+                        <option value="DELIVERED" data-i18n="STATUS_DELIVERED">Delivered</option>
+                        <option value="COMPLETED" data-i18n="STATUS_COMPLETED">Completed</option>
+                        <option value="CANCELLED" data-i18n="STATUS_CANCELLED">Cancelled</option>
+                        <option value="DISPUTED" data-i18n="STATUS_DISPUTED">Disputed</option>
+                    </select>
+                    <button type="button" id="refreshOrdersBtn" data-i18n="refresh_btn">Refresh</button>
+                </section>
+
+                <section class="orders-section">
+                    <div id="ordersContainer">
+                        <p data-i18n="loading">Loading orders...</p>
+                    </div>
+                </section>
+
+                <section class="pagination-section">
+                    <button type="button" id="previousBtn" disabled data-i18n="btn_previous">Previous</button>
+                    <span id="pageNumber">Page 1</span>
+                    <button type="button" id="nextBtn" data-i18n="btn_next">Next</button>
+                </section>
             </main>
         </div>
     </div>
 
     <div id="orderModal" class="modal" style="display: none;">
         <div class="modal-content">
-            <button type="button" id="closeModalBtn" class="close-btn">×</button>
+            <button type="button" id="closeModalBtn" class="close-btn">&times;</button>
             <h2 data-i18n="btn_details">Order Details</h2>
             <div id="orderDetails"></div>
         </div>

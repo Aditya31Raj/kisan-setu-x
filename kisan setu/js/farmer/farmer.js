@@ -289,6 +289,7 @@ function setupHamburgerSidebar() {
 	}
 
 	function openSidebar() {
+		if (window.innerWidth > 900) return;
 		sidebar.classList.add("active");
 		sidebar.classList.add("open");
 		if (backdrop) backdrop.classList.add("active");
@@ -320,10 +321,24 @@ function setupHamburgerSidebar() {
 		backdrop.addEventListener("click", closeSidebar);
 	}
 
-	// Auto close on regular navigation links (excluding logout)
+	// Auto close on regular navigation links ONLY on mobile drawer
 	sidebar.querySelectorAll(".nav-item:not(.logout-btn):not(#logoutBtn)").forEach((item) => {
-		item.addEventListener("click", closeSidebar);
+		item.addEventListener("click", () => {
+			if (window.innerWidth <= 900) {
+				closeSidebar();
+			}
+		});
 	});
+
+	// Ensure Ask Samriddhi is loaded
+	if (!document.getElementById("samriddhi-trigger-btn") && !document.getElementById("samriddhi-script")) {
+		const s = document.createElement("script");
+		s.id = "samriddhi-script";
+		s.src = window.location.pathname.includes("/farmer/") || window.location.pathname.includes("/buyer/") || window.location.pathname.includes("/admin/")
+			? "../js/core/ask-samriddhi.js"
+			: "js/core/ask-samriddhi.js";
+		document.body.appendChild(s);
+	}
 
 	// Robust logout binding on ALL logout buttons
 	const handleLogoutClick = async (e) => {

@@ -338,63 +338,88 @@ button {
 .stats,
 .input-stats,
 .report-stats {
-    display: grid;
-
-    grid-template-columns: repeat(4, 1fr);
-
-    gap: 15px;
-
-    margin-bottom: 22px;
+    display: grid !important;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)) !important;
+    gap: 16px !important;
+    margin-bottom: 24px !important;
 }
 
-
-/* Dashboard cards */
-
-.card,
+.stats .card,
 .input-stat,
 .report-stat {
-    background: #ffffff;
+    background: #ffffff !important;
+    border: 1px solid #e2ece3 !important;
+    border-radius: 14px !important;
+    padding: 18px 20px !important;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.03) !important;
+    transition: transform 0.2s ease, box-shadow 0.2s ease !important;
+    position: relative !important;
+    overflow: hidden !important;
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: center !important;
+}
 
-    border: 1px solid #e0e8e1;
+.stats .card:hover,
+.input-stat:hover,
+.report-stat:hover {
+    transform: translateY(-3px) !important;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.07) !important;
+}
 
-    border-radius: 11px;
+.stats .card:nth-child(1),
+.input-stats .input-stat:nth-child(1),
+.report-stats .report-stat:nth-child(1) {
+    border-left: 4px solid #10b981 !important;
+}
 
-    padding: 18px;
+.stats .card:nth-child(2),
+.input-stats .input-stat:nth-child(2),
+.report-stats .report-stat:nth-child(2) {
+    border-left: 4px solid #0284c7 !important;
+}
+
+.stats .card:nth-child(3),
+.input-stats .input-stat:nth-child(3),
+.report-stats .report-stat:nth-child(3) {
+    border-left: 4px solid #f59e0b !important;
+}
+
+.stats .card:nth-child(4),
+.input-stats .input-stat:nth-child(4),
+.report-stats .report-stat:nth-child(4) {
+    border-left: 4px solid #15803d !important;
 }
 
 .card-title,
 .input-stat span,
 .report-stat span {
-    display: block;
-
-    color: #747d76;
-
-    font-size: 10px;
-
-    margin-bottom: 7px;
+    display: block !important;
+    color: #64748b !important;
+    font-size: 12px !important;
+    font-weight: 600 !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.5px !important;
+    margin-bottom: 4px !important;
 }
 
 .card-value,
 .input-stat strong,
 .report-stat strong {
-    display: block;
-
-    font-size: 22px;
-
-    font-weight: 700;
-
-    color: #198754;
+    display: block !important;
+    font-size: 24px !important;
+    font-weight: 800 !important;
+    color: #0f172a !important;
+    line-height: 1.2 !important;
 }
 
 .card-small,
 .report-stat small {
-    display: block;
-
-    font-size: 9px;
-
-    color: #7a827c;
-
-    margin-top: 5px;
+    display: block !important;
+    font-size: 11px !important;
+    color: #94a3b8 !important;
+    margin-top: 4px !important;
+    font-weight: 500 !important;
 }
 
 

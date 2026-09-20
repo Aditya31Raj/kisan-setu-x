@@ -52,15 +52,77 @@
 
         <div class="main">
             <main class="buyer-container">
-        <section class="page-header" style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px;">
+        <section class="page-header" style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; margin-bottom: 18px;">
             <div>
-                <h1 data-i18n="my_produce">My Produce</h1>
-                <p data-i18n="my_produce_sub">Manage your listed crops and incoming buyer interest.</p>
+                <h1 style="font-size: 24px; font-weight: 800; color: #0f172a; margin-bottom: 4px; display: flex; align-items: center; gap: 10px;">
+                    <i class="fa-solid fa-wheat-awn" style="color: #059669;"></i> <span data-i18n="my_produce">My Produce Ledger</span>
+                </h1>
+                <p style="color: #64748b; font-size: 13px; margin: 0;" data-i18n="my_produce_sub">
+                    Manage your listed harvest lots, real-time stock levels, and incoming buyer demand.
+                </p>
             </div>
             <button type="button" class="lang-toggle-btn" title="Change Language / भाषा बदलें">
                 <i class="fa-solid fa-globe"></i>
                 <span class="lang-toggle-label">हिन्दी</span>
             </button>
+        </section>
+
+        <!-- Escrow Trust & Statutory MSP Guarantee Banner -->
+        <div class="trust-guarantee-banner">
+            <div class="trust-tag">
+                <i class="fa-solid fa-shield-halved"></i>
+                <span>Direct Farmer Wholesale &bull; 100% Escrow DBT Bank Payouts &bull; Statutory MSP Protection</span>
+            </div>
+            <div class="trust-live-pill">
+                <span class="pulse-dot"></span> Live Produce Ledger
+            </div>
+        </div>
+
+        <!-- ================= SUMMARY KPI CARDS ================= -->
+        <section class="kpi-summary-grid">
+            <div class="kpi-card kpi-emerald">
+                <div class="kpi-icon-wrap">
+                    <i class="fa-solid fa-wheat-awn"></i>
+                </div>
+                <div class="kpi-info">
+                    <h3>Active Crop Listings</h3>
+                    <p id="totalProduceCount">--</p>
+                    <span class="kpi-subtext">Live on Marketplace</span>
+                </div>
+            </div>
+
+            <div class="kpi-card kpi-sky">
+                <div class="kpi-icon-wrap">
+                    <i class="fa-solid fa-boxes-stacked"></i>
+                </div>
+                <div class="kpi-info">
+                    <h3>Available Harvest Stock</h3>
+                    <p id="totalStockQuintals">--</p>
+                    <span class="kpi-subtext">Verified Quintals</span>
+                </div>
+            </div>
+
+            <div class="kpi-card kpi-amber">
+                <div class="kpi-icon-wrap">
+                    <i class="fa-solid fa-handshake"></i>
+                </div>
+                <div class="kpi-info">
+                    <h3>Buyer Inquiries</h3>
+                    <p id="activeInquiriesCount">--</p>
+                    <span class="kpi-subtext">Demand Active</span>
+                </div>
+            </div>
+
+            <div class="kpi-card kpi-rose">
+                <div class="kpi-icon-wrap">
+                    <i class="fa-solid fa-shield-halved"></i>
+                </div>
+                <div class="kpi-info">
+                    <h3>Statutory MSP Floor</h3>
+                    <p>₹12.00/kg</p>
+                    <span class="kpi-subtext">Zero Distress Sale Guarantee</span>
+                </div>
+            </div>
         </section>
 
         <section class="produce-section add-produce-section">
