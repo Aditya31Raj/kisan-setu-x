@@ -537,6 +537,14 @@ async function loadProduceDetails(produceId) {
 // DISPLAY PRODUCE DETAILS
 // ============================================
 
+const ROLE_MOQ_MAP = {
+    "local-consumer": { kg: 25, label: "Local Consumer" },
+    "local-vendor": { kg: 50, label: "Local Vendor" },
+    "retailer": { kg: 100, label: "Retailer" },
+    "wholesaler": { kg: 500, label: "Wholesaler" },
+    "institutional-buyer": { kg: 1000, label: "Institutional Buyer" }
+};
+
 function displayProduceDetails(produce) {
     const detailsContainer = document.getElementById("produceDetails");
     if (!detailsContainer) return;
@@ -546,9 +554,22 @@ function displayProduceDetails(produce) {
     const location = produce.location || "Patna, Bihar";
     const quantity = Number(produce.availableQuantity ?? 0);
     const unit = produce.unit || "KG";
+    const isQuintal = String(unit).toUpperCase().includes("QUINTAL") || String(unit).toUpperCase() === "Q";
+    const isTon = String(unit).toUpperCase().includes("TON");
     const price = Number(produce.pricePerUnit ?? 0);
     const farmerName = produce.farmer?.name || "Verified Local Farmer";
-    const defaultQty = Math.min(10, Math.max(1, quantity));
+
+    // Buyer persona & role MOQ
+    const currentUser = (typeof getAuthUser === "function" ? getAuthUser() : null) || {};
+    const buyerType = (currentUser?.profile?.businessType || currentUser?.businessType || localStorage.getItem("buyerBusinessType") || "local-consumer").toLowerCase();
+    const roleConfig = ROLE_MOQ_MAP[buyerType] || ROLE_MOQ_MAP["local-consumer"];
+    
+    // Calculate MOQ in produce unit
+    let moqInUnit = roleConfig.kg;
+    if (isQuintal) moqInUnit = Number((roleConfig.kg / 100).toFixed(2));
+    else if (isTon) moqInUnit = Number((roleConfig.kg / 1000).toFixed(3));
+
+    const defaultQty = Math.max(moqInUnit, Math.min(quantity, isQuintal ? Math.max(moqInUnit, 1) : Math.max(moqInUnit, 25)));
 
     detailsContainer.innerHTML = `
         <div class="produce-detail" style="padding: 10px 0;">
@@ -567,11 +588,22 @@ function displayProduceDetails(produce) {
             <div style="background: #ffffff; border: 1px solid #d3e7d6; border-radius: 8px; padding: 16px;">
                 <h4 style="color: #176d35; margin-bottom: 10px; font-size: 15px;"><i class="fa-solid fa-cart-shopping"></i> Purchase Produce</h4>
                 
+                <!-- Logistics MOQ Badge -->
+                <div style="background:#f0fdf4; border:1px solid #86efac; border-radius:6px; padding:10px 12px; margin-bottom:12px; font-size:12px; color:#166534;">
+                    <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:6px;">
+                        <span><i class="fa-solid fa-truck-ramp-box"></i> <strong>Buyer Tier:</strong> ${escapeHTML(roleConfig.label)}</span>
+                        <span style="background:#166534; color:#fff; font-size:11px; padding:2px 8px; border-radius:10px; font-weight:bold;">Min Order: ${moqInUnit} ${escapeHTML(unit)} (${roleConfig.kg} kg)</span>
+                    </div>
+                    <div style="color:#15803d; font-size:11px; margin-top:4px;">
+                        Minimum order ensures direct-to-farm dispatch logistics are viable.
+                    </div>
+                </div>
+
                 <div style="margin-bottom: 12px;">
                     <label for="orderQtyInput" style="display:block; font-size: 12px; font-weight:600; color:#444; margin-bottom: 4px;">
-                        Enter Quantity to Buy (${escapeHTML(unit)}):
+                        Enter Quantity to Buy (${escapeHTML(unit)}) - <span style="color:#166534; font-weight:normal;">Min: ${moqInUnit}</span>:
                     </label>
-                    <input type="number" id="orderQtyInput" min="1" max="${quantity}" value="${defaultQty}" style="width:100%; height:40px; padding:0 12px; border:1px solid #c8d9cb; border-radius:6px; font-size:15px;">
+                    <input type="number" id="orderQtyInput" min="${moqInUnit}" step="${isQuintal ? '0.01' : '1'}" max="${quantity}" value="${defaultQty}" style="width:100%; height:40px; padding:0 12px; border:1px solid #c8d9cb; border-radius:6px; font-size:15px;">
                 </div>
 
                 <div style="background: #edf7ee; border-radius: 6px; padding: 10px 14px; margin-bottom: 14px; display:flex; justify-content:space-between; align-items:center;">
@@ -616,6 +648,13 @@ function displayProduceDetails(produce) {
                 msgBox.style.background = "#fee2e2";
                 msgBox.style.color = "#991b1b";
                 msgBox.textContent = "Please enter a valid quantity greater than 0.";
+                return;
+            }
+            if (qty < moqInUnit) {
+                msgBox.style.display = "block";
+                msgBox.style.background = "#fee2e2";
+                msgBox.style.color = "#991b1b";
+                msgBox.textContent = `Minimum order quantity for your ${roleConfig.label} account is ${moqInUnit} ${unit} (${roleConfig.kg} kg).`;
                 return;
             }
             if (qty > quantity) {

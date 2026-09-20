@@ -106,6 +106,9 @@
                 <p data-i18n="admin_logistics_sub">Assign transport fleet, dispatch agricultural shipments, and track deliveries.</p>
             </div>
             <div style="display: flex; align-items: center; gap: 14px;">
+                <button type="button" onclick="document.getElementById('samriddhi-trigger-btn')?.click()" style="background:linear-gradient(135deg, #059669, #10b981); color:white; border:none; padding:8px 16px; border-radius:8px; font-weight:700; font-size:12.5px; cursor:pointer; display:inline-flex; align-items:center; gap:8px; box-shadow:0 3px 10px rgba(16,185,129,0.25);">
+                    <i class="fa-solid fa-route"></i> Optimize Route (Samriddhi AI)
+                </button>
                 <button type="button" class="lang-toggle-btn" title="Change Language / भाषा बदलें">
                     <i class="fa-solid fa-globe"></i>
                     <span class="lang-toggle-label">हिन्दी</span>
@@ -173,13 +176,91 @@
                 </tbody>
             </table>
         </div>
+
+        <!-- REGISTERED DRIVERS FLEET -->
+        <div style="margin-top: 28px;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; flex-wrap: wrap; gap: 8px;">
+                <div>
+                    <h3 style="margin: 0; font-size: 16px; color: #1f2937; display: flex; align-items: center; gap: 8px;">
+                        <i class="fa-solid fa-id-card-clip" style="color: #059669;"></i> Registered Block Driver Fleet
+                    </h3>
+                    <p style="margin: 2px 0 0; font-size: 12px; color: #64748b;">Drivers available for manual assignment or automatic dispatch via Ask Samriddhi AI.</p>
+                </div>
+                <button type="button" onclick="document.getElementById('samriddhi-trigger-btn')?.click()" style="background:#f0fdf4; border:1px solid #86efac; color:#166534; padding:6px 14px; border-radius:6px; font-size:12px; font-weight:700; cursor:pointer;">
+                    <i class="fa-solid fa-wand-magic-sparkles"></i> Ask Samriddhi to Optimize Fleet
+                </button>
+            </div>
+
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Driver ID</th>
+                            <th>Driver Name</th>
+                            <th>Vehicle Type &amp; Reg</th>
+                            <th>Capacity</th>
+                            <th>Base Prakhand</th>
+                            <th>Contact</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody id="driverFleetTableBody">
+                        <tr>
+                            <td><strong style="color:#059669;">SN 365</strong></td>
+                            <td><strong>Soham Nayek</strong></td>
+                            <td>Tata Ace (Chhota Hathi) &bull; BR-06-SN-0365</td>
+                            <td>1,000 kg (10 Q)</td>
+                            <td>Dumra</td>
+                            <td>+91 98321 00365</td>
+                            <td><span class="badge badge-delivered">Available</span></td>
+                        </tr>
+                        <tr>
+                            <td><strong style="color:#059669;">HS 265</strong></td>
+                            <td><strong>Harsh Sahu</strong></td>
+                            <td>Mahindra Bolero Maxi Truck &bull; BR-06-HS-0265</td>
+                            <td>1,500 kg (15 Q)</td>
+                            <td>Runnisaidpur</td>
+                            <td>+91 98452 00265</td>
+                            <td><span class="badge badge-delivered">Available</span></td>
+                        </tr>
+                        <tr>
+                            <td><strong style="color:#059669;">AV 60</strong></td>
+                            <td><strong>Ayush Vardhan</strong></td>
+                            <td>Piaggio Ape E-City (Electric Cargo) &bull; BR-06-AV-0060</td>
+                            <td>450 kg (4.5 Q)</td>
+                            <td>Bairgania</td>
+                            <td>+91 98563 00060</td>
+                            <td><span class="badge badge-delivered">Available</span></td>
+                        </tr>
+                        <tr>
+                            <td><strong style="color:#059669;">PB 25</strong></td>
+                            <td><strong>Piyush Bhagat</strong></td>
+                            <td>Ashok Leyland Dost+ &bull; BR-06-PB-0025</td>
+                            <td>1,250 kg (12.5 Q)</td>
+                            <td>Riga</td>
+                            <td>+91 98674 00025</td>
+                            <td><span class="badge badge-delivered">Available</span></td>
+                        </tr>
+                        <tr>
+                            <td><strong style="color:#059669;">AK 47</strong></td>
+                            <td><strong>Abhijeet Kumar</strong></td>
+                            <td>Eicher Pro 2049 (Heavy Carrier) &bull; BR-06-AK-0047</td>
+                            <td>4,000 kg (40 Q)</td>
+                            <td>Sitamarhi Central</td>
+                            <td>+91 98785 00047</td>
+                            <td><span class="badge badge-delivered">Available</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
     </main>
 
     <!-- ASSIGN TRANSPORT MODAL -->
     <div id="assignModal" class="modal">
-        <div class="modal-content">
+        <div class="modal-content" style="width: 560px;">
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; border-bottom: 1px solid #eee; padding-bottom: 10px;">
-                <h3 style="margin: 0; font-size: 18px; color: #166534;"><i class="fa-solid fa-truck"></i> Assign Fleet & Approve</h3>
+                <h3 style="margin: 0; font-size: 18px; color: #166534;"><i class="fa-solid fa-truck"></i> Assign Fleet &amp; Approve</h3>
                 <button type="button" id="closeAssignModalBtn" style="border: none; background: none; font-size: 22px; cursor: pointer; color: #888;">&times;</button>
             </div>
             <form id="assignTransportForm">
@@ -191,14 +272,45 @@
                     <div><strong>Produce:</strong> <span id="assignModalProduce">-</span></div>
                 </div>
 
+                <!-- ASK SAMRIDDHI AUTO ASSIGN BUTTON -->
+                <div style="background: #f0fdf4; border: 1px solid #bbf7d0; border-radius: 8px; padding: 10px 12px; margin-bottom: 14px;">
+                    <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px;">
+                        <div>
+                            <strong style="color:#065f46; font-size:12.5px;"><i class="fa-solid fa-wand-magic-sparkles"></i> AI Fleet Match</strong>
+                            <p style="margin: 2px 0 0; font-size: 11px; color:#4b5563;">Ask Samriddhi matches cargo to the optimal registered driver.</p>
+                        </div>
+                        <button type="button" id="askSamriddhiAssignBtn" style="background:#059669; color:white; border:none; padding:7px 14px; border-radius:6px; font-size:12px; font-weight:700; cursor:pointer; box-shadow:0 1px 3px rgba(5,150,105,0.3);">
+                            🤖 Ask Samriddhi to Assign
+                        </button>
+                    </div>
+                    <!-- AI MATCH RATIONALE BADGE -->
+                    <div id="samriddhiMatchBadge" style="display: none; margin-top: 10px; padding: 9px 12px; background: #ffffff; border: 1px solid #86efac; border-radius: 6px; font-size: 11.5px; color: #065f46; box-shadow: 0 1px 2px rgba(0,0,0,0.04);">
+                    </div>
+                </div>
+
+                <!-- DRIVER SELECTION DROPDOWN -->
                 <div style="margin-bottom: 12px;">
-                    <label style="display: block; font-size: 12px; font-weight: 600; margin-bottom: 4px; color: #333;">Vehicle Reference (Truck / Tractor No.)</label>
-                    <input type="text" id="vehicleReferenceInput" required placeholder="e.g. Tractor Trolley BR-01-T-4521 / Bolero BR-02-G-1100" style="width: 100%; padding: 8px 10px; border: 1px solid #cbd5e1; border-radius: 6px; font-size: 13px;">
+                    <label style="display: block; font-size: 12px; font-weight: 600; margin-bottom: 4px; color: #333;">
+                        Quick Select Driver (or type custom details manually):
+                    </label>
+                    <select id="quickDriverSelect" style="width: 100%; padding: 8px 10px; border: 1px solid #cbd5e1; border-radius: 6px; font-size: 13px; background:white;">
+                        <option value="">-- Choose Registered Fleet Driver --</option>
+                        <option value="SN 365" data-name="Soham Nayek (+91 98321 00365)" data-vehicle="Tata Ace [BR-06-SN-0365] (ID: SN 365)">1. Soham Nayek [ID: SN 365] - Tata Ace (1,000 kg)</option>
+                        <option value="HS 265" data-name="Harsh Sahu (+91 98452 00265)" data-vehicle="Mahindra Bolero Maxi [BR-06-HS-0265] (ID: HS 265)">2. Harsh Sahu [ID: HS 265] - Bolero Maxi Truck (1,500 kg)</option>
+                        <option value="AV 60" data-name="Ayush Vardhan (+91 98563 00060)" data-vehicle="Piaggio Ape E-City [BR-06-AV-0060] (ID: AV 60)">3. Ayush Vardhan [ID: AV 60] - Electric Cargo (450 kg)</option>
+                        <option value="PB 25" data-name="Piyush Bhagat (+91 98674 00025)" data-vehicle="Ashok Leyland Dost+ [BR-06-PB-0025] (ID: PB 25)">4. Piyush Bhagat [ID: PB 25] - Dost+ (1,250 kg)</option>
+                        <option value="AK 47" data-name="Abhijeet Kumar (+91 98785 00047)" data-vehicle="Eicher Pro 2049 [BR-06-AK-0047] (ID: AK 47)">5. Abhijeet Kumar [ID: AK 47] - Eicher 4-Tonne (4,000 kg)</option>
+                    </select>
                 </div>
 
                 <div style="margin-bottom: 12px;">
-                    <label style="display: block; font-size: 12px; font-weight: 600; margin-bottom: 4px; color: #333;">Driver Name & Mobile</label>
-                    <input type="text" id="driverReferenceInput" required placeholder="e.g. Ramesh Kumar (9876543210)" style="width: 100%; padding: 8px 10px; border: 1px solid #cbd5e1; border-radius: 6px; font-size: 13px;">
+                    <label style="display: block; font-size: 12px; font-weight: 600; margin-bottom: 4px; color: #333;">Vehicle Reference</label>
+                    <input type="text" id="vehicleReferenceInput" required placeholder="e.g. Tata Ace [BR-06-SN-0365] (ID: SN 365)" style="width: 100%; padding: 8px 10px; border: 1px solid #cbd5e1; border-radius: 6px; font-size: 13px;">
+                </div>
+
+                <div style="margin-bottom: 12px;">
+                    <label style="display: block; font-size: 12px; font-weight: 600; margin-bottom: 4px; color: #333;">Driver Name &amp; Mobile</label>
+                    <input type="text" id="driverReferenceInput" required placeholder="e.g. Soham Nayek (+91 98321 00365)" style="width: 100%; padding: 8px 10px; border: 1px solid #cbd5e1; border-radius: 6px; font-size: 13px;">
                 </div>
 
                 <div style="margin-bottom: 16px;">
@@ -210,7 +322,7 @@
 
                 <div style="display: flex; justify-content: flex-end; gap: 10px;">
                     <button type="button" id="cancelAssignBtn" style="padding: 8px 16px; border: 1px solid #ccc; background: white; border-radius: 6px; cursor: pointer;">Cancel</button>
-                    <button type="submit" id="submitAssignBtn" style="padding: 8px 18px; background: #16863b; color: white; border: none; border-radius: 6px; font-weight: 600; cursor: pointer;">Confirm & Dispatch</button>
+                    <button type="submit" id="submitAssignBtn" style="padding: 8px 18px; background: #16863b; color: white; border: none; border-radius: 6px; font-weight: 600; cursor: pointer;">Confirm &amp; Dispatch</button>
                 </div>
             </form>
         </div>
@@ -248,5 +360,6 @@
     <script src="../js/core/auth.js"></script>
     <script src="../js/admin/admin.js"></script>
     <script src="../js/admin/admin-logistics.js"></script>
+    <script src="../js/core/ask-samriddhi.js"></script>
 </body>
 </html>

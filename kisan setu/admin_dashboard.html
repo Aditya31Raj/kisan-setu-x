@@ -1,32 +1,22 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
     <title>Kisan Setu - Admin Dashboard</title>
 
-    <!-- Root folder se CSS -->
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/admin.css">
-
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
 </head>
 
-
 <body>
-
 
     <!-- ==================================================
          SIDEBAR
          ================================================== -->
-
     <aside class="sidebar">
-
         <!-- BRAND -->
-
         <div class="logo">
             <img src="images/logoks.jpeg" alt="Kisan Setu Logo">
             KISAN SETU
@@ -36,191 +26,116 @@
             ADMIN PORTAL
         </div>
 
-
         <!-- NAVIGATION -->
-
         <ul class="menu">
-
-
-            <!-- DASHBOARD -->
-
             <li>
                 <a href="admin_dashboard.html" class="active">
-                    🏠 &nbsp; <span data-i18n="nav_dashboard">Dashboard</span>
+                    <i class="fa-solid fa-chart-line"></i> <span data-i18n="nav_dashboard">Dashboard</span>
                 </a>
             </li>
-
-
-            <!-- FARMERS -->
-
             <li>
                 <a href="admin/farmers.html">
-                    👨‍🌾 &nbsp; <span data-i18n="nav_farmers">Farmers</span>
+                    <i class="fa-solid fa-users"></i> <span data-i18n="nav_farmers">Farmers</span>
                 </a>
             </li>
-
-
-            <!-- BUYERS -->
-
             <li>
                 <a href="admin/buyers.html">
-                    🛒 &nbsp; <span data-i18n="nav_buyers">Buyers</span>
+                    <i class="fa-solid fa-store"></i> <span data-i18n="nav_buyers">Buyers</span>
                 </a>
             </li>
-
-
-            <!-- REQUESTS -->
-
             <li>
                 <a href="admin/requests.html">
-                    📋 &nbsp; <span data-i18n="nav_requests">Requests</span>
+                    <i class="fa-solid fa-clipboard-check"></i> <span data-i18n="nav_requests">Requests</span>
                 </a>
             </li>
-
-
-            <!-- LOGISTICS -->
-
             <li>
                 <a href="admin/logistics.html">
-                    🚚 &nbsp; <span data-i18n="nav_logistics">Logistics</span>
+                    <i class="fa-solid fa-truck-fast"></i> <span data-i18n="nav_logistics">Logistics</span>
                 </a>
             </li>
-
-
-            <!-- INPUT MANAGEMENT -->
-
             <li>
                 <a href="admin/inputs.html">
-                    🌱 &nbsp; <span data-i18n="nav_inputs">Input Management</span>
+                    <i class="fa-solid fa-seedling"></i> <span data-i18n="nav_inputs">Input Management</span>
                 </a>
             </li>
-
-
-            <!-- PAYMENTS -->
-
             <li>
                 <a href="admin/payments.html">
-                    💳 &nbsp; <span data-i18n="nav_payments">Payments</span>
+                    <i class="fa-solid fa-shield-halved"></i> <span data-i18n="nav_payments">Payments</span>
                 </a>
             </li>
-
-
-            <!-- REPORTS -->
-
             <li>
                 <a href="admin/reports.html">
-                    📊 &nbsp; <span data-i18n="nav_reports">Reports</span>
+                    <i class="fa-solid fa-chart-pie"></i> <span data-i18n="nav_reports">Reports</span>
                 </a>
             </li>
-
-
-            <!-- ALERTS -->
-
             <li>
                 <a href="admin/alerts.html">
-                    🔔 &nbsp; <span data-i18n="nav_alerts">Alerts</span>
+                    <i class="fa-solid fa-triangle-exclamation"></i> <span data-i18n="nav_alerts">Alerts</span>
                 </a>
             </li>
-
-
-            <!-- DISPUTES & GRIEVANCES -->
-
             <li>
                 <a href="admin/grievances.html">
-                    ⚖️ &nbsp; <span data-i18n="nav_grievances">Disputes & Grievances</span>
+                    <i class="fa-solid fa-scale-balanced"></i> <span data-i18n="nav_grievances">Disputes & Grievances</span>
                 </a>
             </li>
-
-
         </ul>
 
-
         <!-- LOGOUT -->
-
         <div class="logout">
-
             <a href="javascript:void(0)" id="logoutBtn" class="logout-btn">
-                🚪 &nbsp; Logout
+                <i class="fa-solid fa-arrow-right-from-bracket"></i> <span>Logout</span>
             </a>
-
         </div>
-
-
     </aside>
-
-
 
     <!-- ==================================================
          MAIN CONTENT
          ================================================== -->
-
     <main class="main">
-
 
         <!-- ==================================================
              TOP BAR
              ================================================== -->
-
         <div class="topbar">
-
-
             <div>
-
                 <h1 data-i18n="admin_dashboard_title">
                     Admin Dashboard
                 </h1>
-
                 <p data-i18n="admin_dashboard_sub">
                     Monitor and manage the Kisan Setu marketplace
                 </p>
-
             </div>
 
-
             <!-- ADMIN PROFILE & ACTIONS -->
-
             <div style="display: flex; align-items: center; gap: 15px;">
                 <button type="button" class="lang-toggle-btn" id="adminLangToggle" title="Change Language / भाषा बदलें">
                     <i class="fa-solid fa-globe"></i>
                     <span class="lang-toggle-label">हिन्दी</span>
                 </button>
                 <div class="admin-profile">
-
                     <div class="profile-icon">
                         A
                     </div>
-
                     <div>
-
                         <strong>
                             Admin
                         </strong>
-
                         <p>
                             Prakhand Admin
                         </p>
-
                     </div>
-
                 </div>
 
                 <button type="button" class="topbar-logout-btn" id="topbarLogoutBtn" title="Logout" style="display:inline-flex; align-items:center; gap:6px; padding:8px 14px; border-radius:6px; background:#fdf2f2; color:#ba3d32; border:1px solid #fad7d4; font-size:12px; font-weight:600; cursor:pointer;">
-                    🚪 &nbsp; <span data-i18n="nav_logout">Logout</span>
+                    <i class="fa-solid fa-arrow-right-from-bracket"></i> <span data-i18n="nav_logout">Logout</span>
                 </button>
             </div>
-
-
         </div>
-
-
 
         <!-- ==================================================
              STATISTICS
              ================================================== -->
-
         <div class="stats">
-
-
             <!-- TOTAL FARMERS -->
 
             <div class="card">
@@ -528,6 +443,7 @@
     <script src="js/core/api.js"></script>
     <script src="js/core/auth.js"></script>
     <script src="js/admin/admin.js"></script>
+    <script src="js/core/ask-samriddhi.js"></script>
     <script>
         function escapeHTML(str) {
             return String(str ?? "").replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#039;" }[c]));

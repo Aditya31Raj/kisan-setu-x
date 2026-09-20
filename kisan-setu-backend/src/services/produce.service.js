@@ -44,7 +44,7 @@ export async function create(userId, d, m) {
     requestId: m.requestId,
     ipAddress: m.ip
   });
-  if (x.violation) throw errors.unprocessable(`Price is below applicable MSP (${x.mspPrice}/${x.mspUnit || d.unit})`);
+  if (x.violation) throw errors.unprocessable(`Price is below statutory MSP of ₹12.00/kg (₹1,200/Quintal). An alert with details has been dispatched to the Block Admin.`);
 
   const l = await prisma.produceListing.create({ data: { farmerId: userId, ...d, status: 'LISTED' } });
   await recordAudit({
@@ -132,7 +132,7 @@ export async function update(userId, id, d, m) {
     requestId: m.requestId,
     ipAddress: m.ip
   });
-  if (x.violation) throw errors.unprocessable(`Price is below applicable MSP (${x.mspPrice}/${x.mspUnit || d.unit || old.unit})`);
+  if (x.violation) throw errors.unprocessable(`Price is below statutory MSP of ₹12.00/kg (₹1,200/Quintal). An alert with details has been dispatched to the Block Admin.`);
   return prisma.produceListing.update({ where: { id }, data: d });
 }
 

@@ -124,9 +124,14 @@ function renderTable(items, filter = "ALL") {
 		let actionButtons = "";
 		if (s.status === "PENDING") {
 			actionButtons = `
-				<button type="button" class="btn-assign" onclick="openAssignModal('${s.id}')">
-					<i class="fa-solid fa-check"></i> Assign Fleet
-				</button>
+				<div style="display:flex; flex-direction:column; gap:6px; min-width:130px;">
+					<button type="button" class="btn-assign" onclick="openAssignModal('${s.id}', 'manual')" style="font-size:11.5px; padding:6px 10px; display:flex; align-items:center; justify-content:center; gap:5px;" title="Manually assign a fleet driver">
+						<i class="fa-solid fa-user-pen"></i> Assign Manually
+					</button>
+					<button type="button" class="btn-samriddhi-assign" onclick="openAssignModal('${s.id}', 'samriddhi')" style="background:#059669; color:white; border:none; padding:6px 10px; border-radius:6px; font-size:11.5px; font-weight:700; cursor:pointer; display:flex; align-items:center; justify-content:center; gap:5px; box-shadow:0 1px 3px rgba(5,150,105,0.25);" title="Let Ask Samriddhi AI match the best driver">
+						🤖 Ask Samriddhi
+					</button>
+				</div>
 			`;
 		} else {
 			actionButtons = `
@@ -171,7 +176,98 @@ function setupFilterTabs() {
 	});
 }
 
-function openAssignModal(logisticsId) {
+function calculateShipmentWeightKg(shipment) {
+	let totalKg = 0;
+	(shipment?.order?.items || []).forEach(item => {
+		const q = Number(item.quantity) || 0;
+		const u = String(item.produce?.unit || "QUINTAL").toUpperCase();
+		totalKg += u.includes("QUINTAL") ? q * 100 : u.includes("TON") ? q * 1000 : q;
+	});
+	return totalKg > 0 ? totalKg : 350;
+}
+
+function getOptimalDriverForWeight(weightKg) {
+	if (weightKg <= 450) {
+		return {
+			id: "AV 60",
+			name: "Ayush Vardhan (+91 98563 00060)",
+			vehicle: "Piaggio Ape E-City [BR-06-AV-0060] (ID: AV 60)",
+			capacity: "450 kg",
+			reason: `Optimal for compact payload (${weightKg} kg). Zero-emission electric cargo with lowest logistics cost.`
+		};
+	} else if (weightKg <= 1000) {
+		return {
+			id: "SN 365",
+			name: "Soham Nayek (+91 98321 00365)",
+			vehicle: "Tata Ace [BR-06-SN-0365] (ID: SN 365)",
+			capacity: "1,000 kg",
+			reason: `Optimal 1,000 kg capacity match for ${weightKg} kg shipment. Best fuel economy for village pickup.`
+		};
+	} else if (weightKg <= 1250) {
+		return {
+			id: "PB 25",
+			name: "Piyush Bhagat (+91 98674 00025)",
+			vehicle: "Ashok Leyland Dost+ [BR-06-PB-0025] (ID: PB 25)",
+			capacity: "1,250 kg",
+			reason: `Optimal 1,250 kg capacity match for ${weightKg} kg shipment. Fast inter-block transit to Mandi.`
+		};
+	} else if (weightKg <= 1500) {
+		return {
+			id: "HS 265",
+			name: "Harsh Sahu (+91 98452 00265)",
+			vehicle: "Mahindra Bolero Maxi [BR-06-HS-0265] (ID: HS 265)",
+			capacity: "1,500 kg",
+			reason: `Rugged 1,500 kg Bolero Maxi carrier suited for rough-terrain ${weightKg} kg farm collection.`
+		};
+	} else {
+		return {
+			id: "AK 47",
+			name: "Abhijeet Kumar (+91 98785 00047)",
+			vehicle: "Eicher Pro 2049 [BR-06-AK-0047] (ID: AK 47)",
+			capacity: "4,000 kg",
+			reason: `Heavy commercial 4,000 kg carrier required to safely transport ${weightKg} kg multi-quintal bulk consignment.`
+		};
+	}
+}
+
+function applyAskSamriddhiRecommendation(shipment) {
+	if (!shipment) return;
+	const weightKg = calculateShipmentWeightKg(shipment);
+	const rec = getOptimalDriverForWeight(weightKg);
+
+	const quickSelect = document.getElementById("quickDriverSelect");
+	if (quickSelect) quickSelect.value = rec.id;
+
+	const vInput = document.getElementById("vehicleReferenceInput");
+	if (vInput) vInput.value = rec.vehicle;
+
+	const dInput = document.getElementById("driverReferenceInput");
+	if (dInput) dInput.value = rec.name;
+
+	const badge = document.getElementById("samriddhiMatchBadge");
+	if (badge) {
+		badge.innerHTML = `
+			<div style="display:flex; align-items:flex-start; gap:8px;">
+				<span style="font-size:16px;">🤖</span>
+				<div>
+					<strong style="color:#065f46;">Ask Samriddhi AI Recommendation:</strong>
+					<div style="font-size:12px; color:#1e293b; margin-top:2px;">
+						Matched <strong>${escapeHTML(rec.name)}</strong> &bull; ${escapeHTML(rec.vehicle)} (Max ${rec.capacity})
+					</div>
+					<div style="font-size:11px; color:#475569; margin-top:2px;">
+						💡 ${escapeHTML(rec.reason)}
+					</div>
+				</div>
+			</div>
+		`;
+		badge.style.display = "block";
+	}
+
+	const errBox = document.getElementById("assignFormError");
+	if (errBox) errBox.style.display = "none";
+}
+
+function openAssignModal(logisticsId, mode = "manual") {
 	const shipment = allLogisticsShipments.find(s => s.id === logisticsId);
 	if (!shipment) return;
 
@@ -184,7 +280,8 @@ function openAssignModal(logisticsId) {
 	document.getElementById("assignModalBuyer").textContent = `${shipment.order?.buyer?.name || 'Buyer'} (${shipment.destinationAddress?.line1 || 'Mandi'})`;
 
 	const itemsSummary = (shipment.order?.items || []).map(i => `${i.produce?.crop?.name || i.produce?.title || 'Produce'} (${i.quantity} ${i.produce?.unit || 'KG'})`).join(", ");
-	document.getElementById("assignModalProduce").textContent = itemsSummary || "Agricultural produce";
+	const weightKg = calculateShipmentWeightKg(shipment);
+	document.getElementById("assignModalProduce").textContent = `${itemsSummary || "Agricultural produce"} [Total Est. Weight: ${weightKg} kg]`;
 
 	// Default delivery date to tomorrow
 	const dateInput = document.getElementById("estimatedDeliveryInput");
@@ -197,6 +294,21 @@ function openAssignModal(logisticsId) {
 	const errBox = document.getElementById("assignFormError");
 	if (errBox) errBox.style.display = "none";
 
+	const quickSelect = document.getElementById("quickDriverSelect");
+	const vInput = document.getElementById("vehicleReferenceInput");
+	const dInput = document.getElementById("driverReferenceInput");
+	const badge = document.getElementById("samriddhiMatchBadge");
+
+	if (mode === "samriddhi") {
+		applyAskSamriddhiRecommendation(shipment);
+	} else {
+		// Manual mode: reset dropdown and fields so admin has full manual control
+		if (quickSelect) quickSelect.value = "";
+		if (vInput) vInput.value = "";
+		if (dInput) dInput.value = "";
+		if (badge) badge.style.display = "none";
+	}
+
 	modal.style.display = "flex";
 }
 
@@ -206,6 +318,33 @@ function setupAssignModal() {
 	const cancelBtn = document.getElementById("cancelAssignBtn");
 	if (closeBtn) closeBtn.addEventListener("click", () => modal.style.display = "none");
 	if (cancelBtn) cancelBtn.addEventListener("click", () => modal.style.display = "none");
+
+	// Quick Select Driver dropdown listener
+	const quickSelect = document.getElementById("quickDriverSelect");
+	if (quickSelect) {
+		quickSelect.addEventListener("change", function () {
+			const opt = this.options[this.selectedIndex];
+			if (!opt || !opt.value) return;
+			const vehicle = opt.getAttribute("data-vehicle");
+			const name = opt.getAttribute("data-name");
+			if (vehicle) document.getElementById("vehicleReferenceInput").value = vehicle;
+			if (name) document.getElementById("driverReferenceInput").value = name;
+			const errBox = document.getElementById("assignFormError");
+			if (errBox) errBox.style.display = "none";
+			const badge = document.getElementById("samriddhiMatchBadge");
+			if (badge) badge.style.display = "none";
+		});
+	}
+
+	// Ask Samriddhi button inside the modal
+	const askBtn = document.getElementById("askSamriddhiAssignBtn");
+	if (askBtn) {
+		askBtn.addEventListener("click", function () {
+			const id = document.getElementById("assignLogisticsId").value;
+			const shipment = allLogisticsShipments.find(s => s.id === id);
+			applyAskSamriddhiRecommendation(shipment);
+		});
+	}
 
 	const form = document.getElementById("assignTransportForm");
 	if (form) {
@@ -220,7 +359,7 @@ function setupAssignModal() {
 
 			if (!vehicle || !driver) {
 				if (errBox) {
-					errBox.textContent = "Please enter both vehicle registration and driver contact.";
+					errBox.textContent = "Please select or enter both vehicle registration and driver contact.";
 					errBox.style.display = "block";
 				}
 				return;
@@ -305,3 +444,6 @@ function setupStatusModal() {
 
 window.openAssignModal = openAssignModal;
 window.openStatusModal = openStatusModal;
+window.triggerAskSamriddhiAssign = function (logisticsId) {
+	openAssignModal(logisticsId, "samriddhi");
+};

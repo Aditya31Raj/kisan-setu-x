@@ -44,7 +44,7 @@ async function loadFarmerHistory(page = 1) {
 				<h3>Order #${escapeHTML(order.orderNumber || order.id || "N/A")}</h3>
 				<p><strong>Buyer:</strong> ${escapeHTML(order.buyerName || order.buyer || "Not specified")}</p>
 				<p><strong>Status:</strong> ${escapeHTML(order.status || "COMPLETED")}</p>
-				<p><strong>Amount:</strong> ₹${escapeHTML(String(order.totalAmount ?? 0))}</p>
+				<p><strong>Amount:</strong> ₹${Number(order.totalAmount ?? 0).toLocaleString('en-IN')}</p>
 				<p><strong>Completed:</strong> ${escapeHTML(order.updatedAt || order.createdAt || "N/A")}</p>
 			`;
 			container.appendChild(card);

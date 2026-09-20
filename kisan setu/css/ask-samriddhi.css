@@ -1,0 +1,533 @@
+/* =========================================================
+   KISAN SETU - ASK SAMRIDDHI (समृद्धि AI)
+   Agricultural Market Intelligence & Logistics Copilot
+   ========================================================= */
+
+/* Floating Launch Button */
+.samriddhi-trigger-btn {
+    position: fixed;
+    bottom: 28px;
+    right: 28px;
+    z-index: 9999;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: linear-gradient(135deg, #059669 0%, #10b981 100%);
+    color: #ffffff;
+    border: none;
+    padding: 12px 20px;
+    border-radius: 50px;
+    font-family: "Poppins", system-ui, -apple-system, sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    box-shadow: 0 10px 25px rgba(16, 185, 129, 0.35), 0 2px 8px rgba(0, 0, 0, 0.08);
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.samriddhi-trigger-btn:hover {
+    transform: translateY(-3px) scale(1.03);
+    box-shadow: 0 14px 30px rgba(16, 185, 129, 0.45);
+    background: linear-gradient(135deg, #047857 0%, #059669 100%);
+}
+
+.samriddhi-trigger-btn .bot-avatar {
+    width: 32px;
+    height: 32px;
+    background: rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(4px);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    box-shadow: 0 0 12px rgba(255, 255, 255, 0.4);
+}
+
+.samriddhi-pulse-ring {
+    position: absolute;
+    top: -2px;
+    left: -2px;
+    right: -2px;
+    bottom: -2px;
+    border-radius: 50px;
+    border: 2px solid rgba(16, 185, 129, 0.6);
+    animation: samriddhiPulse 2.4s infinite;
+    pointer-events: none;
+}
+
+@keyframes samriddhiPulse {
+    0% { transform: scale(1); opacity: 0.8; }
+    50% { transform: scale(1.08); opacity: 0; }
+    100% { transform: scale(1.08); opacity: 0; }
+}
+
+/* Chat Widget Container */
+.samriddhi-widget {
+    position: fixed;
+    bottom: 90px;
+    right: 28px;
+    width: 410px;
+    max-width: calc(100vw - 36px);
+    height: 610px;
+    max-height: calc(100vh - 120px);
+    background: #ffffff;
+    border-radius: 20px;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.16), 0 0 0 1px rgba(16, 185, 129, 0.15);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    z-index: 10000;
+    opacity: 0;
+    pointer-events: none;
+    transform: translateY(20px) scale(0.96);
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    font-family: "Poppins", system-ui, -apple-system, sans-serif;
+}
+
+.samriddhi-widget.active {
+    opacity: 1;
+    pointer-events: all;
+    transform: translateY(0) scale(1);
+}
+
+/* Widget Header */
+.samriddhi-header {
+    background: linear-gradient(135deg, #065f46 0%, #059669 60%, #10b981 100%);
+    color: #ffffff;
+    padding: 16px 18px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: relative;
+}
+
+.samriddhi-header-info {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.samriddhi-header-avatar {
+    width: 42px;
+    height: 42px;
+    background: rgba(255, 255, 255, 0.18);
+    border: 1.5px solid rgba(255, 255, 255, 0.4);
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 22px;
+}
+
+.samriddhi-header-text h3 {
+    margin: 0;
+    font-size: 15px;
+    font-weight: 700;
+    letter-spacing: 0.2px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.samriddhi-header-text p {
+    margin: 2px 0 0;
+    font-size: 11px;
+    opacity: 0.88;
+}
+
+.samriddhi-header-actions {
+    display: flex;
+    gap: 6px;
+}
+
+.samriddhi-header-actions button {
+    background: rgba(255, 255, 255, 0.15);
+    border: none;
+    color: #ffffff;
+    width: 30px;
+    height: 30px;
+    border-radius: 8px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 13px;
+    transition: background 0.2s;
+}
+
+.samriddhi-header-actions button:hover {
+    background: rgba(255, 255, 255, 0.28);
+}
+
+/* Suggestion Chips Banner */
+.samriddhi-chips-container {
+    background: #f8fafc;
+    border-bottom: 1px solid #e2e8f0;
+    padding: 10px 14px;
+    display: flex;
+    gap: 8px;
+    overflow-x: auto;
+    scrollbar-width: thin;
+    white-space: nowrap;
+}
+
+.samriddhi-chips-container::-webkit-scrollbar {
+    height: 4px;
+}
+
+.samriddhi-chips-container::-webkit-scrollbar-thumb {
+    background: #cbd5e1;
+    border-radius: 4px;
+}
+
+.samriddhi-chip {
+    background: #ffffff;
+    border: 1px solid #d1fae5;
+    color: #065f46;
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 11.5px;
+    font-weight: 600;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    transition: all 0.2s ease;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+}
+
+.samriddhi-chip:hover {
+    background: #ecfdf5;
+    border-color: #10b981;
+    color: #047857;
+    transform: translateY(-1px);
+}
+
+/* Chat Messages Area */
+.samriddhi-chat-body {
+    flex: 1;
+    overflow-y: auto;
+    padding: 16px;
+    background: #fcfdfc;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    scroll-behavior: smooth;
+}
+
+.samriddhi-msg {
+    display: flex;
+    gap: 10px;
+    max-width: 88%;
+    animation: samriddhiFadeIn 0.25s ease-out;
+}
+
+@keyframes samriddhiFadeIn {
+    from { opacity: 0; transform: translateY(6px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.samriddhi-msg.user {
+    align-self: flex-end;
+    flex-direction: row-reverse;
+}
+
+.samriddhi-msg-avatar {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: #e2e8f0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 13px;
+    flex-shrink: 0;
+}
+
+.samriddhi-msg.bot .samriddhi-msg-avatar {
+    background: #d1fae5;
+    color: #065f46;
+}
+
+.samriddhi-msg-bubble {
+    padding: 10px 14px;
+    border-radius: 14px;
+    font-size: 13px;
+    line-height: 1.5;
+}
+
+.samriddhi-msg.user .samriddhi-msg-bubble {
+    background: linear-gradient(135deg, #059669 0%, #10b981 100%);
+    color: #ffffff;
+    border-bottom-right-radius: 3px;
+    box-shadow: 0 3px 10px rgba(16, 185, 129, 0.2);
+}
+
+.samriddhi-msg.bot .samriddhi-msg-bubble {
+    background: #ffffff;
+    color: #1e293b;
+    border: 1px solid #e2e8f0;
+    border-bottom-left-radius: 3px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+}
+
+/* ================= RICH CARDS ================= */
+
+/* Market Intelligence Card */
+.samriddhi-intel-card {
+    background: #ffffff;
+    border: 1px solid #bbf7d0;
+    border-radius: 14px;
+    padding: 14px;
+    margin-top: 8px;
+    box-shadow: 0 4px 14px rgba(16, 185, 129, 0.08);
+}
+
+.samriddhi-intel-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    border-bottom: 1px solid #f1f5f9;
+    padding-bottom: 8px;
+    margin-bottom: 10px;
+}
+
+.samriddhi-intel-crop {
+    font-size: 15px;
+    font-weight: 700;
+    color: #065f46;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.samriddhi-badge-msp {
+    background: #dcfce7;
+    color: #166534;
+    font-size: 11px;
+    font-weight: 700;
+    padding: 3px 8px;
+    border-radius: 12px;
+    border: 1px solid #86efac;
+}
+
+.samriddhi-price-block {
+    background: #f0fdf4;
+    border: 1px dashed #86efac;
+    border-radius: 10px;
+    padding: 10px 12px;
+    margin-bottom: 12px;
+    text-align: center;
+}
+
+.samriddhi-fair-rate {
+    font-size: 22px;
+    font-weight: 800;
+    color: #047857;
+}
+
+.samriddhi-msp-floor {
+    font-size: 11.5px;
+    color: #4b5563;
+    margin-top: 3px;
+}
+
+/* Persona Demand Breakdown Table */
+.samriddhi-breakdown-title {
+    font-size: 12px;
+    font-weight: 700;
+    color: #334155;
+    margin-bottom: 8px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.samriddhi-persona-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 11.5px;
+    padding: 5px 0;
+    border-bottom: 1px solid #f8fafc;
+}
+
+.samriddhi-persona-name {
+    font-weight: 600;
+    color: #1f2937;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.samriddhi-persona-moq {
+    background: #f1f5f9;
+    color: #475569;
+    font-size: 10px;
+    padding: 1px 6px;
+    border-radius: 4px;
+}
+
+.samriddhi-persona-avg {
+    font-weight: 700;
+    color: #059669;
+}
+
+/* Route Roadmap Card */
+.samriddhi-route-card {
+    background: #ffffff;
+    border: 1px solid #cbd5e1;
+    border-radius: 14px;
+    padding: 14px;
+    margin-top: 8px;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.06);
+}
+
+.samriddhi-driver-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: #f8fafc;
+    border-radius: 8px;
+    padding: 8px 10px;
+    margin-bottom: 10px;
+}
+
+.samriddhi-driver-name {
+    font-weight: 700;
+    font-size: 13px;
+    color: #0f172a;
+}
+
+.samriddhi-driver-vehicle {
+    font-size: 11px;
+    color: #64748b;
+}
+
+.samriddhi-load-bar {
+    height: 7px;
+    background: #e2e8f0;
+    border-radius: 4px;
+    margin: 8px 0;
+    overflow: hidden;
+}
+
+.samriddhi-load-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #10b981, #059669);
+    border-radius: 4px;
+}
+
+.samriddhi-metrics-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+    margin: 10px 0;
+    background: #f0fdf4;
+    padding: 8px 10px;
+    border-radius: 8px;
+    font-size: 11px;
+}
+
+.samriddhi-metric-item strong {
+    color: #065f46;
+    font-size: 12px;
+}
+
+/* Roadmap Stops Timeline */
+.samriddhi-timeline {
+    margin-top: 10px;
+    position: relative;
+    padding-left: 20px;
+}
+
+.samriddhi-timeline::before {
+    content: "";
+    position: absolute;
+    left: 7px;
+    top: 6px;
+    bottom: 6px;
+    width: 2px;
+    background: #cbd5e1;
+}
+
+.samriddhi-stop-item {
+    position: relative;
+    margin-bottom: 10px;
+    font-size: 11.5px;
+}
+
+.samriddhi-stop-dot {
+    position: absolute;
+    left: -20px;
+    top: 3px;
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    background: #10b981;
+    border: 2px solid #ffffff;
+    box-shadow: 0 0 0 2px #10b981;
+}
+
+.samriddhi-stop-dot.drop {
+    background: #0284c7;
+    box-shadow: 0 0 0 2px #0284c7;
+}
+
+.samriddhi-stop-title {
+    font-weight: 700;
+    color: #1e293b;
+}
+
+.samriddhi-stop-action {
+    color: #64748b;
+    font-size: 11px;
+}
+
+/* Chat Input Bar */
+.samriddhi-footer {
+    padding: 12px 14px;
+    background: #ffffff;
+    border-top: 1px solid #e2e8f0;
+    display: flex;
+    gap: 8px;
+    align-items: center;
+}
+
+.samriddhi-input {
+    flex: 1;
+    height: 42px;
+    border: 1px solid #cbd5e1;
+    border-radius: 24px;
+    padding: 0 16px;
+    font-size: 13px;
+    outline: none;
+    font-family: inherit;
+    transition: all 0.2s;
+}
+
+.samriddhi-input:focus {
+    border-color: #10b981;
+    box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.12);
+}
+
+.samriddhi-send-btn {
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #059669 0%, #10b981 100%);
+    color: #ffffff;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    transition: transform 0.2s, background 0.2s;
+}
+
+.samriddhi-send-btn:hover {
+    transform: scale(1.05);
+    background: linear-gradient(135deg, #047857 0%, #059669 100%);
+}

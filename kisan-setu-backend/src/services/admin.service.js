@@ -49,7 +49,14 @@ export async function users(role,q={}){
   return{items:a,pagination:paginationMeta(page,limit,total)};
 }
 
-export const alerts=()=>prisma.governmentAlert.findMany({where:{resolvedAt:null},orderBy:{createdAt:'desc'},take:200});
+export const alerts=()=>prisma.governmentAlert.findMany({
+  where:{resolvedAt:null},
+  include:{
+    creator:{select:{id:true,name:true,phone:true,email:true,farmerProfile:{select:{village:true,district:true,state:true}}}}
+  },
+  orderBy:{createdAt:'desc'},
+  take:200
+});
 
 export async function audits(q={}){
   const{page,limit,skip}=parsePagination(q);

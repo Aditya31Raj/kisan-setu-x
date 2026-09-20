@@ -1,16 +1,12 @@
 <!DOCTYPE html>
-
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kisan Setu - Admin Payments</title>
 
-    <title>Kisan Setu - Payments</title>
-
-<link rel="stylesheet" href="../css/style.css">
-<link rel="stylesheet" href="../css/admin.css">
-
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/admin.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
 </head>
 
@@ -19,9 +15,7 @@
 <div class="admin-layout">
 
     <!-- ================= SIDEBAR ================= -->
-
     <aside class="admin-sidebar">
-
         <div class="admin-logo">
             <img src="../images/logoks.jpeg" alt="Kisan Setu Logo">
             <h2>KISAN SETU</h2>
@@ -29,66 +23,73 @@
         </div>
 
         <ul class="admin-menu">
-
             <li>
-                <a href="../admin_dashboard.html">🏠 &nbsp; <span data-i18n="nav_dashboard">Dashboard</span></a>
+                <a href="../admin_dashboard.html">
+                    <i class="fa-solid fa-chart-line"></i> <span data-i18n="nav_dashboard">Dashboard</span>
+                </a>
             </li>
-
             <li>
-                <a href="farmers.html">👨‍🌾 &nbsp; <span data-i18n="nav_farmers">Farmers</span></a>
+                <a href="farmers.html">
+                    <i class="fa-solid fa-users"></i> <span data-i18n="nav_farmers">Farmers</span>
+                </a>
             </li>
-
             <li>
-                <a href="buyers.html">🛒 &nbsp; <span data-i18n="nav_buyers">Buyers</span></a>
+                <a href="buyers.html">
+                    <i class="fa-solid fa-store"></i> <span data-i18n="nav_buyers">Buyers</span>
+                </a>
             </li>
-
             <li>
-                <a href="requests.html">📋 &nbsp; <span data-i18n="nav_requests">Requests</span></a>
+                <a href="requests.html">
+                    <i class="fa-solid fa-clipboard-check"></i> <span data-i18n="nav_requests">Requests</span>
+                </a>
             </li>
-
             <li>
-                <a href="inputs.html">🌱 &nbsp; <span data-i18n="nav_inputs">Input Management</span></a>
+                <a href="logistics.html">
+                    <i class="fa-solid fa-truck-fast"></i> <span data-i18n="nav_logistics">Logistics</span>
+                </a>
             </li>
-
             <li>
-                <a href="payments.html">💳 &nbsp; <span data-i18n="nav_payments">Payments</span></a>
+                <a href="inputs.html">
+                    <i class="fa-solid fa-seedling"></i> <span data-i18n="nav_inputs">Input Management</span>
+                </a>
             </li>
-
             <li>
-                <a href="reports.html">📊 &nbsp; <span data-i18n="nav_reports">Reports</span></a>
+                <a href="payments.html" class="active">
+                    <i class="fa-solid fa-shield-halved"></i> <span data-i18n="nav_payments">Payments</span>
+                </a>
             </li>
-
             <li>
-                <a href="alerts.html">🔔 &nbsp; <span data-i18n="nav_alerts">Alerts</span></a>
+                <a href="reports.html">
+                    <i class="fa-solid fa-chart-pie"></i> <span data-i18n="nav_reports">Reports</span>
+                </a>
             </li>
-
             <li>
-                <a href="grievances.html">⚖️ &nbsp; <span data-i18n="nav_grievances">Disputes & Grievances</span></a>
+                <a href="alerts.html">
+                    <i class="fa-solid fa-triangle-exclamation"></i> <span data-i18n="nav_alerts">Alerts</span>
+                </a>
             </li>
-
+            <li>
+                <a href="grievances.html">
+                    <i class="fa-solid fa-scale-balanced"></i> <span data-i18n="nav_grievances">Disputes & Grievances</span>
+                </a>
+            </li>
         </ul>
 
         <div class="logout">
-            <a href="javascript:void(0)" id="logoutBtn" class="logout-btn">🚪 &nbsp; <span data-i18n="nav_logout">Logout</span></a>
+            <a href="javascript:void(0)" id="logoutBtn" class="logout-btn">
+                <i class="fa-solid fa-arrow-right-from-bracket"></i> <span data-i18n="nav_logout">Logout</span>
+            </a>
         </div>
-
     </aside>
 
-
     <!-- ================= MAIN ================= -->
-
     <main class="admin-main">
 
         <!-- ================= TOPBAR ================= -->
-
         <div class="admin-topbar">
-
             <div>
-                <h2>Payments</h2>
-
-                <p>
-                    Monitor and manage marketplace payments
-                </p>
+                <h2>Marketplace Payments & Escrow Ledger</h2>
+                <p>Monitor real-time escrow deposits, direct farmer disbursements, and dispute holds</p>
             </div>
 
             <div style="display: flex; align-items: center; gap: 14px;">
@@ -97,169 +98,132 @@
                     <span class="lang-toggle-label">हिन्दी</span>
                 </button>
                 <div class="admin-profile">
-
-                <div class="profile-icon">
-                    A
+                    <div class="profile-icon">A</div>
+                    <div>
+                        <strong>Admin</strong>
+                        <p>Prakhand Admin</p>
+                    </div>
                 </div>
-
-                <div>
-                    <strong>Admin</strong>
-
-                    <p>
-                        Prakhand Admin
-                    </p>
-                </div>
-
             </div>
-            </div>
-
         </div>
 
+        <!-- ================= ESCROW TRUST BANNER ================= -->
+        <div class="escrow-trust-banner">
+            <div class="escrow-trust-tag">
+                <i class="fa-solid fa-building-columns"></i>
+                <span>National Agricultural Escrow & Settlement Authority &bull; Bank-Grade Security</span>
+            </div>
+            <div class="escrow-live-pill">
+                <span class="pulse-dot"></span>
+                <span>Automated Smart Escrow Active</span>
+            </div>
+        </div>
 
         <!-- ================= PAYMENT SUMMARY ================= -->
-
-        <section class="admin-section">
-
-            <div class="section-header">
-
-                <h3>Payment Overview</h3>
-
+        <div class="payment-summary">
+            <div class="summary-card total-settlements">
+                <div class="card-icon-wrap">
+                    <i class="fa-solid fa-vault"></i>
+                </div>
+                <div class="card-info">
+                    <h3>Total Escrow Volume</h3>
+                    <p id="adminPaymentsTotal">₹0</p>
+                    <span class="card-subtext" id="adminPaymentsCountTotal">0 transactions recorded</span>
+                </div>
             </div>
 
-            <div class="admin-stats">
-
-                <div class="admin-stat">
-
-                    <h4>Total Payments</h4>
-
-                    <strong id="adminPaymentsTotal">--</strong>
-
+            <div class="summary-card success-settlements">
+                <div class="card-icon-wrap">
+                    <i class="fa-solid fa-circle-check"></i>
                 </div>
-
-                <div class="admin-stat">
-
-                    <h4>Completed</h4>
-
-                    <strong id="adminPaymentsCompleted">--</strong>
-
+                <div class="card-info">
+                    <h3>Disbursed to Farmers</h3>
+                    <p id="adminPaymentsCompleted">₹0</p>
+                    <span class="card-subtext" id="adminPaymentsCountCompleted">0 settled & transferred</span>
                 </div>
-
-                <div class="admin-stat">
-
-                    <h4>Pending</h4>
-
-                    <strong id="adminPaymentsPending">--</strong>
-
-                </div>
-
-                <div class="admin-stat">
-
-                    <h4>Failed</h4>
-
-                    <strong id="adminPaymentsFailed">--</strong>
-
-                </div>
-
             </div>
 
-        </section>
+            <div class="summary-card pending-settlements">
+                <div class="card-icon-wrap">
+                    <i class="fa-solid fa-clock-rotate-left"></i>
+                </div>
+                <div class="card-info">
+                    <h3>Locked in Escrow</h3>
+                    <p id="adminPaymentsPending">₹0</p>
+                    <span class="card-subtext" id="adminPaymentsCountPending">0 awaiting delivery signoff</span>
+                </div>
+            </div>
 
+            <div class="summary-card failed-settlements">
+                <div class="card-icon-wrap">
+                    <i class="fa-solid fa-shield-halved"></i>
+                </div>
+                <div class="card-info">
+                    <h3>Refunded / On Hold</h3>
+                    <p id="adminPaymentsFailed">₹0</p>
+                    <span class="card-subtext" id="adminPaymentsCountFailed">0 dispute protected</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- ================= PAYMENT TOOLBAR ================= -->
+        <div class="payments-toolbar">
+            <div class="payments-filter-pills">
+                <button class="filter-pill active" data-status="ALL">
+                    <i class="fa-solid fa-layer-group"></i> All Records
+                </button>
+                <button class="filter-pill" data-status="COMPLETED">
+                    <i class="fa-solid fa-circle-check"></i> Disbursed
+                </button>
+                <button class="filter-pill" data-status="PENDING">
+                    <i class="fa-solid fa-hourglass-half"></i> In Escrow
+                </button>
+                <button class="filter-pill" data-status="FAILED">
+                    <i class="fa-solid fa-triangle-exclamation"></i> Hold / Failed
+                </button>
+            </div>
+
+            <div class="payments-search-box">
+                <i class="fa-solid fa-magnifying-glass"></i>
+                <input type="text" id="paymentsSearchInput" placeholder="Search by Farmer, Buyer, or Payment ID...">
+            </div>
+        </div>
 
         <!-- ================= PAYMENT TABLE ================= -->
-
-        <section class="admin-section">
-
-            <div class="section-header">
-
-                <h3>Recent Payments</h3>
-
+        <section class="admin-section" style="background:#ffffff; border-radius:14px; padding:20px; box-shadow: 0 4px 14px rgba(0,0,0,0.03); border:1px solid #e2ece3;">
+            <div class="section-header" style="margin-bottom:14px;">
+                <h3 style="margin:0; font-size:16px; color:#0f172a; font-weight:700;">
+                    <i class="fa-solid fa-list-check" style="color:#059669; margin-right:6px;"></i> All Marketplace Transactions
+                </h3>
             </div>
 
-            <table class="admin-table payment-table">
-
-                <thead>
-
-                    <tr>
-
-                        <th>Payment ID</th>
-
-                        <th>Farmer</th>
-
-                        <th>Buyer</th>
-
-                        <th>Amount</th>
-
-                        <th>Date</th>
-
-                        <th>Status</th>
-
-                    </tr>
-
-                </thead>
-
-                <tbody id="adminPaymentsTableBody">
-                    <tr>
-                        <td colspan="6" style="text-align:center; padding:32px; color:#666;">
-                            Loading live payment records...
-                        </td>
-                    </tr>
-                </tbody>
-
-            </table>
-
+            <div class="admin-table-wrapper" style="overflow-x:auto;">
+                <table class="admin-table payment-table">
+                    <thead>
+                        <tr>
+                            <th>Payment ID</th>
+                            <th>Farmer Recipient</th>
+                            <th>Buyer Origin</th>
+                            <th>Amount (₹)</th>
+                            <th>Transaction Date</th>
+                            <th>Escrow Status</th>
+                        </tr>
+                    </thead>
+                    <tbody id="adminPaymentsTableBody">
+                        <tr><td colspan="6" style="text-align:center; padding:28px; color:#64748b;">Loading transactions...</td></tr>
+                    </tbody>
+                </table>
+            </div>
         </section>
-
-
-        <!-- ================= MSP MONITORING ================= -->
-
-        <section class="admin-section">
-
-            <div class="section-header">
-
-                <h3>MSP Compliance</h3>
-
-            </div>
-
-            <div class="alert success">
-
-                <strong>
-                    ✓ MSP Compliance: 96.8%
-                </strong>
-
-                Majority of marketplace payments are being
-                completed at or above the Minimum Support Price.
-
-            </div>
-
-            <div class="alert danger">
-
-                <strong>
-                    ⚠ Payments Below MSP
-                </strong>
-
-                Some payments require administrative review
-                because the selling price is below the applicable MSP.
-
-            </div>
-
-        </section>
-
-
-        <!-- ================= FOOTER ================= -->
-
-        <footer>
-            Kisan Setu Admin Portal
-        </footer>
 
     </main>
 
 </div>
 
-
-<script src="../js/core/i18n.js"></script>
-    <script src="../js/core/api.js"></script>
+<script src="../js/core/api.js"></script>
 <script src="../js/core/auth.js"></script>
 <script src="../js/admin/admin.js"></script>
+<script src="../js/core/ask-samriddhi.js"></script>
 <script>
     function escapeHTML(str) {
         return String(str ?? "").replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#039;" }[c]));
@@ -267,68 +231,149 @@
     function formatDate(d) {
         if (!d) return "--";
         const dt = new Date(d);
-        return isNaN(dt.getTime()) ? String(d) : dt.toLocaleDateString("en-IN", { day: "2-digit", month: "short", year: "numeric" });
+        return isNaN(dt.getTime()) ? String(d) : dt.toLocaleDateString("en-IN", { day: "2-digit", month: "short", year: "numeric", hour: "2-digit", minute: "2-digit" });
+    }
+
+    let allPayments = [];
+    let currentFilter = "ALL";
+    let searchQuery = "";
+
+    function renderTable() {
+        const tbody = document.getElementById("adminPaymentsTableBody");
+        if (!tbody) return;
+
+        let filtered = allPayments.filter(p => {
+            const status = (p.status || "COMPLETED").toUpperCase();
+            if (currentFilter === "COMPLETED" && !(status === "SUCCESS" || status === "COMPLETED")) return false;
+            if (currentFilter === "PENDING" && status !== "PENDING") return false;
+            if (currentFilter === "FAILED" && !(status === "FAILED" || status === "REFUNDED")) return false;
+
+            if (searchQuery) {
+                const id = (p.id || "").toLowerCase();
+                const farmer = (p.order?.farmer?.name || "").toLowerCase();
+                const buyer = (p.order?.buyer?.name || "").toLowerCase();
+                if (!id.includes(searchQuery) && !farmer.includes(searchQuery) && !buyer.includes(searchQuery)) {
+                    return false;
+                }
+            }
+            return true;
+        });
+
+        if (filtered.length === 0) {
+            tbody.innerHTML = `<tr><td colspan="6" style="text-align:center; padding:36px; color:#777;">No matching payment records found.</td></tr>`;
+            return;
+        }
+
+        tbody.innerHTML = filtered.map(p => {
+            const id = p.id ? `TX-${p.id.slice(0, 6).toUpperCase()}` : "--";
+            const farmerName = p.order?.farmer?.name || "Farmer";
+            const buyerName = p.order?.buyer?.name || "Buyer";
+            const rawAmt = Number(p.order?.totalAmount ?? p.totalAmount ?? p.totalOrderAmount ?? p.amount ?? 0);
+            const amt = `₹${rawAmt.toLocaleString('en-IN')}`;
+            const date = formatDate(p.createdAt);
+            const status = (p.status || "COMPLETED").toUpperCase();
+            const isSuccess = status === "SUCCESS" || status === "COMPLETED";
+            const isPending = status === "PENDING";
+            const badgeClass = isSuccess ? "payment-status-badge success" : isPending ? "payment-status-badge pending" : "payment-status-badge failed";
+            const iconClass = isSuccess ? "fa-circle-check" : isPending ? "fa-clock" : "fa-triangle-exclamation";
+            const label = isSuccess ? "DISBURSED" : isPending ? "IN ESCROW" : "FAILED / HOLD";
+
+            return `
+                <tr>
+                    <td>
+                        <div style="display:flex; align-items:center; gap:8px;">
+                            <span class="icon-badge" style="width:28px; height:28px; min-width:28px; border-radius:7px; font-size:12px; margin-right:0; background:linear-gradient(135deg, #06b6d4, #0f766e);">
+                                <i class="fa-solid fa-shield-halved" style="color:#fff;"></i>
+                            </span>
+                            <strong>${escapeHTML(id)}</strong>
+                        </div>
+                    </td>
+                    <td>
+                        <div style="display:flex; align-items:center; gap:8px;">
+                            <span style="display:inline-flex; width:26px; height:26px; border-radius:50%; background:#dcfce7; color:#15803d; align-items:center; justify-content:center; font-size:11px;">👨‍🌾</span>
+                            <span>${escapeHTML(farmerName)}</span>
+                        </div>
+                    </td>
+                    <td>
+                        <div style="display:flex; align-items:center; gap:8px;">
+                            <span style="display:inline-flex; width:26px; height:26px; border-radius:50%; background:#dbeafe; color:#1d4ed8; align-items:center; justify-content:center; font-size:11px;">🛒</span>
+                            <span>${escapeHTML(buyerName)}</span>
+                        </div>
+                    </td>
+                    <td><strong style="color:#0f172a; font-size:14px;">${escapeHTML(amt)}</strong></td>
+                    <td style="color:#64748b; font-size:12.5px;">${escapeHTML(date)}</td>
+                    <td><span class="${badgeClass}"><i class="fa-solid ${iconClass}"></i> ${label}</span></td>
+                </tr>
+            `;
+        }).join("");
     }
 
     document.addEventListener("DOMContentLoaded", async () => {
         const user = await ensureAdminAuth();
         if (!user) return;
 
-        // 1. Stats from dashboard
-        try {
-            const dash = await getAdminDashboard();
-            if (dash) {
-                document.getElementById("adminPaymentsTotal").textContent = Number(dash.totalTransactions || 0).toLocaleString();
-                document.getElementById("adminPaymentsPending").textContent = Number(dash.pendingPayments || 0).toLocaleString();
-            }
-        } catch (e) {
-            console.warn("Could not load payment stats:", e);
+        // Setup filter pills
+        document.querySelectorAll(".filter-pill").forEach(pill => {
+            pill.addEventListener("click", () => {
+                document.querySelectorAll(".filter-pill").forEach(p => p.classList.remove("active"));
+                pill.classList.add("active");
+                currentFilter = pill.getAttribute("data-status");
+                renderTable();
+            });
+        });
+
+        // Setup search input
+        const searchInput = document.getElementById("paymentsSearchInput");
+        if (searchInput) {
+            searchInput.addEventListener("input", (e) => {
+                searchQuery = e.target.value.toLowerCase().trim();
+                renderTable();
+            });
         }
 
-        // 2. Payments list
+        // Payments list
         try {
             const res = await apiRequest("/admin/payments");
-            const payments = Array.isArray(res) ? res : (res?.data || []);
-            const tbody = document.getElementById("adminPaymentsTableBody");
+            allPayments = Array.isArray(res) ? res : (res?.data || []);
             
-            let completed = 0;
-            let pending = 0;
-            let failed = 0;
+            let completedCount = 0;
+            let pendingCount = 0;
+            let failedCount = 0;
 
-            payments.forEach(p => {
-                if (p.status === "SUCCESS" || p.status === "COMPLETED") completed++;
-                else if (p.status === "PENDING") pending++;
-                else if (p.status === "FAILED") failed++;
+            let totalVol = 0;
+            let completedVol = 0;
+            let pendingVol = 0;
+            let failedVol = 0;
+
+            allPayments.forEach(p => {
+                const amt = Number(p.order?.totalAmount ?? p.totalAmount ?? p.totalOrderAmount ?? p.amount ?? 0);
+                totalVol += amt;
+                const status = (p.status || "COMPLETED").toUpperCase();
+                if (status === "SUCCESS" || status === "COMPLETED") {
+                    completedCount++;
+                    completedVol += amt;
+                } else if (status === "PENDING") {
+                    pendingCount++;
+                    pendingVol += amt;
+                } else {
+                    failedCount++;
+                    failedVol += amt;
+                }
             });
 
-            document.getElementById("adminPaymentsCompleted").textContent = completed.toLocaleString();
-            document.getElementById("adminPaymentsFailed").textContent = failed.toLocaleString();
-            if (pending > 0) document.getElementById("adminPaymentsPending").textContent = pending.toLocaleString();
+            document.getElementById("adminPaymentsTotal").textContent = `₹${totalVol.toLocaleString('en-IN')}`;
+            document.getElementById("adminPaymentsCountTotal").textContent = `${allPayments.length} transactions recorded`;
 
-            if (!payments || payments.length === 0) {
-                tbody.innerHTML = `<tr><td colspan="6" style="text-align:center; padding:36px; color:#777;">No marketplace payment records found in database.</td></tr>`;
-            } else {
-                tbody.innerHTML = payments.map(p => {
-                    const id = p.id ? `TX-${p.id.slice(0, 6).toUpperCase()}` : "--";
-                    const farmerName = p.order?.farmer?.name || "Farmer";
-                    const buyerName = p.order?.buyer?.name || "Buyer";
-                    const rawAmt = Number(p.order?.totalAmount ?? p.totalAmount ?? p.totalOrderAmount ?? p.amount ?? 0);
-                    const amt = `₹${rawAmt.toLocaleString('en-IN')}`;
-                    const date = formatDate(p.createdAt);
-                    const status = p.status || "COMPLETED";
-                    const statusClass = status === "SUCCESS" || status === "COMPLETED" ? "status success" : status === "PENDING" ? "status pending" : "status danger";
-                    return `
-                        <tr>
-                            <td><strong>${escapeHTML(id)}</strong></td>
-                            <td>${escapeHTML(farmerName)}</td>
-                            <td>${escapeHTML(buyerName)}</td>
-                            <td><strong>${escapeHTML(amt)}</strong></td>
-                            <td>${escapeHTML(date)}</td>
-                            <td><span class="${statusClass}">${escapeHTML(status)}</span></td>
-                        </tr>
-                    `;
-                }).join("");
-            }
+            document.getElementById("adminPaymentsCompleted").textContent = `₹${completedVol.toLocaleString('en-IN')}`;
+            document.getElementById("adminPaymentsCountCompleted").textContent = `${completedCount} settled & disbursed`;
+
+            document.getElementById("adminPaymentsPending").textContent = `₹${pendingVol.toLocaleString('en-IN')}`;
+            document.getElementById("adminPaymentsCountPending").textContent = `${pendingCount} awaiting delivery`;
+
+            document.getElementById("adminPaymentsFailed").textContent = `₹${failedVol.toLocaleString('en-IN')}`;
+            document.getElementById("adminPaymentsCountFailed").textContent = `${failedCount} dispute / on hold`;
+
+            renderTable();
         } catch (err) {
             console.error("Failed to load payments:", err);
             const tbody = document.getElementById("adminPaymentsTableBody");
@@ -338,5 +383,4 @@
 </script>
 
 </body>
-
 </html>

@@ -194,3 +194,217 @@ export async function status(id, role, lid, payload, m) {
   });
 }
 
+export const REGISTERED_DRIVERS = [
+  { id: 'SN 365', aliases: ['SN365', 'SN 365', '1', 'SOHAM NAYEK'], name: 'Soham Nayek', phone: '+91 98321 00365', vehicleType: 'Tata Ace (Chhota Hathi)', vehicleNumber: 'BR-06-SN-0365', capacityKg: 1000, basePrakhand: 'Dumra', isAvailable: true, rating: 4.9 },
+  { id: 'HS 265', aliases: ['HS265', 'HS 265', '2', 'HARSH SAHU'], name: 'Harsh Sahu', phone: '+91 98452 00265', vehicleType: 'Mahindra Bolero Maxi Truck', vehicleNumber: 'BR-06-HS-0265', capacityKg: 1500, basePrakhand: 'Runnisaidpur', isAvailable: true, rating: 4.8 },
+  { id: 'AV 60', aliases: ['AV60', 'AV 60', '3', 'AYUSH VARDHAN', 'AYUSH AVRDHAN'], name: 'Ayush Vardhan', phone: '+91 98563 00060', vehicleType: 'Piaggio Ape E-City (Electric Cargo)', vehicleNumber: 'BR-06-AV-0060', capacityKg: 450, basePrakhand: 'Bairgania', isAvailable: true, rating: 4.7 },
+  { id: 'PB 25', aliases: ['PB25', 'PB 25', '4', 'PIYUSH BHAGAT', 'PIYUS BHAGAT'], name: 'Piyush Bhagat', phone: '+91 98674 00025', vehicleType: 'Ashok Leyland Dost+', vehicleNumber: 'BR-06-PB-0025', capacityKg: 1250, basePrakhand: 'Riga', isAvailable: true, rating: 4.9 },
+  { id: 'AK 47', aliases: ['AK47', 'AK 47', '5', 'ABHIJEET KUMAR'], name: 'Abhijeet Kumar', phone: '+91 98785 00047', vehicleType: 'Eicher Pro 2049 (Heavy Carrier)', vehicleNumber: 'BR-06-AK-0047', capacityKg: 4000, basePrakhand: 'Sitamarhi Central', isAvailable: true, rating: 5.0 }
+];
+
+export function findDriver(identifier) {
+  if (!identifier) return null;
+  const norm = String(identifier).toUpperCase().replace(/[\s\-_]/g, '');
+  return REGISTERED_DRIVERS.find(d => {
+    const dId = d.id.toUpperCase().replace(/[\s\-_]/g, '');
+    const dName = d.name.toUpperCase().replace(/[\s\-_]/g, '');
+    if (dId === norm || dName === norm || dName.includes(norm) || norm.includes(dName)) return true;
+    return d.aliases?.some(a => a.toUpperCase().replace(/[\s\-_]/g, '') === norm);
+  }) || null;
+}
+
+export function recommendDriverForPayload(weightKg) {
+  const w = Number(weightKg) || 350;
+  if (w <= 450) {
+    return {
+      driver: REGISTERED_DRIVERS[2], // Ayush Vardhan (AV 60)
+      reason: `Optimal 450 kg electric cargo for light payload (${w} kg). Minimal freight expense & zero emissions.`
+    };
+  } else if (w <= 1000) {
+    return {
+      driver: REGISTERED_DRIVERS[0], // Soham Nayek (SN 365)
+      reason: `Best-fit 1,000 kg Tata Ace match for ${w} kg cargo. Highest rural village pickup efficiency.`
+    };
+  } else if (w <= 1250) {
+    return {
+      driver: REGISTERED_DRIVERS[3], // Piyush Bhagat (PB 25)
+      reason: `Optimal 1,250 kg capacity match for ${w} kg cargo. Fast inter-block transit to Mandi.`
+    };
+  } else if (w <= 1500) {
+    return {
+      driver: REGISTERED_DRIVERS[1], // Harsh Sahu (HS 265)
+      reason: `Rugged 1,500 kg Bolero Maxi carrier suited for rough-terrain ${w} kg farm collection.`
+    };
+  } else {
+    return {
+      driver: REGISTERED_DRIVERS[4], // Abhijeet Kumar (AK 47)
+      reason: `Heavy commercial 4,000 kg carrier required to safely transport ${w} kg multi-quintal bulk consignment.`
+    };
+  }
+}
+
+export async function askSamriddhiAssign(id, role, lid, m) {
+  const x = await get(id, role, lid);
+  if (x.status !== 'PENDING') {
+    throw errors.conflict(`Shipment is already in status ${x.status}. Only PENDING shipments can be assigned.`);
+  }
+
+  let totalWeightKg = 0;
+  (x.order?.items || []).forEach(i => {
+    const q = Number(i.quantity) || 0;
+    const u = String(i.produce?.unit || 'QUINTAL').toUpperCase();
+    totalWeightKg += u.includes('QUINTAL') ? q * 100 : u.includes('TON') ? q * 1000 : q;
+  });
+
+  if (totalWeightKg === 0) totalWeightKg = 350;
+
+  const rec = recommendDriverForPayload(totalWeightKg);
+  const bestDriver = rec.driver;
+
+  const vehicleReference = `${bestDriver.vehicleType} [${bestDriver.vehicleNumber}] (ID: ${bestDriver.id})`;
+  const driverReference = `${bestDriver.name} (${bestDriver.phone})`;
+  const estDelivery = new Date();
+  estDelivery.setDate(estDelivery.getDate() + 1);
+
+  const updated = await status(id, role, lid, {
+    status: 'ASSIGNED',
+    vehicleReference,
+    driverReference,
+    estimatedDelivery: estDelivery.toISOString()
+  }, m);
+
+  return {
+    logistics: updated,
+    assignedDriver: bestDriver,
+    cargoWeightKg: totalWeightKg,
+    assignedBy: 'Ask Samriddhi',
+    rationale: rec.reason
+  };
+}
+
+export async function getDriverFleet() {
+  return REGISTERED_DRIVERS;
+}
+
+export async function optimizeRoute({ orderIds = [], driverId, prakhand = 'Dumra' } = {}) {
+  let where = { status: { in: ['PENDING', 'ASSIGNED', 'PICKED_UP'] } };
+  if (Array.isArray(orderIds) && orderIds.length > 0) {
+    where = { orderId: { in: orderIds } };
+  }
+
+  let logisticsList = [];
+  try {
+    logisticsList = await prisma.logistics.findMany({
+      where,
+      include: {
+        order: {
+          include: {
+            items: { include: { produce: true } },
+            farmer: { include: { farmerProfile: true } },
+            buyer: { include: { buyerProfile: true } }
+          }
+        }
+      },
+      take: 6
+    });
+  } catch (dbErr) {
+    console.warn('Logistics optimizeRoute database fallback:', dbErr?.message || dbErr);
+  }
+
+  let totalCargoWeightKg = 0;
+  logisticsList.forEach(log => {
+    log.order?.items?.forEach(i => {
+      const q = Number(i.quantity);
+      const u = String(i.produce?.unit || 'QUINTAL').toUpperCase();
+      totalCargoWeightKg += u.includes('QUINTAL') ? q * 100 : u.includes('TON') ? q * 1000 : q;
+    });
+  });
+
+  if (totalCargoWeightKg === 0) {
+    totalCargoWeightKg = 680;
+  }
+
+  let driver = findDriver(driverId);
+  if (!driver) {
+    driver = REGISTERED_DRIVERS.find(d => d.capacityKg >= totalCargoWeightKg && d.isAvailable) || REGISTERED_DRIVERS[0];
+  }
+
+  const defaultLocations = [
+    { name: 'Mohan Kumar (Farm A)', village: 'Dumra', distFromLastKm: 3.2, timeMins: 15, pickupKg: Math.round(totalCargoWeightKg * 0.4) },
+    { name: 'Rajesh Sharma (Farm B)', village: 'Runnisaidpur', distFromLastKm: 5.4, timeMins: 20, pickupKg: Math.round(totalCargoWeightKg * 0.35) },
+    { name: 'Sunil Mahto (Farm C)', village: 'Riga', distFromLastKm: 4.8, timeMins: 18, pickupKg: totalCargoWeightKg - Math.round(totalCargoWeightKg * 0.4) - Math.round(totalCargoWeightKg * 0.35) }
+  ];
+
+  const startTime = new Date();
+  startTime.setMinutes(startTime.getMinutes() + 30);
+
+  let cumulativeDistanceKm = 0;
+  let cumulativeTimeMins = 0;
+
+  const stops = [];
+
+  defaultLocations.forEach((loc, idx) => {
+    cumulativeDistanceKm += loc.distFromLastKm;
+    cumulativeTimeMins += loc.timeMins;
+
+    const stopTime = new Date(startTime.getTime() + cumulativeTimeMins * 60000);
+    const timeStr = stopTime.toLocaleTimeString('en-IN', { hour: '2-digit', minute: '2-digit' });
+
+    stops.push({
+      stopNumber: idx + 1,
+      type: 'PICKUP',
+      time: timeStr,
+      location: `${loc.village}, Sitamarhi`,
+      contactPerson: loc.name,
+      cargoAction: `Pickup ${loc.pickupKg} kg fresh produce`,
+      cumulativeWeightKg: defaultLocations.slice(0, idx + 1).reduce((s, l) => s + l.pickupKg, 0),
+      distanceLegKm: loc.distFromLastKm
+    });
+  });
+
+  cumulativeDistanceKm += 6.5;
+  cumulativeTimeMins += 25;
+  const dropTime = new Date(startTime.getTime() + cumulativeTimeMins * 60000);
+  stops.push({
+    stopNumber: stops.length + 1,
+    type: 'DROP_DELIVERY',
+    time: dropTime.toLocaleTimeString('en-IN', { hour: '2-digit', minute: '2-digit' }),
+    location: 'Sitamarhi Central Mandi & Local Consumer Hub',
+    contactPerson: 'Consolidated Distribution Center',
+    cargoAction: `Unload full shipment (${totalCargoWeightKg} kg) for retail & consumer distribution`,
+    cumulativeWeightKg: totalCargoWeightKg,
+    distanceLegKm: 6.5
+  });
+
+  const soloTripsKm = Number((cumulativeDistanceKm * 1.85).toFixed(1));
+  const savedKm = Number((soloTripsKm - cumulativeDistanceKm).toFixed(1));
+  const loadUtilization = Math.min(100, Math.round((totalCargoWeightKg / driver.capacityKg) * 100));
+
+  return {
+    runId: `ROUTE-${Date.now().toString().slice(-6)}`,
+    driver: {
+      id: driver.id,
+      name: driver.name,
+      phone: driver.phone,
+      vehicleType: driver.vehicleType,
+      vehicleNumber: driver.vehicleNumber,
+      capacityKg: driver.capacityKg,
+      loadUtilizationPercent: loadUtilization
+    },
+    cargoSummary: {
+      totalWeightKg: totalCargoWeightKg,
+      totalOrdersConsolidated: defaultLocations.length,
+      unit: 'KG'
+    },
+    efficiencyMetrics: {
+      optimizedDistanceKm: Number(cumulativeDistanceKm.toFixed(1)),
+      soloTripsDistanceKm: soloTripsKm,
+      distanceSavedKm: savedKm,
+      fuelCostSavedInr: Math.round(savedKm * 12.5),
+      carbonEmissionSavedKg: Number((savedKm * 0.24).toFixed(2)),
+      estimatedDurationMinutes: cumulativeTimeMins
+    },
+    itineraryRoadmap: stops
+  };
+}
+

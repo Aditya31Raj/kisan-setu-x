@@ -259,7 +259,7 @@ function createOrderCard(order) {
             ${['ACCEPTED', 'PAYMENT_PENDING'].includes(status) ? `
                 <div style="margin:10px 0;">
                     <button type="button" class="pay-upi-btn" style="background:linear-gradient(135deg, #16863b, #0f5132); color:white; border:none; padding:9px 16px; border-radius:6px; font-weight:700; font-size:13px; cursor:pointer; display:inline-flex; align-items:center; gap:6px; box-shadow:0 2px 6px rgba(22,134,59,0.3);" onclick="openUpiPaymentModal('${id}', '${escapeHTML(String(orderNumber))}', '${escapeHTML(farmerName)}', '${escapeHTML(itemsSummary)}', ${total})">
-                        <i class="fa-solid fa-qrcode"></i> Pay via UPI QR (₹1 Demo)
+                        <i class="fa-solid fa-qrcode"></i> Pay via UPI QR (Demo ₹1 Token)
                     </button>
                 </div>
             ` : ''}
@@ -568,7 +568,7 @@ function displayOrderDetails(order) {
             ${['ACCEPTED', 'PAYMENT_PENDING'].includes(status) ? `
                 <div style="margin-top:18px; padding-top:14px; border-top:1px solid #e2ece3;">
                     <button type="button" style="width:100%; padding:12px; background:linear-gradient(135deg, #16863b, #0f5132); color:white; border:none; border-radius:8px; font-weight:700; font-size:14px; cursor:pointer; display:flex; align-items:center; justify-content:center; gap:8px; box-shadow:0 3px 8px rgba(22,134,59,0.3);" onclick="document.getElementById('orderModal').style.display='none'; openUpiPaymentModal('${order.id}', '${escapeHTML(String(orderNumber))}', '${escapeHTML(order.farmer?.name || 'Farmer')}', 'Produce Order', ${total})">
-                        <i class="fa-solid fa-qrcode"></i> Pay via UPI QR (₹1 Demo for Judges)
+                        <i class="fa-solid fa-qrcode"></i> Pay via UPI (Demo ₹1 Token &bull; Real Ledger Amount)
                     </button>
                 </div>
             ` : ''}
@@ -1083,7 +1083,7 @@ function setupUpiPaymentModal() {
         }
         if (btn) {
             btn.disabled = true;
-            btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Processing ₹1 Demo Transaction...';
+            btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Securing Full Order Value in Escrow...';
         }
 
         try {

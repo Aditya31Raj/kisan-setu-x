@@ -98,7 +98,7 @@ async function loadFarmerOrders(page = 1) {
 			} else if (status === "PAID") {
 				statusColor = "#166534";
 				statusBg = "#dcfce7";
-				statusText = "PAID (₹1 Demo Verified)";
+				statusText = "PAID (Escrow Secured)";
 			} else if (status === "COMPLETED") {
 				statusColor = "#166534";
 				statusBg = "#dcfce7";

@@ -198,39 +198,39 @@
         <ul class="menu">
 
             <li>
-                <a href="../admin_dashboard.html">🏠 &nbsp; <span data-i18n="nav_dashboard">Dashboard</span></a>
+                <a href="../admin_dashboard.html"><i class="fa-solid fa-chart-line"></i> <span data-i18n="nav_dashboard">Dashboard</span></a>
             </li>
 
             <li>
-                <a href="farmers.html">👨‍🌾 &nbsp; <span data-i18n="nav_farmers">Farmers</span></a>
+                <a href="farmers.html"><i class="fa-solid fa-users"></i> <span data-i18n="nav_farmers">Farmers</span></a>
             </li>
 
             <li>
-                <a href="buyers.html">🛒 &nbsp; <span data-i18n="nav_buyers">Buyers</span></a>
+                <a href="buyers.html"><i class="fa-solid fa-store"></i> <span data-i18n="nav_buyers">Buyers</span></a>
             </li>
 
             <li>
-                <a href="requests.html">📋 &nbsp; <span data-i18n="nav_requests">Requests</span></a>
+                <a href="requests.html"><i class="fa-solid fa-clipboard-check"></i> <span data-i18n="nav_requests">Requests</span></a>
             </li>
 
             <li>
-                <a href="inputs.html">🌱 &nbsp; <span data-i18n="nav_inputs">Input Management</span></a>
+                <a href="inputs.html"><i class="fa-solid fa-seedling"></i> <span data-i18n="nav_inputs">Input Management</span></a>
             </li>
 
             <li>
-                <a href="payments.html">💳 &nbsp; <span data-i18n="nav_payments">Payments</span></a>
+                <a href="payments.html"><i class="fa-solid fa-shield-halved"></i> <span data-i18n="nav_payments">Payments</span></a>
             </li>
 
             <li>
-                <a href="reports.html">📊 &nbsp; <span data-i18n="nav_reports">Reports</span></a>
+                <a href="reports.html"><i class="fa-solid fa-chart-pie"></i> <span data-i18n="nav_reports">Reports</span></a>
             </li>
 
             <li>
-                <a href="alerts.html" class="active">🔔 &nbsp; <span data-i18n="nav_alerts">Alerts</span></a>
+                <a href="alerts.html" class="active"><i class="fa-solid fa-triangle-exclamation"></i> <span data-i18n="nav_alerts">Alerts</span></a>
             </li>
 
             <li>
-                <a href="grievances.html">⚖️ &nbsp; <span data-i18n="nav_grievances">Disputes & Grievances</span></a>
+                <a href="grievances.html"><i class="fa-solid fa-scale-balanced"></i> <span data-i18n="nav_grievances">Disputes & Grievances</span></a>
             </li>
 
         </ul>
@@ -238,7 +238,7 @@
 
         <div class="logout">
 
-            <a href="javascript:void(0)" id="logoutBtn" class="logout-btn">🚪 &nbsp; <span data-i18n="nav_logout">Logout</span></a>
+            <a href="javascript:void(0)" id="logoutBtn" class="logout-btn"><i class="fa-solid fa-arrow-right-from-bracket"></i> <span data-i18n="nav_logout">Logout</span></a>
 
         </div>
 
@@ -400,25 +400,44 @@
 
             container.innerHTML = list.map(a => {
                 const sev = (a.severity || "medium").toLowerCase();
-                const isDanger = sev === "high" || sev === "critical" || a.type === "MSP_VIOLATION";
-                const icon = isDanger ? "⚠️" : (a.type?.includes("PAYMENT") ? "⏳" : "📋");
+                const isMspViolation = a.type === "MSP_VIOLATION";
+                const isDanger = sev === "high" || sev === "critical" || isMspViolation;
+                const icon = isMspViolation ? "🚨" : isDanger ? "⚠️" : (a.type?.includes("PAYMENT") ? "⏳" : "📋");
                 const iconClass = isDanger ? "danger" : "warning";
                 const isRead = Boolean(a.resolvedAt);
 
+                const creatorName = a.creator?.name || "";
+                const creatorPhone = a.creator?.phone || "";
+                const creatorLoc = a.creator?.farmerProfile?.village || "";
+
                 return `
-                    <div class="alert-card">
-                        <div class="alert-left">
-                            <div class="alert-icon ${iconClass}">
+                    <div class="alert-card" style="${isMspViolation ? 'border-left: 4px solid #dc2626; background: #fffdfd;' : ''}">
+                        <div class="alert-left" style="align-items: flex-start;">
+                            <div class="alert-icon ${iconClass}" style="flex-shrink:0; margin-top:2px;">
                                 ${icon}
                             </div>
-                            <div class="alert-info">
-                                <h3>${escapeHTML(a.title || a.type?.replace(/_/g, ' ') || "System Alert")}</h3>
-                                <p>${escapeHTML(a.message || a.description || "Details recorded.")}</p>
-                                <span class="alert-time">${new Date(a.createdAt).toLocaleString()}</span>
+                            <div class="alert-info" style="flex:1;">
+                                <div style="display:flex; align-items:center; gap:8px; flex-wrap:wrap; margin-bottom:4px;">
+                                    <h3 style="margin:0; font-size:14px; font-weight:700; color:${isDanger ? '#b91c1c' : '#111827'};">
+                                        ${escapeHTML(a.title || (isMspViolation ? "Critical Below-MSP Alert" : a.type?.replace(/_/g, ' ')) || "System Alert")}
+                                    </h3>
+                                    ${isMspViolation ? `<span style="background:#fee2e2; color:#b91c1c; font-size:10px; font-weight:700; padding:2px 8px; border-radius:10px; border:1px solid #fca5a5;">Fixed MSP: ₹12/kg Floor</span>` : ''}
+                                </div>
+                                <p style="color:#374151; font-size:12.5px; line-height:1.45; margin-bottom:6px;">
+                                    ${escapeHTML(a.message || a.description || "Details recorded.")}
+                                </p>
+                                <div style="display:flex; gap:14px; font-size:11px; color:#6b7280; flex-wrap:wrap; margin-top:4px;">
+                                    <span><i class="fa-regular fa-clock"></i> ${new Date(a.createdAt).toLocaleString()}</span>
+                                    ${creatorName ? `<span><i class="fa-solid fa-user"></i> ${escapeHTML(creatorName)} ${creatorPhone ? `(${escapeHTML(creatorPhone)})` : ''}</span>` : ''}
+                                    ${creatorLoc ? `<span><i class="fa-solid fa-location-dot"></i> ${escapeHTML(creatorLoc)}</span>` : ''}
+                                    <span style="font-weight:600; color:${isDanger ? '#dc2626' : '#d97706'};">
+                                        <i class="fa-solid fa-triangle-exclamation"></i> Severity: ${escapeHTML(a.severity || 'HIGH')}
+                                    </span>
+                                </div>
                             </div>
                         </div>
-                        <span class="alert-status ${isRead ? "read" : "unread"}">
-                            ${isRead ? "Resolved" : "Active"}
+                        <span class="alert-status ${isRead ? "read" : "unread"} style="${isMspViolation && !isRead ? 'background:#fee2e2; color:#b91c1c;' : ''}">
+                            ${isRead ? "Resolved" : "Action Required"}
                         </span>
                     </div>
                 `;

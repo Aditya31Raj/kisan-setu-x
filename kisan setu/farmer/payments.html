@@ -3,106 +3,194 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kisan Setu - Farmer Payments</title>
+    <title>Kisan Setu - Farmer Settlements & Escrow Payouts</title>
+
     <link rel="stylesheet" href="../css/style.css">
     <link rel="stylesheet" href="../css/farmer.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
 </head>
+
 <body>
     <div class="dashboard">
         <aside class="sidebar">
             <div class="brand">
                 <img src="../images/logoks.jpeg" alt="Kisan Setu Logo">
                 <div class="brand-text">
-                    <h2>Kisan Setu</h2>
+                    <h2>KISAN SETU</h2>
                     <span data-i18n="portal_farmer">FARMER PORTAL</span>
                 </div>
             </div>
 
             <div class="user-box">
                 <div class="user-info">
-                    <div class="user-icon"><i class="fa-solid fa-user"></i></div>
+                    <div class="user-icon"><i class="fa-solid fa-seedling"></i></div>
                     <div>
                         <strong id="farmerSidebarName">Loading...</strong>
-                        <span id="farmerSidebarId">Farmer Portal</span>
+                        <span id="farmerSidebarId">Verified Producer</span>
                     </div>
                 </div>
             </div>
 
             <nav class="sidebar-nav">
                 <div class="nav-title" data-i18n="overview">Overview</div>
-                <a href="../farmer_dashboard.html" class="nav-item"><i class="fa-solid fa-gauge"></i> <span data-i18n="nav_dashboard">Dashboard</span></a>
-                <a href="produce.html" class="nav-item"><i class="fa-solid fa-seedling"></i> <span data-i18n="nav_produce">Produce</span></a>
-                <a href="inputs.html" class="nav-item"><i class="fa-solid fa-flask"></i> <span data-i18n="seeds_fertilizers">Seeds & Fertilizers</span></a>
-                <a href="orders.html" class="nav-item"><i class="fa-solid fa-box"></i> <span data-i18n="nav_orders">Orders</span></a>
-                <a href="payments.html" class="nav-item active"><i class="fa-solid fa-wallet"></i> <span data-i18n="nav_payments">Payments</span></a>
-                <a href="logistics.html" class="nav-item"><i class="fa-solid fa-truck"></i> <span data-i18n="nav_logistics">Logistics</span></a>
-                <a href="history.html" class="nav-item"><i class="fa-solid fa-clock-rotate-left"></i> <span data-i18n="nav_history">History</span></a>
-                <a href="disputes.html" class="nav-item"><i class="fa-solid fa-circle-exclamation"></i> <span data-i18n="nav_disputes">Disputes</span></a>
+                <a href="../farmer_dashboard.html" class="nav-item"><i class="fa-solid fa-chart-pie"></i> <span data-i18n="nav_dashboard">Dashboard</span></a>
+                <a href="produce.html" class="nav-item"><i class="fa-solid fa-wheat-awn"></i> <span data-i18n="nav_produce">Produce</span></a>
+                <a href="inputs.html" class="nav-item"><i class="fa-solid fa-seedling"></i> <span data-i18n="seeds_fertilizers">Seeds & Fertilizers</span></a>
+                <a href="orders.html" class="nav-item"><i class="fa-solid fa-boxes-stacked"></i> <span data-i18n="nav_orders">Orders</span></a>
+                <a href="payments.html" class="nav-item active"><i class="fa-solid fa-shield-halved"></i> <span data-i18n="nav_payments">Payments & Escrow</span></a>
+                <a href="logistics.html" class="nav-item"><i class="fa-solid fa-truck-fast"></i> <span data-i18n="nav_logistics">Logistics</span></a>
+                <a href="history.html" class="nav-item"><i class="fa-solid fa-receipt"></i> <span data-i18n="nav_history">History</span></a>
+                <a href="disputes.html" class="nav-item"><i class="fa-solid fa-scale-balanced"></i> <span data-i18n="nav_disputes">Disputes</span></a>
                 <a href="notifications.html" class="nav-item"><i class="fa-solid fa-bell"></i> <span data-i18n="nav_notifications">Notifications</span></a>
-                <a href="profile.html" class="nav-item"><i class="fa-solid fa-user-gear"></i> <span data-i18n="nav_profile">Profile</span></a>
+                <a href="profile.html" class="nav-item"><i class="fa-solid fa-id-card"></i> <span data-i18n="nav_profile">Profile</span></a>
             </nav>
             <div class="logout">
-                <a href="javascript:void(0)" id="logoutBtn" class="nav-item logout-btn"><i class="fa-solid fa-right-from-bracket"></i> <span data-i18n="nav_logout">Logout</span></a>
+                <a href="javascript:void(0)" id="logoutBtn" class="nav-item logout-btn"><i class="fa-solid fa-arrow-right-from-bracket"></i> <span data-i18n="nav_logout">Logout</span></a>
             </div>
         </aside>
 
         <div class="main">
             <main class="buyer-container">
-        <section class="page-header" style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px;">
-            <div>
-            <h1>Payments</h1>
-            <p>Track all payment settlements and pending dues.</p>
-        </div>
-            <button type="button" class="lang-toggle-btn" title="Change Language / भाषा बदलें">
-                <i class="fa-solid fa-globe"></i>
-                <span class="lang-toggle-label">हिन्दी</span>
-            </button>
-        </section>
+                <section class="page-header" style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; margin-bottom: 18px;">
+                    <div>
+                        <h1 style="font-size: 24px; font-weight: 800; color: #0f172a; margin-bottom: 4px; display: flex; align-items: center; gap: 10px;">
+                            <i class="fa-solid fa-wallet" style="color: #059669;"></i> Farmer Payouts & Escrow Ledger
+                        </h1>
+                        <p style="color: #64748b; font-size: 13px; margin: 0;">
+                            Track direct buyer settlements, escrow guarantees, and Aadhaar DBT bank releases.
+                        </p>
+                    </div>
+                    <button type="button" class="lang-toggle-btn" title="Change Language / भाषा बदलें">
+                        <i class="fa-solid fa-globe"></i>
+                        <span class="lang-toggle-label">हिन्दी</span>
+                    </button>
+                </section>
 
-        <section class="payment-summary">
-            <div class="summary-card">
-                <h3>Total Payments</h3>
-                <p id="totalPayments">--</p>
-            </div>
-            <div class="summary-card">
-                <h3>Successful</h3>
-                <p id="successfulPayments">--</p>
-            </div>
-            <div class="summary-card">
-                <h3>Pending</h3>
-                <p id="pendingPayments">--</p>
-            </div>
-            <div class="summary-card">
-                <h3>Failed</h3>
-                <p id="failedPayments">--</p>
-            </div>
-        </section>
+                <!-- Escrow Trust Guarantee Banner -->
+                <div class="escrow-trust-banner">
+                    <div class="escrow-trust-tag">
+                        <i class="fa-solid fa-shield-halved"></i>
+                        <span>Zero Commission &bull; 100% Guaranteed DBT Bank Payout upon Delivery Verification</span>
+                    </div>
+                    <div class="escrow-live-pill">
+                        <span class="pulse-dot"></span> Live DBT Gateway Active
+                    </div>
+                </div>
 
-        <section class="payments-section">
-            <div class="section-heading">
-                <h2>Payment History</h2>
-                <button type="button" id="refreshPaymentsBtn">Refresh</button>
-            </div>
-            <div id="paymentsContainer">
-                <p id="loadingMessage">Loading payments...</p>
-            </div>
-        </section>
+                <!-- ================= PAYMENT SUMMARY ================= -->
+                <section class="payment-summary">
+                    <div class="summary-card total-settlements">
+                        <div class="card-icon-wrap">
+                            <i class="fa-solid fa-wallet"></i>
+                        </div>
+                        <div class="card-info">
+                            <h3>Total Harvest Earnings</h3>
+                            <p id="totalPayments">--</p>
+                            <span class="card-subtext">All Cumulative Orders</span>
+                        </div>
+                    </div>
 
-        <section class="pagination-section">
-            <button type="button" id="previousBtn" disabled>Previous</button>
-            <span id="pageNumber">Page 1</span>
-            <button type="button" id="nextBtn">Next</button>
-        </section>
+                    <div class="summary-card success-settlements">
+                        <div class="card-icon-wrap">
+                            <i class="fa-solid fa-circle-check"></i>
+                        </div>
+                        <div class="card-info">
+                            <h3>Disbursed to Bank</h3>
+                            <p id="successfulPayments">--</p>
+                            <span class="card-subtext">DBT Credited to Account</span>
+                        </div>
+                    </div>
+
+                    <div class="summary-card pending-settlements">
+                        <div class="card-icon-wrap">
+                            <i class="fa-solid fa-hourglass-half"></i>
+                        </div>
+                        <div class="card-info">
+                            <h3>Locked in Escrow</h3>
+                            <p id="pendingPayments">--</p>
+                            <span class="card-subtext">Safe in Govt-Monitored Escrow</span>
+                        </div>
+                    </div>
+
+                    <div class="summary-card failed-settlements">
+                        <div class="card-icon-wrap">
+                            <i class="fa-solid fa-shield-xmark"></i>
+                        </div>
+                        <div class="card-info">
+                            <h3>Claims / Disputes</h3>
+                            <p id="failedPayments">--</p>
+                            <span class="card-subtext">Protected by Block Admin</span>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- ================= PAYMENT LIST ================= -->
+                <section class="payments-section" style="background: white; border-radius: 14px; border: 1px solid #e2ece3; padding: 22px;">
+                    <div class="payments-toolbar">
+                        <div class="payments-filter-pills" id="farmerPaymentFilterPills">
+                            <button type="button" class="filter-pill active" data-filter="ALL">
+                                <i class="fa-solid fa-layer-group"></i> All Settlements
+                            </button>
+                            <button type="button" class="filter-pill" data-filter="SUCCESS">
+                                <i class="fa-solid fa-circle-check" style="color:#10b981;"></i> Bank Disbursed
+                            </button>
+                            <button type="button" class="filter-pill" data-filter="PENDING">
+                                <i class="fa-solid fa-clock" style="color:#f59e0b;"></i> In Escrow
+                            </button>
+                        </div>
+
+                        <div style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap;">
+                            <div class="payments-search-box">
+                                <i class="fa-solid fa-magnifying-glass"></i>
+                                <input type="text" id="farmerPaymentsSearchInput" placeholder="Search Order #, Buyer, UTR...">
+                            </div>
+                            <button type="button" id="refreshPaymentsBtn" class="filter-pill" style="border-color:#10b981; color:#047857; background:#f0fdf4;">
+                                <i class="fa-solid fa-arrows-rotate"></i> Refresh
+                            </button>
+                        </div>
+                    </div>
+
+                    <div id="paymentsContainer">
+                        <p id="loadingMessage" style="text-align:center; padding:32px; color:#64748b;">
+                            <i class="fa-solid fa-spinner fa-spin"></i> Loading verified payment ledger...
+                        </p>
+                    </div>
+                </section>
+
+                <!-- ================= PAGINATION ================= -->
+                <section class="pagination-section" style="margin-top: 20px; display: flex; justify-content: center; align-items: center; gap: 12px;">
+                    <button type="button" id="previousBtn" disabled class="filter-pill">
+                        <i class="fa-solid fa-arrow-left"></i> Previous
+                    </button>
+                    <span id="pageNumber" style="font-weight: 700; font-size: 13px; color: #475569;">
+                        Page 1
+                    </span>
+                    <button type="button" id="nextBtn" class="filter-pill">
+                        Next <i class="fa-solid fa-arrow-right"></i>
+                    </button>
+                </section>
             </main>
         </div>
     </div>
 
-    <div id="paymentModal" class="modal" style="display: none;">
-        <div class="modal-content">
-            <button type="button" id="closeModalBtn" class="close-btn">×</button>
-            <h2>Payment Details</h2>
-            <div id="paymentDetails"></div>
+    <!-- ================= PAYMENT DETAILS MODAL ================= -->
+    <div id="paymentModal" class="modal" style="display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.65); z-index: 2000; align-items: center; justify-content: center; backdrop-filter: blur(4px); padding: 16px;">
+        <div class="modal-content" style="background: white; border-radius: 16px; width: 560px; max-width: 100%; max-height: 90vh; overflow-y: auto; padding: 0; box-shadow: 0 25px 50px -12px rgba(0,0,0,0.25); border: 1px solid #e2e8e3;">
+            <div style="background: linear-gradient(135deg, #059669, #10b981); color: white; padding: 18px 22px; display: flex; justify-content: space-between; align-items: center; border-radius: 16px 16px 0 0;">
+                <div style="display:flex; align-items:center; gap:10px;">
+                    <div style="width:36px; height:36px; border-radius:10px; background:rgba(255,255,255,0.2); display:flex; align-items:center; justify-content:center; font-size:18px;">
+                        <i class="fa-solid fa-building-columns"></i>
+                    </div>
+                    <div>
+                        <h3 style="margin: 0; font-size: 17px; font-weight: 800;">Farmer DBT Settlement Voucher</h3>
+                        <span style="font-size: 11px; opacity: 0.9; text-transform: uppercase; letter-spacing: 0.5px;">Statutory MSP Compliance &bull; Direct Bank Release</span>
+                    </div>
+                </div>
+                <button type="button" id="closeModalBtn" style="border: none; background: rgba(255,255,255,0.2); color: white; width: 32px; height: 32px; border-radius: 50%; font-size: 20px; cursor: pointer; display: flex; align-items: center; justify-content: center;">&times;</button>
+            </div>
+            <div id="paymentDetails" style="padding: 22px;">
+                <!-- Payment details loaded dynamically -->
+            </div>
         </div>
     </div>
 

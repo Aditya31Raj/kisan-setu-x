@@ -179,6 +179,20 @@ function updatePayoutEstimate() {
 
 	const qty = Number(document.getElementById("produceQuantity")?.value) || 0;
 	const rate = Number(document.getElementById("producePrice")?.value) || 0;
+	const unit = String(document.getElementById("produceUnit")?.value || "quintal").toLowerCase();
+	const effectivePricePerKg = unit === "quintal" ? rate / 100 : (unit === "tonne" || unit === "ton") ? rate / 1000 : rate;
+
+	const mspWarn = document.getElementById("producePriceMspWarning");
+	if (mspWarn) {
+		if (rate > 0 && effectivePricePerKg < 12) {
+			const deficit = (12 - effectivePricePerKg).toFixed(2);
+			mspWarn.innerHTML = `⚠️ <strong>Below-MSP Notice:</strong> Entered price (₹${effectivePricePerKg.toFixed(2)}/kg) is ₹${deficit}/kg below statutory MSP of <strong>₹12.00/kg (₹1,200/Quintal)</strong>. Submitting will trigger an immediate alert to Block Admin.`;
+			mspWarn.style.display = "block";
+		} else {
+			mspWarn.style.display = "none";
+		}
+	}
+
 	const total = qty * rate;
 
 	if (total > 0) {
@@ -245,6 +259,7 @@ function setupAddProduce() {
 
 	document.getElementById("produceQuantity")?.addEventListener("input", updatePayoutEstimate);
 	document.getElementById("producePrice")?.addEventListener("input", updatePayoutEstimate);
+	document.getElementById("produceUnit")?.addEventListener("change", updatePayoutEstimate);
 
 	form.addEventListener("submit", async (event) => {
 		event.preventDefault();
