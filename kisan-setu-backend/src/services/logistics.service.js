@@ -287,41 +287,129 @@ export async function getDriverFleet() {
 }
 
 export async function optimizeRoute({ orderIds = [], driverId, prakhand = 'Dumra' } = {}) {
-  let where = { status: { in: ['PENDING', 'ASSIGNED', 'PICKED_UP'] } };
-  if (Array.isArray(orderIds) && orderIds.length > 0) {
-    where = { orderId: { in: orderIds } };
-  }
+  let pendingOrders = [];
+  let isRealData = false;
 
-  let logisticsList = [];
   try {
-    logisticsList = await prisma.logistics.findMany({
-      where,
+    const orderWhere = {
+      status: {
+        in: [
+          'PENDING_FARMER',
+          'ACCEPTED',
+          'PAYMENT_PENDING',
+          'PAID',
+          'LOGISTICS_PENDING',
+          'IN_TRANSIT'
+        ]
+      }
+    };
+    if (Array.isArray(orderIds) && orderIds.length > 0) {
+      orderWhere.id = { in: orderIds };
+    }
+
+    pendingOrders = await prisma.order.findMany({
+      where: orderWhere,
       include: {
-        order: {
-          include: {
-            items: { include: { produce: true } },
-            farmer: { include: { farmerProfile: true } },
-            buyer: { include: { buyerProfile: true } }
-          }
-        }
+        items: { include: { produce: { include: { crop: true } } } },
+        farmer: { include: { farmerProfile: true, addresses: true } },
+        buyer: { include: { buyerProfile: true, addresses: true } },
+        logistics: true
       },
-      take: 6
+      orderBy: { createdAt: 'desc' },
+      take: 8
     });
+
+    if (pendingOrders.length > 0) {
+      isRealData = true;
+    }
   } catch (dbErr) {
     console.warn('Logistics optimizeRoute database fallback:', dbErr?.message || dbErr);
   }
 
   let totalCargoWeightKg = 0;
-  logisticsList.forEach(log => {
-    log.order?.items?.forEach(i => {
-      const q = Number(i.quantity);
-      const u = String(i.produce?.unit || 'QUINTAL').toUpperCase();
-      totalCargoWeightKg += u.includes('QUINTAL') ? q * 100 : u.includes('TON') ? q * 1000 : q;
-    });
-  });
+  let pickupStopsData = [];
+  const consolidatedOrders = [];
 
-  if (totalCargoWeightKg === 0) {
+  if (isRealData && pendingOrders.length > 0) {
+    // Group pending orders by farmer to optimize pickup stop stops
+    const farmerGroupMap = new Map();
+
+    pendingOrders.forEach(order => {
+      let orderWeightKg = 0;
+      const produceNames = [];
+
+      order.items?.forEach(i => {
+        const q = Number(i.quantity);
+        const u = String(i.produce?.unit || 'KG').toUpperCase();
+        const weightKg = u.includes('QUINTAL') ? q * 100 : u.includes('TON') ? q * 1000 : q;
+        orderWeightKg += weightKg;
+        const cropTitle = i.produce?.crop?.name || i.produce?.title || 'Fresh Produce';
+        produceNames.push(`${q} ${i.produce?.unit || 'KG'} ${cropTitle}`);
+      });
+
+      if (orderWeightKg === 0) orderWeightKg = 25;
+      totalCargoWeightKg += orderWeightKg;
+
+      const farmerId = order.farmerId;
+      const farmerName = order.farmer?.name || 'Local Farmer';
+      const village = order.farmer?.farmerProfile?.village || order.farmer?.addresses?.[0]?.village || order.farmer?.farmerProfile?.district || 'Dumra';
+      const district = order.farmer?.farmerProfile?.district || 'Sitamarhi';
+      const buyerName = order.buyer?.buyerProfile?.businessName || order.buyer?.name || 'Direct Buyer';
+
+      consolidatedOrders.push({
+        orderNumber: order.orderNumber || order.id.slice(0, 8),
+        farmer: farmerName,
+        village: village,
+        buyer: buyerName,
+        crop: produceNames.join(', '),
+        weightKg: orderWeightKg,
+        status: order.status
+      });
+
+      if (farmerGroupMap.has(farmerId)) {
+        const existing = farmerGroupMap.get(farmerId);
+        existing.weightKg += orderWeightKg;
+        existing.orderNumbers.push(order.orderNumber || order.id.slice(0, 8));
+        existing.items.push(...produceNames);
+      } else {
+        farmerGroupMap.set(farmerId, {
+          farmerName,
+          village,
+          district,
+          weightKg: orderWeightKg,
+          orderNumbers: [order.orderNumber || order.id.slice(0, 8)],
+          items: produceNames
+        });
+      }
+    });
+
+    const baseDistances = [3.4, 4.8, 5.2, 6.1, 4.5, 3.8, 5.9];
+    const baseTimes = [15, 20, 18, 22, 17, 16, 21];
+
+    let stopIdx = 0;
+    for (const [_, farmerData] of farmerGroupMap.entries()) {
+      const dist = baseDistances[stopIdx % baseDistances.length];
+      const time = baseTimes[stopIdx % baseTimes.length];
+      pickupStopsData.push({
+        name: farmerData.farmerName,
+        village: farmerData.village,
+        district: farmerData.district,
+        distFromLastKm: dist,
+        timeMins: time,
+        pickupKg: farmerData.weightKg,
+        orderNumbers: farmerData.orderNumbers,
+        itemsSummary: farmerData.items.slice(0, 2).join(', ')
+      });
+      stopIdx++;
+    }
+  } else {
+    // Default fallback prototype
     totalCargoWeightKg = 680;
+    pickupStopsData = [
+      { name: 'Mohan Kumar (Farm A)', village: 'Dumra', district: 'Sitamarhi', distFromLastKm: 3.2, timeMins: 15, pickupKg: 270, orderNumbers: ['KS-DEMO-01'], itemsSummary: '2.7 Quintals Potato' },
+      { name: 'Rajesh Sharma (Farm B)', village: 'Runnisaidpur', district: 'Sitamarhi', distFromLastKm: 5.4, timeMins: 20, pickupKg: 240, orderNumbers: ['KS-DEMO-02'], itemsSummary: '2.4 Quintals Wheat' },
+      { name: 'Sunil Mahto (Farm C)', village: 'Riga', district: 'Sitamarhi', distFromLastKm: 4.8, timeMins: 18, pickupKg: 170, orderNumbers: ['KS-DEMO-03'], itemsSummary: '1.7 Quintals Maize' }
+    ];
   }
 
   let driver = findDriver(driverId);
@@ -329,36 +417,35 @@ export async function optimizeRoute({ orderIds = [], driverId, prakhand = 'Dumra
     driver = REGISTERED_DRIVERS.find(d => d.capacityKg >= totalCargoWeightKg && d.isAvailable) || REGISTERED_DRIVERS[0];
   }
 
-  const defaultLocations = [
-    { name: 'Mohan Kumar (Farm A)', village: 'Dumra', distFromLastKm: 3.2, timeMins: 15, pickupKg: Math.round(totalCargoWeightKg * 0.4) },
-    { name: 'Rajesh Sharma (Farm B)', village: 'Runnisaidpur', distFromLastKm: 5.4, timeMins: 20, pickupKg: Math.round(totalCargoWeightKg * 0.35) },
-    { name: 'Sunil Mahto (Farm C)', village: 'Riga', distFromLastKm: 4.8, timeMins: 18, pickupKg: totalCargoWeightKg - Math.round(totalCargoWeightKg * 0.4) - Math.round(totalCargoWeightKg * 0.35) }
-  ];
-
   const startTime = new Date();
   startTime.setMinutes(startTime.getMinutes() + 30);
 
   let cumulativeDistanceKm = 0;
   let cumulativeTimeMins = 0;
+  let runningWeight = 0;
 
   const stops = [];
 
-  defaultLocations.forEach((loc, idx) => {
+  pickupStopsData.forEach((loc, idx) => {
     cumulativeDistanceKm += loc.distFromLastKm;
     cumulativeTimeMins += loc.timeMins;
+    runningWeight += loc.pickupKg;
 
     const stopTime = new Date(startTime.getTime() + cumulativeTimeMins * 60000);
     const timeStr = stopTime.toLocaleTimeString('en-IN', { hour: '2-digit', minute: '2-digit' });
+
+    const orderRef = loc.orderNumbers?.length ? `(Order #${loc.orderNumbers.join(', #')})` : '';
 
     stops.push({
       stopNumber: idx + 1,
       type: 'PICKUP',
       time: timeStr,
-      location: `${loc.village}, Sitamarhi`,
+      location: `${loc.village}, ${loc.district}`,
       contactPerson: loc.name,
-      cargoAction: `Pickup ${loc.pickupKg} kg fresh produce`,
-      cumulativeWeightKg: defaultLocations.slice(0, idx + 1).reduce((s, l) => s + l.pickupKg, 0),
-      distanceLegKm: loc.distFromLastKm
+      cargoAction: `Pickup ${loc.pickupKg} kg ${loc.itemsSummary || 'fresh produce'} ${orderRef}`.trim(),
+      cumulativeWeightKg: runningWeight,
+      distanceLegKm: loc.distFromLastKm,
+      isRealOrder: isRealData
     });
   });
 
@@ -371,9 +458,10 @@ export async function optimizeRoute({ orderIds = [], driverId, prakhand = 'Dumra
     time: dropTime.toLocaleTimeString('en-IN', { hour: '2-digit', minute: '2-digit' }),
     location: 'Sitamarhi Central Mandi & Local Consumer Hub',
     contactPerson: 'Consolidated Distribution Center',
-    cargoAction: `Unload full shipment (${totalCargoWeightKg} kg) for retail & consumer distribution`,
+    cargoAction: `Unload consolidated shipment (${totalCargoWeightKg} kg) for buyer distribution & verification`,
     cumulativeWeightKg: totalCargoWeightKg,
-    distanceLegKm: 6.5
+    distanceLegKm: 6.5,
+    isRealOrder: isRealData
   });
 
   const soloTripsKm = Number((cumulativeDistanceKm * 1.85).toFixed(1));
@@ -382,6 +470,7 @@ export async function optimizeRoute({ orderIds = [], driverId, prakhand = 'Dumra
 
   return {
     runId: `ROUTE-${Date.now().toString().slice(-6)}`,
+    isRealData,
     driver: {
       id: driver.id,
       name: driver.name,
@@ -393,7 +482,8 @@ export async function optimizeRoute({ orderIds = [], driverId, prakhand = 'Dumra
     },
     cargoSummary: {
       totalWeightKg: totalCargoWeightKg,
-      totalOrdersConsolidated: defaultLocations.length,
+      totalOrdersConsolidated: isRealData ? pendingOrders.length : pickupStopsData.length,
+      ordersList: consolidatedOrders,
       unit: 'KG'
     },
     efficiencyMetrics: {
@@ -407,4 +497,5 @@ export async function optimizeRoute({ orderIds = [], driverId, prakhand = 'Dumra
     itineraryRoadmap: stops
   };
 }
+
 

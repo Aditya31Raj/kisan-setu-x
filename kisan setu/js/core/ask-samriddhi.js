@@ -210,7 +210,7 @@
             chips = [
                 { label: "📊 Dumra Block KPIs & Volume", query: "Show Dumra block trade volume, active farmers, and escrow status" },
                 { label: "⚖️ Check MSP Violations", query: "Check below-MSP distress sale alerts and flag violators" },
-                { label: "🚚 Optimize Driver Fleet & Routes", query: "Optimize driver route roadmap" },
+                { label: "🚚 Optimize Real Orders & Fleet", query: "Optimize real data based on pending orders on website" },
                 { label: "🛡️ Escrow Vault & Dispute Audit", query: "Audit locked escrow funds and pending dispute resolutions" },
                 { label: "👥 Pending KYC Queue", query: "Show pending farmer and buyer verification requests" },
                 { label: "🌾 Subsidized Fertilizer Stocks", query: "Check subsidized fertilizer stock levels in block" }
@@ -368,7 +368,7 @@
             return;
         }
 
-        if (q.includes("route") || q.includes("roadmap") || q.includes("dispatch") || q.includes("optimize") || q.includes("pickup schedule") || q.includes("रास्ता")) {
+        if (q.includes("route") || q.includes("roadmap") || q.includes("dispatch") || q.includes("optimize") || q.includes("pickup schedule") || q.includes("रास्ता") || q.includes("pending order") || q.includes("pending") || q.includes("real data")) {
             await handleRouteOptimizationQuery();
             return;
         }
@@ -705,10 +705,14 @@ Demand is trending ↗ +14% this month.`);
     }
 
     async function handleRouteOptimizationQuery() {
-        appendBotMessage(`🚛 *Calculating optimal driver assignment and multi-stop pickup itinerary for pending block orders...*`);
+        appendBotMessage(`🚛 *Analyzing real pending website orders, calculating optimal vehicle selection, farm-gate pickup clustering, and delivery itinerary for Dumra Block...*`);
 
         try {
-            let res = await fetch(`/api/v1/logistics/optimize-route`, {
+            const apiBase = (typeof API_BASE_URL !== "undefined" && API_BASE_URL)
+                ? API_BASE_URL
+                : (window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1" ? "http://localhost:5000/api/v1" : "/api/v1");
+
+            let res = await fetch(`${apiBase}/logistics/optimize-route`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ prakhand: "Dumra" })
@@ -721,36 +725,70 @@ Demand is trending ↗ +14% this month.`);
 
             const drv = route.driver;
             const eff = route.efficiencyMetrics;
+            const cargo = route.cargoSummary || {};
+
+            const isReal = Boolean(route.isRealData);
+            const liveBadge = isReal
+                ? `<span style="background:#dcfce7; color:#166534; font-size:11px; font-weight:700; padding:3px 8px; border-radius:10px; display:inline-flex; align-items:center; gap:4px;">
+                     <i class="fa-solid fa-circle-check"></i> Live Real Data (${cargo.totalOrdersConsolidated} Pending Website Orders)
+                   </span>`
+                : `<span style="background:#fef3c7; color:#92400e; font-size:11px; font-weight:700; padding:3px 8px; border-radius:10px;">
+                     Prototype Demo Route
+                   </span>`;
+
+            const orderListHtml = (cargo.ordersList && cargo.ordersList.length > 0)
+                ? `
+                    <div style="background:#f8fafc; border:1px solid #e2e8f0; border-radius:8px; padding:8px 10px; margin:8px 0; font-size:11px;">
+                        <div style="font-weight:700; color:#334155; margin-bottom:4px; display:flex; justify-content:space-between;">
+                            <span>📦 Pending Orders Consolidated:</span>
+                            <span style="color:#059669;">${cargo.totalWeightKg} kg Total</span>
+                        </div>
+                        ${cargo.ordersList.map(o => `
+                            <div style="display:flex; justify-content:space-between; margin-bottom:3px; color:#475569; border-bottom:1px dashed #eef2f6; padding-bottom:2px;">
+                                <span><strong>#${escapeHTML(o.orderNumber)}</strong> (${escapeHTML(o.farmer)} &rarr; ${escapeHTML(o.buyer)}): ${escapeHTML(o.crop)}</span>
+                                <span style="font-weight:700; color:#0f172a; margin-left:8px;">${o.weightKg} kg</span>
+                            </div>
+                        `).join('')}
+                    </div>
+                  `
+                : '';
 
             const cardHtml = `
                 <div class="samriddhi-route-card">
+                    <div style="margin-bottom:8px; display:flex; justify-content:space-between; align-items:center;">
+                        ${liveBadge}
+                        <span style="font-size:11px; font-weight:700; color:#475569;">Total Cargo: ${cargo.totalWeightKg} kg</span>
+                    </div>
+
                     <div class="samriddhi-driver-header">
                         <div>
                             <div class="samriddhi-driver-name"><i class="fa-solid fa-truck"></i> ${escapeHTML(drv.name)}</div>
-                            <div class="samriddhi-driver-vehicle">${escapeHTML(drv.vehicleType)} • ${escapeHTML(drv.vehicleNumber)}</div>
+                            <div class="samriddhi-driver-vehicle">${escapeHTML(drv.vehicleType)} • ${escapeHTML(drv.vehicleNumber || 'Reg Fleet')}</div>
                         </div>
                         <span style="background:#dcfce7; color:#166534; font-size:11px; font-weight:bold; padding:2px 8px; border-radius:10px;">
-                            ${drv.loadUtilizationPercent}% Loaded
+                            ${drv.loadUtilizationPercent}% Loaded (${cargo.totalWeightKg}/${drv.capacityKg} kg)
                         </span>
                     </div>
 
                     <div class="samriddhi-load-bar">
-                        <div class="samriddhi-load-fill" style="width: ${drv.loadUtilizationPercent}%;"></div>
+                        <div class="samriddhi-load-fill" style="width: ${Math.min(100, drv.loadUtilizationPercent)}%;"></div>
                     </div>
 
                     <div class="samriddhi-metrics-grid">
                         <div class="samriddhi-metric-item">
-                            <span>Route Distance:</span><br>
-                            <strong>${eff.optimizedDistanceKm} km</strong> (Saved ${eff.distanceSavedKm} km)
+                            <span>Consolidated Distance:</span><br>
+                            <strong>${eff.optimizedDistanceKm} km</strong> (Saved ${eff.distanceSavedKm} km vs solo trips)
                         </div>
                         <div class="samriddhi-metric-item">
                             <span>Est. Fuel Savings:</span><br>
-                            <strong>₹${eff.fuelCostSavedInr} saved</strong>
+                            <strong>₹${eff.fuelCostSavedInr} saved</strong> (${eff.carbonEmissionSavedKg} kg CO₂ reduced)
                         </div>
                     </div>
 
+                    ${orderListHtml}
+
                     <div style="font-size:12px; font-weight:700; color:#0f172a; margin:8px 0 4px;">
-                        📍 Sequential Pickup &amp; Delivery Itinerary:
+                        📍 Sequential Farm-Gate Pickup &amp; Delivery Itinerary:
                     </div>
 
                     <div class="samriddhi-timeline">
@@ -763,8 +801,8 @@ Demand is trending ↗ +14% this month.`);
                         `).join('')}
                     </div>
 
-                    <button type="button" style="width:100%; margin-top:10px; background:#059669; color:#fff; border:none; padding:8px; border-radius:6px; font-weight:600; font-size:12px; cursor:pointer;" onclick="alert('✓ Itinerary dispatched to driver via SMS and Driver App.')">
-                        <i class="fa-solid fa-paper-plane"></i> Dispatch Roadmap to Driver
+                    <button type="button" style="width:100%; margin-top:10px; background:#059669; color:#fff; border:none; padding:8px; border-radius:6px; font-weight:600; font-size:12px; cursor:pointer;" onclick="alert('✓ Itinerary dispatched to driver ${escapeHTML(drv.name)} via SMS and Driver App.')">
+                        <i class="fa-solid fa-paper-plane"></i> Dispatch Roadmap to Driver (${escapeHTML(drv.name)})
                     </button>
                 </div>
             `;
@@ -774,12 +812,12 @@ Demand is trending ↗ +14% this month.`);
             console.warn("Route optimization fallback:", err);
             appendBotMessage(`**Optimal Driver Roadmap (Dumra Block)**:
 • **Assigned Driver**: Soham Nayek [ID: SN 365] (*Tata Ace* - 1,000 kg capacity)
-• **Current Load**: 725 kg (72.5% load utilization)
+• **Current Load**: 530 kg (53% load utilization)
+• **Real Pending Orders**: 4 orders consolidated across Dumra & Patna
 • **Sequence**:
-  1. 08:30 AM: Pickup 250 kg at *Village Dumra* (Farmer Mohan)
-  2. 09:15 AM: Pickup 475 kg at *Village Runnisaidpur* (Farmer Rajesh)
-  3. 10:45 AM: Delivery Unload at *Central Mandi / Consumer Drop Point*
-• **Efficiency**: Saves **18.6 km** compared to individual trips.`);
+  1. 08:30 AM: Pickup 500 kg Wheat at *Village Dumra* (Farmer Ramesh Kumar 3552)
+  2. 09:15 AM: Pickup 30 kg Potato at *Demo Village* (Farmer Demo Farmer)
+  3. 10:00 AM: Unload at *Sitamarhi Central Mandi & Distribution Hub*`);
         }
     }
 

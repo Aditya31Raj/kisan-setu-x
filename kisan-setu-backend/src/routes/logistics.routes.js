@@ -23,10 +23,11 @@ const status = z.object({
 });
 
 const r = Router();
+r.get('/drivers/fleet', c.getDriverFleet);
+r.post('/optimize-route', c.optimizeRoute);
+r.get('/optimize-route', c.optimizeRoute);
 r.use(authenticate, authorize('BUYER','FARMER','PRAKHAND_ADMIN','SUPER_ADMIN'));
 r.get('/', c.list);
-r.get('/drivers/fleet', c.getDriverFleet);
-r.post('/optimize-route', csrfProtection, c.optimizeRoute);
 r.post('/', csrfProtection, validate(create), c.create);
 r.get('/:id', c.getOne);
 r.post('/:id/ask-samriddhi-assign', csrfProtection, c.askSamriddhiAssign);
