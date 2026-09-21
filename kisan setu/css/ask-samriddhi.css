@@ -168,20 +168,22 @@
     background: rgba(255, 255, 255, 0.28);
 }
 
-/* Suggestion Chips Banner */
+/* Suggestion Chips Banner (Positioned right above chat input) */
 .samriddhi-chips-container {
     background: #f8fafc;
-    border-bottom: 1px solid #e2e8f0;
-    padding: 10px 14px;
+    border-top: 1px solid #e2e8f0;
+    border-bottom: none;
+    padding: 8px 12px;
     display: flex;
-    gap: 8px;
+    gap: 7px;
     overflow-x: auto;
     scrollbar-width: thin;
     white-space: nowrap;
+    flex-shrink: 0;
 }
 
 .samriddhi-chips-container::-webkit-scrollbar {
-    height: 4px;
+    height: 3px;
 }
 
 .samriddhi-chips-container::-webkit-scrollbar-thumb {
@@ -193,16 +195,18 @@
     background: #ffffff;
     border: 1px solid #d1fae5;
     color: #065f46;
-    padding: 6px 12px;
-    border-radius: 20px;
-    font-size: 11.5px;
+    padding: 5px 12px;
+    border-radius: 18px;
+    font-size: 11px;
     font-weight: 600;
     cursor: pointer;
     display: inline-flex;
     align-items: center;
-    gap: 6px;
+    gap: 5px;
     transition: all 0.2s ease;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
+    white-space: nowrap;
+    flex-shrink: 0;
 }
 
 .samriddhi-chip:hover {
@@ -540,3 +544,323 @@
     transform: scale(1.05);
     background: linear-gradient(135deg, #047857 0%, #059669 100%);
 }
+
+/* ==========================================================================
+   Order & Payment Intelligence Cards
+   ========================================================================== */
+.samriddhi-orders-card,
+.samriddhi-payments-card {
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 14px;
+    padding: 13px 14px;
+    margin-top: 4px;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.05);
+    font-family: inherit;
+}
+
+.samriddhi-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid #f1f5f9;
+}
+
+.samriddhi-card-title {
+    font-size: 13px;
+    font-weight: 700;
+    color: #0f172a;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.samriddhi-count-badge {
+    background: #f1f5f9;
+    color: #475569;
+    font-size: 10.5px;
+    font-weight: 700;
+    padding: 2px 8px;
+    border-radius: 10px;
+}
+
+.samriddhi-live-pill {
+    background: #dcfce7;
+    color: #166534;
+    font-size: 10.5px;
+    font-weight: 700;
+    padding: 2px 8px;
+    border-radius: 10px;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.samriddhi-orders-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-bottom: 10px;
+}
+
+.samriddhi-order-item {
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 10px;
+    padding: 9px 11px;
+    transition: border-color 0.2s;
+}
+
+.samriddhi-order-item:hover {
+    border-color: #cbd5e1;
+}
+
+.samriddhi-order-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 5px;
+}
+
+.samriddhi-order-num {
+    font-size: 12px;
+    font-weight: 700;
+    color: #1e293b;
+}
+
+.samriddhi-status-pill {
+    font-size: 10px;
+    font-weight: 700;
+    padding: 2px 7px;
+    border-radius: 8px;
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+}
+
+.samriddhi-status-pill.pending {
+    background: #fef3c7;
+    color: #92400e;
+}
+
+.samriddhi-status-pill.payment {
+    background: #dbeafe;
+    color: #1e40af;
+}
+
+.samriddhi-status-pill.escrow {
+    background: #dcfce7;
+    color: #166534;
+}
+
+.samriddhi-status-pill.transit {
+    background: #e0f2fe;
+    color: #0369a1;
+}
+
+.samriddhi-status-pill.completed {
+    background: #f1f5f9;
+    color: #475569;
+}
+
+.samriddhi-order-details {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 12px;
+    color: #334155;
+    margin-bottom: 4px;
+}
+
+.samriddhi-order-price {
+    font-weight: 700;
+    color: #059669;
+}
+
+.samriddhi-order-counterpart {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 11px;
+    color: #64748b;
+}
+
+.samriddhi-order-action-bar {
+    margin-top: 8px;
+    padding-top: 6px;
+    border-top: 1px dashed #e2e8f0;
+    display: flex;
+    justify-content: flex-end;
+    gap: 8px;
+}
+
+.samriddhi-mini-action-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 4px 10px;
+    border-radius: 6px;
+    font-size: 11px;
+    font-weight: 700;
+    text-decoration: none;
+    border: none;
+    cursor: pointer;
+    background: #059669;
+    color: #ffffff;
+    transition: opacity 0.2s;
+}
+
+.samriddhi-mini-action-btn:hover {
+    opacity: 0.9;
+}
+
+.samriddhi-card-action-btn {
+    display: block;
+    width: 100%;
+    text-align: center;
+    background: #f8fafc;
+    color: #0f172a;
+    font-size: 11.5px;
+    font-weight: 700;
+    padding: 8px 12px;
+    border-radius: 8px;
+    text-decoration: none;
+    border: 1px solid #e2e8f0;
+    transition: all 0.2s;
+}
+
+.samriddhi-card-action-btn:hover {
+    background: #e2e8f0;
+    color: #059669;
+}
+
+/* Payment Metrics Grid */
+.samriddhi-payment-metrics {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+    margin-bottom: 10px;
+}
+
+.samriddhi-payment-metric-box {
+    border-radius: 10px;
+    padding: 10px 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.samriddhi-payment-metric-box.escrow {
+    background: #f0fdf4;
+    border: 1px solid #bbf7d0;
+}
+
+.samriddhi-payment-metric-box.bank {
+    background: #eff6ff;
+    border: 1px solid #bfdbfe;
+}
+
+.samriddhi-payment-metric-box .metric-label {
+    font-size: 10px;
+    font-weight: 600;
+    color: #475569;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.samriddhi-payment-metric-box.escrow .metric-label {
+    color: #166534;
+}
+
+.samriddhi-payment-metric-box.bank .metric-label {
+    color: #1e40af;
+}
+
+.samriddhi-payment-metric-box .metric-value {
+    font-size: 17px;
+    font-weight: 800;
+    color: #0f172a;
+}
+
+.samriddhi-payment-metric-box.escrow .metric-value {
+    color: #047857;
+}
+
+.samriddhi-payment-metric-box.bank .metric-value {
+    color: #1d4ed8;
+}
+
+.samriddhi-payment-metric-box .metric-hint {
+    font-size: 9.5px;
+    color: #64748b;
+}
+
+.samriddhi-pending-alert {
+    background: #fffbeb;
+    border: 1px solid #fef3c7;
+    color: #92400e;
+    font-size: 11px;
+    padding: 7px 10px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-bottom: 10px;
+}
+
+.samriddhi-recent-tx-title {
+    font-size: 11.5px;
+    font-weight: 700;
+    color: #334155;
+    margin-bottom: 6px;
+}
+
+.samriddhi-tx-list {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    margin-bottom: 10px;
+}
+
+.samriddhi-tx-item {
+    background: #f8fafc;
+    border: 1px solid #f1f5f9;
+    border-radius: 8px;
+    padding: 7px 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 11px;
+}
+
+.samriddhi-tx-left {
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
+}
+
+.samriddhi-tx-ref {
+    font-weight: 700;
+    color: #1e293b;
+}
+
+.samriddhi-tx-date {
+    font-size: 10px;
+    color: #64748b;
+}
+
+.samriddhi-tx-right {
+    text-align: right;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 2px;
+}
+
+.samriddhi-tx-amt {
+    font-weight: 700;
+    color: #0f172a;
+}
+
