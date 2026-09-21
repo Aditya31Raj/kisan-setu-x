@@ -74,6 +74,31 @@ textarea {
     box-shadow: 6px 0 28px rgba(0, 0, 0, 0.18) !important;
 }
 
+/* Sidebar closed state (Desktop & Mobile) */
+body.sidebar-closed .sidebar,
+.sidebar.closed {
+    left: -290px !important;
+    box-shadow: none !important;
+}
+
+body.sidebar-closed .main,
+body.sidebar-closed .buyer-container.main,
+body.sidebar-closed .admin-main,
+.sidebar.closed ~ .main,
+.sidebar.closed ~ .buyer-container.main,
+.sidebar.closed ~ * .main {
+    margin-left: 0 !important;
+    width: 100% !important;
+    transition: margin-left 0.3s cubic-bezier(0.4, 0, 0.2, 1), width 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+}
+
+body.sidebar-closed .sidebar-toggle-btn,
+body.sidebar-closed #sidebarToggleBtn,
+.sidebar.closed ~ .main .sidebar-toggle-btn,
+.sidebar.closed ~ * .sidebar-toggle-btn {
+    display: inline-flex !important;
+}
+
 .sidebar-backdrop {
     display: none;
     position: fixed;
@@ -118,25 +143,37 @@ textarea {
 }
 
 .sidebar-close-btn {
-    display: inline-flex;
+    display: inline-flex !important;
     align-items: center;
     justify-content: center;
-    width: 32px;
-    height: 32px;
-    background: transparent;
-    border: none;
-    border-radius: 6px;
-    color: #737b75;
-    font-size: 22px;
+    width: 34px;
+    height: 34px;
+    min-width: 34px;
+    min-height: 34px;
+    background: #f0fdf4;
+    border: 1px solid #cbf0d5;
+    border-radius: 8px;
+    color: #4b5563;
+    font-size: 16px;
     line-height: 1;
     cursor: pointer;
     margin-left: auto;
     transition: all 0.2s ease;
+    flex-shrink: 0;
+    position: relative;
+    z-index: 100;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
 }
 
 .sidebar-close-btn:hover {
-    background: #fee2e2;
-    color: #ba3d32;
+    background: #fee2e2 !important;
+    color: #ba3d32 !important;
+    border-color: #fca5a5 !important;
+    transform: scale(1.06);
+}
+
+.sidebar-close-btn:active {
+    transform: scale(0.95);
 }
 
 
@@ -1455,53 +1492,13 @@ button:disabled {
 
 @media (max-width: 800px) {
 
-    .sidebar {
-        width: 70px;
+    .navbar nav {
+        display: none !important;
     }
 
-    .brand {
-        justify-content: center;
-
-        padding: 10px;
-    }
-
-    .brand img {
-        width: 42px;
-        height: 42px;
-
-        margin: 0;
-    }
-
-    .brand-text,
-    .user-info > div:last-child,
-    .nav-item span,
-    /* =========================================================
-   OLD TOP NAVIGATION
-   Hide only horizontal navigation links
-   Keep header / branding visible
-   ========================================================= */
-
-.navbar nav {
-    display: none !important;
-}
-
-.navbar {
-    display: flex;
-    align-items: center;
-}
-
-    .user-box {
-        padding: 15px;
-    }
-
-    .user-info {
-        justify-content: center;
-    }
-
-    .nav-item {
-        justify-content: center;
-
-        padding: 13px;
+    .navbar {
+        display: flex;
+        align-items: center;
     }
 
     .main {

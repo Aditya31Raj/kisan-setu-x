@@ -146,10 +146,13 @@ async function loadFarmerOrders(page = 1) {
 						</div>
 					`;
 				}
-			} else if (status === "ACCEPTED") {
+			} else if (status === "ACCEPTED" || status === "PAYMENT_PENDING") {
 				actionButtons = `
-					<div style="margin-top:14px; padding:10px 14px; background:#f0fdf4; border:1px solid #bbf7d0; border-radius:6px; font-size:12px; color:#166534; display:flex; justify-content:space-between; align-items:center;">
-						<span><i class="fa-solid fa-qrcode"></i> <strong>Order Accepted:</strong> PhonePe UPI QR code sent to buyer for payment confirmation.</span>
+					<div style="margin-top:14px; padding:10px 14px; background:#f0fdf4; border:1px solid #bbf7d0; border-radius:6px; font-size:12px; color:#166534; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px;">
+						<span><i class="fa-solid fa-qrcode"></i> <strong>Order Accepted:</strong> Awaiting buyer payment confirmation.</span>
+						<button type="button" style="background:#fee2e2; color:#991b1b; border:1px solid #fca5a5; padding:6px 12px; border-radius:6px; font-size:12px; font-weight:600; cursor:pointer;" onclick="handleFarmerOrderAction('${order.id}', 'REJECTED', this)">
+							<i class="fa-solid fa-xmark"></i> Cancel Order
+						</button>
 					</div>
 				`;
 			} else if (["PAID", "LOGISTICS_PENDING"].includes(status)) {

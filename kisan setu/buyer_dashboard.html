@@ -45,6 +45,13 @@
             width: calc(100% - 245px);
 
             min-height: 100vh;
+
+            transition: margin-left 0.3s cubic-bezier(0.4, 0, 0.2, 1), width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        body.sidebar-closed .main {
+            margin-left: 0 !important;
+            width: 100% !important;
         }
 
 
@@ -592,45 +599,10 @@
 
         @media(max-width:800px) {
 
-            .sidebar {
-                width: 70px;
-            }
-
-            .brand-text,
-            .user-info div,
-            .nav-item span,
-            .nav-title {
-                display: none;
-            }
-
-            .brand {
-                justify-content: center;
-
-                padding: 10px;
-            }
-
-            .brand img {
-                margin: 0;
-            }
-
-            .user-box {
-                padding: 15px;
-            }
-
-            .user-info {
-                justify-content: center;
-            }
-
-            .nav-item {
-                justify-content: center;
-
-                padding: 13px;
-            }
-
             .main {
-                margin-left: 70px;
+                margin-left: 0;
 
-                width: calc(100% - 70px);
+                width: 100%;
             }
 
             .produce-list {

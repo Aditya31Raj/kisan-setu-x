@@ -3,6 +3,7 @@ import { errors } from '../utils/errors.js';
 import { parsePagination, paginationMeta } from '../utils/pagination.js';
 import { enforceListingCompliance } from './msp.service.js';
 import { recordAudit } from './audit.service.js';
+import { notifyUser } from './notification.service.js';
 
 export async function create(userId, d, m) {
   let p = await prisma.farmerProfile.findUnique({ where: { userId } });
@@ -139,6 +140,50 @@ export async function update(userId, id, d, m) {
 export async function remove(userId, id) {
   const x = await prisma.produceListing.findFirst({ where: { id, farmerId: userId, deletedAt: null } });
   if (!x) throw errors.notFound('Produce listing not found');
-  if (Number(x.reservedQuantity) > 0) throw errors.conflict('Reserved quantity exists');
-  await prisma.produceListing.update({ where: { id }, data: { status: 'DELETED', deletedAt: new Date() } });
+
+  // Check if there are active paid / in-transit / disputed orders for this listing
+  const activeOrders = await prisma.order.findMany({
+    where: {
+      items: { some: { produceId: id } },
+      status: { in: ['PAID', 'LOGISTICS_PENDING', 'IN_TRANSIT', 'DISPUTED'] }
+    }
+  });
+  if (activeOrders.length > 0) {
+    const orderNum = activeOrders[0].orderNumber || activeOrders[0].id.slice(0, 8);
+    throw errors.conflict(`Cannot remove produce: Order #${orderNum} is already paid and in escrow. Please complete delivery or resolve dispute.`);
+  }
+
+  // If there are pending/unpaid orders on this listing, cancel them gracefully
+  const pendingOrders = await prisma.order.findMany({
+    where: {
+      items: { some: { produceId: id } },
+      status: { in: ['PENDING_FARMER', 'ACCEPTED', 'PAYMENT_PENDING'] }
+    },
+    include: { items: true }
+  });
+
+  for (const order of pendingOrders) {
+    await prisma.order.update({
+      where: { id: order.id },
+      data: { status: 'REJECTED', cancelledAt: new Date() }
+    });
+    try {
+      await notifyUser({
+        userId: order.buyerId,
+        title: 'Order Cancelled',
+        message: `Produce listing was removed by the farmer for Order #${order.orderNumber || order.id.slice(0, 8)}.`,
+        metadata: { orderId: order.id }
+      });
+    } catch {}
+  }
+
+  return prisma.produceListing.update({
+    where: { id },
+    data: {
+      status: 'DELETED',
+      deletedAt: new Date(),
+      reservedQuantity: 0,
+      availableQuantity: 0
+    }
+  });
 }

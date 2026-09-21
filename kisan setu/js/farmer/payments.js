@@ -418,5 +418,5 @@ function setupFarmerLogout() {
 
 window.loadFarmerPayments = loadFarmerPayments;
 window.getFarmerPayments = async function (params = {}) {
-    return apiRequest(`/farmer/me/payments${queryString(params)}`);
+    return apiRequest(`/farmers/me/payments${queryString(params)}`);
 };
