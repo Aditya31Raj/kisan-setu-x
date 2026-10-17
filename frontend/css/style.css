@@ -16,17 +16,18 @@ html {
 
 :root {
     --sidebar-width: 260px;
-    --green: #2f9e62;
-    --dark-green: #176d35;
-    --light-green: #e8f7ec;
-    --mint: #f3fbf5;
-    --orange: #f28c28;
-    --light-orange: #fff1df;
-    --border: #d6ead9;
-    --text: #202522;
-    --gray: #6c757d;
-    --white: #ffffff;
-    --background: #f3fbf5;
+    --green: #176B4D;
+    --dark-green: #104C36;
+    --secondary-teal: #159A8C;
+    --light-green: #E8F3ED;
+    --mint: #F7F9F4;
+    --orange: #F2B84B;
+    --light-orange: #FEF7EA;
+    --border: #D2E4DA;
+    --text: #17221D;
+    --gray: #60756B;
+    --white: #FFFFFF;
+    --background: #F7F9F4;
 }
 
 body {

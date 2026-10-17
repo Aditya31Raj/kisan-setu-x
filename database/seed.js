@@ -41,11 +41,12 @@ async function main() {
   );
 
   // Dedicated Super Admin Account
-  const adminEmail = process.env.ADMIN_EMAIL || 'meiconic.here31@gmail.com';
-  const adminPassword = process.env.SEED_SUPER_ADMIN_PASSWORD || 'iconic31';
+  const adminEmail = process.env.ADMIN_EMAIL || 'admin@kisansetu.local';
+  const adminPassword = process.env.SEED_SUPER_ADMIN_PASSWORD || 'ChangeMeSuper123!';
+  const adminName = process.env.ADMIN_NAME || 'Platform Administrator';
   await user(
     adminEmail,
-    'Aditya Raj',
+    adminName,
     'SUPER_ADMIN',
     adminPassword,
     { prakhand: 'Headquarters', district: 'Patna' }

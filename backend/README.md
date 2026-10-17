@@ -21,16 +21,10 @@ npx prisma db seed
 npm run dev
 ```
 
+## API Documentation
+
 Swagger: http://localhost:5000/api-docs
 Health: http://localhost:5000/health
-
-## Docker
-
-```bash
-docker compose up --build
-```
-
-The demo compose uses `prisma db push` because the ZIP intentionally does not ship an environment-specific generated migration history. For production, generate/review a migration with `npx prisma migrate dev --name init` and deploy it with `npx prisma migrate deploy`.
 
 ## Security
 

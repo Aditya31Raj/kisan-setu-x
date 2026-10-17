@@ -10,7 +10,7 @@
     align-items: center;
 
     padding: 35px 20px;
-    background: #f8faf9;
+    background: #F7F9F4;
 }
 
 .auth-card {
@@ -18,24 +18,24 @@
     max-width: 470px;
 
     background: white;
-    border: 1px solid #dfe7e2;
+    border: 1px solid #D2E4DA;
     border-radius: 14px;
 
     padding: 32px;
 
-    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
+    box-shadow: 0 5px 20px rgba(23, 34, 29, 0.05);
 }
 
 .auth-card h1 {
     text-align: center;
-    color: #198754;
+    color: #176B4D;
     margin-bottom: 5px;
     font-size: 27px;
 }
 
 .auth-card .subtitle {
     text-align: center;
-    color: #6c757d;
+    color: #60756B;
     font-size: 14px;
     margin-bottom: 25px;
 }
@@ -52,6 +52,7 @@
 
     font-size: 14px;
     font-weight: 600;
+    color: #17221D;
 }
 
 .form-group input,
@@ -61,11 +62,19 @@
 
     padding: 11px 12px;
 
-    border: 1px solid #d5ded8;
+    border: 1px solid #D2E4DA;
     border-radius: 7px;
 
     background: white;
+    color: #17221D;
     font-size: 14px;
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+    border-color: #176B4D;
+    outline-color: #176B4D;
 }
 
 /* Two fields in one row */
@@ -89,17 +98,18 @@
     border: none;
     border-radius: 7px;
 
-    background: #198754;
+    background: #176B4D;
     color: white;
 
     font-size: 15px;
     font-weight: 600;
 
     cursor: pointer;
+    transition: background 0.2s ease;
 }
 
 .auth-btn:hover {
-    background: #146c43;
+    background: #104C36;
 }
 
 /* Bottom text */
@@ -108,12 +118,12 @@
     text-align: center;
     margin-top: 20px;
 
-    color: #6c757d;
+    color: #60756B;
     font-size: 13px;
 }
 
 .auth-footer a {
-    color: #198754;
+    color: #176B4D;
     font-weight: 600;
 }
 
@@ -128,7 +138,7 @@
 /* Success message */
 
 .success-message {
-    color: #198754;
+    color: #176B4D;
     font-size: 13px;
     margin-bottom: 15px;
 }
@@ -147,29 +157,29 @@
     }
 }
 
-/* Light green registration surfaces with warm orange actions. */
+/* Soft green registration surfaces with palette accents. */
 body {
-    background: linear-gradient(135deg, #eefbf1 0%, #fff5e6 100%) !important;
+    background: linear-gradient(135deg, #E8F3ED 0%, #F7F9F4 100%) !important;
 }
 
 .auth-card,
 .register-card {
-    border-color: #d3ead7 !important;
-    box-shadow: 0 14px 36px rgba(47, 158, 98, 0.1) !important;
+    border-color: #D2E4DA !important;
+    box-shadow: 0 14px 36px rgba(23, 34, 29, 0.08) !important;
 }
 
 .auth-btn,
 .register-button,
 .submit-btn {
-    background: #2f9e62 !important;
+    background: #176B4D !important;
 }
 
 .auth-btn:hover,
 .register-button:hover,
 .submit-btn:hover {
-    background: #f28c28 !important;
+    background: #104C36 !important;
 }
 
 .register-header {
-    background: linear-gradient(135deg, #2f9e62, #176d35) !important;
+    background: linear-gradient(135deg, #176B4D, #104C36) !important;
 }

@@ -1,0 +1,607 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url = env("DATABASE_URL")
+}
+
+enum Role {
+  FARMER
+  BUYER
+  PRAKHAND_ADMIN
+  SUPER_ADMIN
+}
+
+enum VerificationStatus {
+  PENDING
+  VERIFIED
+  FAILED
+}
+
+enum IdentityProvider {
+  MOCK
+  AADHAAR_EKYC
+}
+
+enum ProduceStatus {
+  DRAFT
+  LISTED
+  RESERVED
+  SOLD_OUT
+  PAUSED
+  DELETED
+}
+
+enum OrderStatus {
+  PENDING_FARMER
+  ACCEPTED
+  REJECTED
+  PAYMENT_PENDING
+  PAID
+  LOGISTICS_PENDING
+  IN_TRANSIT
+  DELIVERED
+  COMPLETED
+  CANCELLED
+  DISPUTED
+}
+
+enum PaymentStatus {
+  INITIATED
+  PENDING
+  SUCCESS
+  FAILED
+  REFUNDED
+}
+
+enum LogisticsStatus {
+  PENDING
+  ASSIGNED
+  PICKED_UP
+  IN_TRANSIT
+  OUT_FOR_DELIVERY
+  DELIVERED
+  FAILED
+  CANCELLED
+}
+
+enum InputRequestStatus {
+  PENDING
+  APPROVED
+  REJECTED
+  FULFILLED
+}
+
+enum GrievanceStatus {
+  OPEN
+  IN_REVIEW
+  RESOLVED
+  REJECTED
+}
+
+enum DisputeStatus {
+  OPEN
+  IN_REVIEW
+  RESOLVED
+  REJECTED
+}
+
+enum Priority {
+  LOW
+  MEDIUM
+  HIGH
+  CRITICAL
+}
+
+enum AlertSeverity {
+  LOW
+  MEDIUM
+  HIGH
+  CRITICAL
+}
+
+enum AlertType {
+  MSP_VIOLATION
+  PAYMENT_FAILURE
+  PAYMENT_ANOMALY
+  PENDING_INPUT_REQUEST
+  UNRESOLVED_GRIEVANCE
+  DELIVERY_DELAY
+  SUSPICIOUS_LOGIN
+  AUTH_FAILURE
+  HIGH_VALUE_TRANSACTION
+}
+
+enum NotificationType {
+  IN_APP
+  EMAIL
+  SMS
+}
+
+model User {
+ id String @id @default(uuid()) @db.Uuid
+ name String
+ email String? @unique
+ phone String? @unique
+ passwordHash String
+ role Role
+ isActive Boolean @default(true)
+ isVerified Boolean @default(false)
+ lastLoginAt DateTime?
+ createdAt DateTime @default(now())
+ updatedAt DateTime @updatedAt
+ farmerProfile FarmerProfile?
+ buyerProfile BuyerProfile?
+ adminProfile AdminProfile?
+ addresses Address[]
+ identity IdentityVerification?
+ refreshTokens RefreshToken[]
+ passwordResetTokens PasswordResetToken[]
+ auditLogs AuditLog[]
+ notifications Notification[]
+ grievances Grievance[] @relation("GrievanceCreator")
+ assignedGrievances Grievance[] @relation("GrievanceAssignee")
+ disputes Dispute[] @relation("DisputeCreator")
+ assignedDisputes Dispute[] @relation("DisputeAssignee")
+ inputRequests InputRequest[]
+ produceListings ProduceListing[]
+ buyerOrders Order[] @relation("BuyerOrders")
+ farmerOrders Order[] @relation("FarmerOrders")
+ governmentAlerts GovernmentAlert[] @relation("AlertCreator")
+}
+model FarmerProfile {
+  id String @id @default(uuid()) @db.Uuid
+  userId String @unique @db.Uuid
+  farmName String?
+  village String?
+  district String?
+  state String?
+  landAreaAcres Decimal? @db.Decimal(12,2)
+  bankAccountLast4 String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  user User @relation(fields:[userId],references:[id],onDelete:Cascade)
+  crops Crop[]
+
+}
+
+model BuyerProfile {
+  id String @id @default(uuid()) @db.Uuid
+  userId String @unique @db.Uuid
+  businessName String?
+  businessType String?
+  district String?
+  state String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  user User @relation(fields:[userId],references:[id],onDelete:Cascade)
+
+}
+
+model AdminProfile {
+  id String @id @default(uuid()) @db.Uuid
+  userId String @unique @db.Uuid
+  prakhand String?
+  district String?
+  permissions Json?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  user User @relation(fields:[userId],references:[id],onDelete:Cascade)
+
+}
+
+model Address {
+  id String @id @default(uuid()) @db.Uuid
+  userId String @db.Uuid
+  label String
+  line1 String
+  line2 String?
+  village String?
+  district String?
+  state String
+  postalCode String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  user User @relation(fields:[userId],references:[id],onDelete:Cascade)
+
+  @@index([userId])
+
+}
+
+model IdentityVerification {
+  id String @id @default(uuid()) @db.Uuid
+  userId String @unique @db.Uuid
+  provider IdentityProvider
+  status VerificationStatus @default(PENDING)
+  maskedIdentifier String?
+  providerReference String?
+  verifiedAt DateTime?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  user User @relation(fields:[userId],references:[id],onDelete:Cascade)
+
+}
+
+model PasswordResetToken {
+  id String @id @default(uuid()) @db.Uuid
+  userId String @db.Uuid
+  tokenHash String @unique
+  expiresAt DateTime
+  usedAt DateTime?
+  createdAt DateTime @default(now())
+  user User @relation(fields:[userId],references:[id],onDelete:Cascade)
+
+  @@index([userId,expiresAt])
+
+}
+
+model RefreshToken {
+  id String @id @default(uuid()) @db.Uuid
+  userId String @db.Uuid
+  tokenHash String @unique
+  familyId String @db.Uuid
+  expiresAt DateTime
+  revokedAt DateTime?
+  replacedById String?
+  userAgent String?
+  ipAddress String?
+  createdAt DateTime @default(now())
+  user User @relation(fields:[userId],references:[id],onDelete:Cascade)
+
+  @@index([userId,revokedAt])
+
+  @@index([familyId])
+
+  @@index([expiresAt])
+
+}
+
+model Crop {
+  id String @id @default(uuid()) @db.Uuid
+  farmerId String @db.Uuid
+  name String
+  variety String?
+  areaAcres Decimal? @db.Decimal(12,2)
+  season String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  deletedAt DateTime?
+  farmer FarmerProfile @relation(fields:[farmerId],references:[id],onDelete:Cascade)
+  listings ProduceListing[]
+  mspRecords MSPRecord[]
+
+  @@index([farmerId])
+
+  @@index([name])
+
+}
+
+model ProduceListing {
+  id String @id @default(uuid()) @db.Uuid
+  farmerId String @db.Uuid
+  cropId String @db.Uuid
+  title String
+  description String?
+  location String
+  unit String @default("KG")
+  availableQuantity Decimal @db.Decimal(14,3)
+  reservedQuantity Decimal @default(0) @db.Decimal(14,3)
+  soldQuantity Decimal @default(0) @db.Decimal(14,3)
+  pricePerUnit Decimal @db.Decimal(14,2)
+  status ProduceStatus @default(DRAFT)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  deletedAt DateTime?
+  farmer User @relation(fields:[farmerId],references:[id],onDelete:Restrict)
+  crop Crop @relation(fields:[cropId],references:[id],onDelete:Restrict)
+  orderItems OrderItem[]
+
+  @@index([farmerId])
+
+  @@index([cropId])
+
+  @@index([status])
+
+  @@index([location])
+
+  @@index([pricePerUnit])
+
+}
+
+model MSPRecord {
+  id String @id @default(uuid()) @db.Uuid
+  cropId String @db.Uuid
+  cropName String
+  season String?
+  state String?
+  district String?
+  mspPrice Decimal @db.Decimal(14,2)
+  unit String @default("KG")
+  effectiveFrom DateTime
+  effectiveTo DateTime?
+  applies Boolean @default(true)
+  source String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  crop Crop @relation(fields:[cropId],references:[id],onDelete:Restrict)
+
+  @@index([cropId,effectiveFrom,effectiveTo])
+
+  @@index([state,district])
+
+}
+
+model Order {
+  id String @id @default(uuid()) @db.Uuid
+  orderNumber String @unique
+  buyerId String @db.Uuid
+  farmerId String @db.Uuid
+  status OrderStatus @default(PENDING_FARMER)
+  subtotal Decimal @db.Decimal(14,2)
+  charges Decimal @default(0) @db.Decimal(14,2)
+  totalAmount Decimal @db.Decimal(14,2)
+  currency String @default("INR")
+  acceptedAt DateTime?
+  completedAt DateTime?
+  cancelledAt DateTime?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  buyer User @relation("BuyerOrders",fields:[buyerId],references:[id],onDelete:Restrict)
+  farmer User @relation("FarmerOrders",fields:[farmerId],references:[id],onDelete:Restrict)
+  items OrderItem[]
+  payments Payment[]
+  logistics Logistics?
+  grievances Grievance[]
+  disputes Dispute[]
+
+  @@index([buyerId,status])
+
+  @@index([farmerId,status])
+
+  @@index([status])
+
+  @@index([createdAt])
+
+}
+
+model OrderItem {
+  id String @id @default(uuid()) @db.Uuid
+  orderId String @db.Uuid
+  produceId String @db.Uuid
+  quantity Decimal @db.Decimal(14,3)
+  unitPrice Decimal @db.Decimal(14,2)
+  lineTotal Decimal @db.Decimal(14,2)
+  createdAt DateTime @default(now())
+  order Order @relation(fields:[orderId],references:[id],onDelete:Cascade)
+  produce ProduceListing @relation(fields:[produceId],references:[id],onDelete:Restrict)
+
+  @@index([orderId])
+
+  @@index([produceId])
+
+}
+
+model Payment {
+  id String @id @default(uuid()) @db.Uuid
+  orderId String @db.Uuid
+  provider String
+  providerPaymentId String? @unique
+  amount Decimal @db.Decimal(14,2)
+  currency String @default("INR")
+  status PaymentStatus @default(INITIATED)
+  idempotencyKey String @unique
+  verifiedAt DateTime?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  order Order @relation(fields:[orderId],references:[id],onDelete:Restrict)
+  attempts PaymentAttempt[]
+
+  @@index([orderId])
+
+  @@index([status])
+
+}
+
+model PaymentAttempt {
+  id String @id @default(uuid()) @db.Uuid
+  paymentId String @db.Uuid
+  providerReference String?
+  status PaymentStatus
+  failureCode String?
+  createdAt DateTime @default(now())
+  payment Payment @relation(fields:[paymentId],references:[id],onDelete:Cascade)
+
+  @@index([paymentId])
+
+}
+
+model Logistics {
+  id String @id @default(uuid()) @db.Uuid
+  orderId String @unique @db.Uuid
+  vehicleReference String?
+  driverReference String?
+  pickupAddress Json
+  destinationAddress Json
+  estimatedDelivery DateTime?
+  actualDelivery DateTime?
+  status LogisticsStatus @default(PENDING)
+  statusHistory Json?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  order Order @relation(fields:[orderId],references:[id],onDelete:Cascade)
+  deliveryVerification DeliveryVerification?
+
+}
+
+model DeliveryVerification {
+  id String @id @default(uuid()) @db.Uuid
+  logisticsId String @unique @db.Uuid
+  verifiedByUser String? @db.Uuid
+  proofReference String?
+  verificationHash String?
+  verifiedAt DateTime?
+  createdAt DateTime @default(now())
+  logistics Logistics @relation(fields:[logisticsId],references:[id],onDelete:Cascade)
+
+}
+
+model InputProduct {
+  id String @id @default(uuid()) @db.Uuid
+  name String
+  category String
+  unit String
+  stock Decimal @db.Decimal(14,3)
+  isActive Boolean @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  requests InputRequest[]
+
+  @@index([category])
+
+  @@index([isActive])
+
+}
+
+model InputRequest {
+  id String @id @default(uuid()) @db.Uuid
+  farmerId String @db.Uuid
+  inputProductId String @db.Uuid
+  quantity Decimal @db.Decimal(14,3)
+  reason String?
+  status InputRequestStatus @default(PENDING)
+  adminNote String?
+  reviewedBy String? @db.Uuid
+  reviewedAt DateTime?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  farmer User @relation(fields:[farmerId],references:[id],onDelete:Restrict)
+  inputProduct InputProduct @relation(fields:[inputProductId],references:[id],onDelete:Restrict)
+
+  @@index([farmerId,status])
+
+  @@index([status,createdAt])
+
+}
+
+model Grievance {
+  id String @id @default(uuid()) @db.Uuid
+  createdById String @db.Uuid
+  orderId String? @db.Uuid
+  category String
+  subject String
+  description String
+  priority Priority @default(MEDIUM)
+  status GrievanceStatus @default(OPEN)
+  assignedTo String? @db.Uuid
+  resolution String?
+  resolvedAt DateTime?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  creator User @relation("GrievanceCreator",fields:[createdById],references:[id],onDelete:Restrict)
+  order Order? @relation(fields:[orderId],references:[id],onDelete:SetNull)
+  assignee User? @relation("GrievanceAssignee",fields:[assignedTo],references:[id],onDelete:SetNull)
+
+  @@index([createdById])
+
+  @@index([status])
+
+  @@index([priority])
+
+}
+
+model Dispute {
+  id String @id @default(uuid()) @db.Uuid
+  createdById String @db.Uuid
+  orderId String @db.Uuid
+  reason String
+  evidence Json?
+  status DisputeStatus @default(OPEN)
+  assignedTo String? @db.Uuid
+  resolution String?
+  resolvedAt DateTime?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  creator User @relation("DisputeCreator",fields:[createdById],references:[id],onDelete:Restrict)
+  order Order @relation(fields:[orderId],references:[id],onDelete:Restrict)
+  assignee User? @relation("DisputeAssignee",fields:[assignedTo],references:[id],onDelete:SetNull)
+
+  @@index([createdById])
+
+  @@index([orderId])
+
+  @@index([status])
+
+}
+
+model Notification {
+  id String @id @default(uuid()) @db.Uuid
+  userId String @db.Uuid
+  type NotificationType
+  title String
+  message String
+  readAt DateTime?
+  metadata Json?
+  createdAt DateTime @default(now())
+  user User @relation(fields:[userId],references:[id],onDelete:Cascade)
+
+  @@index([userId,readAt])
+
+  @@index([createdAt])
+
+}
+
+model AuditLog {
+  id String @id @default(uuid()) @db.Uuid
+  userId String? @db.Uuid
+  role Role?
+  action String
+  entity String
+  entityId String?
+  requestId String?
+  ipAddress String?
+  metadata Json?
+  createdAt DateTime @default(now())
+  user User? @relation(fields:[userId],references:[id],onDelete:SetNull)
+
+  @@index([userId,createdAt])
+
+  @@index([createdAt])
+
+  @@index([entity,entityId])
+
+}
+
+model DemandForecast {
+  id String @id @default(uuid()) @db.Uuid
+  cropName String
+  location String
+  forecastQuantity Decimal @db.Decimal(14,3)
+  period String
+  confidence Decimal? @db.Decimal(5,4)
+  provider String @default("mock")
+  createdAt DateTime @default(now())
+
+  @@index([cropName,location,period])
+
+}
+
+model GovernmentAlert {
+  id String @id @default(uuid()) @db.Uuid
+  type AlertType
+  severity AlertSeverity
+  title String
+  message String
+  entity String?
+  entityId String?
+  createdById String? @db.Uuid
+  resolvedAt DateTime?
+  createdAt DateTime @default(now())
+  creator User? @relation("AlertCreator",fields:[createdById],references:[id],onDelete:SetNull)
+
+  @@index([severity,resolvedAt])
+
+  @@index([type,createdAt])
+
+}

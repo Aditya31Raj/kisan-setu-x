@@ -138,7 +138,7 @@ function setupLoginHistoryGuard() {
 async function checkLoggedInRedirect() {
 	const path = (window.location.pathname || "").toLowerCase();
 	const isLoginPage = path.includes("login.html");
-	const isIndexPage = path === "/" || path === "" || path.endsWith("/index.html") || path.endsWith("index.html") || path.endsWith("/kisan%20setu/") || path.endsWith("/kisan setu/");
+	const isIndexPage = path === "/" || path === "" || path.endsWith("/index.html") || path.endsWith("index.html") || path.endsWith("/frontend/") || path.endsWith("/frontend") || path.endsWith("/kisan%20setu/") || path.endsWith("/kisan setu/");
 
 	// Only trigger auto-redirect when visiting the landing page or login pages
 	if (!isLoginPage && !isIndexPage) {
@@ -201,7 +201,7 @@ async function checkAllRouteGuards() {
 
 	const path = (window.location.pathname || "").toLowerCase();
 	const isLoginPage = path.includes("login.html") || path.includes("register.html");
-	const isIndexPage = path === "/" || path === "" || path.endsWith("/index.html") || path.endsWith("index.html") || path.endsWith("/kisan%20setu/") || path.endsWith("/kisan setu/");
+	const isIndexPage = path === "/" || path === "" || path.endsWith("/index.html") || path.endsWith("index.html") || path.endsWith("/frontend/") || path.endsWith("/frontend") || path.endsWith("/kisan%20setu/") || path.endsWith("/kisan setu/");
 
 	if (isLoginPage || isIndexPage) {
 		return;

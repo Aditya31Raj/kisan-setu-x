@@ -5,9 +5,9 @@ import { PrismaClient } from '@prisma/client';
 const prisma = new PrismaClient();
 
 async function setupAdmin() {
-  const email = 'meiconic.here31@gmail.com';
-  const password = 'iconic31';
-  const name = 'Aditya Raj';
+  const email = process.env.ADMIN_EMAIL || 'admin@kisansetu.local';
+  const password = process.env.SEED_SUPER_ADMIN_PASSWORD || 'ChangeMeSuper123!';
+  const name = process.env.ADMIN_NAME || 'Platform Administrator';
   const rounds = Number(process.env.BCRYPT_ROUNDS || 12);
 
   console.log(`Setting up super admin account for ${email}...`);

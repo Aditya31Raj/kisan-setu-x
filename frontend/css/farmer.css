@@ -10,12 +10,25 @@ html {
     scroll-behavior: smooth;
 }
 
+:root {
+    --primary-green: #176B4D;
+    --primary-green-dark: #104C36;
+    --secondary-teal: #159A8C;
+    --accent-amber: #F2B84B;
+    --dark-text: #17221D;
+    --secondary-text: #60756B;
+    --soft-green: #E8F3ED;
+    --canvas-bg: #F7F9F4;
+    --card-white: #FFFFFF;
+    --border-color: #D2E4DA;
+}
+
 body {
     margin: 0;
     padding: 0;
     font-family: "Poppins", sans-serif;
-    background: #f7faf7;
-    color: #202522;
+    background: var(--canvas-bg);
+    color: var(--dark-text);
 }
 
 a {
@@ -146,7 +159,7 @@ textarea {
 .brand-text h2 {
     margin: 0;
     font-size: 19px;
-    color: #176d35;
+    color: var(--primary-green);
     font-weight: 800;
     line-height: 1;
     letter-spacing: 0.3px;
@@ -156,7 +169,7 @@ textarea {
     display: block;
     margin-top: 5px;
     font-size: 8px;
-    color: #737b75;
+    color: var(--secondary-text);
     font-weight: 600;
     letter-spacing: 0.5px;
 }
@@ -298,8 +311,8 @@ textarea {
 }
 
 .nav-item.active {
-    background: #eaf6ec;
-    color: #176d35;
+    background: var(--soft-green);
+    color: var(--primary-green);
     font-weight: 600;
 }
 

@@ -18,15 +18,15 @@ export async function connectDatabase() {
       await prisma.refreshToken.count();
 
       // Ensure super admin account exists
-      const adminEmail = process.env.ADMIN_EMAIL || 'meiconic.here31@gmail.com';
+      const adminEmail = process.env.ADMIN_EMAIL || 'admin@kisansetu.local';
       const existingAdmin = await prisma.user.findUnique({ where: { email: adminEmail } });
       if (!existingAdmin) {
         const bcrypt = (await import('bcrypt')).default;
-        const hash = await bcrypt.hash(process.env.SEED_SUPER_ADMIN_PASSWORD || 'iconic31', 12);
+        const hash = await bcrypt.hash(process.env.SEED_SUPER_ADMIN_PASSWORD || 'ChangeMeSuper123!', 12);
         await prisma.user.create({
           data: {
             email: adminEmail,
-            name: 'Aditya Raj',
+            name: process.env.ADMIN_NAME || 'Platform Administrator',
             passwordHash: hash,
             role: 'SUPER_ADMIN',
             isActive: true,

@@ -5,9 +5,9 @@
 
 $env:PATH = "C:\Program Files\nodejs;" + $env:PATH
 $rootDir = $PSScriptRoot
-$pgBin = "C:\Users\ADITYA RAJ\.kisan-postgres\pgsql\bin"
-$pgData = "C:\Users\ADITYA RAJ\.kisan-postgres\data"
-$pgLog = "C:\Users\ADITYA RAJ\.kisan-postgres\server.log"
+$pgBin = "$env:USERPROFILE\.kisan-postgres\pgsql\bin"
+$pgData = "$env:USERPROFILE\.kisan-postgres\data"
+$pgLog = "$env:USERPROFILE\.kisan-postgres\server.log"
 
 Write-Host "===================================================" -ForegroundColor Green
 Write-Host "          Kisan Setu - Unified Launcher            " -ForegroundColor Green
@@ -26,11 +26,11 @@ if ($LASTEXITCODE -ne 0) {
 
 # 2. Start Backend API Server
 Write-Host "`n[2/3] Starting Backend API Server (Port 5000)..." -ForegroundColor Cyan
-Start-Process powershell -ArgumentList "-NoExit", "-Command", "`$env:PATH = 'C:\Program Files\nodejs;' + `$env:PATH; Set-Location '$rootDir\kisan-setu-backend'; node src/server.js"
+Start-Process powershell -ArgumentList "-NoExit", "-Command", "`$env:PATH = 'C:\Program Files\nodejs;' + `$env:PATH; Set-Location '$rootDir\backend'; node src/server.js"
 
 # 3. Start Frontend Web Server
 Write-Host "`n[3/3] Starting Frontend Web Server (Port 5173)..." -ForegroundColor Cyan
-Start-Process powershell -ArgumentList "-NoExit", "-Command", "`$env:PATH = 'C:\Program Files\nodejs;' + `$env:PATH; Set-Location '$rootDir\kisan setu'; node server.js"
+Start-Process powershell -ArgumentList "-NoExit", "-Command", "`$env:PATH = 'C:\Program Files\nodejs;' + `$env:PATH; Set-Location '$rootDir\frontend'; node server.js"
 
 Start-Sleep -Seconds 3
 

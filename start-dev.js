@@ -37,7 +37,7 @@ async function main() {
     console.log('✓ PostgreSQL is running on port 5432.');
   } else {
     console.log('Starting PostgreSQL...');
-    const { startDatabase } = await import('./kisan-setu-backend/scripts/db-control.js');
+    const { startDatabase } = await import('./database/db-control.js');
     await startDatabase();
   }
 
@@ -50,7 +50,7 @@ async function main() {
   } else {
     console.log('Starting Backend API on port 5000...');
     const backend = spawn('node', ['src/server.js'], {
-      cwd: path.join(__dirname, 'kisan-setu-backend'),
+      cwd: path.join(__dirname, 'backend'),
       stdio: 'inherit',
       shell: true
     });
@@ -65,7 +65,7 @@ async function main() {
   } else {
     console.log('Starting Frontend Web on port 5173...');
     const frontend = spawn('node', ['server.js'], {
-      cwd: path.join(__dirname, 'kisan setu'),
+      cwd: path.join(__dirname, 'frontend'),
       stdio: 'inherit',
       shell: true
     });

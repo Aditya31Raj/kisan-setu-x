@@ -16,8 +16,8 @@
 
 body {
     font-family: Arial, Helvetica, sans-serif;
-    background: #f8faf9;
-    color: #202522;
+    background: #F7F9F4;
+    color: #17221D;
     line-height: 1.5;
 }
 
@@ -80,7 +80,7 @@ button {
 .admin-logo {
     text-align: center;
 
-    color: #198754;
+    color: #176B4D;
 
     padding: 8px 5px 3px;
 }
@@ -103,13 +103,13 @@ button {
     font-size: 21px;
     font-weight: 800;
 
-    color: #198754;
+    color: #176B4D;
 }
 
 .admin-logo p {
     text-align: center;
 
-    color: #6c757d;
+    color: #60756B;
 
     font-size: 10px;
     font-weight: 600;
@@ -180,16 +180,16 @@ button {
 
 .menu a:hover,
 .admin-menu a:hover {
-    background: #f0f8f1;
+    background: #E8F3ED;
 
-    color: #198754;
+    color: #176B4D;
 }
 
 .menu a.active,
 .admin-menu a.active {
-    background: #eaf6ec;
+    background: #E8F3ED;
 
-    color: #176d35;
+    color: #176B4D;
 
     font-weight: 700;
 }
