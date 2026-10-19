@@ -59,12 +59,12 @@ The database models are defined in `schema.prisma`. Primary models include:
 | `Grievance` / `Dispute` | Support tickets and dispute arbitration workflow |
 | `InputListing` | Certified seeds, fertilizers, government subsidized farm inputs |
 
-### Prisma CLI Commands (Run from root or backend/)
+### Prisma CLI Commands (Run from root or kisan-setu-backend/)
 ```bash
 # Push schema updates directly to the connected database
-npm --prefix backend run prisma:migrate
+npm --prefix kisan-setu-backend run prisma:migrate
 # or
-npm --prefix backend run prisma db push
+npm --prefix kisan-setu-backend run prisma db push
 
 # Run database seed script
 npm run db:seed

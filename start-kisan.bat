@@ -23,7 +23,7 @@ if %ERRORLEVEL% NEQ 0 (
 )
 
 echo [2/3] Starting Backend API Server (Port 5000)...
-start "Kisan Setu - Backend API" cmd /k "cd /d "%ROOT_DIR%backend" && set "PATH=C:\Program Files\nodejs;!PATH!" && node src/server.js"
+start "Kisan Setu - Backend API" cmd /k "cd /d "%ROOT_DIR%kisan-setu-backend" && set "PATH=C:\Program Files\nodejs;!PATH!" && node src/server.js"
 
 echo [3/3] Starting Frontend Web Server (Port 5173)...
 start "Kisan Setu - Frontend Web" cmd /k "cd /d "%ROOT_DIR%frontend" && set "PATH=C:\Program Files\nodejs;!PATH!" && node server.js"

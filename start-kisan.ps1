@@ -26,7 +26,7 @@ if ($LASTEXITCODE -ne 0) {
 
 # 2. Start Backend API Server
 Write-Host "`n[2/3] Starting Backend API Server (Port 5000)..." -ForegroundColor Cyan
-Start-Process powershell -ArgumentList "-NoExit", "-Command", "`$env:PATH = 'C:\Program Files\nodejs;' + `$env:PATH; Set-Location '$rootDir\backend'; node src/server.js"
+Start-Process powershell -ArgumentList "-NoExit", "-Command", "`$env:PATH = 'C:\Program Files\nodejs;' + `$env:PATH; Set-Location '$rootDir\kisan-setu-backend'; node src/server.js"
 
 # 3. Start Frontend Web Server
 Write-Host "`n[3/3] Starting Frontend Web Server (Port 5173)..." -ForegroundColor Cyan

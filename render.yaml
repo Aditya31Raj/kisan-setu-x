@@ -4,7 +4,7 @@ services:
     name: kisan-setu-backend
     runtime: node
     plan: free
-    rootDir: backend
+    rootDir: kisan-setu-backend
     buildCommand: npm install && npm run build
     startCommand: npm start
     healthCheckPath: /health

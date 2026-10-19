@@ -7,14 +7,14 @@
   "scripts": {
     "dev": "node start-dev.js",
     "start": "node start-dev.js",
-    "build": "npm --prefix backend run build",
-    "dev:backend": "npm --prefix backend run dev",
+    "build": "npm --prefix kisan-setu-backend run build",
+    "dev:backend": "npm --prefix kisan-setu-backend run dev",
     "dev:frontend": "npm --prefix frontend start",
-    "test": "npm --prefix backend run test",
+    "test": "npm --prefix kisan-setu-backend run test",
     "db:start": "node database/db-control.js start",
     "db:stop": "node database/db-control.js stop",
     "db:status": "node database/db-control.js status",
-    "db:seed": "npm --prefix backend run prisma:seed",
-    "db:studio": "npm --prefix backend run prisma:studio"
+    "db:seed": "npm --prefix kisan-setu-backend run prisma:seed",
+    "db:studio": "npm --prefix kisan-setu-backend run prisma:studio"
   }
 }

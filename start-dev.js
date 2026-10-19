@@ -50,7 +50,7 @@ async function main() {
   } else {
     console.log('Starting Backend API on port 5000...');
     const backend = spawn('node', ['src/server.js'], {
-      cwd: path.join(__dirname, 'backend'),
+      cwd: path.join(__dirname, 'kisan-setu-backend'),
       stdio: 'inherit',
       shell: true
     });
